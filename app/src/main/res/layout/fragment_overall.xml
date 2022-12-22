@@ -3,8 +3,335 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/radius_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--    Components-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dashboard"
+                android:textSize="25dp"
+                android:textColor="@color/yellow"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <!--Left Column-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/caloriesBlock"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardBackgroundColor="@color/home_orrange"
+                        app:contentPadding="15dp"
+                        app:cardCornerRadius="20dp" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Calories"
+                                android:textSize="20dp">
+                            </TextView>
+
+                            <com.example.healthExpert.widget.Ring
+                                android:id="@+id/calories"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="center">
+                            </com.example.healthExpert.widget.Ring>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="1480"
+                                    android:textSize="25dp">
+                                </TextView>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:text="kcol"
+                                    android:textSize="15dp">
+                                </TextView>
+
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="daily rate"
+                                android:textSize="20dp">
+                            </TextView>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!--Sleep-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/sleepBlock"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="@color/home_green"
+                        app:contentPadding="15dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Sleep"
+                                android:textSize="20dp">
+                            </TextView>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/sleepChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp">
+                            </com.github.mikephil.charting.charts.LineChart>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="7.15"
+                                android:textSize="25dp">
+                            </TextView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="hours"
+                                android:textSize="20dp">
+                            </TextView>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardBackgroundColor="@color/home_gray"
+                        app:contentPadding="15dp"
+                        app:cardCornerRadius="20dp" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Train"
+                                android:textSize="20dp">
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:src="@drawable/map"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="2.8"
+                                android:textSize="25dp">
+                            </TextView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="KM"
+                                android:textSize="20dp">
+                            </TextView>
+
+                        </LinearLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!--Right Column-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:weightSum="1">
+                    <!--                    Walk-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/stepBlock"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        app:cardBackgroundColor="@color/home_gray"
+                        app:cardCornerRadius="20dp"
+                        app:contentPadding="15dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Walk"
+                                android:textColor="@color/black"
+                                android:textSize="20dp"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="5500"
+                                android:textColor="@color/black"
+                                android:textSize="30dp"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="steps"
+                                android:textColor="@color/black"
+                                android:textSize="15dp"></TextView>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                    <!--                    Water-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/waterBlock"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:contentPadding="15dp"
+                        app:cardBackgroundColor="@color/home_red">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Water"
+                                android:textSize="20dp">
+                            </TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="20dp"
+                                android:text="8"
+                                android:textSize="30dp">
+                            </TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="liters"
+                                android:textSize="15dp">
+                            </TextView>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/heartBlock"
+                        android:layout_width="150dp"
+                        android:layout_height="180dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:contentPadding="15dp"
+                        app:cardBackgroundColor="@color/home_orrange">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Heart Rate"
+                                android:textSize="20dp">
+                            </TextView>
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/heartChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp">
+                            </com.github.mikephil.charting.charts.LineChart>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="87"
+                                    android:textSize="25dp">
+                                </TextView>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:text="pulse"
+                                    android:textSize="15dp">
+                                </TextView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="150dp"
+                        android:layout_height="200dp"
+                        android:layout_marginVertical="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="@color/home_red"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

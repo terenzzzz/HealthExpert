@@ -5,8 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
+import com.example.healthExpert.widget.Ring
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.snackbar.Snackbar
+import java.util.ArrayList
 
 
 class Overall : Fragment() {
@@ -21,6 +33,130 @@ class Overall : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val mView = inflater.inflate(R.layout.fragment_overall, container, false)
-        return mView
+
+
+
+        // Ring set up
+        ringSetUp(mView)
+        // Sleep set up
+        sleepSetUp(mView)
+        // Heart Set Up
+        heartSetUp(mView)
+
+        // Block Listener
+        val caloriesBlock = mView.findViewById<CardView>(R.id.caloriesBlock)
+        val sleepBlock = mView.findViewById<CardView>(R.id.sleepBlock)
+        val stepBlock = mView.findViewById<CardView>(R.id.stepBlock)
+        val waterBlock = mView.findViewById<CardView>(R.id.waterBlock)
+
+        caloriesBlock.setOnClickListener(View.OnClickListener { view ->
+            // Do some work here
+            val mySnackbar = Snackbar.make(view, "caloriesBlock Clicked", Snackbar.LENGTH_SHORT)
+            mySnackbar.show()
+        })
+
+        sleepBlock.setOnClickListener(View.OnClickListener { view ->
+            // Do some work here
+            val mySnackbar = Snackbar.make(view, "sleepBlock Clicked", Snackbar.LENGTH_SHORT)
+            mySnackbar.show()
+        })
+
+        stepBlock.setOnClickListener(View.OnClickListener { view ->
+            // Do some work here
+            val mySnackbar = Snackbar.make(view, "stepBlock Clicked", Snackbar.LENGTH_SHORT)
+            mySnackbar.show()
+        })
+
+        waterBlock.setOnClickListener(View.OnClickListener { view ->
+            // Do some work here
+            val mySnackbar = Snackbar.make(view, "waterBlock Clicked", Snackbar.LENGTH_SHORT)
+            mySnackbar.show()
+        })
+        return  mView
+    }
+
+    private fun ringSetUp(view: View){
+        val ring = view.findViewById<Ring>(R.id.calories)
+        var calories = 65
+        ring.setSweepValue(calories.toFloat())
+        ring.setValueText("962")
+    }
+
+    private fun sleepSetUp(view: View){
+        // Find View
+        val lineChart = view.findViewById<LineChart>(R.id.sleepChart)
+        // Init data
+        val list: MutableList<Entry> = ArrayList()
+        list.add(Entry(0f,2f))
+        list.add(Entry(1f,4f))
+        list.add(Entry(2f,3f))
+        list.add(Entry(3f,5f))
+        list.add(Entry(4f,1f))
+        list.add(Entry(5f,6f))
+        // Add data to Chart
+        val lineDataSet = LineDataSet(list, "123")
+        val lineData = LineData(lineDataSet)
+
+        // Chart Setting
+        lineChart.setData(lineData)
+        lineChart.getXAxis().setDrawGridLines(false)  //是否绘制X轴上的网格线（背景里面的竖线）
+        lineChart.getDescription().setEnabled(false)  //是否显示右下角描述
+        lineChart.setTouchEnabled(false) // 禁止互动
+        val legend: Legend = lineChart.getLegend()
+        legend.isEnabled = false //是否显示图例
+        val xAxis: XAxis = lineChart.getXAxis()
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)        //X轴所在位置   默认为上面
+        val AxisLeft: YAxis = lineChart.getAxisLeft()
+        lineChart.getAxisRight().setEnabled(false)
+        lineChart.getAxisLeft().setEnabled(false)
+        lineChart.xAxis.setEnabled(false)
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER)
+        lineDataSet.setColor(Color.BLACK) //折线的颜色
+        lineDataSet.setLineWidth(2F)     //折线的粗细
+        lineDataSet.setCircleRadius(0F)      //圆点的半径
+        lineDataSet.setCircleColor(Color.BLACK)
+        lineDataSet.setDrawCircleHole(false) //false表示直接画成实心圆
+        lineDataSet.setDrawValues(false)  //禁止显示点上的数值
+        lineDataSet.setDrawCircles(false)
+
+        lineChart.invalidate() // 刷新
+    }
+
+    private fun heartSetUp(view: View){
+        // Find View
+        val lineChart = view.findViewById<LineChart>(R.id.heartChart)
+        // Init data
+        val list: MutableList<Entry> = ArrayList()
+        list.add(Entry(0f,3f))
+        list.add(Entry(1f,5f))
+        list.add(Entry(2f,2f))
+        list.add(Entry(3f,4f))
+        list.add(Entry(4f,5f))
+        list.add(Entry(5f,3f))
+        // Add data to Chart
+        val lineDataSet = LineDataSet(list, "123")
+        val lineData = LineData(lineDataSet)
+
+        // Chart Setting
+        lineChart.setData(lineData)
+        lineChart.getXAxis().setDrawGridLines(false)  //是否绘制X轴上的网格线（背景里面的竖线）
+        lineChart.getDescription().setEnabled(false)  //是否显示右下角描述
+        lineChart.setTouchEnabled(false) // 禁止互动
+        val legend: Legend = lineChart.getLegend()
+        legend.isEnabled = false //是否显示图例
+        val xAxis: XAxis = lineChart.getXAxis()
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)        //X轴所在位置   默认为上面
+        lineChart.getAxisRight().setEnabled(false)
+        lineChart.getAxisLeft().setEnabled(false)
+        lineChart.xAxis.setEnabled(false)
+        lineDataSet.setColor(Color.BLACK) //折线的颜色
+        lineDataSet.setLineWidth(2F)     //折线的粗细
+        lineDataSet.setCircleRadius(0F)      //圆点的半径
+        lineDataSet.setCircleColor(Color.BLACK)
+        lineDataSet.setDrawCircleHole(false) //false表示直接画成实心圆
+        lineDataSet.setDrawValues(false)  //禁止显示点上的数值
+        lineDataSet.setDrawCircles(false)
+
+        lineChart.invalidate() // 刷新
     }
 }

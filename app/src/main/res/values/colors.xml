@@ -10,7 +10,20 @@
     
     <color name="main">#AED6CF</color>
     <color name="yellow">#FFAF07</color>
-    <color name="grey">#66000000</color>
+    <color name="gray">#66000000</color>
+    <color name="gray_20">#33000000</color>
     <color name="red">#E86969</color>
+    <color name="green">#20B008</color>
+    <color name="light_gray">#FBFAF3</color>
+
+    <color name="home_orrange">#F3CB8D</color>
+    <color name="home_gray">#DDD3C8</color>
+    <color name="home_blue">#E2EEF5</color>
+    <color name="home_green">#C8DDBC</color>
+    <color name="home_deep_blue">#B7CCDF</color>
+    <color name="home_red">#FBE0E0</color>
+    <color name="home_brown">#D1BFAC</color>
+    <color name="home_deep_red">#E2C5B3</color>
+
     
 </resources>

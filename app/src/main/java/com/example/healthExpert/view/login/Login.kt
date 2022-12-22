@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
+import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
 
@@ -26,6 +27,10 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
+            Home.startFn(this)
+        })
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
             Signup.startFn(this)
