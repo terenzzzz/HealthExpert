@@ -50,6 +50,10 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
             = 0f
     private var mValue = ""
 
+
+    private var bgColor = Color.rgb(247, 214, 161)
+    private var sweepColor = Color.rgb(0, 0, 0)
+
     constructor(context: Context?) : this(context, null) {}
     constructor(context: Context?, @Nullable attrs: AttributeSet?) : this(context, attrs, 0) {}
     constructor(
@@ -84,14 +88,14 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         )
         mSweepAngle = mSweepValue / 100f * 360f
         mArcPaint = Paint()
-        mArcPaint!!.setColor(getResources().getColor(R.color.black))
+        mArcPaint!!.color = sweepColor
         mArcPaint!!.setStrokeWidth((length * 0.1).toFloat()) //圆弧宽度
         mArcPaint!!.setStyle(Paint.Style.STROKE) //圆弧
 
         // 圆的底色
         mCirclePaint = Paint()
-        val light_yellow = Color.rgb(247, 214, 161)
-        mCirclePaint!!.setColor(light_yellow)
+
+        mCirclePaint!!.color = bgColor
         mCirclePaint!!.setStrokeWidth((length * 0.1).toFloat()) //圆弧宽度
         mCirclePaint!!.setStyle(Paint.Style.STROKE) //圆弧
 
@@ -103,7 +107,6 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mValuePaint!!.setTextAlign(Paint.Align.CENTER)
 
         // 文字，只需要设置好文字的起始绘制位置即可
-        mShowUnit = "kcal"
         mShowUnitSize = 40f
         mUnitPaint = Paint()
         mUnitPaint!!.setTextSize(mShowUnitSize)
@@ -122,7 +125,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
             }
         }
 
-        // 绘制单位文字
+        // 绘制数值文字
         mShowValue?.let {
             mValuePaint?.let { it1 ->
                 canvas.drawText(
@@ -130,7 +133,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowValue!!.length,
                     mCircleXY,
-                    mCircleXY,
+                    mCircleXY+20,
                     it1
                 )
             }
@@ -168,5 +171,22 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         this.invalidate()
     }
 
+    fun setBgColor(bgColor: Int) {
+        this.bgColor = bgColor
+        // 这个方法可以刷新UI
+        this.invalidate()
+    }
+
+    fun setSweepColor(sweepColor: Int) {
+        this.sweepColor = sweepColor
+        // 这个方法可以刷新UI
+        this.invalidate()
+    }
+
+    fun setUnit(unit: String) {
+        this.mShowUnit = unit
+        // 这个方法可以刷新UI
+        this.invalidate()
+    }
 
 }

@@ -42,6 +42,8 @@ class Overall : Fragment() {
         sleepSetUp(mView)
         // Heart Set Up
         heartSetUp(mView)
+        // Water ring Set Up
+        waterRingSetUp(mView)
 
         // Block Listener
         val caloriesBlock = mView.findViewById<CardView>(R.id.caloriesBlock)
@@ -80,6 +82,16 @@ class Overall : Fragment() {
         var calories = 65
         ring.setSweepValue(calories.toFloat())
         ring.setValueText("962")
+        ring.setUnit("kcal")
+    }
+
+    private fun waterRingSetUp(view: View){
+        val ring = view.findViewById<Ring>(R.id.water_ring)
+        var water = 65
+        ring.setSweepValue(water.toFloat())
+        ring.setValueText("50%")
+        ring.setBgColor(Color.rgb(217, 217, 217))
+        ring.setSweepColor(Color.rgb(27, 204, 243))
     }
 
     private fun sleepSetUp(view: View){
@@ -149,8 +161,8 @@ class Overall : Fragment() {
         lineChart.getAxisRight().setEnabled(false)
         lineChart.getAxisLeft().setEnabled(false)
         lineChart.xAxis.setEnabled(false)
-        lineDataSet.setColor(Color.BLACK) //折线的颜色
-        lineDataSet.setLineWidth(2F)     //折线的粗细
+        lineDataSet.setColor(Color.rgb(255,82,82)) //折线的颜色
+        lineDataSet.setLineWidth(4F)     //折线的粗细
         lineDataSet.setCircleRadius(0F)      //圆点的半径
         lineDataSet.setCircleColor(Color.BLACK)
         lineDataSet.setDrawCircleHole(false) //false表示直接画成实心圆

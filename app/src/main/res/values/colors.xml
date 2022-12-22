@@ -24,6 +24,8 @@
     <color name="home_red">#FBE0E0</color>
     <color name="home_brown">#D1BFAC</color>
     <color name="home_deep_red">#E2C5B3</color>
+    <color name="home_water_blue">#1BCCF3</color>
+    <color name="hone_light_red">#FF5252</color>
 
     
 </resources>
