@@ -3,12 +3,13 @@ package com.example.healthExpert.view.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHomeBinding
-import com.example.healthExpert.view.login.Login
+import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
@@ -51,7 +52,10 @@ class Home : AppCompatActivity() {
             tab.icon = getDrawable(tabIcons[position])
         }.attach()
 
-
+        binding.sideBar.setOnClickListener (View.OnClickListener { view ->
+            Sidebar.startFn(this)
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        })
 
     }
 
