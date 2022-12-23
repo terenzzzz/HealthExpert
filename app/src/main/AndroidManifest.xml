@@ -13,32 +13,29 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
         <activity
-            android:name=".CaloriesSetting"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".view.calories.CaloriesSetting"
+            android:exported="false"/>
+
         <activity
             android:name=".view.calories.CaloriesAdd"
             android:exported="false"
-            android:theme="@style/Theme.Main">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:theme="@style/Theme.Main"/>
+
         <activity
             android:name=".view.calories.Calories"
             android:exported="true"
             android:theme="@style/Theme.Main" />
+
         <activity
             android:name=".view.setting.Setting"
             android:exported="false"
             android:theme="@style/Theme.Main" />
+
         <activity
             android:name=".view.sidebar.Sidebar"
             android:exported="false"
             android:theme="@style/Theme.Main" />
+
         <activity
             android:name=".view.home.Home"
             android:exported="true"
@@ -50,14 +47,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".view.resetPwd.ResetPwd"
             android:exported="true"
             android:theme="@style/Theme.Main" />
+
         <activity
             android:name=".view.signup.Signup"
             android:exported="true"
             android:theme="@style/Theme.Main" />
+
         <activity
             android:name=".view.login.Login"
             android:exported="true"

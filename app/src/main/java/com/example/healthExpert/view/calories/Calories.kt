@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.calories
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -21,6 +22,7 @@ class Calories : AppCompatActivity() {
             val intent =
                 Intent(context, Calories::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -33,13 +35,17 @@ class Calories : AppCompatActivity() {
         // Set ring
         ringSetUp(binding.calories)
 
+        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+            CaloriesSetting.startFn(this)
+        })
+
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
             CaloriesAdd.startFn(this)
         })
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
     }
 
@@ -50,24 +56,6 @@ class Calories : AppCompatActivity() {
         ring.setValueText("1139")
         ring.setUnit("KCAL LEFT")
         ring.setBgColor(Color.argb(20,0, 0, 0))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         ring.setSweepColor(Color.rgb(0, 0, 0))
     }
 }

@@ -53,7 +53,10 @@ class Overall : Fragment() {
         val waterBlock = mView.findViewById<CardView>(R.id.waterBlock)
 
         caloriesBlock.setOnClickListener(View.OnClickListener { view ->
-            this.context?.let { Calories.startFn(it) }
+            this.context?.let {
+                Calories.startFn(it)
+            }
+
         })
 
         sleepBlock.setOnClickListener(View.OnClickListener { view ->
