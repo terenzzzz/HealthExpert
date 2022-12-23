@@ -68,6 +68,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/home"/>
                 <TextView
+                    android:id="@+id/home_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -87,6 +88,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/user"/>
                 <TextView
+                    android:id="@+id/profile_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -106,6 +108,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/calendar"/>
                 <TextView
+                    android:id="@+id/history_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -125,6 +128,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/global"/>
                 <TextView
+                    android:id="@+id/sources_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -144,6 +148,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/circlequestionmark"/>
                 <TextView
+                    android:id="@+id/support_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -163,6 +168,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/settings2"/>
                 <TextView
+                    android:id="@+id/setting_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"

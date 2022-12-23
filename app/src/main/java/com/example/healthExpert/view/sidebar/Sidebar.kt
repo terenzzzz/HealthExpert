@@ -11,6 +11,7 @@ import com.example.healthExpert.R
 
 import com.example.healthExpert.databinding.ActivitySidebarBinding
 import com.example.healthExpert.view.login.Login
+import com.example.healthExpert.view.setting.Setting
 
 
 class Sidebar : AppCompatActivity() {
@@ -31,6 +32,42 @@ class Sidebar : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.menu.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.homeBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.profileBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.historyBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.sourcesBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.supportBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        })
+
+        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            Setting.startFn(this)
+        })
+
+        binding.sourcesBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         })
