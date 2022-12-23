@@ -107,7 +107,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mValuePaint!!.setTextAlign(Paint.Align.CENTER)
 
         // 文字，只需要设置好文字的起始绘制位置即可
-        mShowUnitSize = 40f
+        mShowUnitSize = 30f
         mUnitPaint = Paint()
         mUnitPaint!!.setTextSize(mShowUnitSize)
         mUnitPaint!!.setTextAlign(Paint.Align.CENTER)

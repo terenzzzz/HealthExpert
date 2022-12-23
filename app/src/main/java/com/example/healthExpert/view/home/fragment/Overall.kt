@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
+import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -52,9 +53,7 @@ class Overall : Fragment() {
         val waterBlock = mView.findViewById<CardView>(R.id.waterBlock)
 
         caloriesBlock.setOnClickListener(View.OnClickListener { view ->
-            // Do some work here
-            val mySnackbar = Snackbar.make(view, "caloriesBlock Clicked", Snackbar.LENGTH_SHORT)
-            mySnackbar.show()
+            this.context?.let { Calories.startFn(it) }
         })
 
         sleepBlock.setOnClickListener(View.OnClickListener { view ->
