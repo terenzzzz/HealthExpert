@@ -479,7 +479,6 @@
 
 
     <LinearLayout
-        android:id="@+id/add_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -487,6 +486,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
         <ImageView
+            android:id="@+id/add_btn"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:src="@drawable/add"/>

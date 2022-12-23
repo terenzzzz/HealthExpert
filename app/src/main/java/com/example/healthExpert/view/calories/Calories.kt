@@ -33,6 +33,10 @@ class Calories : AppCompatActivity() {
         // Set ring
         ringSetUp(binding.calories)
 
+        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+            CaloriesAdd.startFn(this)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
