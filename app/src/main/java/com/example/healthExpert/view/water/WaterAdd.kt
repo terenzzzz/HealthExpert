@@ -6,37 +6,34 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityWaterBinding
-import com.example.healthExpert.view.sidebar.Sidebar
+import com.example.healthExpert.databinding.ActivityCaloriesAddBinding
+import com.example.healthExpert.databinding.ActivityWaterAddBinding
 
-class Water : AppCompatActivity() {
-    private lateinit var binding: ActivityWaterBinding
+class WaterAdd : AppCompatActivity() {
+    private lateinit var binding: ActivityWaterAddBinding
 
     companion object {
         fun startFn(context: Context) {
             val intent =
-                Intent(context, Water::class.java)
+                Intent(context, WaterAdd::class.java)
             context.startActivity(intent)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWaterBinding.inflate(layoutInflater)
+        binding = ActivityWaterAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
-            WaterSetting.startFn(this)
-        })
-
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
-            WaterAdd.startFn(this)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
-
     }
 }
