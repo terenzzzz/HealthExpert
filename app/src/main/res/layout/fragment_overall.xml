@@ -99,7 +99,7 @@
 
                     <!--Sleep-->
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/periodBlock"
+                        android:id="@+id/sleepBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
@@ -147,6 +147,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/trainBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
@@ -241,7 +242,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/sleepBlock"
+                        android:id="@+id/periodBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
@@ -320,37 +321,42 @@
                                 android:textColor="@color/black"
                                 android:textSize="20dp"
                                 android:textStyle="bold"/>
-                            
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Progress"
-                                    android:textColor="@color/black"
-                                    android:textSize="10dp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="75%"
-                                    android:textColor="@color/black"
-                                    android:textSize="10dp"/>
-                            </LinearLayout>
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="horizontal">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Progress"
+                                        android:textColor="@color/black"
+                                        android:textSize="10dp"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="75%"
+                                        android:textColor="@color/black"
+                                        android:textSize="10dp"/>
+                                </LinearLayout>
 
-                            <ProgressBar
-                                android:indeterminateOnly="false"
-                                android:progressDrawable="@drawable/progressbar"
-                                android:minHeight="10dp"
-                                android:maxHeight="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginVertical="5dp"
-                                android:progress="75"
-                                android:max="100"/>
+                                <ProgressBar
+                                    android:indeterminateOnly="false"
+                                    android:progressDrawable="@drawable/progressbar"
+                                    android:minHeight="10dp"
+                                    android:maxHeight="10dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="5dp"
+                                    android:progress="75"
+                                    android:max="100"/>
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"

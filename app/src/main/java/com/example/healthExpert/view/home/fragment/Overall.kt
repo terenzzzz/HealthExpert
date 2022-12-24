@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
 import com.example.healthExpert.view.calories.Calories
+import com.example.healthExpert.view.sleep.Sleep
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
 import com.example.healthExpert.widget.Ring
@@ -61,8 +62,9 @@ class Overall : Fragment() {
         })
 
         sleepBlock.setOnClickListener(View.OnClickListener { view ->
-            val mySnackbar = Snackbar.make(view, "sleepBlock Clicked", Snackbar.LENGTH_SHORT)
-            mySnackbar.show()
+            this.context?.let {
+                Sleep.startFn(it)
+            }
         })
 
         stepBlock.setOnClickListener(View.OnClickListener { view ->
