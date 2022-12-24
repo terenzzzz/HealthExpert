@@ -12,7 +12,7 @@ import android.view.View
 import androidx.annotation.Nullable
 
 
-class Ring  // 如果不用后面的参数，就不需要重构后面的，直接将其内容写在第一个构造方法就可以，父类会自动执行后面的构造方法
+class RingWalking  // 如果不用后面的参数，就不需要重构后面的，直接将其内容写在第一个构造方法就可以，父类会自动执行后面的构造方法
     (context: Context?, @Nullable attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
     View(context, attrs, defStyleAttr, defStyleRes) {
     private var mMeasureHeigth // 控件高度
@@ -35,12 +35,28 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
             = 90f
     private var mSweepValue = 0f
 
+    // 状态文字
+    private var mStatePaint: Paint? = null
+    private var mShowState //文本内容
+            : String? = null
+    private var mShowStateSize //文本大小
+            = 0f
+    private var mState = ""
+
     // 单位文字
     private var mUnitPaint: Paint? = null
     private var mShowUnit //文本内容
             : String? = null
     private var mShowUnitSize //文本大小
             = 0f
+
+    // 单位数值
+    private var mUnitValuePaint: Paint? = null
+    private var mShowUnitValue //文本内容
+            : String? = null
+    private var mShowUnitValueSize //文本大小
+            = 0f
+    private var mUnitValue = ""
 
     // 数值文字
     private var mValuePaint: Paint? = null
@@ -99,9 +115,18 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mCirclePaint!!.setStrokeWidth((length * 0.1).toFloat()) //圆弧宽度
         mCirclePaint!!.setStyle(Paint.Style.STROKE) //圆弧
 
+
+        // 文字，只需要设置好文字的起始绘制位置即可
+        mShowState = mState
+        mShowStateSize = 30f
+        mStatePaint = Paint()
+        mStatePaint!!.setColor(Color.GRAY)
+        mStatePaint!!.setTextSize(mShowStateSize)
+        mStatePaint!!.setTextAlign(Paint.Align.CENTER)
+
         // 文字，只需要设置好文字的起始绘制位置即可
         mShowValue = mValue
-        mShowValueSize = 60f
+        mShowValueSize = 70f
         mValuePaint = Paint()
         mValuePaint!!.setTextSize(mShowValueSize)
         mValuePaint!!.setTextAlign(Paint.Align.CENTER)
@@ -111,6 +136,12 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mUnitPaint = Paint()
         mUnitPaint!!.setTextSize(mShowUnitSize)
         mUnitPaint!!.setTextAlign(Paint.Align.CENTER)
+
+        // 文字，只需要设置好文字的起始绘制位置即可
+        mShowUnitValueSize = 30f
+        mUnitValuePaint = Paint()
+        mUnitValuePaint!!.setTextSize(mShowUnitValueSize)
+        mUnitValuePaint!!.setTextAlign(Paint.Align.CENTER)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -126,6 +157,20 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         }
 
         // 绘制数值文字
+        mShowState?.let {
+            mStatePaint?.let { it1 ->
+                canvas.drawText(
+                    it,
+                    0,
+                    mShowState!!.length,
+                    mCircleXY,
+                    mCircleXY-60,
+                    it1
+                )
+            }
+        }
+
+        // 绘制数值文字
         mShowValue?.let {
             mValuePaint?.let { it1 ->
                 canvas.drawText(
@@ -133,7 +178,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowValue!!.length,
                     mCircleXY,
-                    mCircleXY+10,
+                    mCircleXY+30,
                     it1
                 )
             }
@@ -147,7 +192,21 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowUnit!!.length,
                     mCircleXY,
-                    mCircleXY+mCircleXY/2,
+                    mCircleXY+80,
+                    it1
+                )
+            }
+        }
+
+        // 绘制单位数值文字
+        mShowUnitValue?.let {
+            mUnitValuePaint?.let { it1 ->
+                canvas.drawText(
+                    it,
+                    0,
+                    mShowUnitValue!!.length,
+                    mCircleXY,
+                    mCircleXY+120,
                     it1
                 )
             }
@@ -161,31 +220,36 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         } else {
             25f
         }
-        // 这个方法可以刷新UI
         this.invalidate()
     }
 
     fun setValueText(value: String) {
         mValue = value
-        // 这个方法可以刷新UI
+        this.invalidate()
+    }
+
+    fun setStateText(state: String) {
+        mState = "Level: $state"
         this.invalidate()
     }
 
     fun setBgColor(bgColor: Int) {
         this.bgColor = bgColor
-        // 这个方法可以刷新UI
         this.invalidate()
     }
 
     fun setSweepColor(sweepColor: Int) {
         this.sweepColor = sweepColor
-        // 这个方法可以刷新UI
         this.invalidate()
     }
 
     fun setUnit(unit: String) {
         this.mShowUnit = unit
-        // 这个方法可以刷新UI
+        this.invalidate()
+    }
+
+    fun setUnitValue(unit: String) {
+        this.mShowUnitValue = unit
         this.invalidate()
     }
 

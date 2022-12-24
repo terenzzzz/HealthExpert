@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
 import com.example.healthExpert.view.calories.Calories
+import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -60,15 +60,14 @@ class Overall : Fragment() {
         })
 
         sleepBlock.setOnClickListener(View.OnClickListener { view ->
-            // Do some work here
             val mySnackbar = Snackbar.make(view, "sleepBlock Clicked", Snackbar.LENGTH_SHORT)
             mySnackbar.show()
         })
 
         stepBlock.setOnClickListener(View.OnClickListener { view ->
-            // Do some work here
-            val mySnackbar = Snackbar.make(view, "stepBlock Clicked", Snackbar.LENGTH_SHORT)
-            mySnackbar.show()
+            this.context?.let {
+                Walk.startFn(it)
+            }
         })
 
         waterBlock.setOnClickListener(View.OnClickListener { view ->
@@ -133,6 +132,7 @@ class Overall : Fragment() {
         lineDataSet.setDrawValues(false)  //禁止显示点上的数值
         lineDataSet.setDrawCircles(false)
 
+        lineChart.animateXY(1000, 1000);
         lineChart.invalidate() // 刷新
     }
 
@@ -152,7 +152,7 @@ class Overall : Fragment() {
         val lineData = LineData(lineDataSet)
 
         // Chart Setting
-        lineChart.setData(lineData)
+        lineChart.data = lineData
         lineChart.getXAxis().setDrawGridLines(false)  //是否绘制X轴上的网格线（背景里面的竖线）
         lineChart.getDescription().setEnabled(false)  //是否显示右下角描述
         lineChart.setTouchEnabled(false) // 禁止互动
@@ -171,6 +171,7 @@ class Overall : Fragment() {
         lineDataSet.setDrawValues(false)  //禁止显示点上的数值
         lineDataSet.setDrawCircles(false)
 
+        lineChart.animateXY(1000, 1000);
         lineChart.invalidate() // 刷新
     }
 }

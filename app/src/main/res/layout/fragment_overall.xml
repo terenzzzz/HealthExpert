@@ -61,8 +61,8 @@
 
                             <com.example.healthExpert.widget.Ring
                                 android:id="@+id/calories"
-                                android:layout_width="120dp"
-                                android:layout_height="120dp"
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
                                 android:layout_gravity="center">
                             </com.example.healthExpert.widget.Ring>
 
@@ -383,8 +383,8 @@
 
                             <com.example.healthExpert.widget.Ring
                                 android:id="@+id/water_ring"
-                                android:layout_width="120dp"
-                                android:layout_height="120dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center">
                             </com.example.healthExpert.widget.Ring>
 

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main"
+    tools:context=".view.walk.Walk">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="30dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/back"/>
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/avatar" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/radius_bg"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                app:cardElevation="0dp"
+                app:contentPadding="30dp"
+                app:contentPaddingTop="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Walking"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="20dp"/>
+                        <ImageView
+                            android:id="@+id/setting_btn"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/settings" />
+                    </LinearLayout>
+
+                    <com.example.healthExpert.widget.RingWalking
+                        android:id="@+id/calories"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_gravity="center">
+                    </com.example.healthExpert.widget.RingWalking>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            app:contentPadding="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/shoes"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center"
+                                        android:text="Steps"
+                                        android:textSize="12dp"
+                                        android:textColor="@color/black"/>
+
+                                </LinearLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="13,500"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            app:contentPadding="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/distance"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center"
+                                        android:text="Distance"
+                                        android:textSize="12dp"
+                                        android:textColor="@color/black"/>
+
+                                </LinearLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="6.5 km"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            app:contentPadding="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:src="@drawable/calories"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:gravity="center"
+                                        android:text="Calories"
+                                        android:textSize="12dp"
+                                        android:textColor="@color/black"/>
+
+                                </LinearLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="675 kcl"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="10dp"
+                        android:text="You are doing great and exceeded the goal you set.  Keep being active can helps reduce stress and improve overall health. "/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gray"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/walkChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </com.github.mikephil.charting.charts.BarChart>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
