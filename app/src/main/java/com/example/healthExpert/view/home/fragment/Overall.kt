@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
 import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.view.walk.Walk
+import com.example.healthExpert.view.water.Water
 import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -71,9 +72,9 @@ class Overall : Fragment() {
         })
 
         waterBlock.setOnClickListener(View.OnClickListener { view ->
-            // Do some work here
-            val mySnackbar = Snackbar.make(view, "waterBlock Clicked", Snackbar.LENGTH_SHORT)
-            mySnackbar.show()
+            this.context?.let {
+                Water.startFn(it)
+            }
         })
         return  mView
     }

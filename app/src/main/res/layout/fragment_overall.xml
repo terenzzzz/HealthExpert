@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginVertical="20dp"
+                android:layout_marginVertical="10dp"
                 android:weightSum="2">
                 <!--Left Column-->
                 <LinearLayout
@@ -123,18 +123,26 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp">
                             </com.github.mikephil.charting.charts.LineChart>
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="7.15"
-                                android:textSize="20dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="hours"
-                                android:textSize="15dp"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="7.15"
+                                    android:textSize="20dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:textColor="@color/black"
+                                    android:text="hours"
+                                    android:textSize="15dp"/>
+                            </LinearLayout>
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -388,19 +396,27 @@
                                 android:layout_gravity="center">
                             </com.example.healthExpert.widget.Ring>
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="4"
-                                android:textSize="30dp"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="4"
+                                    android:textSize="20dp"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="liters"
-                                android:textSize="15dp"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:textColor="@color/black"
+                                    android:text="liters"
+                                    android:textSize="15dp"/>
+                            </LinearLayout>
+
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -440,7 +456,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:text="87"
-                                    android:textSize="25dp"/>
+                                    android:textSize="20dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
