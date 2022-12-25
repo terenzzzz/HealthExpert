@@ -35,6 +35,8 @@
                 android:src="@drawable/avatar" />
         </RelativeLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,6 +51,7 @@
                 app:cardElevation="0dp"
                 app:contentPadding="30dp"
                 app:contentPaddingTop="0dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -56,7 +59,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Water Setting"
+                        android:text="Walking Setting"
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
@@ -69,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Target(ml)"
+                        android:text="Step Goal"
                         android:textStyle="bold"
                         android:textColor="@color/gray"
                         android:textSize="15dp"/>
@@ -83,29 +86,10 @@
                         android:paddingHorizontal="10dp"
                         android:background="@drawable/radius_input"
                         android:maxLines="1"
-                        android:hint="8,000"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Interval of reminder(hour)"
-                        android:textStyle="bold"
-                        android:textColor="@color/gray"
-                        android:textSize="15dp"/>
-
-                    <EditText
-                        android:id="@+id/et_interval"
-                        android:inputType="text"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingHorizontal="10dp"
-                        android:background="@drawable/radius_input"
-                        android:maxLines="1"
-                        android:hint="2"/>
+                        android:hint="10,000"/>
 
                 </LinearLayout>
+
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>

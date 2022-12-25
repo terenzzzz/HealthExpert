@@ -37,7 +37,7 @@ class Train : AppCompatActivity() {
         ringSetUp(binding.calories,100)
 
         binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
-            CaloriesSetting.startFn(this)
+            TrainSetting.startFn(this)
         })
 
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
