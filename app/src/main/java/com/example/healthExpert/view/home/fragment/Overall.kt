@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.healthExpert.R
 import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.view.heart.Heart
+import com.example.healthExpert.view.medication.Medication
 import com.example.healthExpert.view.sleep.Sleep
 import com.example.healthExpert.view.train.Train
 import com.example.healthExpert.view.walk.Walk
@@ -57,6 +58,7 @@ class Overall : Fragment() {
         val waterBlock = mView.findViewById<CardView>(R.id.waterBlock)
         val heartBlock = mView.findViewById<CardView>(R.id.heartBlock)
         val trainBlock = mView.findViewById<CardView>(R.id.trainBlock)
+        val medicalBlock = mView.findViewById<CardView>(R.id.medicalBlock)
 
 
         caloriesBlock.setOnClickListener(View.OnClickListener { view ->
@@ -95,6 +97,14 @@ class Overall : Fragment() {
                 Train.startFn(it)
             }
         })
+
+        medicalBlock.setOnClickListener(View.OnClickListener { view ->
+            this.context?.let {
+                Medication.startFn(it)
+            }
+        })
+
+
         return  mView
     }
 
