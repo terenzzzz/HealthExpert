@@ -35,7 +35,8 @@ class TrainAdd : AppCompatActivity() {
 
 
         binding.startBtn.setOnClickListener(View.OnClickListener { view ->
-
+            TrainRecord.startFn(this)
+            finish()
         })
 
         binding.backBtn.setOnClickListener(View.OnClickListener { view ->
