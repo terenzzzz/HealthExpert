@@ -35,11 +35,11 @@ class Medication : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.settingBtn.setOnClickListener(View.OnClickListener { view ->
-            CaloriesSetting.startFn(this)
+            MedicationSetting.startFn(this)
         })
 
         binding.addBtn.setOnClickListener(View.OnClickListener { view ->
-            CaloriesAdd.startFn(this)
+            MedicationAdd.startFn(this)
         })
 
         binding.backBtn.setOnClickListener(View.OnClickListener { view ->
