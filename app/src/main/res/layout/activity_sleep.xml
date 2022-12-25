@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Heart"
+                        android:text="Sleep"
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>

@@ -41,7 +41,7 @@ class Train : AppCompatActivity() {
         })
 
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
-            CaloriesAdd.startFn(this)
+            TrainAdd.startFn(this)
         })
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
