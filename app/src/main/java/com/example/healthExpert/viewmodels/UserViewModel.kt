@@ -15,8 +15,6 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     var signupStatus: LiveData<Int> = MutableLiveData()
 
 
-
-
     fun getUser(idUser:Int){
         viewModelScope.launch {
             userRepo.getUser(idUser)

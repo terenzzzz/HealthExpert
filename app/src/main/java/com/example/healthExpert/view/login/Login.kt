@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.repository.UserRepository
+import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
 import com.example.healthExpert.viewmodels.UserViewModel
@@ -27,8 +28,6 @@ class Login : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +47,7 @@ class Login : AppCompatActivity() {
             Log.d("Login", "onCreate: $data")
             if (data == 0){
                 Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
+                Home.startFn(this)
             }else{
                 Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
             }
