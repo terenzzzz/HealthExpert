@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     // ViewModel code goes here
     var loginStatus: LiveData<Int> = MutableLiveData()
+    var signupStatus: LiveData<Int> = MutableLiveData()
 
 
 
@@ -20,6 +21,12 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
         viewModelScope.launch {
             userRepo.getUser(idUser)
             Log.d("Login", loginStatus.value.toString())
+        }
+    }
+
+    fun signup(email:String, password:String, confirmPassword:String){
+        viewModelScope.launch {
+            userRepo.signup(email,password, confirmPassword)
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.repository.UserRepository
 import com.example.healthExpert.view.resetPwd.ResetPwd
+import com.example.healthExpert.view.signup.Signup
 import com.example.healthExpert.viewmodels.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -56,17 +57,10 @@ class Login : AppCompatActivity() {
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             userViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
-
-
-//            Log.d("LoginA", "token: $token")
-//            Home.startFn(this)
         })
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
-            userViewModel.getUser(3)
-
-//            Log.d("Login", "token: $token")
-//            Signup.startFn(this)
+            Signup.startFn(this)
         })
 
         binding.resetBtn.setOnClickListener (View.OnClickListener { view ->
