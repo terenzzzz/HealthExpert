@@ -1,13 +1,13 @@
 package com.example.healthExpert.repository
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.LoginParse
-import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.viewmodels.UserViewModel
 import com.google.gson.Gson
 import okhttp3.*
@@ -62,7 +62,6 @@ class UserRepository(private val activity: AppCompatActivity) {
                 val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                 // 更新viewmodel token
                 (userViewModel.signupStatus as MutableLiveData).postValue(parsed.status)
-                response.close()
             }
         })
     }
@@ -88,6 +87,13 @@ class UserRepository(private val activity: AppCompatActivity) {
                 val parsed: LoginParse = gson.fromJson(response.body!!.string(), LoginParse::class.java)
                 // 更新viewmodel token
                 (userViewModel.loginStatus as MutableLiveData).postValue(parsed.status)
+                // 保存Token
+                val sharedPreferences: SharedPreferences =
+                    activity.getSharedPreferences("healthy_expert", MODE_PRIVATE)
+                sharedPreferences.edit()
+                    .putString("token", parsed.token)
+                    .commit()
+                response.close()
                 response.close()
             }
         })

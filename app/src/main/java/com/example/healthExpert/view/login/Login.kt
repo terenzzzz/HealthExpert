@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.repository.UserRepository
 import com.example.healthExpert.view.home.Home
@@ -42,12 +43,24 @@ class Login : AppCompatActivity() {
             }
         }).get(UserViewModel::class.java)
 
+        //Retrieve Token from SharedPreferences
+        val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
+        val token = sharedPreferences.getString("token","")
+        if (token != "") {
+            Home.startFn(this)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+
         // Check login
         userViewModel.loginStatus.observe(this) { data ->
             Log.d("Login", "onCreate: $data")
             if (data == 0){
-                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
+//                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
                 Home.startFn(this)
+                finish()
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }else{
                 Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
             }

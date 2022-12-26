@@ -4,6 +4,7 @@ package com.example.healthExpert.view.sidebar
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -75,6 +76,12 @@ class Sidebar : AppCompatActivity() {
         binding.logOutBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            // Clear SharedPreferences
+            val sharedPreferences: SharedPreferences =
+                this.getSharedPreferences("healthy_expert", MODE_PRIVATE)
+            sharedPreferences.edit()
+                .clear()
+                .commit()
             Login.startFn(this)
         })
     }
