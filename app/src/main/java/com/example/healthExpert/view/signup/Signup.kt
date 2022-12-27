@@ -34,7 +34,7 @@ class Signup : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get UserViewModel
-        val userRepo = UserRepository(this)
+        val userRepo = UserRepository.getInstance(this)
         userViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return UserViewModel(userRepo) as T

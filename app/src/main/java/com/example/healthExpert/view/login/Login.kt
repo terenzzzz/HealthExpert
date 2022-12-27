@@ -22,7 +22,10 @@ class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userViewModel: UserViewModel
 
+
+
     companion object {
+        var loginActivity: Login? = null
         fun startFn(context: Context) {
             val intent =
                 Intent(context, Login::class.java)
@@ -34,9 +37,10 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loginActivity = this
 
         // Get UserViewModel
-        val userRepo = UserRepository(this)
+        val userRepo = UserRepository.getInstance(this)
         userViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return UserViewModel(userRepo) as T
@@ -44,13 +48,13 @@ class Login : AppCompatActivity() {
         }).get(UserViewModel::class.java)
 
         //Retrieve Token from SharedPreferences
-        val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
-        val token = sharedPreferences.getString("token","")
-        if (token != "") {
-            Home.startFn(this)
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
+//        val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
+//        val token = sharedPreferences.getString("token","")
+//        if (token != "") {
+//            Home.startFn(this)
+//            finish()
+//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//        }
 
 
         // Check login

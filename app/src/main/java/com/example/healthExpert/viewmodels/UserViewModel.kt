@@ -1,18 +1,26 @@
 package com.example.healthExpert.viewmodels
 
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.healthExpert.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     // ViewModel code goes here
-    var loginStatus: LiveData<Int> = MutableLiveData()
     var signupStatus: LiveData<Int> = MutableLiveData()
+    // Log in
+    var loginStatus: LiveData<Int> = MutableLiveData()
+    var idUser: LiveData<Int> = MutableLiveData()
+    // User Info
+    var email: LiveData<String> = MutableLiveData()
+    var name: LiveData<String> = MutableLiveData()
+    var age: LiveData<Int> = MutableLiveData()
+    var height: LiveData<Float> = MutableLiveData()
+    var weight: LiveData<Float> = MutableLiveData()
+
+
 
 
     fun getUser(idUser:Int){
@@ -31,6 +39,12 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     fun login(email:String, password:String){
         viewModelScope.launch {
             userRepo.login(email,password)
+        }
+    }
+
+    fun getUserInfo(idUser:Int){
+        viewModelScope.launch {
+            userRepo.getUserInfo(idUser)
         }
     }
 
