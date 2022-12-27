@@ -2,7 +2,9 @@ package com.example.healthExpert.view.login
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -47,20 +49,36 @@ class Login : AppCompatActivity() {
             }
         }).get(UserViewModel::class.java)
 
-        //Retrieve Token from SharedPreferences
-//        val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
-//        val token = sharedPreferences.getString("token","")
-//        if (token != "") {
-//            Home.startFn(this)
-//            finish()
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-//        }
+        Log.d("Login", "init userViewModel: $userViewModel")
 
+        // Retrieve Token from SharedPreferences
+        val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
+        val email = sharedPreferences.getString("email","")
+        val password = sharedPreferences.getString("password","")
+        if (email != ""){
+            binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
+        }
+        if (password != ""){
+            binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
+        }
+
+
+
+        binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
+            Log.d("Login", "Loginbtn: Clicked")
+            Log.d("Login", "userViewModel: $userViewModel")
+            userViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
+        })
 
         // Check login
         userViewModel.loginStatus.observe(this) { data ->
             Log.d("Login", "onCreate: $data")
             if (data == 0){
+                // 保存账号密码到本地SharedPreferences
+                sharedPreferences.edit()
+                    .putString("email", binding.etEmail.text.toString())
+                    .putString("password", binding.etPassword.text.toString())
+                    .commit()
 //                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
                 Home.startFn(this)
                 finish()
@@ -69,12 +87,6 @@ class Login : AppCompatActivity() {
                 Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
             }
         }
-
-
-
-        binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
-            userViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
-        })
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
             Signup.startFn(this)

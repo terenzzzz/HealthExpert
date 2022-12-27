@@ -55,6 +55,7 @@ class Home : AppCompatActivity() {
         binding.userViewModel = userViewModel
         binding.lifecycleOwner = this
 
+
         // Check user Id
         userViewModel.idUser.observe(this) { data ->
             Log.d("Home", "userId: $data")
