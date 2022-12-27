@@ -19,8 +19,8 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     var age: LiveData<Int> = MutableLiveData()
     var height: LiveData<Float> = MutableLiveData()
     var weight: LiveData<Float> = MutableLiveData()
-
-
+    var bmi: LiveData<Float> = MutableLiveData()
+    var bodyFat: LiveData<Float> = MutableLiveData()
 
 
     fun getUser(idUser:Int){
@@ -47,5 +47,6 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
             userRepo.getUserInfo(idUser)
         }
     }
+
 
 }

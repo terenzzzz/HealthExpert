@@ -129,11 +129,11 @@ class UserRepository private constructor(private val activity: AppCompatActivity
                     val gson = Gson()
                     val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)
 //                    // 更新viewmodel token
-                    (userViewModel.email as MutableLiveData).postValue(parsed.data?.email ?: "")
-                    (userViewModel.name as MutableLiveData).postValue(parsed.data?.name ?: "")
-                    (userViewModel.age as MutableLiveData).postValue(parsed.data?.age ?: 0)
-//                    (userViewModel.height as MutableLiveData).postValue((parsed.data?.height ?: 0f) as Float?)
-//                    (userViewModel.weight as MutableLiveData).postValue((parsed.data?.weight ?: 0f) as Float?)
+                    (userViewModel.email as MutableLiveData).postValue(parsed.data?.email)
+                    (userViewModel.name as MutableLiveData).postValue(parsed.data?.name)
+                    (userViewModel.age as MutableLiveData).postValue(parsed.data?.age)
+                    (userViewModel.height as MutableLiveData).postValue(parsed.data?.height)
+                    (userViewModel.weight as MutableLiveData).postValue(parsed.data?.weight)
                     response.close()
                 }
             }

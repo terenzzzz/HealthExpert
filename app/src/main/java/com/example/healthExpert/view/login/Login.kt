@@ -82,7 +82,7 @@ class Login : AppCompatActivity() {
 //                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
                 Home.startFn(this)
                 finish()
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }else{
                 Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
             }

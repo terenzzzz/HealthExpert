@@ -23,9 +23,9 @@ class UserInfoParse {
         var age: Int? = null
 
         @SerializedName("Height")
-        var height: Int? = null
+        var height: Float? = null
 
         @SerializedName("Weight")
-        var weight: Int? = null
+        var weight: Float? = null
     }
 }

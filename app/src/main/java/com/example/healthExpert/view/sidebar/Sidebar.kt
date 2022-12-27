@@ -89,6 +89,7 @@ class Sidebar : AppCompatActivity() {
         })
 
         binding.logOutBtn.setOnClickListener (View.OnClickListener { view ->
+
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             // Clear SharedPreferences
