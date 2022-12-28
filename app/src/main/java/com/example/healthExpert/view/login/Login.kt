@@ -2,7 +2,6 @@ package com.example.healthExpert.view.login
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -12,17 +11,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
-import com.example.healthExpert.repository.UserRepository
+import com.example.healthExpert.repository.LoginRepository
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
-import com.example.healthExpert.viewmodels.UserViewModel
+import com.example.healthExpert.viewmodels.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 
 
 class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
 
 
@@ -41,15 +40,15 @@ class Login : AppCompatActivity() {
         setContentView(binding.root)
         loginActivity = this
 
-        // Get UserViewModel
-        val userRepo = UserRepository.getInstance(this)
-        userViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return UserViewModel(userRepo) as T
-            }
-        }).get(UserViewModel::class.java)
 
-        Log.d("Login", "init userViewModel: $userViewModel")
+        // Get UserViewModel
+        loginViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return LoginViewModel(this@Login) as T
+            }
+        })[LoginViewModel::class.java]
+
+        Log.d("Login", "init userViewModel: $loginViewModel")
 
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
@@ -66,12 +65,12 @@ class Login : AppCompatActivity() {
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("Login", "Loginbtn: Clicked")
-            Log.d("Login", "userViewModel: $userViewModel")
-            userViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
+            Log.d("Login", "userViewModel: $loginViewModel")
+            loginViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
         })
 
         // Check login
-        userViewModel.loginStatus.observe(this) { data ->
+        loginViewModel.loginStatus.observe(this) { data ->
             Log.d("Login", "onCreate: $data")
             if (data == 0){
                 // 保存账号密码到本地SharedPreferences

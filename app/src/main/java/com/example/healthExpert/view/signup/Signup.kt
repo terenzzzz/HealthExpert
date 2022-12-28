@@ -8,17 +8,16 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.databinding.ActivitySignupBinding
-import com.example.healthExpert.repository.UserRepository
+import com.example.healthExpert.repository.LoginRepository
 import com.example.healthExpert.view.login.Login
-import com.example.healthExpert.viewmodels.UserViewModel
+import com.example.healthExpert.viewmodels.LoginViewModel
+import com.example.healthExpert.viewmodels.SignupViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class Signup : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var signupViewModel: SignupViewModel
 
     companion object {
         fun startFn(context: Context) {
@@ -34,15 +33,14 @@ class Signup : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get UserViewModel
-        val userRepo = UserRepository.getInstance(this)
-        userViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+        signupViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return UserViewModel(userRepo) as T
+                return SignupViewModel(this@Signup) as T
             }
-        }).get(UserViewModel::class.java)
+        })[SignupViewModel::class.java]
 
         // Check Signup
-        userViewModel.signupStatus.observe(this) { data ->
+        signupViewModel.signupStatus.observe(this) { data ->
             Log.d("Signup", "onCreate: $data")
             if (data == 0){
                 Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
@@ -52,7 +50,7 @@ class Signup : AppCompatActivity() {
         }
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
-            userViewModel.signup(binding.etEmail.text.toString(),
+            signupViewModel.signup(binding.etEmail.text.toString(),
                 binding.etPassword.text.toString(),
                 binding.etPasswordConfirm.text.toString())
         })

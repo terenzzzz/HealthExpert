@@ -1,27 +1,23 @@
 package com.example.healthExpert.view.sidebar
 
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.R
 
 import com.example.healthExpert.databinding.ActivitySidebarBinding
-import com.example.healthExpert.repository.UserRepository
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.setting.Setting
-import com.example.healthExpert.viewmodels.UserViewModel
+import com.example.healthExpert.viewmodels.LoginViewModel
 
 
 class Sidebar : AppCompatActivity() {
     private lateinit var binding: ActivitySidebarBinding
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     companion object {
         fun startFn(context: Context) {
@@ -37,15 +33,6 @@ class Sidebar : AppCompatActivity() {
         binding = ActivitySidebarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get UserViewModel
-        val userRepo = UserRepository.getInstance(this)
-        userViewModel = Login.loginActivity?.let {
-            ViewModelProvider(it, object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return UserViewModel(userRepo) as T
-                }
-            }).get(UserViewModel::class.java)
-        }!!
 
         binding.menu.setOnClickListener (View.OnClickListener { view ->
             finish()
