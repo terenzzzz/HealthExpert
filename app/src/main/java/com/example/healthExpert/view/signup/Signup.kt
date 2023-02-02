@@ -42,7 +42,7 @@ class Signup : AppCompatActivity() {
         // Check Signup
         signupViewModel.signupStatus.observe(this) { data ->
             Log.d("Signup", "onCreate: $data")
-            if (data == 0){
+            if (data == 200){
                 Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
             }else{
                 Snackbar.make(binding.root, "Signup Fail!", Snackbar.LENGTH_LONG).show()

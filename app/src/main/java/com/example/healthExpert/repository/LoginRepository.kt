@@ -43,6 +43,7 @@ class LoginRepository (private val activity: AppCompatActivity ) {
                 val gson = Gson()
                 val parsed: LoginParse = gson.fromJson(response.body!!.string(), LoginParse::class.java)
                 // 更新viewmodel token
+                Log.d("login", parsed.status.toString())
                 (loginViewModel.loginStatus as MutableLiveData).postValue(parsed.status)
                 // 更新用户Id
                 (loginViewModel.idUser as MutableLiveData).postValue(parsed.idUser)
@@ -57,34 +58,6 @@ class LoginRepository (private val activity: AppCompatActivity ) {
             }
         })
     }
-
-
-//    fun signup(email:String, password:String,confirmPassword:String){
-//        val body = FormBody.Builder()
-//            .add("email", email)
-//            .add("password", password)
-//            .add("confirmPassword", confirmPassword)
-//            .build()
-////
-//        val request: Request = Request.Builder()
-//            .url("$BASE_URL/api/register")
-//            .post(body)
-//            .build()
-//
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                e.printStackTrace()
-//            }
-//
-//            override fun onResponse(call: Call, response: Response) {
-//                val gson = Gson()
-//                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-//                // 更新viewmodel token
-//                (loginViewModel.signupStatus as MutableLiveData).postValue(parsed.status)
-//            }
-//        })
-//    }
-
 
 
 //    fun getUser(idUser:Int) {

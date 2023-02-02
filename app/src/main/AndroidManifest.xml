@@ -12,7 +12,7 @@
         tools:remove="android:appComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/logo"
         android:label="HealthyExpert"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

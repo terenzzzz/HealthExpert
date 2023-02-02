@@ -61,8 +61,6 @@ class Login : AppCompatActivity() {
             binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
         }
 
-
-
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("Login", "Loginbtn: Clicked")
             Log.d("Login", "userViewModel: $loginViewModel")
@@ -72,7 +70,7 @@ class Login : AppCompatActivity() {
         // Check login
         loginViewModel.loginStatus.observe(this) { data ->
             Log.d("Login", "onCreate: $data")
-            if (data == 0){
+            if (data == 200){
                 // 保存账号密码到本地SharedPreferences
                 sharedPreferences.edit()
                     .putString("email", binding.etEmail.text.toString())
