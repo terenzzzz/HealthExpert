@@ -9,11 +9,9 @@ import android.widget.ImageView
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.FragmentMeBinding
 import com.example.healthExpert.view.setting.Setting
-import com.example.healthExpert.viewmodels.LoginViewModel
 
 
 class Me : Fragment() {
-    private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: FragmentMeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

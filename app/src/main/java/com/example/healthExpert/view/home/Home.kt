@@ -10,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.view.sidebar.Sidebar
-import com.example.healthExpert.viewmodels.LoginViewModel
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
@@ -20,7 +19,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class Home : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var loginViewModel: LoginViewModel
 
     companion object {
         fun startFn(context: Context) {

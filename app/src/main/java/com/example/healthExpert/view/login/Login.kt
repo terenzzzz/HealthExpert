@@ -2,28 +2,26 @@ package com.example.healthExpert.view.login
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
-import com.example.healthExpert.repository.LoginRepository
+import com.example.healthExpert.parse.LoginParse
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
-import com.example.healthExpert.viewmodels.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import okhttp3.*
+import java.io.IOException
 
 
 class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var loginViewModel: LoginViewModel
-
-
 
     companion object {
         var loginActivity: Login? = null
@@ -40,16 +38,6 @@ class Login : AppCompatActivity() {
         setContentView(binding.root)
         loginActivity = this
 
-
-        // Get UserViewModel
-        loginViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return LoginViewModel(this@Login) as T
-            }
-        })[LoginViewModel::class.java]
-
-        Log.d("Login", "init userViewModel: $loginViewModel")
-
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
         val email = sharedPreferences.getString("email","")
@@ -63,27 +51,9 @@ class Login : AppCompatActivity() {
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("Login", "Loginbtn: Clicked")
-            Log.d("Login", "userViewModel: $loginViewModel")
-            loginViewModel.login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
+            login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
         })
 
-        // Check login
-        loginViewModel.loginStatus.observe(this) { data ->
-            Log.d("Login", "onCreate: $data")
-            if (data == 200){
-                // 保存账号密码到本地SharedPreferences
-                sharedPreferences.edit()
-                    .putString("email", binding.etEmail.text.toString())
-                    .putString("password", binding.etPassword.text.toString())
-                    .commit()
-//                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
-                Home.startFn(this)
-                finish()
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-            }else{
-                Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
-            }
-        }
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
             Signup.startFn(this)
@@ -91,6 +61,49 @@ class Login : AppCompatActivity() {
 
         binding.resetBtn.setOnClickListener (View.OnClickListener { view ->
             ResetPwd.startFn(this)
+        })
+    }
+
+    fun login(email:String, password:String){
+        val client = OkHttpClient()
+        val body = FormBody.Builder()
+            .add("email", email)
+            .add("password", password)
+            .build()
+//
+        val request: Request = Request.Builder()
+            .url("http://terenzzzz.com:88/api/login")
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: LoginParse = gson.fromJson(response.body!!.string(), LoginParse::class.java)
+                // 保存Token到本地SharedPreferences
+                val sharedPreferences: SharedPreferences =
+                    this@Login.getSharedPreferences("healthy_expert", MODE_PRIVATE)
+                if (parsed.status == 200){
+                    // 保存账号密码到本地SharedPreferences
+                    sharedPreferences.edit()
+                        .putString("email", binding.etEmail.text.toString())
+                        .putString("password", binding.etPassword.text.toString())
+                        .putString("token", parsed.token)
+                        .putString("idUser", parsed.idUser.toString())
+                        .commit()
+//                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
+                    Home.startFn(this@Login)
+                    finish()
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                }else{
+                    Snackbar.make(binding.root, "Log in Fail!", Snackbar.LENGTH_LONG).show()
+                }
+                response.close()
+            }
         })
     }
 }

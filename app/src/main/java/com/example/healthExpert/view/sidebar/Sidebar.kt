@@ -12,12 +12,10 @@ import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivitySidebarBinding
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.setting.Setting
-import com.example.healthExpert.viewmodels.LoginViewModel
 
 
 class Sidebar : AppCompatActivity() {
     private lateinit var binding: ActivitySidebarBinding
-    private lateinit var loginViewModel: LoginViewModel
 
     companion object {
         fun startFn(context: Context) {

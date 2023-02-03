@@ -6,18 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.databinding.ActivitySignupBinding
-import com.example.healthExpert.repository.LoginRepository
+import com.example.healthExpert.parse.BaseParse
+import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.login.Login
-import com.example.healthExpert.viewmodels.LoginViewModel
-import com.example.healthExpert.viewmodels.SignupViewModel
+import com.example.healthExpert.viewmodels.UserViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import okhttp3.*
+import java.io.IOException
 
 class Signup : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private lateinit var signupViewModel: SignupViewModel
 
     companion object {
         fun startFn(context: Context) {
@@ -32,31 +35,47 @@ class Signup : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get UserViewModel
-        signupViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return SignupViewModel(this@Signup) as T
-            }
-        })[SignupViewModel::class.java]
-
-        // Check Signup
-        signupViewModel.signupStatus.observe(this) { data ->
-            Log.d("Signup", "onCreate: $data")
-            if (data == 200){
-                Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
-            }else{
-                Snackbar.make(binding.root, "Signup Fail!", Snackbar.LENGTH_LONG).show()
-            }
-        }
 
         binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
-            signupViewModel.signup(binding.etEmail.text.toString(),
+            signup(binding.etEmail.text.toString(),
                 binding.etPassword.text.toString(),
                 binding.etPasswordConfirm.text.toString())
         })
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             Login.startFn(this)
+        })
+    }
+
+    fun signup(email:String, password:String,confirmPassword:String){
+        val client = OkHttpClient()
+        val body = FormBody.Builder()
+            .add("email", email)
+            .add("password", password)
+            .add("confirmPassword", confirmPassword)
+            .build()
+//
+        val request: Request = Request.Builder()
+            .url("http://terenzzzz.com:88/api/register")
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                if (parsed.status == 200){
+                    Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
+                    Home.startFn(this@Signup)
+                    finish()
+                }else{
+                    Snackbar.make(binding.root, "Signup Fail!", Snackbar.LENGTH_LONG).show()
+                }
+            }
         })
     }
 }
