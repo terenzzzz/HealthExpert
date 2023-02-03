@@ -151,7 +151,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
-                        app:cardBackgroundColor="@color/home_gray"
+                        app:cardBackgroundColor="@color/home_light_grey"
                         app:contentPadding="15dp"
                         app:cardCornerRadius="20dp" >
                         <LinearLayout

@@ -26,6 +26,7 @@
     <color name="home_deep_red">#E2C5B3</color>
     <color name="home_water_blue">#1BCCF3</color>
     <color name="hone_light_red">#FF5252</color>
+    <color name="home_light_grey">#e9decc</color>
 
     
 </resources>
