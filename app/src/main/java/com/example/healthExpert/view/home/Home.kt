@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.view.sidebar.Sidebar
+import com.example.healthExpert.viewmodels.UserViewModel
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
@@ -19,6 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class Home : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var userViewModel:UserViewModel
 
     companion object {
         fun startFn(context: Context) {
@@ -31,13 +34,17 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
+
+        userViewModel = UserViewModel(this)
+        binding.userViewModel = userViewModel
+
         setContentView(binding.root)
 
         initPage()
 
         binding.lifecycleOwner = this
 
-
+        userViewModel.getUser()
         binding.sideBar.setOnClickListener (View.OnClickListener { view ->
             Sidebar.startFn(this)
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
