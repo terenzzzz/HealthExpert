@@ -15,9 +15,8 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
     var user = MutableLiveData<User?>()
-    val name = "1"
 
-    fun getUser(){
+    fun getUserInfo(){
         viewModelScope.launch {
             // retrieve updated data from the repository
             val updatedData = token?.let { repository.getUserInfo(it) }
@@ -26,6 +25,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
             user.postValue(updatedData)
         }
     }
+
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

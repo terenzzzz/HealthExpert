@@ -35,7 +35,7 @@ class Home : UserCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        binding.userViewModel = userViewModel
+        binding.userViewmodel = userViewModel
 
         setContentView(binding.root)
 
@@ -43,7 +43,7 @@ class Home : UserCompatActivity() {
 
         binding.lifecycleOwner = this
 
-        userViewModel.getUser()
+        userViewModel.getUserInfo()
         binding.sideBar.setOnClickListener (View.OnClickListener { view ->
             Sidebar.startFn(this)
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
