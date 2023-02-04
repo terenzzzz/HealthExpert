@@ -30,6 +30,7 @@ class Me : Fragment() {
         binding = FragmentMeBinding.inflate(layoutInflater)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         binding.userViewModel = userViewModel
+
         val view = binding.root
 
 

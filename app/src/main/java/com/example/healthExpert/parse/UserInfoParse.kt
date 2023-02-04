@@ -27,5 +27,11 @@ class UserInfoParse {
 
         @SerializedName("Weight")
         var weight: Float? = null
+
+        @SerializedName("Bmi")
+        var bmi: Float? = null
+
+        @SerializedName("BodyFatRate")
+        var bodyFatRate: Float? = null
     }
 }

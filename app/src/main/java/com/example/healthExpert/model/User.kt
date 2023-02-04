@@ -7,4 +7,6 @@ data class User(var idUser: Int = -1,
                 var Age: Int = 0,
                 var Height: Float = 0f,
                 var Weight: Float = 0f,
+                var Bmi: Float = 0f,
+                var BodyFactRate: Float = 0f,
 )

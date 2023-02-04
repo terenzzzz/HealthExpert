@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
+import kotlin.math.pow
 
 class UserRepository {
     private val client = OkHttpClient()
@@ -40,12 +41,16 @@ class UserRepository {
                     Log.d("User", "height" + parsed.data?.height.toString())
                     Log.d("User", "weight" + parsed.data?.weight.toString())
 
+//                    val bmi = parsed.data?.weight?.div((parsed.data?.height?.div(100)?.pow(2.0f))?.toFloat()!!)
+
                     user.idUser = parsed.data?.idUser!!
                     user.Email = parsed.data?.email!!
                     user.Name = parsed.data?.name?: ""
                     user.Age = parsed.data?.age?: 0
                     user.Height = parsed.data?.height?: 0f
                     user.Weight = parsed.data?.weight?: 0f
+                    user.Bmi = parsed.data?.bmi?: 0f
+                    user.BodyFactRate = parsed.data?.bodyFatRate?: 0f
 
                     response.close()
                 }

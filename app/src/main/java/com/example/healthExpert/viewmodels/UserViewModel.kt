@@ -8,13 +8,16 @@ import androidx.lifecycle.*
 import com.example.healthExpert.model.User
 import com.example.healthExpert.repository.UserRepository
 import kotlinx.coroutines.launch
+import kotlin.math.log
+import kotlin.math.pow
 
 class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val repository = UserRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
-    var user = MutableLiveData<User?>()
+    var user = MutableLiveData<User?>(null)
+
 
     fun getUserInfo(){
         viewModelScope.launch {
