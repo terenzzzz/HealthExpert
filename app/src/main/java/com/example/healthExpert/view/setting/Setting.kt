@@ -8,8 +8,7 @@ import android.view.View
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
-import kotlin.math.log
-
+import com.google.android.material.snackbar.Snackbar
 
 class Setting : UserCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
@@ -31,10 +30,12 @@ class Setting : UserCompatActivity() {
         binding.lifecycleOwner = this
         userViewModel.getUserInfo()
 
-        binding.updateBtn.setOnClickListener (View.OnClickListener {
-//            Log.d("Setting", "updateBtn: clicked ")
-//            Log.d("Setting", userViewModel.user.value!!.Name)
-//            Log.d("Setting", userViewModel.user.value!!.Age.toString())
+        binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
+            userViewModel.editName(binding.etName.text.toString())
+            userViewModel.editAge(binding.etAge.text.toString())
+            userViewModel.editHeight(binding.etHeight.text.toString())
+            userViewModel.editWeight(binding.etWeight.text.toString())
+            Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).show()
         })
 
 

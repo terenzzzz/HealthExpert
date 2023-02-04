@@ -26,10 +26,42 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
 
             // notify the UI to refresh and show the updated data
 //            user.value = updatedData
+            // TODO: Not Updating UI Properly
             user.postValue(updatedData)
         }
     }
 
+    fun editName(name:String){
+        viewModelScope.launch {
+            if (token != null) {
+                repository.editName(token,name)
+            }
+        }
+    }
+
+    fun editAge(age:String){
+        viewModelScope.launch {
+            if (token != null) {
+                repository.editAge(token,age)
+            }
+        }
+    }
+
+    fun editWeight(weight:String){
+        viewModelScope.launch {
+            if (token != null) {
+                repository.editWeight(token,weight)
+            }
+        }
+    }
+
+    fun editHeight(height:String){
+        viewModelScope.launch {
+            if (token != null) {
+                repository.editHeight(token,height)
+            }
+        }
+    }
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

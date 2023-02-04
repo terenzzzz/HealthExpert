@@ -46,6 +46,11 @@ class Home : UserCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        userViewModel.getUserInfo()
+    }
+
     private fun initFragment(): MutableList<Fragment> {
         val overall = Overall()
         val history = History()
