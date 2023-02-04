@@ -31,18 +31,9 @@ class UserRepository {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-//                    Log.d("getUser", response.body!!.string())
                     val gson = Gson()
                     val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)
-                    Log.d("User", "idUser" + parsed.data?.idUser.toString())
-                    Log.d("User", "email" + parsed.data?.email.toString())
-                    Log.d("User", "name" + parsed.data?.name.toString())
-                    Log.d("User", "age" + parsed.data?.age.toString())
-                    Log.d("User", "height" + parsed.data?.height.toString())
-                    Log.d("User", "weight" + parsed.data?.weight.toString())
-
 //                    val bmi = parsed.data?.weight?.div((parsed.data?.height?.div(100)?.pow(2.0f))?.toFloat()!!)
-
                     user.idUser = parsed.data?.idUser!!
                     user.Email = parsed.data?.email!!
                     user.Name = parsed.data?.name?: ""
@@ -51,7 +42,6 @@ class UserRepository {
                     user.Weight = parsed.data?.weight?: 0f
                     user.Bmi = parsed.data?.bmi?: 0f
                     user.BodyFactRate = parsed.data?.bodyFatRate?: 0f
-
                     response.close()
                 }
             }

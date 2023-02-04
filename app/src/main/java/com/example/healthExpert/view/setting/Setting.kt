@@ -2,15 +2,14 @@ package com.example.healthExpert.view.setting
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityLoginBinding
+import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
-import com.example.healthExpert.view.login.Login
 
-class Setting : AppCompatActivity() {
+
+class Setting : UserCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
 
     companion object {
@@ -24,6 +23,7 @@ class Setting : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
