@@ -6,4 +6,5 @@ data class User(var idUser: Int = -1,
                 var Name: String = "",
                 var Age: Int = 0,
                 var Height: Float = 0f,
-                var Weight: Float = 0f)
+                var Weight: Float = 0f,
+)

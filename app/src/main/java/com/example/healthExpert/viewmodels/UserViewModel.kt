@@ -1,12 +1,10 @@
 package com.example.healthExpert.viewmodels
 
+import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.healthExpert.model.User
 import com.example.healthExpert.repository.UserRepository
 import kotlinx.coroutines.launch
@@ -16,7 +14,8 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
-    val user = MutableLiveData<User?>()
+    var user = MutableLiveData<User?>()
+    val name = "1"
 
     fun getUser(){
         viewModelScope.launch {
@@ -27,5 +26,15 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
             user.postValue(updatedData)
         }
     }
+}
 
+// Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation
+// and provide the right parameters
+class UserViewModelFactory(private val activity: AppCompatActivity) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
+            return UserViewModel(activity) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

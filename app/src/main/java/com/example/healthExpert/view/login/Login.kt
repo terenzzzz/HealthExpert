@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.parse.LoginParse
+import com.example.healthExpert.repository.UserRepository
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
@@ -95,7 +96,6 @@ class Login : AppCompatActivity() {
                         .putString("token", parsed.token)
                         .putString("idUser", parsed.idUser.toString())
                         .commit()
-//                Snackbar.make(binding.root, "Log in Successfully!", Snackbar.LENGTH_LONG).show()
                     Home.startFn(this@Login)
                     finish()
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

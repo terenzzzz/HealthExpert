@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.healthExpert.viewmodels.UserViewModel
+import com.example.healthExpert.viewmodels.UserViewModelFactory
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
@@ -19,9 +21,8 @@ import com.example.login.view.homePage.fragment.Sources
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class Home : AppCompatActivity() {
+class Home : UserCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var userViewModel:UserViewModel
 
     companion object {
         fun startFn(context: Context) {
@@ -34,8 +35,6 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
-
-        userViewModel = UserViewModel(this)
         binding.userViewModel = userViewModel
 
         setContentView(binding.root)

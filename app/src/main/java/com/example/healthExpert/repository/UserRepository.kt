@@ -1,8 +1,14 @@
 package com.example.healthExpert.repository
 
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.healthExpert.R
 import com.example.healthExpert.model.User
+import com.example.healthExpert.parse.LoginParse
 import com.example.healthExpert.parse.UserInfoParse
+import com.example.healthExpert.view.home.Home
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -34,12 +40,12 @@ class UserRepository {
                     Log.d("User", "height" + parsed.data?.height.toString())
                     Log.d("User", "weight" + parsed.data?.weight.toString())
 
-                    user.idUser= parsed.data?.idUser!!
-                    user.Email= parsed.data?.email!!
-                    user.Name= parsed.data?.name?: ""
-                    user.Age= parsed.data?.age?: 0
-                    user.Height= parsed.data?.height?: 0f
-                    user.Weight= parsed.data?.weight?: 0f
+                    user.idUser = parsed.data?.idUser!!
+                    user.Email = parsed.data?.email!!
+                    user.Name = parsed.data?.name?: ""
+                    user.Age = parsed.data?.age?: 0
+                    user.Height = parsed.data?.height?: 0f
+                    user.Weight = parsed.data?.weight?: 0f
 
                     response.close()
                 }
