@@ -3,6 +3,7 @@ package com.example.healthExpert.view.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -32,14 +33,12 @@ class Home : UserCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.userViewmodel = userViewModel
-
         setContentView(binding.root)
-
         initPage()
 
         binding.lifecycleOwner = this
-
         userViewModel.getUserInfo()
+
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)

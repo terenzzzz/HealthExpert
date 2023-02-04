@@ -12,7 +12,15 @@ object BindingAdapters {
 
     @BindingConversion
     @JvmStatic
+    fun convertIntToString(value: Int): String {
+        return value.toString()
+    }
+
+    @BindingConversion
+    @JvmStatic
     fun convertLiveDataFloatToString(liveData: MutableLiveData<Float>): String {
         return liveData.value.toString()
     }
+
+
 }

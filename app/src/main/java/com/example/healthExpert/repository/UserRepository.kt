@@ -17,7 +17,7 @@ import kotlin.math.pow
 class UserRepository {
     private val client = OkHttpClient()
 
-    fun getUserInfo(token:String):User {
+    suspend  fun getUserInfo(token:String):User {
         var user = User()
         val request = Request.Builder()
             .url("http://terenzzzz.com:88/my/userInfo")
@@ -34,6 +34,7 @@ class UserRepository {
                     val gson = Gson()
                     val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)
 //                    val bmi = parsed.data?.weight?.div((parsed.data?.height?.div(100)?.pow(2.0f))?.toFloat()!!)
+                    Log.d("getUserInfo", parsed.data?.idUser.toString())
                     user.idUser = parsed.data?.idUser!!
                     user.Email = parsed.data?.email!!
                     user.Name = parsed.data?.name?: ""
