@@ -96,6 +96,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:text="Gender"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <Spinner
+                            android:id="@+id/et_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:entries="@array/genderClass" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:text="Age"
                             android:textStyle="bold"
                             android:textColor="@color/gray"
