@@ -174,18 +174,21 @@
                             android:background="@color/light_gray"/>
 
                         <Button
+                            android:id="@+id/change_password_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
-                            android:text="Change Password"
+                            android:text="Change Password(getUser)"
                             android:background="@drawable/radius_btn"/>
                         <Button
+                            android:id="@+id/help_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
-                            android:text="Help"
+                            android:text="Help(logUser)"
                             android:background="@drawable/radius_btn"/>
                         <Button
+                            android:id="@+id/log_out_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"

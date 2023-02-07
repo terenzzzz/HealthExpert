@@ -48,7 +48,7 @@ class Home : UserCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        userViewModel.getUserInfo()
+//        userViewModel.getUserInfo()
     }
 
     private fun initFragment(): MutableList<Fragment> {

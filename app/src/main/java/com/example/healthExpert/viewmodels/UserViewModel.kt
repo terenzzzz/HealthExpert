@@ -22,12 +22,14 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun getUserInfo(){
         viewModelScope.launch {
             // retrieve updated data from the repository
+            Log.d("viewmodel", "getUserInfo: called")
             val updatedData = token?.let { repository.getUserInfo(it) }
 
             // notify the UI to refresh and show the updated data
 //            user.value = updatedData
             // TODO: Not Updating UI Properly
             user.postValue(updatedData)
+            Log.d("viewmodel", "postValue: called")
         }
     }
 
