@@ -67,6 +67,7 @@ class Setting : UserCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("Setting", "onResume: ")
+        userViewModel.getUserInfo()
     }
 
     override fun onDestroy() {

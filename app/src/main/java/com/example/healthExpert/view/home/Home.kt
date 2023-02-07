@@ -31,13 +31,14 @@ class Home : UserCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.userViewmodel = userViewModel
         setContentView(binding.root)
         initPage()
 
         binding.lifecycleOwner = this
-        userViewModel.getUserInfo()
+
 
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
@@ -46,10 +47,6 @@ class Home : UserCompatActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-//        userViewModel.getUserInfo()
-    }
 
     private fun initFragment(): MutableList<Fragment> {
         val overall = Overall()
@@ -92,6 +89,27 @@ class Home : UserCompatActivity() {
             tab.text = tabs[position]
             tab.icon = getDrawable(tabIcons[position])
         }.attach()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("Home", "onRestart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Home", "onResume: ")
+        userViewModel.getUserInfo()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("Home", "onDestroy: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("Home", "onStop: ")
     }
 
 
