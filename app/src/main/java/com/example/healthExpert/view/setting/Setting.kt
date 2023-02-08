@@ -29,29 +29,35 @@ class Setting : UserCompatActivity() {
         binding = ActivitySettingBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.userViewModel = userViewModel
+        Log.d("setting", userViewModel.toString())
         setContentView(binding.root)
 
+        // Update Button
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
             userViewModel.editName(binding.etName.text.toString())
-            userViewModel.editAge(binding.etAge.text.toString())
-            userViewModel.editHeight(binding.etHeight.text.toString())
-            userViewModel.editWeight(binding.etWeight.text.toString())
+            userViewModel.editGender(binding.etGender.selectedItem.toString())
+            userViewModel.editAge(Integer.parseInt(binding.etAge.text.toString()))
+            userViewModel.editHeight(binding.etHeight.text.toString().toFloat())
+            userViewModel.editWeight(binding.etWeight.text.toString().toFloat())
             Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).show()
         })
 
+        // Change Password Button
         binding.changePasswordBtn.setOnClickListener( View.OnClickListener {
             Log.d("Setting", "changePasswordBtn: clicked")
             userViewModel.getUserInfo()
         })
 
+        // Help Button
         binding.helpBtn.setOnClickListener( View.OnClickListener { view ->
+            Log.w("setting", "Gender: "+binding.etGender.selectedItem)
             Log.d("setting", "Name: "+userViewModel.user.value!!.Name)
             Log.d("setting", "Age: "+userViewModel.user.value!!.Age)
             Log.d("setting", "Height: "+userViewModel.user.value!!.Height)
             Log.d("setting", "Weight: "+userViewModel.user.value!!.Weight)
         })
 
-
+        // Back Button
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

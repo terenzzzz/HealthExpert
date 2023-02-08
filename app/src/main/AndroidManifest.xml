@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Main"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/googleMapAPIKey" />
         <activity
             android:name=".view.period.Period"
             android:exported="false">
@@ -38,6 +41,9 @@
             android:exported="false" />
         <activity
             android:name=".view.medication.Medication"
+            android:exported="false" />
+        <activity
+            android:name=".view.train.TrainSetting"
             android:exported="false" />
         <activity
             android:name=".view.train.TrainRecord"

@@ -80,10 +80,39 @@ class UserRepository {
         return resStatus
     }
 
-    fun editAge(token:String,age:String):Int {
+    fun editGender(token:String,gender:String):Int {
         var resStatus=-1
         val body = FormBody.Builder()
-            .add("age", age)
+            .add("gender", gender)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editGender")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val gson = Gson()
+                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    Log.d("editGender", parsed.status.toString())
+                    resStatus = parsed.status?:-1
+                    response.close()
+                }
+            }
+        })
+        return resStatus
+    }
+
+    fun editAge(token:String,age:Int):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("age", age.toString())
             .build()
 
         val request = Request.Builder()
@@ -109,10 +138,10 @@ class UserRepository {
         return resStatus
     }
 
-    fun editHeight(token:String,height:String):Int {
+    fun editHeight(token:String,height:Float):Int {
         var resStatus=-1
         val body = FormBody.Builder()
-            .add("height", height)
+            .add("height", height.toString())
             .build()
 
         val request = Request.Builder()
@@ -138,10 +167,10 @@ class UserRepository {
         return resStatus
     }
 
-    fun editWeight(token:String,weight:String):Int {
+    fun editWeight(token:String,weight:Float):Int {
         var resStatus=-1
         val body = FormBody.Builder()
-            .add("weight", weight)
+            .add("weight", weight.toString())
             .build()
 
         val request = Request.Builder()

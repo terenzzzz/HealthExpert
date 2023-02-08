@@ -34,6 +34,7 @@ class Home : UserCompatActivity() {
         Log.d("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.userViewmodel = userViewModel
+        Log.d("home", userViewModel.toString())
         setContentView(binding.root)
         initPage()
 

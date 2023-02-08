@@ -41,7 +41,15 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
-    fun editAge(age:String){
+    fun editGender(gender:String){
+        viewModelScope.launch {
+            if (token != null) {
+                repository.editGender(token,gender)
+            }
+        }
+    }
+
+    fun editAge(age:Int){
         viewModelScope.launch {
             if (token != null) {
                 repository.editAge(token,age)
@@ -49,7 +57,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
-    fun editWeight(weight:String){
+    fun editWeight(weight:Float){
         viewModelScope.launch {
             if (token != null) {
                 repository.editWeight(token,weight)
@@ -57,7 +65,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
-    fun editHeight(height:String){
+    fun editHeight(height:Float){
         viewModelScope.launch {
             if (token != null) {
                 repository.editHeight(token,height)
