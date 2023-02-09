@@ -30,7 +30,8 @@ class Me : Fragment() {
         binding = FragmentMeBinding.inflate(layoutInflater)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         binding.userViewModel = userViewModel
-
+        binding.lifecycleOwner=this
+        userViewModel.getUserInfo()
         val view = binding.root
 
 
@@ -40,6 +41,5 @@ class Me : Fragment() {
         }
 
         return view
-
     }
 }

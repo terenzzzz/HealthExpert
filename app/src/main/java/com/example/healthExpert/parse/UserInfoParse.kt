@@ -19,6 +19,9 @@ class UserInfoParse {
         @SerializedName("Name")
         var name: String? = null
 
+        @SerializedName("Gender")
+        var gender: String? = null
+
         @SerializedName("Age")
         var age: Int? = null
 

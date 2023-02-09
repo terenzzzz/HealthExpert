@@ -35,18 +35,28 @@ class Setting : UserCompatActivity() {
 
         // Update Button
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
-            userViewModel.editName(binding.etName.text.toString())
-            userViewModel.editGender(binding.etGender.selectedItem.toString())
+            if (binding.etName.text.toString()!=""){
+                userViewModel.editName(binding.etName.text.toString())
+                binding.etName.text.clear()
+            }
+            if (binding.etGender.selectedItem.toString()!= userViewModel.user.value?.Gender ?: ""){
+                userViewModel.editGender(binding.etGender.selectedItem.toString())
+            }
             if (binding.etAge.text.toString()!=""){
                 userViewModel.editAge(Integer.parseInt(binding.etAge.text.toString()))
+                binding.etAge.text.clear()
             }
             if (binding.etHeight.text.toString()!=""){
                 userViewModel.editHeight(binding.etHeight.text.toString().toFloat())
+                binding.etHeight.text.clear()
             }
             if (binding.etWeight.text.toString()!=""){
                 userViewModel.editWeight(binding.etWeight.text.toString().toFloat())
+                binding.etWeight.text.clear()
             }
             Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).show()
+
+            userViewModel.getUserInfo()
         })
 
 

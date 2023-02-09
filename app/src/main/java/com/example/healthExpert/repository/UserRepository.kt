@@ -26,6 +26,7 @@ class UserRepository {
             user.idUser = parsed.data?.idUser!!
             user.Email = parsed.data?.email!!
             user.Name = parsed.data?.name?: ""
+            user.Gender = parsed.data?.gender?: ""
             user.Age = parsed.data?.age?: 0
             user.Height = parsed.data?.height?: 0f
             user.Weight = parsed.data?.weight?: 0f
