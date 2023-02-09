@@ -100,7 +100,7 @@ class Home : UserCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("Home", "onResume: ")
-//        userViewModel.getUserInfo()
+        userViewModel.getUserInfo()
     }
 
     override fun onDestroy() {

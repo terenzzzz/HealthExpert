@@ -10,6 +10,7 @@ import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
 import com.example.healthExpert.model.User
 import com.google.android.material.snackbar.Snackbar
+import kotlin.math.round
 
 class Setting : UserCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
@@ -29,32 +30,38 @@ class Setting : UserCompatActivity() {
         binding = ActivitySettingBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.userViewModel = userViewModel
-        Log.w("setting", userViewModel.toString())
+
         setContentView(binding.root)
 
         // Update Button
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
             userViewModel.editName(binding.etName.text.toString())
             userViewModel.editGender(binding.etGender.selectedItem.toString())
-            userViewModel.editAge(Integer.parseInt(binding.etAge.text.toString()))
-            userViewModel.editHeight(binding.etHeight.text.toString().toFloat())
-            userViewModel.editWeight(binding.etWeight.text.toString().toFloat())
+            if (binding.etAge.text.toString()!=""){
+                userViewModel.editAge(Integer.parseInt(binding.etAge.text.toString()))
+            }
+            if (binding.etHeight.text.toString()!=""){
+                userViewModel.editHeight(binding.etHeight.text.toString().toFloat())
+            }
+            if (binding.etWeight.text.toString()!=""){
+                userViewModel.editWeight(binding.etWeight.text.toString().toFloat())
+            }
             Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).show()
         })
 
+
         // Change Password Button
         binding.changePasswordBtn.setOnClickListener( View.OnClickListener {
-            Log.w("Setting", "changePasswordBtn: clicked")
-            userViewModel.getUserInfo()
+            Log.w("Setting", userViewModel.calcBMI(53f,173f).toString())
         })
 
         // Help Button
         binding.helpBtn.setOnClickListener( View.OnClickListener { view ->
-            Log.w("setting", "Gender: "+binding.etGender.selectedItem)
-            Log.w("setting", "Name: "+userViewModel.user.value!!.Name)
-            Log.w("setting", "Age: "+userViewModel.user.value!!.Age)
-            Log.w("setting", "Height: "+userViewModel.user.value!!.Height)
-            Log.w("setting", "Weight: "+userViewModel.user.value!!.Weight)
+//            Log.w("setting", "Gender: "+binding.etGender.selectedItem)
+//            Log.w("setting", "Name: "+userViewModel.user.value!!.Name)
+//            Log.w("setting", "Age: "+userViewModel.user.value!!.Age)
+//            Log.w("setting", "Height: "+userViewModel.user.value!!.Height)
+//            Log.w("setting", "Weight: "+userViewModel.user.value!!.Weight)
         })
 
         // Back Button

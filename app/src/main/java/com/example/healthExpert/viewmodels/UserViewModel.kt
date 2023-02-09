@@ -9,6 +9,9 @@ import com.example.healthExpert.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.String.format
+import java.util.*
+import kotlin.math.pow
 
 class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val repository = UserRepository()
@@ -16,24 +19,21 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
     var user = MutableLiveData<User?>(null)
-    var test = MutableLiveData<String>("123")
 
     init {
         getUserInfo()
     }
 
 
+    // Todo: Init Gender
     fun getUserInfo(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            Log.w("viewmodel", "getUserInfo: called")
             val updatedData = token?.let { repository.getUserInfo(it) }
 
-            // notify the UI to refresh and show the updated data
-            // TODO: Not Updating UI Properly
+            // Refresh UI Update data
             user.postValue(updatedData)
-            test.postValue("456")
-            Log.w("viewmodel", "postValue: called")
+
         }
     }
 
@@ -75,6 +75,10 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
                 repository.editHeight(token,height)
             }
         }
+    }
+
+    fun calcBMI(weight: Float,height: Float) : Float{
+        return String.format("%.1f",weight.div(height.div(100).pow(2))).toFloat()
     }
 }
 

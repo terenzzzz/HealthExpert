@@ -11,6 +11,7 @@ import java.io.IOException
 class UserRepository {
     private val client = OkHttpClient()
 
+    // 同步请求
     fun getUserInfo(token:String):User {
         var user = User()
         val request = Request.Builder()
