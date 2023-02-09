@@ -18,23 +18,27 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     var user = MutableLiveData<User?>(null)
     var test = MutableLiveData<String>("123")
 
+    init {
+        getUserInfo()
+    }
+
 
     fun getUserInfo(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            Log.d("viewmodel", "getUserInfo: called")
+            Log.w("viewmodel", "getUserInfo: called")
             val updatedData = token?.let { repository.getUserInfo(it) }
 
             // notify the UI to refresh and show the updated data
-//            user.value = updatedData
             // TODO: Not Updating UI Properly
             user.postValue(updatedData)
-            Log.d("viewmodel", "postValue: called")
+            test.postValue("456")
+            Log.w("viewmodel", "postValue: called")
         }
     }
 
     fun editName(name:String){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
                 repository.editName(token,name)
             }
@@ -42,7 +46,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     }
 
     fun editGender(gender:String){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
                 repository.editGender(token,gender)
             }
@@ -50,7 +54,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     }
 
     fun editAge(age:Int){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
                 repository.editAge(token,age)
             }
@@ -58,7 +62,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     }
 
     fun editWeight(weight:Float){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
                 repository.editWeight(token,weight)
             }
@@ -66,7 +70,7 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     }
 
     fun editHeight(height:Float){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
                 repository.editHeight(token,height)
             }

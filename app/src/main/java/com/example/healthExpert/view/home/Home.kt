@@ -31,10 +31,10 @@ class Home : UserCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("Home", "onCreate: ")
+        Log.w("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.userViewmodel = userViewModel
-        Log.d("home", userViewModel.toString())
+        Log.w("home", userViewModel.toString())
         setContentView(binding.root)
         initPage()
 
@@ -94,23 +94,23 @@ class Home : UserCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("Home", "onRestart: ")
+        Log.w("Home", "onRestart: ")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("Home", "onResume: ")
-        userViewModel.getUserInfo()
+        Log.w("Home", "onResume: ")
+//        userViewModel.getUserInfo()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Home", "onDestroy: ")
+        Log.w("Home", "onDestroy: ")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("Home", "onStop: ")
+        Log.w("Home", "onStop: ")
     }
 
 

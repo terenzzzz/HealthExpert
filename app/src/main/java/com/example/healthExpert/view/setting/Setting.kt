@@ -23,13 +23,13 @@ class Setting : UserCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Setting", "onCreate: ")
+        Log.w("Setting", "onCreate: ")
         super.onCreate(savedInstanceState)
 
         binding = ActivitySettingBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.userViewModel = userViewModel
-        Log.d("setting", userViewModel.toString())
+        Log.w("setting", userViewModel.toString())
         setContentView(binding.root)
 
         // Update Button
@@ -44,17 +44,17 @@ class Setting : UserCompatActivity() {
 
         // Change Password Button
         binding.changePasswordBtn.setOnClickListener( View.OnClickListener {
-            Log.d("Setting", "changePasswordBtn: clicked")
+            Log.w("Setting", "changePasswordBtn: clicked")
             userViewModel.getUserInfo()
         })
 
         // Help Button
         binding.helpBtn.setOnClickListener( View.OnClickListener { view ->
             Log.w("setting", "Gender: "+binding.etGender.selectedItem)
-            Log.d("setting", "Name: "+userViewModel.user.value!!.Name)
-            Log.d("setting", "Age: "+userViewModel.user.value!!.Age)
-            Log.d("setting", "Height: "+userViewModel.user.value!!.Height)
-            Log.d("setting", "Weight: "+userViewModel.user.value!!.Weight)
+            Log.w("setting", "Name: "+userViewModel.user.value!!.Name)
+            Log.w("setting", "Age: "+userViewModel.user.value!!.Age)
+            Log.w("setting", "Height: "+userViewModel.user.value!!.Height)
+            Log.w("setting", "Weight: "+userViewModel.user.value!!.Weight)
         })
 
         // Back Button
@@ -67,22 +67,22 @@ class Setting : UserCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("Setting", "onRestart: ")
+        Log.w("Setting", "onRestart: ")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("Setting", "onResume: ")
-        userViewModel.getUserInfo()
+        Log.w("Setting", "onResume: ")
+//        userViewModel.getUserInfo()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Setting", "onDestroy: ")
+        Log.w("Setting", "onDestroy: ")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("Setting", "onStop: ")
+        Log.w("Setting", "onStop: ")
     }
 }
