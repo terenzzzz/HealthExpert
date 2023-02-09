@@ -49,20 +49,13 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    Log.d("editName", parsed.status.toString())
-                    resStatus = parsed.status?:-1
-                    response.close()
-                }
-            }
-        })
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editName", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 
@@ -78,20 +71,13 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    Log.d("editGender", parsed.status.toString())
-                    resStatus = parsed.status?:-1
-                    response.close()
-                }
-            }
-        })
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editGender", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 
@@ -107,20 +93,13 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    Log.d("editAge", parsed.status.toString())
-                    resStatus = parsed.status?:-1
-                    response.close()
-                }
-            }
-        })
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editAge", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 
@@ -136,20 +115,13 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    Log.d("editHeight", parsed.status.toString())
-                    resStatus = parsed.status?:-1
-                    response.close()
-                }
-            }
-        })
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editHeight", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 
@@ -165,20 +137,58 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    Log.d("editWeight", parsed.status.toString())
-                    resStatus = parsed.status?:-1
-                    response.close()
-                }
-            }
-        })
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editWeight", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+
+        return resStatus
+    }
+
+    fun editBmi(token:String,bmi:Float):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("bmi", bmi.toString())
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editBmi")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editBmi", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editBodyFatRate(token:String,brf:Float):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("bfr", brf.toString())
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editBodyFatRate")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editBodyFatRate", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 }
