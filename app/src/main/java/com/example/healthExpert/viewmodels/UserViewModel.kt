@@ -80,6 +80,20 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun calcBMI(weight: Float,height: Float) : Float{
         return String.format("%.1f",weight.div(height.div(100).pow(2))).toFloat()
     }
+
+    fun calcBFR(weight: Float,height: Float,age:Int,gender: String): Float{
+//        BMI=体重（公斤）÷（身高×身高）（米）。
+//        体脂率：1.2 x BMI + 0.23 x 年齡 – 5.4 -10.8 x 性別（男生的值為 1，女生為 0）
+        var genderInt = 1
+        val bmi = weight.div(height.div(100).pow(2))
+        if (gender == "Male"){
+            genderInt = 1
+        }else{
+            genderInt = 0
+        }
+        val bfr = 1.2.times(bmi)+0.23.times(age)-5.4-10.8.times(genderInt)
+        return String.format("%.1f",bfr).toFloat()
+    }
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

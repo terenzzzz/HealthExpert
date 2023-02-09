@@ -52,7 +52,8 @@ class Setting : UserCompatActivity() {
 
         // Change Password Button
         binding.changePasswordBtn.setOnClickListener( View.OnClickListener {
-            Log.w("Setting", userViewModel.calcBMI(53f,173f).toString())
+            Log.w("Setting", "bmi:" + userViewModel.calcBMI(53f,173f).toString())
+            Log.w("Setting", "bfr:" + userViewModel.calcBFR(53f,173f,22,"Male").toString())
         })
 
         // Help Button
