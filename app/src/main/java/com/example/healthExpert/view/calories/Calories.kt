@@ -6,15 +6,17 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.widget.Ring
 
-class Calories : AppCompatActivity() {
+class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
 
     companion object {
@@ -47,6 +49,11 @@ class Calories : AppCompatActivity() {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.w("Calories", caloriesViewModel.toString())
     }
 
     private fun ringSetUp(view: View){
