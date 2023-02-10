@@ -26,6 +26,17 @@ class CaloriesAdd : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        binding.intakeBtn.setOnClickListener(View.OnClickListener { view ->
+            view.background = this.getDrawable(R.drawable.radius_btn_green)
+            binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_gray)
+
+        })
+
+        binding.burnBtn.setOnClickListener(View.OnClickListener { view ->
+            view.background = this.getDrawable(R.drawable.radius_btn_green)
+            binding.intakeBtn.background = this.getDrawable(R.drawable.radius_btn_gray)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)

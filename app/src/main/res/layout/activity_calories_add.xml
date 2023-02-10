@@ -71,6 +71,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/intake_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
@@ -78,7 +79,7 @@
                             android:layout_marginVertical="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:background="@drawable/radius_btn_white"
+                            android:background="@drawable/radius_btn_gray"
                             android:orientation="horizontal">
                             <ImageView
                                 android:layout_width="30dp"
@@ -95,6 +96,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/burn_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
@@ -102,7 +104,7 @@
                             android:layout_marginVertical="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:background="@drawable/radius_btn_white"
+                            android:background="@drawable/radius_btn_gray"
                             android:orientation="horizontal">
                             <ImageView
                                 android:layout_width="30dp"

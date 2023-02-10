@@ -20,9 +20,9 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val token = sharedPreferences.getString("token","")
     var user = MutableLiveData<User?>(null)
 
-    init {
-        getUserInfo()
-    }
+//    init {
+//        getUserInfo()
+//    }
 
 
     // Todo: Init Gender
