@@ -19,9 +19,9 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var calories = MutableLiveData<MutableList<Calories>?>()
 
-    init {
-        getCaloriesInfo()
-    }
+//    init {
+//        getCaloriesInfo()
+//    }
 
     fun getCaloriesInfo(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -30,7 +30,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
 
             // Refresh UI Update data
             calories.postValue(updatedData)
-
         }
     }
 }
