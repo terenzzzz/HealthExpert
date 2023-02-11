@@ -23,8 +23,7 @@ class CaloriesRepository {
         client.newCall(request).execute().use { response ->
             val gson = Gson()
             val parsed: CaloriesInfoParse = gson.fromJson(response.body!!.string(), CaloriesInfoParse::class.java)
-            Log.w("CaloriesViewModel", "status: "+parsed.status)
-            Log.w("CaloriesViewModel", "message: " + parsed.message)
+            Log.w("CaloriesRepository", "message: " + parsed.message)
             if (parsed.data != null){
                 for (caloriesInfo in parsed.data!!){
                     calories.add(caloriesInfo)

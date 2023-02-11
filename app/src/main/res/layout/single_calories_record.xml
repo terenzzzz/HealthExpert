@@ -70,6 +70,7 @@
                         android:textSize="15dp"
                         android:textStyle="bold"/>
                     <ImageView
+                        android:id="@+id/edit_btn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"

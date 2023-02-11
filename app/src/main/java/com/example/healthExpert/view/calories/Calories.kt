@@ -43,6 +43,15 @@ class Calories : CaloriesCompatActivity() {
         recyclerView = findViewById (R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        caloriesViewModel.calories.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                // Update the UI
+                Log.w("Calories", "Set Adapter Update UI", )
+                recyclerView.adapter = MyAdapter(caloriesViewModel.calories)
+            }
+        })
+
         // Set ring
         ringSetUp(binding.calories)
 
@@ -63,17 +72,8 @@ class Calories : CaloriesCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.w("Calories", "onResume")
+        Log.w("Calories", "onResume", )
         caloriesViewModel.getCaloriesInfo()
-
-        caloriesViewModel.calories.observe(this, Observer { list ->
-            // Update the UI based on the value of MutableLiveData
-            if (list != null) {
-                // Update the UI
-                Log.w("Calories", "Set Adapter", )
-                recyclerView.adapter = MyAdapter(caloriesViewModel.calories)
-            }
-        })
     }
 
     private fun ringSetUp(view: View){
@@ -98,6 +98,7 @@ class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example
         var content: TextView = itemView.findViewById(R.id.content)
         var calories: TextView = itemView.findViewById(R.id.calories)
         var time: TextView = itemView.findViewById(R.id.time)
+        var editBtn: ImageView = itemView.findViewById(R.id.edit_btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

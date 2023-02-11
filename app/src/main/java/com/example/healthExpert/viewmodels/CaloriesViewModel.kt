@@ -35,9 +35,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             if (token != null) {
                 repository.addCalories(token,type,title,content,calories,time)
             }
-
-            // Refresh UI Update data
-            getCaloriesInfo()
         }
     }
 }
