@@ -79,6 +79,10 @@
             android:name=".view.calories.CaloriesSetting"
             android:exported="false" />
         <activity
+            android:name=".view.calories.CaloriesEdit"
+            android:exported="false"
+            android:theme="@style/Theme.Main" />
+        <activity
             android:name=".view.calories.CaloriesAdd"
             android:exported="false"
             android:theme="@style/Theme.Main" />

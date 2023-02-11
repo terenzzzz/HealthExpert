@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +49,7 @@ class Calories : CaloriesCompatActivity() {
             if (list != null) {
                 // Update the UI
                 Log.w("Calories", "Set Adapter Update UI", )
-                recyclerView.adapter = MyAdapter(caloriesViewModel.calories)
+                recyclerView.adapter = MyAdapter(caloriesViewModel.calories,this)
             }
         })
 
@@ -90,7 +91,7 @@ class Calories : CaloriesCompatActivity() {
 
 
 // RecycleView Adapter
-class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>,private val activity:Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         var icon: ImageView = itemView.findViewById(R.id.icon)
@@ -112,6 +113,11 @@ class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener { view ->
             Log.w("Calories", caloriesSet.value!![position].id.toString() )
+            val intent = Intent(activity, CaloriesEdit::class.java)
+            val bundle = Bundle()
+            bundle.putInt("id", caloriesSet.value!![position].id)
+            intent.putExtras(bundle)
+            activity.startActivity(intent)
         })
         if (caloriesSet.value != null){
             if (caloriesSet.value!![position] != null){

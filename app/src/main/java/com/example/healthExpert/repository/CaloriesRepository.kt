@@ -35,10 +35,10 @@ class CaloriesRepository {
     }
 
     // 同步请求
-    fun getCaloriesInfo(token:String): MutableList<Calories> {
-        var calories: MutableList<Calories> = mutableListOf()
+    fun getCaloriesInfo(token:String,id:Int): Calories? {
+        var calories = Calories()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/caloriesInfo")
+            .url("http://terenzzzz.com:88/my/caloriesInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -46,11 +46,9 @@ class CaloriesRepository {
         client.newCall(request).execute().use { response ->
             val gson = Gson()
             val parsed: CaloriesParse = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
-            Log.w("CaloriesRepository", "message: " + parsed.message)
+            Log.w("getCaloriesInfo", "message: " + parsed.message)
             if (parsed.data != null){
-                for (caloriesInfo in parsed.data!!){
-                    calories.add(caloriesInfo)
-                }
+                calories = parsed.data!![0]
             }
             response.close()
         }
