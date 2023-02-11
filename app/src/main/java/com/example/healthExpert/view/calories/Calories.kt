@@ -33,7 +33,6 @@ class Calories : CaloriesCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.w("Calories", "onCreate: ")

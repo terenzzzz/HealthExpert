@@ -86,6 +86,7 @@
                                 android:layout_height="30dp"
                                 android:src="@drawable/meal"/>
                             <TextView
+                                android:id="@+id/intake_type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="10dp"
@@ -111,6 +112,7 @@
                                 android:layout_height="30dp"
                                 android:src="@drawable/calories"/>
                             <TextView
+                                android:id="@+id/burn_type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="10dp"
@@ -153,7 +155,7 @@
                         android:textSize="15dp"/>
 
                     <EditText
-                        android:id="@+id/et_age"
+                        android:id="@+id/et_content"
                         android:inputType="textPersonName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -173,7 +175,7 @@
                         android:textSize="15dp"/>
 
                     <EditText
-                        android:id="@+id/et_height"
+                        android:id="@+id/et_calories"
                         android:inputType="textPersonName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -193,7 +195,7 @@
                         android:textSize="15dp"/>
 
                     <EditText
-                        android:id="@+id/et_weight"
+                        android:id="@+id/et_time"
                         android:inputType="textPersonName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
