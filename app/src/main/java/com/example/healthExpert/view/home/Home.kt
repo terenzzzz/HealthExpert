@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
+import com.example.healthExpert.view.calories.MyAdapter
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
@@ -33,13 +35,10 @@ class Home : UserCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.w("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
         binding.userViewmodel = userViewModel
-        Log.w("home", userViewModel.toString())
         setContentView(binding.root)
         initPage()
-
-        binding.lifecycleOwner = this
-
 
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
@@ -101,6 +100,19 @@ class Home : UserCompatActivity() {
         super.onResume()
         Log.w("Home", "onResume: ")
         userViewModel.getUserInfo()
+
+        userViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+            }
+        })
+
     }
 
     override fun onDestroy() {

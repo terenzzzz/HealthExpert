@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
@@ -91,6 +92,18 @@ class Setting : UserCompatActivity() {
         super.onResume()
         Log.w("Setting", "onResume: ")
         userViewModel.getUserInfo()
+
+        userViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

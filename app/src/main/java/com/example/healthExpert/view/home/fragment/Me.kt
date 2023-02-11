@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.FragmentMeBinding
@@ -30,9 +31,21 @@ class Me : Fragment() {
         binding = FragmentMeBinding.inflate(layoutInflater)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         binding.userViewModel = userViewModel
-        binding.lifecycleOwner=this
+        binding.lifecycleOwner = this
         userViewModel.getUserInfo()
         val view = binding.root
+
+        userViewModel.user.observe(requireActivity(), Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+            }
+        })
 
 
         val button = view.findViewById<ImageView>(R.id.setting_btn)
