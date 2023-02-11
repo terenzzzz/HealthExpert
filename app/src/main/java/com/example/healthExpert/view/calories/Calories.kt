@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,16 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesBinding
-import com.example.healthExpert.databinding.ActivityLoginBinding
-import com.example.healthExpert.view.home.Home
-import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import androidx.lifecycle.Observer;
 
 class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
+    private lateinit var recyclerView: RecyclerView
 
     companion object {
         fun startFn(context: Context) {
@@ -40,8 +36,12 @@ class Calories : CaloriesCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.w("Calories", "onCreate: ")
         binding = ActivityCaloriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recyclerView = findViewById (R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Set ring
         ringSetUp(binding.calories)
@@ -63,14 +63,17 @@ class Calories : CaloriesCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.w("Calories", caloriesViewModel.toString())
+        Log.w("Calories", "onResume")
         caloriesViewModel.getCaloriesInfo()
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val adapter = MyAdapter(caloriesViewModel.calories)
-        recyclerView.adapter = adapter
+        caloriesViewModel.calories.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                // Update the UI
+                Log.w("Calories", "Set Adapter", )
+                recyclerView.adapter = MyAdapter(caloriesViewModel.calories)
+            }
+        })
     }
 
     private fun ringSetUp(view: View){
@@ -84,6 +87,9 @@ class Calories : CaloriesCompatActivity() {
     }
 }
 
+
+
+// RecycleView Adapter
 class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
