@@ -73,7 +73,7 @@ class Calories : CaloriesCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("Calories", "onResume", )
-        caloriesViewModel.getCaloriesInfo()
+        caloriesViewModel.getCalories()
     }
 
     private fun ringSetUp(view: View){
@@ -110,6 +110,9 @@ class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener(View.OnClickListener { view ->
+            Log.w("Calories", caloriesSet.value!![position].id.toString() )
+        })
         if (caloriesSet.value != null){
             if (caloriesSet.value!![position] != null){
                 if (caloriesSet.value!![position].Type == "Intake"){

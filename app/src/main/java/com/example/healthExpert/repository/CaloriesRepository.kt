@@ -3,13 +3,36 @@ package com.example.healthExpert.repository
 import android.util.Log
 import com.example.healthExpert.model.Calories
 import com.example.healthExpert.parse.BaseParse
-import com.example.healthExpert.parse.CaloriesInfoParse
+import com.example.healthExpert.parse.CaloriesParse
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 
 class CaloriesRepository {
     private val client = OkHttpClient()
+
+    // 同步请求
+    fun getCalories(token:String): MutableList<Calories> {
+        var calories: MutableList<Calories> = mutableListOf()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/calories")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: CaloriesParse = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
+            Log.w("CaloriesRepository", "message: " + parsed.message)
+            if (parsed.data != null){
+                for (caloriesInfo in parsed.data!!){
+                    calories.add(caloriesInfo)
+                }
+            }
+            response.close()
+        }
+        return calories
+    }
 
     // 同步请求
     fun getCaloriesInfo(token:String): MutableList<Calories> {
@@ -22,7 +45,7 @@ class CaloriesRepository {
 
         client.newCall(request).execute().use { response ->
             val gson = Gson()
-            val parsed: CaloriesInfoParse = gson.fromJson(response.body!!.string(), CaloriesInfoParse::class.java)
+            val parsed: CaloriesParse = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
             Log.w("CaloriesRepository", "message: " + parsed.message)
             if (parsed.data != null){
                 for (caloriesInfo in parsed.data!!){
