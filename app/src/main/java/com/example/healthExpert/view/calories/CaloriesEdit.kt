@@ -3,6 +3,7 @@ package com.example.healthExpert.view.calories
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesEditBinding
@@ -69,11 +70,18 @@ class CaloriesEdit : CaloriesCompatActivity() {
         Log.d("CaloriesEdit", "onResume: ")
         super.onResume()
         caloriesViewModel.getCaloriesInfo(id)
-        if (caloriesViewModel.calories.value?.get(0)?.Type ?: "" == "Intake"){
-            binding.intakeBtn.background = this.getDrawable(R.drawable.radius_btn_green)
-        }else{
-            binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_green)
-        }
+
+        caloriesViewModel.caloriesInfo.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (caloriesViewModel.caloriesInfo.value?.Type ?: "" == "Intake"){
+                    binding.intakeBtn.background = this.getDrawable(R.drawable.radius_btn_green)
+                }else{
+                    binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_green)
+                }
+            }
+        })
     }
 
     fun showTimePickerDialog(v: View) {
