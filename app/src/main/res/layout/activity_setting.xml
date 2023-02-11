@@ -109,6 +109,7 @@
                             android:paddingHorizontal="10dp"
                             android:background="@drawable/radius_input"
                             android:entries="@array/genderClass"
+
                             android:spinnerMode="dialog" />
 
                         <TextView

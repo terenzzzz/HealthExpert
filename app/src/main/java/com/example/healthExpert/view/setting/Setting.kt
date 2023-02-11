@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
@@ -98,8 +99,10 @@ class Setting : UserCompatActivity() {
             if (item != null) {
                 // Update the UI
                 if (item.Gender == "Male"){
+                    setGenderDefault("Male")
                     binding.avatar.setImageResource(R.drawable.avatar)
                 }else{
+                    setGenderDefault("Female")
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
             }
@@ -114,5 +117,14 @@ class Setting : UserCompatActivity() {
     override fun onStop() {
         super.onStop()
         Log.w("Setting", "onStop: ")
+    }
+
+    fun setGenderDefault(gender:String){
+        val adapter = ArrayAdapter.createFromResource(this, R.array.genderClass, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.etGender.adapter = adapter
+
+        val defaultValuePosition = adapter.getPosition(gender)
+        binding.etGender.setSelection(defaultValuePosition)
     }
 }
