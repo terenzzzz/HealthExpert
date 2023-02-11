@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -92,6 +93,7 @@ class Calories : CaloriesCompatActivity() {
 class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var icon: ImageView = itemView.findViewById(R.id.icon)
         var title: TextView = itemView.findViewById(R.id.title)
         var content: TextView = itemView.findViewById(R.id.content)
         var calories: TextView = itemView.findViewById(R.id.calories)
@@ -109,9 +111,16 @@ class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (caloriesSet.value != null){
             if (caloriesSet.value!![position] != null){
+                if (caloriesSet.value!![position].Type == "Intake"){
+                    holder.calories.text = "+ "+caloriesSet.value!![position].Calories.toString()
+                    holder.icon.setImageResource(R.drawable.meal)
+
+                }else{
+                    holder.calories.text = "- "+caloriesSet.value!![position].Calories.toString()
+                    holder.icon.setImageResource(R.drawable.calories)
+                }
                 holder.title.text = caloriesSet.value!![position].Title
                 holder.content.text = caloriesSet.value!![position].Content
-                holder.calories.text = caloriesSet.value!![position].Calories.toString()
                 holder.time.text = SimpleDateFormat("HH:mm").format(caloriesSet.value!![position].Time)
             }
         }
