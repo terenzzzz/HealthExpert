@@ -89,4 +89,119 @@ class CaloriesRepository {
         })
         return resStatus
     }
+
+    fun editCaloriesType(token:String,id: Int,type: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .add("type", type)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editCaloriesType")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesType", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editCaloriesTitle(token:String,id: Int,title: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .add("title", title)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editCaloriesTitle")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesTitle", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editCaloriesContent(token:String,id: Int,content: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .add("content", content)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editCaloriesContent")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesContent", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editCaloriesCalories(token:String,id: Int,calories: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .add("calories", calories)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editCaloriesCalories")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesCalories", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editCaloriesTime(token:String,id: Int,time: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .add("time", time) // "08:00"
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/editCaloriesTime")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesTime", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
 }

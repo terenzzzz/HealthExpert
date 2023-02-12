@@ -9,6 +9,8 @@ import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesEditBinding
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
+import java.util.Formatter
 
 
 class CaloriesEdit : CaloriesCompatActivity() {
@@ -51,17 +53,28 @@ class CaloriesEdit : CaloriesCompatActivity() {
 
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("CaloriesEdit", caloriesViewModel.caloriesInfo.value.toString())
+
             val title = binding.etTitle.text.toString()
             val content = binding.etContent.text.toString()
             val calories = binding.etCalories.text.toString()
             val time = binding.etTime.text.toString()
-//            if(title.isNullOrEmpty() && content.isNullOrEmpty() && calories.isNullOrEmpty()){
-//                Snackbar.make(binding.root, "Please fill in all the field", Snackbar.LENGTH_LONG).show()
-//            }else{
-//                caloriesViewModel.addCalories(selectedType!!,title, content,Integer.parseInt(calories), time)
-//                finish()
-//                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-//            }
+            if (selectedType != caloriesViewModel.caloriesInfo.value?.Type ){
+                caloriesViewModel.editCaloriesType(id,selectedType!!)
+            }
+            if (title!="" && title != caloriesViewModel.caloriesInfo.value?.Title){
+                caloriesViewModel.editCaloriesTitle(id,title)
+            }
+            if (content!="" && content != caloriesViewModel.caloriesInfo.value?.Content){
+                caloriesViewModel.editCaloriesContent(id,content)
+            }
+            if (calories!="" && calories != caloriesViewModel.caloriesInfo.value?.Calories.toString()){
+                caloriesViewModel.editCaloriesCalories(id,calories)
+            }
+            if (time != SimpleDateFormat("HH:mm").format(caloriesViewModel.caloriesInfo.value?.Time)){
+                caloriesViewModel.editCaloriesTime(id,time)
+            }
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
     }
@@ -76,8 +89,10 @@ class CaloriesEdit : CaloriesCompatActivity() {
             if (item != null) {
                 // Update the UI
                 if (caloriesViewModel.caloriesInfo.value?.Type ?: "" == "Intake"){
+                    selectedType = "Intake"
                     binding.intakeBtn.background = this.getDrawable(R.drawable.radius_btn_green)
                 }else{
+                    selectedType = "Burn"
                     binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_green)
                 }
             }

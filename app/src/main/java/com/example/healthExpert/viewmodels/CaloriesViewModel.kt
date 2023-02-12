@@ -53,8 +53,49 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun datetime2time(datetime: Date): String {
-        return SimpleDateFormat("HH:mm").format(datetime)
+    fun editCaloriesType(id: Int,type: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.editCaloriesType(token, id , type)
+            }
+        }
+    }
+
+    fun editCaloriesTitle(id: Int,title: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.editCaloriesTitle(token, id , title)
+            }
+        }
+    }
+
+    fun editCaloriesContent(id: Int,content: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.editCaloriesContent(token, id , content)
+            }
+        }
+    }
+
+    fun editCaloriesCalories(id: Int,calories: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.editCaloriesCalories(token, id , calories)
+            }
+        }
+    }
+
+    fun editCaloriesTime(id: Int,time: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.editCaloriesTime(token, id , time)
+            }
+        }
     }
 }
 
