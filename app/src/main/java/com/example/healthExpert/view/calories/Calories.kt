@@ -21,10 +21,12 @@ import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer;
+import com.example.healthExpert.widget.RingView
 
 class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var ring: Ring
 
     companion object {
         fun startFn(context: Context) {
@@ -39,22 +41,12 @@ class Calories : CaloriesCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.w("Calories", "onCreate: ")
         binding = ActivityCaloriesBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.caloriesViewmodel = caloriesViewModel
         setContentView(binding.root)
 
         recyclerView = findViewById (R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        caloriesViewModel.calories.observe(this, Observer { list ->
-            // Update the UI based on the value of MutableLiveData
-            if (list != null) {
-                // Update the UI
-                Log.w("Calories", "Set Adapter Update UI", )
-                recyclerView.adapter = MyAdapter(caloriesViewModel.calories,this)
-            }
-        })
-
-        // Set ring
-        ringSetUp(binding.calories)
 
 
         binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
@@ -74,18 +66,39 @@ class Calories : CaloriesCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("Calories", "onResume", )
+        // Init ring
+        ring = ringSetUp(binding.calories)
+        ring.setValueText("Outside")
+
+
+        caloriesViewModel.calories.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                // Update the UI
+                Log.w("Calories", "Set Adapter Update UI", )
+                caloriesViewModel.calcDashboard()
+                // TODO Ring data can't change insider the observe
+                Log.d("Calories", "totalCalories:" +caloriesViewModel.totalCalories.value.toString())
+                ring.setValueText("Inside")
+                recyclerView.adapter = MyAdapter(caloriesViewModel.calories,this)
+            }
+
+        })
         caloriesViewModel.getCalories()
+
+
     }
 
-    private fun ringSetUp(view: View){
+    fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
-        var calories = 65
-        ring.setSweepValue(calories.toFloat())
-        ring.setValueText("1139")
-        ring.setUnit("KCAL LEFT")
+        ring.setSweepValue(0f)
+        ring.setValueText("0")
+        ring.setUnit("KCAL To Limit")
         ring.setBgColor(Color.argb(20,0, 0, 0))
         ring.setSweepColor(Color.rgb(0, 0, 0))
+        return ring
     }
+
 }
 
 
@@ -99,7 +112,6 @@ class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example
         var content: TextView = itemView.findViewById(R.id.content)
         var calories: TextView = itemView.findViewById(R.id.calories)
         var time: TextView = itemView.findViewById(R.id.time)
-        var editBtn: ImageView = itemView.findViewById(R.id.edit_btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

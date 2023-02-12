@@ -22,6 +22,9 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var calories = MutableLiveData<MutableList<Calories>?>()
     var caloriesInfo = MutableLiveData<Calories?>()
+    var totalIntake = MutableLiveData<Int>()
+    var totalBurn = MutableLiveData<Int>()
+    var totalCalories = MutableLiveData<Int>()
 
     fun getCalories(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -103,8 +106,27 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null) {
                 repository.deleteCalories(token, id)
+                getCalories()
             }
         }
+    }
+
+    fun calcDashboard(){
+        var totalBurn = 0
+        var totalIntake = 0
+        var totalCalories = 0
+        for (item in calories.value!!){
+            if (item.Type == "Intake"){
+                totalIntake += item.Calories
+                totalCalories += item.Calories
+            }else{
+                totalBurn += item.Calories
+                totalCalories -= item.Calories
+            }
+        }
+        this.totalIntake.value = totalIntake
+        this.totalBurn.value = totalBurn
+        this.totalCalories.value = totalCalories
     }
 }
 

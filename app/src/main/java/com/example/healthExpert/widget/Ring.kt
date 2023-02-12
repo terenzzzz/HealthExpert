@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 
 import androidx.annotation.Nullable
@@ -156,19 +157,17 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
 
     // 让调用者来设置不同的状态值，使弧形弧度变化
     fun setSweepValue(sweepValue: Float) {
-        mSweepValue = if (sweepValue != 0f) {
-            sweepValue
-        } else {
-            25f
-        }
+        mSweepValue = sweepValue
         // 这个方法可以刷新UI
         this.invalidate()
     }
 
     fun setValueText(value: String) {
         mValue = value
+        Log.d("RING", "setValueText: $mValue")
         // 这个方法可以刷新UI
         this.invalidate()
+        Log.d("RING", "invalidate: 刷新UI")
     }
 
     fun setBgColor(bgColor: Int) {
