@@ -97,6 +97,15 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             }
         }
     }
+
+    fun deleteCalories(id: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.deleteCalories(token, id)
+            }
+        }
+    }
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

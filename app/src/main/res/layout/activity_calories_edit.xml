@@ -208,6 +208,14 @@
                             android:background="@drawable/radius_input"
                             android:text="@{String.valueOf(caloriesViewmodels.caloriesInfo.time)}"
                             android:onClick="showTimePickerDialog" />
+
+                        <Button
+                            android:id="@+id/delete_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/radius_btn_bg_red"
+                            android:text="Delete Record"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

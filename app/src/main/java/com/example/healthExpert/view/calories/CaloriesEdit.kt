@@ -51,6 +51,12 @@ class CaloriesEdit : CaloriesCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
+        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
+            caloriesViewModel.deleteCalories(id)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        })
+
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("CaloriesEdit", caloriesViewModel.caloriesInfo.value.toString())
 
