@@ -79,7 +79,7 @@ class Setting : UserCompatActivity() {
         // Back Button
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
     }

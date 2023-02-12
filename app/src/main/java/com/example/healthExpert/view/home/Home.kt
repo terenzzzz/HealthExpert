@@ -12,6 +12,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.view.calories.MyAdapter
+import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.login.view.homePage.fragment.History
 import com.example.login.view.homePage.fragment.Me
@@ -43,6 +44,11 @@ class Home : UserCompatActivity() {
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
+        })
+
+        binding.avatar.setOnClickListener (View.OnClickListener {
+            Setting.startFn(this)
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         })
 
     }
