@@ -180,7 +180,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowValue!!.length,
                     mCircleXY,
-                    mCircleXY+30,
+                    mCircleXY+10,
                     it1
                 )
             }

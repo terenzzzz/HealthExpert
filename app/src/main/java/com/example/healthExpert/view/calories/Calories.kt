@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer;
-import com.example.healthExpert.widget.RingView
 
 class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
@@ -68,8 +66,6 @@ class Calories : CaloriesCompatActivity() {
         Log.w("Calories", "onResume", )
         // Init ring
         ring = ringSetUp(binding.calories)
-        ring.setValueText("Outside")
-
 
         caloriesViewModel.calories.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
@@ -78,13 +74,11 @@ class Calories : CaloriesCompatActivity() {
                 caloriesViewModel.calcDashboard()
                 ring.setValueText(caloriesViewModel.totalCalories.value.toString())
                 ring.setSweepValue(caloriesViewModel.totalCalories.value!!.times(100).div(1000f) ?: 0f)
-                recyclerView.adapter = MyAdapter(caloriesViewModel.calories,this)
+                recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
             }
 
         })
         caloriesViewModel.getCalories()
-
-
     }
 
     fun ringSetUp(view: View): Ring {
@@ -103,7 +97,8 @@ class Calories : CaloriesCompatActivity() {
 
 
 // RecycleView Adapter
-class MyAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>,private val activity:Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+class CaloriesAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>,
+                      private val activity:Context) : RecyclerView.Adapter<CaloriesAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         var icon: ImageView = itemView.findViewById(R.id.icon)

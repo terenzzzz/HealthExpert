@@ -43,16 +43,16 @@
             android:name=".view.medication.Medication"
             android:exported="false" />
         <activity
-            android:name=".view.train.TrainSetting"
+            android:name=".view.training.TrainSetting"
             android:exported="false" />
         <activity
-            android:name=".view.train.TrainRecord"
+            android:name=".view.training.TrainRecord"
             android:exported="false" />
         <activity
-            android:name=".view.train.TrainAdd"
+            android:name=".view.training.TrainAdd"
             android:exported="false" />
         <activity
-            android:name=".view.train.Train"
+            android:name=".view.training.Train"
             android:exported="false" />
         <activity
             android:name=".view.heart.Heart"

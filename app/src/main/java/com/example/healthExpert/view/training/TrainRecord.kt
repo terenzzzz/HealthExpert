@@ -1,4 +1,4 @@
-package com.example.healthExpert.view.train
+package com.example.healthExpert.view.training
 
 import android.content.Context
 import android.content.Intent

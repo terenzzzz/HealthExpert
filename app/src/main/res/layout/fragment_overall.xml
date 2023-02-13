@@ -158,83 +158,97 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="3"
                                 android:textColor="@color/black"
                                 android:text="Train"
                                 android:textSize="20dp"
                                 android:textStyle="bold"/>
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="80dp"
-                                android:src="@drawable/map"/>
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/runner"
+                                android:foregroundGravity="right"/>
+
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:weightSum="3"
-                                android:orientation="horizontal">
+                                android:orientation="vertical">
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="2.8"
+                                        android:text="Duration:"
+                                        android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
+                                        android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="hours"
+                                        android:text="2.8 hours"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="6.9"
+                                        android:text="Speed:"
+                                        android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
+                                        android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="km"
+                                        android:text="3.0 km/h"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="2,500"
+                                        android:text="Distance:"
+                                        android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
+                                        android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="Calories"
+                                        android:text="6.9 km"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                             </LinearLayout>
@@ -570,9 +584,6 @@
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

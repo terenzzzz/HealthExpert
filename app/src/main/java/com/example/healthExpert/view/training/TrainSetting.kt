@@ -1,4 +1,4 @@
-package com.example.healthExpert.view.train
+package com.example.healthExpert.view.training
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityTrainSettingBinding
-import com.example.healthExpert.databinding.ActivityWaterSettingBinding
 
 class TrainSetting : AppCompatActivity() {
     private lateinit var binding: ActivityTrainSettingBinding

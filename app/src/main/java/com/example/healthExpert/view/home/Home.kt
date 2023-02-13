@@ -11,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
-import com.example.healthExpert.view.calories.MyAdapter
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.login.view.homePage.fragment.History

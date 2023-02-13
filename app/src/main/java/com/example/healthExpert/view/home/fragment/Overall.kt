@@ -13,7 +13,7 @@ import com.example.healthExpert.view.heart.Heart
 import com.example.healthExpert.view.medication.Medication
 import com.example.healthExpert.view.period.Period
 import com.example.healthExpert.view.sleep.Sleep
-import com.example.healthExpert.view.train.Train
+import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
 import com.example.healthExpert.widget.Ring
@@ -24,7 +24,6 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.google.android.material.snackbar.Snackbar
 import java.util.ArrayList
 
 
