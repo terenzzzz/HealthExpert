@@ -75,11 +75,9 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                Log.w("Calories", "Set Adapter Update UI", )
                 caloriesViewModel.calcDashboard()
-                // TODO Ring data can't change insider the observe
-                Log.d("Calories", "totalCalories:" +caloriesViewModel.totalCalories.value.toString())
-                ring.setValueText("Inside")
+                ring.setValueText(caloriesViewModel.totalCalories.value.toString())
+                ring.setSweepValue(caloriesViewModel.totalCalories.value!!.times(100).div(1000f) ?: 0f)
                 recyclerView.adapter = MyAdapter(caloriesViewModel.calories,this)
             }
 

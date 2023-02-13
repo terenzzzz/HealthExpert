@@ -159,32 +159,35 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
     fun setSweepValue(sweepValue: Float) {
         mSweepValue = sweepValue
         // 这个方法可以刷新UI
+        this.initPaint()
         this.invalidate()
     }
 
     fun setValueText(value: String) {
         mValue = value
-        Log.d("RING", "setValueText: $mValue")
         // 这个方法可以刷新UI
+        this.initPaint()
         this.invalidate()
-        Log.d("RING", "invalidate: 刷新UI")
     }
 
     fun setBgColor(bgColor: Int) {
         this.bgColor = bgColor
         // 这个方法可以刷新UI
+        this.initPaint()
         this.invalidate()
     }
 
     fun setSweepColor(sweepColor: Int) {
         this.sweepColor = sweepColor
         // 这个方法可以刷新UI
+        this.initPaint()
         this.invalidate()
     }
 
     fun setUnit(unit: String) {
         this.mShowUnit = unit
         // 这个方法可以刷新UI
+        this.initPaint()
         this.invalidate()
     }
 
