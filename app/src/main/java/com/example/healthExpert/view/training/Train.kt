@@ -41,6 +41,8 @@ class Train : TrainingsCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTrainBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.trainViewmodel = trainingsViewModel
         setContentView(binding.root)
 
 
@@ -71,6 +73,10 @@ class Train : TrainingsCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
+                trainingsViewModel.calcDashboard()
+                ring.setValueText(trainingsViewModel.totalBurn.value.toString())
+                ring.setSweepValue(trainingsViewModel.totalBurn.value!!.times(100).div(1000f))
+
                 recyclerView.adapter = TrainingsAdapter(
                     trainingsViewModel.trainings, this
                 )
@@ -83,12 +89,11 @@ class Train : TrainingsCompatActivity() {
     private fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
         ring.setSweepValue(0f)
-        ring.setValueText("1h 42m")
+        ring.setValueText("392")
         ring.setStateText("Active")
-        ring.setUnit("Training Goal: ")
-        ring.setUnitValue("1 hours")
+        ring.setUnit("kcal")
         ring.setBgColor(Color.argb(20,0, 0, 0))
-        ring.setSweepColor(Color.rgb(0, 0, 0))
+        ring.setSweepColor(Color.rgb(234, 67, 53))
         return ring
     }
 }

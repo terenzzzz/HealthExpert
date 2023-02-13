@@ -13,6 +13,9 @@ import com.example.healthExpert.repository.TrainingsRepository
 import com.example.healthExpert.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalTime
 
 class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val repository = TrainingsRepository()
@@ -21,8 +24,12 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+
     var trainings = MutableLiveData<MutableList<Trainings>?>()
     var weather = MutableLiveData<Weather>()
+    var totalDistance = MutableLiveData<Float>()
+    var totalBurn = MutableLiveData<Int>()
+    var totalTime = MutableLiveData<Int>()
 
 
     fun getTrainings(){
@@ -43,6 +50,26 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // Refresh UI Update data
             weather.postValue(updatedData)
         }
+    }
+
+    fun calcDashboard(){
+        var totalDistance = 0f
+        var totalBurn = 0
+        var totalTime = 0
+        for (item in trainings.value!!){
+            totalDistance += item.Distance
+            totalBurn += item.CaloriesBurn
+            var startHour = SimpleDateFormat("HH").format(item.StartTime)
+            var startMinus = SimpleDateFormat("mm").format(item.StartTime)
+            var endHour = SimpleDateFormat("HH").format(item.EndTime)
+            var endMinus = SimpleDateFormat("mm").format(item.EndTime)
+            val duration = Duration.between(LocalTime.of(startHour.toInt(), startMinus.toInt()),
+                LocalTime.of(endHour.toInt(), endMinus.toInt())).toMinutes()
+            totalTime += duration.toInt()
+        }
+        this.totalTime.value = totalTime
+        this.totalDistance.value = totalDistance
+        this.totalBurn.value = totalBurn
     }
 
 }

@@ -73,7 +73,7 @@ class Calories : CaloriesCompatActivity() {
                 // Update the UI
                 caloriesViewModel.calcDashboard()
                 ring.setValueText(caloriesViewModel.totalCalories.value.toString())
-                ring.setSweepValue(caloriesViewModel.totalCalories.value!!.times(100).div(1000f) ?: 0f)
+                ring.setSweepValue(caloriesViewModel.totalCalories.value!!.times(100).div(1000f))
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
             }
 
