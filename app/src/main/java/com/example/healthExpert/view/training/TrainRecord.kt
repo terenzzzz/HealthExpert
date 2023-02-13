@@ -7,21 +7,15 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.hardware.Sensor
-import android.hardware.SensorEventCallback
-import android.hardware.SensorManager
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainRecordBinding
+import com.example.healthExpert.model.Location
 import com.example.healthExpert.service.LocationService
-import com.example.healthExpert.view.calories.CaloriesAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,6 +31,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     //    Location
     private var lastLocation: Location? = null
     private var headMarker:Marker? = null
+    private var locations: MutableList<Location> = mutableListOf()
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
@@ -74,9 +69,23 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // Get location from service
-                val latitude = intent.getStringExtra("latitude")
-                val longitude = intent.getStringExtra("longitude")
+                val latitude = intent.getStringExtra("latitude")!!
+                val longitude = intent.getStringExtra("longitude")!!
                 Log.d("TripActivity", "latitude: $latitude, longitude: $longitude")
+                // Safe Location to a List
+                val location = Location(latitude.toDouble(),longitude.toDouble())
+                locations.add(location)
+
+                // Update Path and Current Location
+                if (lastLocation != null){
+                    drawLine(lastLocation!!,location)
+                    addDot(location.latitude,location.longitude)
+                }else{
+                    // Init Start Point
+                    addMarker(location!!.latitude, location!!.longitude)
+                    addDot(location!!.latitude, location!!.longitude)
+                }
+                lastLocation = location
             }
         }
         val filter = IntentFilter("update-ui")
@@ -186,13 +195,5 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(53.3817, -1.4819)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(sydney)
-                .title("Marker in Diamond"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f))
     }
 }
