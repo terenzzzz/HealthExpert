@@ -1,27 +1,46 @@
 package com.example.healthExpert.view.training
 
+import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEventCallback
+import android.hardware.SensorManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainRecordBinding
+import com.example.healthExpert.service.LocationService
 import com.example.healthExpert.view.calories.CaloriesAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
 class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityTrainRecordBinding
     private lateinit var mMap: GoogleMap
+
+    //    Location
+    private var lastLocation: Location? = null
+    private var headMarker:Marker? = null
+
+    // Broadcast
+    private lateinit var receiver: BroadcastReceiver
+
 
     companion object {
         fun startFn(context: Context) {
@@ -38,10 +57,30 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         binding.trainingViewmodel = trainingsViewModel
         setContentView(binding.root)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Call Service
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            callService()
+        }else{
+            Snackbar.make(binding.root, "Please give Permission of Location", Snackbar.LENGTH_LONG).show()
+        }
+
+        // Adding map to the view
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        // Receive Location value from Service and update UI
+        receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                // Get location from service
+                val latitude = intent.getStringExtra("latitude")
+                val longitude = intent.getStringExtra("longitude")
+                Log.d("TripActivity", "latitude: $latitude, longitude: $longitude")
+            }
+        }
+        val filter = IntentFilter("update-ui")
+        registerReceiver(receiver, filter)
 
 
 
@@ -70,7 +109,70 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
         }
         trainingsViewModel.getWeather(53.3848,-1.4740)
+    }
 
+    override fun onDestroy() {
+        Log.d("TripActivity", "onDestroy: ")
+        super.onDestroy()
+        stopService()
+        unregisterReceiver(receiver)
+    }
+
+    /**
+     * function to call the Location Service to start
+     */
+    private fun callService(){
+        Log.d("Train Record", "callService: ")
+        Intent(this, LocationService::class.java).apply {
+            startService(this)
+        }
+    }
+
+    /**
+     * function to stop Service when is no longer needed
+     */
+    private fun stopService(){
+        Intent(this, LocationService::class.java).apply {
+            stopService(this)
+        }
+
+    }
+
+    private fun addMarker(latitude:Double,longitude:Double){
+        val point = LatLng(latitude, longitude)
+        mMap.addMarker(MarkerOptions().position(point))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15f))
+    }
+
+    /**
+     * function to update current location representation
+     *
+     * @param latitude of the location
+     * @param longitude of the location
+     */
+    private fun addDot(latitude:Double,longitude:Double){
+        headMarker?.remove()
+
+        val point = LatLng(latitude, longitude)
+        headMarker = mMap.addMarker(MarkerOptions()
+            .icon(BitmapDescriptorFactory.fromResource((R.drawable.blue_dot)))
+            .position(point)
+            .title("head"))!!
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15f))
+    }
+
+    /**
+     * function to draw line between two location
+     *
+     * @param startLocation
+     * @param endLocation
+     */
+    private fun drawLine(startLocation: Location, endLocation: Location){
+        mMap.addPolyline(
+            PolylineOptions()
+                .add(LatLng(startLocation.latitude, startLocation.longitude), LatLng(endLocation.latitude, endLocation.longitude))
+                .addSpan(StyleSpan(Color.BLUE))
+        )
     }
 
     /**
