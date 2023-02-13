@@ -4,6 +4,7 @@ import android.R
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ColorSpace.Rgb
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -102,10 +103,11 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
 
         // 文字，只需要设置好文字的起始绘制位置即可
         mShowValue = mValue
-        mShowValueSize = 60f
+        mShowValueSize = 70f
         mValuePaint = Paint()
-        mValuePaint!!.setTextSize(mShowValueSize)
-        mValuePaint!!.setTextAlign(Paint.Align.CENTER)
+        mValuePaint!!.textSize = mShowValueSize
+        mValuePaint!!.textAlign = Paint.Align.CENTER
+//        mValuePaint!!.isFakeBoldText = true
 
         // 文字，只需要设置好文字的起始绘制位置即可
         mShowUnitSize = 30f
