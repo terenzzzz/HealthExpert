@@ -8,12 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.databinding.ActivityTrainBinding
-import com.example.healthExpert.view.calories.CaloriesAdd
 import com.example.healthExpert.view.calories.CaloriesSetting
 import com.example.healthExpert.widget.Ring
-import com.example.healthExpert.widget.RingWalking
 
 class Train : AppCompatActivity() {
     private lateinit var binding: ActivityTrainBinding
@@ -51,7 +48,7 @@ class Train : AppCompatActivity() {
     }
 
     private fun ringSetUp(view: View, value: Int){
-        val ring = view.findViewById<RingWalking>(R.id.calories)
+        val ring = view.findViewById<Ring>(R.id.calories)
         var calories = value
         ring.setSweepValue(calories.toFloat())
         ring.setValueText("1h 42m")

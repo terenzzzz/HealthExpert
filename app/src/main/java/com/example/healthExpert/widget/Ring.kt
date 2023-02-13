@@ -37,14 +37,30 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
             = 90f
     private var mSweepValue = 0f
 
-    // 单位文字
+    // 状态文字("Active")
+    private var mStatePaint: Paint? = null
+    private var mShowState //文本内容
+            : String? = null
+    private var mShowStateSize //文本大小
+            = 0f
+    private var mState = ""
+
+    // 单位文字("Training Goal: ")
     private var mUnitPaint: Paint? = null
     private var mShowUnit //文本内容
             : String? = null
     private var mShowUnitSize //文本大小
             = 0f
 
-    // 数值文字
+    // 单位数值("1 hours")
+    private var mUnitValuePaint: Paint? = null
+    private var mShowUnitValue //文本内容
+            : String? = null
+    private var mShowUnitValueSize //文本大小
+            = 0f
+    private var mUnitValue = ""
+
+    // 数值文字("1h 42m")
     private var mValuePaint: Paint? = null
     private var mShowValue //文本内容
             : String? = null
@@ -101,7 +117,15 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mCirclePaint!!.setStrokeWidth((length * 0.1).toFloat()) //圆弧宽度
         mCirclePaint!!.setStyle(Paint.Style.STROKE) //圆弧
 
-        // 文字，只需要设置好文字的起始绘制位置即可
+        // 状态文字，只需要设置好文字的起始绘制位置即可
+        mShowState = mState
+        mShowStateSize = 30f
+        mStatePaint = Paint()
+        mStatePaint!!.setColor(Color.GRAY)
+        mStatePaint!!.setTextSize(mShowStateSize)
+        mStatePaint!!.setTextAlign(Paint.Align.CENTER)
+
+        // 数值文字，只需要设置好文字的起始绘制位置即可
         mShowValue = mValue
         mShowValueSize = 70f
         mValuePaint = Paint()
@@ -109,11 +133,17 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         mValuePaint!!.textAlign = Paint.Align.CENTER
 //        mValuePaint!!.isFakeBoldText = true
 
-        // 文字，只需要设置好文字的起始绘制位置即可
+        // 单位文字，只需要设置好文字的起始绘制位置即可
         mShowUnitSize = 30f
         mUnitPaint = Paint()
         mUnitPaint!!.setTextSize(mShowUnitSize)
         mUnitPaint!!.setTextAlign(Paint.Align.CENTER)
+
+        // 单位数值文字，只需要设置好文字的起始绘制位置即可
+        mShowUnitValueSize = 30f
+        mUnitValuePaint = Paint()
+        mUnitValuePaint!!.setTextSize(mShowUnitValueSize)
+        mUnitValuePaint!!.setTextAlign(Paint.Align.CENTER)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -128,6 +158,20 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
             }
         }
 
+// 绘制数值文字
+        mShowState?.let {
+            mStatePaint?.let { it1 ->
+                canvas.drawText(
+                    it,
+                    0,
+                    mShowState!!.length,
+                    mCircleXY,
+                    mCircleXY-60,
+                    it1
+                )
+            }
+        }
+
         // 绘制数值文字
         mShowValue?.let {
             mValuePaint?.let { it1 ->
@@ -136,7 +180,7 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowValue!!.length,
                     mCircleXY,
-                    mCircleXY+10,
+                    mCircleXY+30,
                     it1
                 )
             }
@@ -150,7 +194,21 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
                     0,
                     mShowUnit!!.length,
                     mCircleXY,
-                    mCircleXY+mCircleXY/2,
+                    mCircleXY+80,
+                    it1
+                )
+            }
+        }
+
+        // 绘制单位数值文字
+        mShowUnitValue?.let {
+            mUnitValuePaint?.let { it1 ->
+                canvas.drawText(
+                    it,
+                    0,
+                    mShowUnitValue!!.length,
+                    mCircleXY,
+                    mCircleXY+120,
                     it1
                 )
             }
@@ -171,6 +229,20 @@ class Ring  // 如果不用后面的参数，就不需要重构后面的，直�
         this.initPaint()
         this.invalidate()
     }
+
+    fun setStateText(state: String) {
+        mState = "Level: $state"
+        this.initPaint()
+        this.invalidate()
+    }
+
+
+    fun setUnitValue(unit: String) {
+        this.mShowUnitValue = unit
+        this.initPaint()
+        this.invalidate()
+    }
+
 
     fun setBgColor(bgColor: Int) {
         this.bgColor = bgColor

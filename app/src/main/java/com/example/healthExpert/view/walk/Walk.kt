@@ -10,10 +10,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityWalkBinding
-import com.example.healthExpert.widget.RingWalking
+import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -55,7 +54,7 @@ class Walk : AppCompatActivity() {
 
     }
     private fun ringSetUp(view: View, value: Int){
-        val ring = view.findViewById<RingWalking>(R.id.calories)
+        val ring = view.findViewById<Ring>(R.id.calories)
         var calories = value
         ring.setSweepValue(calories.toFloat())
         ring.setValueText("8,339")

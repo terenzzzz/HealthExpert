@@ -105,12 +105,12 @@
                                     android:textSize="10dp"/>
                             </LinearLayout>
 
-                            <com.example.healthExpert.widget.RingWalking
+                            <com.example.healthExpert.widget.Ring
                                 android:id="@+id/calories"
                                 android:layout_width="150dp"
                                 android:layout_height="150dp"
                                 android:layout_gravity="center">
-                            </com.example.healthExpert.widget.RingWalking>
+                            </com.example.healthExpert.widget.Ring>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"

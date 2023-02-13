@@ -92,6 +92,7 @@ class Calories : CaloriesCompatActivity() {
         ring.setSweepValue(0f)
         ring.setValueText("0")
         ring.setUnit("KCAL To Limit")
+        ring.setStateText("Active")
         ring.setBgColor(Color.argb(20,0, 0, 0))
         ring.setSweepColor(Color.rgb(255, 205, 105))
         return ring
