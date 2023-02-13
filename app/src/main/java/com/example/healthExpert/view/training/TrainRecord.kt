@@ -4,17 +4,22 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainRecordBinding
+import com.example.healthExpert.view.calories.CaloriesAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.squareup.picasso.Picasso
 
-class TrainRecord : AppCompatActivity(), OnMapReadyCallback {
+class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityTrainRecordBinding
     private lateinit var mMap: GoogleMap
 
@@ -28,17 +33,15 @@ class TrainRecord : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         binding = ActivityTrainRecordBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.trainingViewmodel = trainingsViewModel
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
 
 
 
@@ -52,6 +55,24 @@ class TrainRecord : AppCompatActivity(), OnMapReadyCallback {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
     }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        trainingsViewModel.weather.observe(this) { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                val imageUrl = item.icon
+                Picasso.get().load(imageUrl).into(binding.weatherIcon)
+            }
+
+        }
+        trainingsViewModel.getWeather(53.3848,-1.4740)
+
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -68,8 +89,8 @@ class TrainRecord : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(53.3817, -1.4819)
         mMap.addMarker(
             MarkerOptions()
-            .position(sydney)
-            .title("Marker in Diamond"))
+                .position(sydney)
+                .title("Marker in Diamond"))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f))
     }
 }
