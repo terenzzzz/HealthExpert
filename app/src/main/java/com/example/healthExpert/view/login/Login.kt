@@ -33,7 +33,7 @@ class Login : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setBackgroundDrawable(null)
+//        window.setBackgroundDrawable(null)
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,8 +44,8 @@ class Login : AppCompatActivity() {
         val password = sharedPreferences.getString("password","")
         val token = sharedPreferences.getString("token","")
         if (token != null && token.isNotEmpty()) {
-            finish()
             Home.startFn(this)
+            finish()
         }
         if (email != ""){
             binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
