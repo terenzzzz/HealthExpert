@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,6 +24,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
+import java.time.LocalDateTime
+import java.util.*
 
 class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityTrainRecordBinding
@@ -35,6 +40,8 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private var id:Int = -1
     private var type:String = ""
     private var title:String = ""
+    private var startTime = SimpleDateFormat("HH:mm").format(Date())
+    private lateinit var endTime:String
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
@@ -54,6 +61,8 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
         binding.trainingViewmodel = trainingsViewModel
         setContentView(binding.root)
+
+        Log.d("----------------------------------", startTime.toString())
 
         // get Data from add Activity
         val bundle = intent.extras
@@ -113,8 +122,13 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         })
 
         binding.stopBtn.setOnClickListener (View.OnClickListener { view ->
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//            finish()
+//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            endTime = SimpleDateFormat("HH:mm").format(Date())
+            val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
+            Log.d("TrainRecord", locationJson)
+            trainingsViewModel.addTraining(type,title,"0","0","0",
+                startTime,endTime,locationJson)
         })
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.healthExpert.model.Location
 import com.example.healthExpert.model.Trainings
 import com.example.healthExpert.model.Weather
 import com.example.healthExpert.repository.TrainingsRepository
@@ -41,6 +42,36 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             trainings.postValue(updatedData)
         }
     }
+
+    fun addTraining(type:String,
+                    title:String,
+                    distance:String,
+                    speed:String,
+                    caloriesBurn:String,
+                    startTime:String,
+                    endTime:String,
+                    locations: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                val insertId = repository.addTraining(token,type, title, distance,
+                    speed, caloriesBurn, startTime, endTime)
+                repository.addLocations(token, insertId, locations)
+            }
+        }
+    }
+
+    fun addLocations(insertId:Int,locations:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.addLocations(token,insertId, locations)
+                Log.d("addLocations", "addLocations: ")
+            }
+        }
+    }
+
+
 
     fun getWeather(latitude:Double,longitude:Double){
         viewModelScope.launch(Dispatchers.IO) {
