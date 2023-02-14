@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="userViewModel"
+            type="com.example.healthExpert.viewmodels.UserViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/main"
+        tools:context=".view.story.StoryActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="30dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/back"/>
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/avatar" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/radius_bg"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    app:cardElevation="0dp"
+                    app:contentPadding="30dp"
+                    app:contentPaddingTop="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Holiday Stress: Why Now May be the Best Time to Treat Yourself"
+                            android:textAlignment="center"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="2022-10-01"
+                                android:textAlignment="center"
+                                android:textSize="12dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="terenzzzz"
+                                android:textAlignment="center"
+                                android:textSize="12dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginVertical="10dp"
+                            android:src="@drawable/new1"
+                            android:scaleType="fitXY"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="As exciting, fun, and joyful as the holidays can be, it tends to be quite stressful for many people.
+
+Individuals that feel pressured by work or home demands can find themselves in what feels like a never-ending cycle of stress and tension.
+
+However, a new study has found that when stressed, tense people treated themselves with a small gift or indulgence, they were more relaxed, happier, and felt less crunched for time.
+
+Ironically, the study also found that when people are tense, they are less likely to self-gift or treat themselves, believing they were too stressed to reap the benefits.
+
+The key to getting out of the cycle of stress and tension, according to the research, is for individuals to recognize that it’s during that stressful time period when they need it the most.
+
+Psychotherapist and registered social worker Danika Syrja-McNally MSW, RSW in Markham, Ontario, says she regularly observes this in her practice. In fact, she finds that clients are often burnt out and just trying to get through the day.
+
+While it’s difficult to think of creating space for self-gifting, Syrja-McNally finds that when they do, they are less burnt out and more productive.
+
+As a psychotherapist, sometimes part of my work with clients is giving them permission to do something for themselves, and after that initial push, they see the benefits, and it gets easier to incorporate this into their regular routine,” she said."
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
