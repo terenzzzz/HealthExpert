@@ -122,13 +122,17 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         })
 
         binding.stopBtn.setOnClickListener (View.OnClickListener { view ->
-//            finish()
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             endTime = SimpleDateFormat("HH:mm").format(Date())
-            val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
-            Log.d("TrainRecord", locationJson)
-            trainingsViewModel.addTraining(type,title,"0","0","0",
-                startTime,endTime,locationJson)
+            if (locations.size != 0){
+                val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
+                Log.d("TrainRecord", locationJson)
+                trainingsViewModel.addTraining(type,title,"0","0","0",
+                    startTime,endTime,locationJson)
+                finish()
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }else{
+                Snackbar.make(binding.root, "No Data Collected!", Snackbar.LENGTH_LONG).show()
+            }
         })
     }
 
