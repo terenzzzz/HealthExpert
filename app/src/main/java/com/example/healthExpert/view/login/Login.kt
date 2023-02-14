@@ -25,7 +25,6 @@ class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     companion object {
-        var loginActivity: Login? = null
         fun startFn(context: Context) {
             val intent =
                 Intent(context, Login::class.java)
@@ -37,18 +36,24 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loginActivity = this
 
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
         val email = sharedPreferences.getString("email","")
         val password = sharedPreferences.getString("password","")
+        val token = sharedPreferences.getString("token","")
+        if (token != null && token.isNotEmpty()) {
+            finish()
+            Home.startFn(this)
+        }
         if (email != ""){
             binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
         }
         if (password != ""){
             binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
         }
+
+
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("Login", "Loginbtn: Clicked")
