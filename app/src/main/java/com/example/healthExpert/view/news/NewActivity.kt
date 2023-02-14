@@ -1,4 +1,4 @@
-package com.example.healthExpert.view.story
+package com.example.healthExpert.view.news
 
 import android.app.Activity
 import android.content.Context
@@ -7,12 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityCaloriesBinding
-import com.example.healthExpert.databinding.ActivityStoryBinding
+import com.example.healthExpert.databinding.ActivityNewBinding
 import com.example.healthExpert.view.calories.Calories
 
-class StoryActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityStoryBinding
+class NewActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityNewBinding
     private lateinit var recyclerView: RecyclerView
 
     companion object {
@@ -26,7 +25,7 @@ class StoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityStoryBinding.inflate(layoutInflater)
+        binding = ActivityNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }

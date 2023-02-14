@@ -46,3 +46,4 @@ class History : HistoryCompatFragment() {
         newFragment.show(requireActivity().supportFragmentManager, "datePicker")
     }
 }
+

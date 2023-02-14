@@ -15,10 +15,6 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
         fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
 
-
-
-
-
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

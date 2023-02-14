@@ -14,10 +14,9 @@ import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.healthExpert.view.home.fragment.History
-import com.example.healthExpert.viewmodels.HistoryViewModel
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
-import com.example.login.view.homePage.fragment.Sources
+import com.example.healthExpert.view.home.fragment.Sources
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
