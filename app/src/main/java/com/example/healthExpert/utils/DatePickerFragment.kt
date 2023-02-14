@@ -3,11 +3,13 @@ package com.example.healthExpert.utils
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class DatePickerFragment(var showView: Button) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current date as the default date in the picker
@@ -22,5 +24,13 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         // Do something with the date chosen by the user
+
+        var newMonth = month + 1
+        var newMonthStr = newMonth.toString()
+        if(newMonth<10){
+            newMonthStr = "0$newMonth"
+        }
+        showView.text= "$year-$newMonthStr-$day"
+
     }
 }

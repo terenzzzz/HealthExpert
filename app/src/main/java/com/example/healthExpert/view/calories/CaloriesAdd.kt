@@ -1,24 +1,14 @@
 package com.example.healthExpert.view.calories
 
-import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.DatePicker
-import androidx.fragment.app.DialogFragment
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesAddBinding
-import com.example.healthExpert.databinding.ActivityCaloriesBinding
-import com.example.healthExpert.utils.DatePickerFragment
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
-import kotlin.math.log
 
 class CaloriesAdd : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesAddBinding
