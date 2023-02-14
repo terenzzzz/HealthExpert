@@ -94,9 +94,9 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/walk"/>
                                 <TextView
+                                    android:id="@+id/walking_btn_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
                                     android:gravity="center"
                                     android:text="Walking"
                                     android:textSize="15dp"
@@ -144,6 +144,7 @@
                             android:layout_margin="1dp"
                             app:cardCornerRadius="15dp"
                             app:contentPadding="10dp"
+
                             app:layout_constraintHorizontal_chainStyle="spread"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/card_B"

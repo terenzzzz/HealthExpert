@@ -32,7 +32,6 @@ class CaloriesAdd : CaloriesCompatActivity() {
             selectedType = binding.intakeType.text.toString()
             view.background = this.getDrawable(R.drawable.radius_btn_green)
             binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_gray)
-
         })
 
         binding.burnBtn.setOnClickListener(View.OnClickListener { view ->

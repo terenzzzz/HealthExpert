@@ -32,6 +32,9 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private var lastLocation: Location? = null
     private var headMarker:Marker? = null
     private var locations: MutableList<Location> = mutableListOf()
+    private var id:Int = -1
+    private var type:String = ""
+    private var title:String = ""
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
@@ -51,6 +54,17 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
         binding.trainingViewmodel = trainingsViewModel
         setContentView(binding.root)
+
+        // get Data from add Activity
+        val bundle = intent.extras
+        if (bundle != null) {
+            id = bundle.getInt("id")
+            type = bundle.getString("type").toString()
+            title = bundle.getString("title").toString()
+            Log.d("TrainRecord", "id: $id")
+            Log.d("TrainRecord", "type: $type")
+            Log.d("TrainRecord", "tile: $title")
+        }
 
         // Call Service
         if (ActivityCompat.checkSelfPermission(this,
