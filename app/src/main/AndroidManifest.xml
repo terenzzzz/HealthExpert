@@ -24,7 +24,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo"
         android:label="HealthyExpert"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Main"
         android:usesCleartextTraffic="true"
@@ -132,7 +132,7 @@
         <activity
             android:name=".view.login.Login"
             android:exported="true"
-            android:theme="@style/Theme.Main" >
+            android:theme="@style/AppTheme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
