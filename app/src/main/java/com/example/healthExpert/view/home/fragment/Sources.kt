@@ -3,6 +3,7 @@ package com.example.healthExpert.view.home.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,7 +45,7 @@ class Sources : SourcesCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.context!!)
+                recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.requireContext())
             }
         })
 
@@ -77,12 +78,18 @@ class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>
             val intent = Intent(activity, NewActivity::class.java)
             val bundle = Bundle()
             bundle.putInt("id", sourcesSet.value!![position].id)
+            bundle.putString("title", sourcesSet.value!![position].Title)
+            bundle.putString("content", sourcesSet.value!![position].Content)
+            bundle.putString("date", sourcesSet.value!![position].Date.toString())
+            bundle.putString("author", sourcesSet.value!![position].Author)
+            bundle.putString("image", sourcesSet.value!![position].Image)
             intent.putExtras(bundle)
             activity.startActivity(intent)
+
         })
         Picasso.get().load(sourcesSet.value?.get(position)?.Image).into(holder.image);
         holder.title.text = sourcesSet.value?.get(position)?.Title ?: ""
-        holder.date.text = sourcesSet.value?.get(position)?.Date.toString()
+        holder.date.text = SimpleDateFormat("YYYY-mm-dd").format(sourcesSet.value?.get(position)?.Date)
     }
 
     override fun getItemCount()= sourcesSet.value?.size ?:0

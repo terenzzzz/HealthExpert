@@ -32,4 +32,26 @@ class NewsRepository {
         }
         return news
     }
+
+    // 同步请求
+    fun getNewInfo(id:Int): MutableList<News> {
+        var news: MutableList<News> = mutableListOf()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/api/news?id=$id")
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: NewsParse = gson.fromJson(response.body!!.string(), NewsParse::class.java)
+            if (parsed.data != null){
+                for (newsInfo in parsed.data!!){
+                    news.add(newsInfo)
+                }
+            }
+            response.close()
+            Log.d("NewsRepo", news.toString())
+        }
+        return news
+    }
 }

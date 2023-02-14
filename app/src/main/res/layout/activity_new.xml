@@ -62,9 +62,10 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Holiday Stress: Why Now May be the Best Time to Treat Yourself"
+                            android:text=""
                             android:textAlignment="center"
                             android:textSize="20dp"
                             android:textStyle="bold"
@@ -75,44 +76,33 @@
                             android:layout_marginTop="20dp"
                             android:orientation="horizontal">
                             <TextView
+                                android:id="@+id/date"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="2022-10-01"
+                                android:text=""
                                 android:textAlignment="center"
                                 android:textSize="12dp"/>
                             <TextView
+                                android:id="@+id/author"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="terenzzzz"
+                                android:text=""
                                 android:textAlignment="center"
                                 android:textSize="12dp"/>
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/image"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:layout_marginVertical="10dp"
-                            android:src="@drawable/new1"
                             android:scaleType="fitXY"/>
                         <TextView
+                            android:id="@+id/content"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="As exciting, fun, and joyful as the holidays can be, it tends to be quite stressful for many people.
-
-Individuals that feel pressured by work or home demands can find themselves in what feels like a never-ending cycle of stress and tension.
-
-However, a new study has found that when stressed, tense people treated themselves with a small gift or indulgence, they were more relaxed, happier, and felt less crunched for time.
-
-Ironically, the study also found that when people are tense, they are less likely to self-gift or treat themselves, believing they were too stressed to reap the benefits.
-
-The key to getting out of the cycle of stress and tension, according to the research, is for individuals to recognize that it’s during that stressful time period when they need it the most.
-
-Psychotherapist and registered social worker Danika Syrja-McNally MSW, RSW in Markham, Ontario, says she regularly observes this in her practice. In fact, she finds that clients are often burnt out and just trying to get through the day.
-
-While it’s difficult to think of creating space for self-gifting, Syrja-McNally finds that when they do, they are less burnt out and more productive.
-
-As a psychotherapist, sometimes part of my work with clients is giving them permission to do something for themselves, and after that initial push, they see the benefits, and it gets easier to incorporate this into their regular routine,” she said."
+                            android:text="Loading Error"
                             android:textAlignment="textStart"
                             android:textColor="@color/black"/>
                     </LinearLayout>
