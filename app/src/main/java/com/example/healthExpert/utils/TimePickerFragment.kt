@@ -24,6 +24,14 @@ class TimePickerFragment(var showView: Button) : DialogFragment(), TimePickerDia
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         // Do something with the time chosen by the user
-        showView.text= "$hourOfDay:$minute"
+        var hour = hourOfDay.toString()
+        var min = minute.toString()
+        if (hourOfDay<10){
+            hour = "0$hourOfDay"
+        }
+        if (minute<10){
+            min = "0$minute"
+        }
+        showView.text= "$hour:$min"
     }
 }

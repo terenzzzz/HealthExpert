@@ -118,12 +118,6 @@
                                     android:layout_height="150dp"
                                     android:layout_gravity="center" />
 
-<!--                                <com.example.healthExpert.widget.RingView-->
-<!--                                    android:id="@+id/calories"-->
-<!--                                    android:layout_width="150dp"-->
-<!--                                    android:layout_height="150dp"-->
-<!--                                    android:layout_gravity="center"/>-->
-
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

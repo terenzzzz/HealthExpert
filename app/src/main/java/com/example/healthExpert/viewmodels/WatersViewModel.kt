@@ -29,6 +29,15 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
+    fun addWaters(type:String,title:String,content:String,value:Int,time:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.addCalories(token,type,title,content,value,time)
+            }
+        }
+    }
+
 
 }
 

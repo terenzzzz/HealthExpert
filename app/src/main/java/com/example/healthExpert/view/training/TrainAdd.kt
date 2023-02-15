@@ -74,7 +74,7 @@ class TrainAdd : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
     }
-
+    // TODO get rid of cardABCD param
     private fun  setSelectedCard(type: String, view: View, cardA: View, cardB: View, cardC: View) {
         selectedType = type
         cardA.background = cardA.context.getDrawable(R.drawable.radius_btn_gray)
