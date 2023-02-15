@@ -82,6 +82,18 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             }
         }
     }
+//
+    fun deleteTraining(id:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                val resStatus = repository.deleteTraining(token,id)
+                if (resStatus == 200){
+                    repository.deleteTrainingLocation(token,id)
+                }
+            }
+        }
+    }
 
 
 

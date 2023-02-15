@@ -93,7 +93,12 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
             }
 
         }
-        
+        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
+            trainingsViewModel.deleteTraining(id)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -105,7 +110,7 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
     private fun addMarker(latitude:Double,longitude:Double){
         val point = LatLng(latitude, longitude)
         mMap.addMarker(MarkerOptions().position(point))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15f))
     }
 
     /**

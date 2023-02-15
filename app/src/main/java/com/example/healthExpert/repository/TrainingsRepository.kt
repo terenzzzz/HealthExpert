@@ -149,4 +149,49 @@ class TrainingsRepository {
         }
         return resStatus
     }
+
+
+    fun deleteTraining(token:String,id: Int): Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id.toString())
+            .build()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/deleteTraining")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            resStatus = parsed.status?:-1
+            Log.w("deleteTraining", "message: " + parsed.message)
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun deleteTrainingLocation(token:String,idTraining: Int): Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("idTraining", idTraining.toString())
+            .build()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/deleteTrainingLocation")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            resStatus = parsed.status?:-1
+            Log.w("deleteTrainingLocation", "message: " + parsed.message)
+            response.close()
+        }
+        return resStatus
+    }
+
+
 }
