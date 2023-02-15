@@ -6,6 +6,7 @@ import com.example.healthExpert.model.Location
 import com.example.healthExpert.model.Trainings
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.CaloriesParse
+import com.example.healthExpert.parse.LocationParse
 import com.example.healthExpert.parse.TrainingsParse
 import com.google.gson.Gson
 import okhttp3.FormBody
@@ -37,6 +38,57 @@ class TrainingsRepository {
         }
         return trainings
     }
+
+    // 同步请求
+    fun getTrainingInfo(token:String,id:Int): MutableList<Trainings> {
+        var trainings: MutableList<Trainings> = mutableListOf()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/trainingInfo?id=$id")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
+            Log.w("TrainingRepository", "getTrainingInfo: " + parsed.message)
+            if (parsed.data != null){
+                for (training in parsed.data!!){
+                    trainings.add(training)
+                }
+            }
+            Log.d("getTrainingInfo", trainings.toString())
+            response.close()
+        }
+        return trainings
+    }
+
+    // 同步请求
+    fun getTrainingLocations(token:String,idTraining:Int): MutableList<Location> {
+        var locations: MutableList<Location> = mutableListOf()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/trainingLocation?idTraining=$idTraining")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: LocationParse = gson.fromJson(response.body!!.string(), LocationParse::class.java)
+            if (parsed.data != null){
+                for (training in parsed.data!!){
+                    var newLocation = Location(training.latitude!!,training.longitude!!)
+                    locations.add(newLocation)
+                }
+            }
+            Log.d("getTrainingLocations", locations.toString())
+
+            response.close()
+        }
+        return locations
+    }
+
+
 
     // 同步请求
     fun addTraining(token:String,

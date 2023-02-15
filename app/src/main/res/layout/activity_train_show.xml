@@ -124,7 +124,7 @@
                                             android:textColor="@color/black"
                                             android:textStyle="bold"/>
                                         <TextView
-                                            android:id="@+id/speed"
+                                            android:id="@+id/duration"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
@@ -165,6 +165,7 @@
                                             android:textColor="@color/black"
                                             android:textStyle="bold"/>
                                         <TextView
+                                            android:id="@+id/speed"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
@@ -206,6 +207,7 @@
                                             android:textColor="@color/black"
                                             android:textStyle="bold"/>
                                         <TextView
+                                            android:id="@+id/calories"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"

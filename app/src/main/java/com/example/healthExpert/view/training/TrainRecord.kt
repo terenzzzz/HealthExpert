@@ -147,7 +147,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                 val imageUrl = item.icon
                 Picasso.get().load(imageUrl).into(binding.weatherIcon)
             }
-
         }
         trainingsViewModel.getWeather(53.3848,-1.4740)
     }
@@ -227,5 +226,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        Log.d("onMapReady", "onMapReady: ")
     }
 }

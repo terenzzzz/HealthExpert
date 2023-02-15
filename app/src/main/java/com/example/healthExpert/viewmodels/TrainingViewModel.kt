@@ -27,6 +27,8 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
 
     var trainings = MutableLiveData<MutableList<Trainings>?>()
+    var trainingInfo = MutableLiveData<MutableList<Trainings>?>()
+    var trainingLocations = MutableLiveData<MutableList<Location>?>()
     var weather = MutableLiveData<Weather>()
     var totalDistance = MutableLiveData<Float>()
     var totalBurn = MutableLiveData<Int>()
@@ -61,12 +63,22 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun addLocations(insertId:Int,locations:String){
+    fun getTrainingInfo(id:Int){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.addLocations(token,insertId, locations)
-                Log.d("addLocations", "addLocations: ")
+                val updateData = repository.getTrainingInfo(token,id)
+                trainingInfo.postValue(updateData)
+            }
+        }
+    }
+
+    fun getTrainingLocations(idTraining:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                val updateData =repository.getTrainingLocations(token,idTraining)
+                trainingLocations.postValue(updateData)
             }
         }
     }

@@ -4,20 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.TrainingsCompatActivity
-import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.databinding.ActivityTrainShowBinding
 import com.example.healthExpert.model.Location
-import com.example.healthExpert.view.calories.Calories
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
 
 class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityTrainShowBinding
@@ -40,27 +40,72 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
         binding.trainViewmodel = trainingsViewModel
         setContentView(binding.root)
 
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
         val bundle = intent.extras
         if (bundle != null) {
             id = bundle.getInt("id")
             Log.d("TrainShow", "id: $id")
+            trainingsViewModel.getTrainingInfo(id)
+            trainingsViewModel.getTrainingLocations(id)
+        }else{
+            Snackbar.make(binding.root, "Cant get the Id!", Snackbar.LENGTH_LONG).show()
         }
 
+        trainingsViewModel.trainingInfo.observe(this) { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                val startTime = SimpleDateFormat("HH:mm").format(item[0].StartTime)
+                val endTime = SimpleDateFormat("HH:mm").format(item[0].EndTime)
+                binding.duration.text = "$startTime - $endTime"
+                binding.title.text = item[0].Title
+                binding.speed.text = "${item[0].Speed} km/h"
+                binding.calories.text = "${item[0].CaloriesBurn} kcal"
+                when(item[0].Type){
+                    "Walking" -> binding.type.setImageResource(R.drawable.walk)
+                    "Running" -> binding.type.setImageResource(R.drawable.runner)
+                    "Cycling" -> binding.type.setImageResource(R.drawable.cycling)
+                }
+            }
+
+        }
+
+
+        trainingsViewModel.trainingLocations.observe(this) { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                var lastLocation: Location? = null
+                for((index, location) in list.withIndex()){
+                    if (index == 0){
+                        addMarker(location.latitude,location.longitude)
+                    }else{
+                        if (lastLocation != null) {
+                            drawLine(lastLocation,location)
+                            if (index == list.lastIndex){
+                                addMarker(location.latitude,location.longitude)
+                            }
+                        }
+                    }
+                    lastLocation = location
+                }
+            }
+
+        }
+        
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        // TODO Draw line into map
-        mMap = p0
 
-    }
+
     private fun addMarker(latitude:Double,longitude:Double){
         val point = LatLng(latitude, longitude)
         mMap.addMarker(MarkerOptions().position(point))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12f))
     }
 
     /**
@@ -75,5 +120,18 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
                 .add(LatLng(startLocation.latitude, startLocation.longitude), LatLng(endLocation.latitude, endLocation.longitude))
                 .addSpan(StyleSpan(Color.BLUE))
         )
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
     }
 }
