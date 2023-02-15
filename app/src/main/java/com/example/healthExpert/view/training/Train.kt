@@ -122,11 +122,11 @@ class TrainingsAdapter(private val trainingsSet: MutableLiveData<MutableList<Tra
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener { view ->
             Log.w("trainingsSet", trainingsSet.value!![position].id.toString() )
-//            val intent = Intent(activity, Train::class.java)
-//            val bundle = Bundle()
-//            bundle.putInt("id", trainingsSet.value!![position].id)
-//            intent.putExtras(bundle)
-//            activity.startActivity(intent)
+            val intent = Intent(activity, TrainShow::class.java)
+            val bundle = Bundle()
+            bundle.putInt("id", trainingsSet.value!![position].id)
+            intent.putExtras(bundle)
+            activity.startActivity(intent)
         })
         when (trainingsSet.value!![position].Type) {
             "Walking" -> holder.type.setImageResource(R.drawable.walk)
