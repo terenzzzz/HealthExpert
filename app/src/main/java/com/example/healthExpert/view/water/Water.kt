@@ -35,6 +35,8 @@ class Water : WatersCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWaterBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.waterViewmodel = watersViewModel
         setContentView(binding.root)
 
 
@@ -80,6 +82,7 @@ class Water : WatersCompatActivity() {
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
+                watersViewModel.calcDashboard()
             }
 
         })

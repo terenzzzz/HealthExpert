@@ -20,6 +20,9 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var waters = MutableLiveData<MutableList<Water>?>()
     var watersInfo = MutableLiveData<MutableList<Water>?>()
+    var totalWater = MutableLiveData<Int>()
+    // TODO combine goal and calculate
+    var rate = MutableLiveData<Int>()
 
 
     fun getWaters(){
@@ -105,7 +108,14 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
             }
         }
     }
-
+    fun calcDashboard(){
+        var totalWater = 0
+        for (item in waters.value!!){
+            totalWater += item.Value
+        }
+        this.rate.value = totalWater.div(80)
+        this.totalWater.value = totalWater
+    }
 
 }
 
