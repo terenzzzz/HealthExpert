@@ -35,6 +35,10 @@
             android:foregroundServiceType="location" />
 
         <activity
+            android:name=".view.water.WaterEdit"
+            android:exported="false"/>
+
+        <activity
             android:name=".view.training.TrainShow"
             android:exported="false">
         </activity>

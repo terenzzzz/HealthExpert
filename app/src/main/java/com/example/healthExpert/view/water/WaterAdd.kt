@@ -24,7 +24,6 @@ class WaterAdd : WatersCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWaterAddBinding.inflate(layoutInflater)

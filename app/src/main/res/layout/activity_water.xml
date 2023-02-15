@@ -155,6 +155,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/add200"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     app:cardCornerRadius="10dp"
@@ -181,6 +182,7 @@
                                 </androidx.cardview.widget.CardView>
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/add330"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     app:cardCornerRadius="10dp"
@@ -212,6 +214,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/add500"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     app:cardCornerRadius="10dp"
@@ -238,6 +241,7 @@
                                 </androidx.cardview.widget.CardView>
 
                                 <androidx.cardview.widget.CardView
+                                    android:id="@+id/add1000"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     app:cardCornerRadius="10dp"

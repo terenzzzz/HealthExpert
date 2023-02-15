@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityWaterBinding
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
+import java.util.*
 
 class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
@@ -40,6 +42,23 @@ class Water : WatersCompatActivity() {
         recyclerView = findViewById (R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
+        binding.add200.setOnClickListener (View.OnClickListener { view ->
+            addShortcut(200)
+        })
+
+        binding.add330.setOnClickListener (View.OnClickListener { view ->
+            addShortcut(330)
+        })
+
+        binding.add500.setOnClickListener (View.OnClickListener { view ->
+            addShortcut(500)
+        })
+
+        binding.add1000.setOnClickListener (View.OnClickListener { view ->
+            addShortcut(1000)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -56,7 +75,6 @@ class Water : WatersCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         watersViewModel.waters.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
@@ -65,6 +83,20 @@ class Water : WatersCompatActivity() {
             }
 
         })
+        watersViewModel.getWaters()
+    }
+
+    private fun addShortcut(value:Int){
+        var type = ""
+        when(value){
+            200 -> type = "Coffee"
+            330 -> type = "EnergyDrink"
+            500 -> type = "Water"
+            1000 -> type = "ColdDrink"
+        }
+        watersViewModel.addWaters(type,type,
+            type,value, SimpleDateFormat("HH:mm").format(Date()))
+        Snackbar.make(binding.root, "Record Added", Snackbar.LENGTH_LONG).show()
         watersViewModel.getWaters()
     }
 }
@@ -90,12 +122,12 @@ class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.exampl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener { view ->
-            Log.w("Calories", waterSet.value!![position].id.toString() )
-//            val intent = Intent(activity, CaloriesEdit::class.java)
-//            val bundle = Bundle()
-//            bundle.putInt("id", caloriesSet.value!![position].id)
-//            intent.putExtras(bundle)
-//            activity.startActivity(intent)
+            val intent = Intent(activity, WaterEdit::class.java)
+            val bundle = Bundle()
+            bundle.putInt("id", waterSet.value!![position].id)
+
+            intent.putExtras(bundle)
+            activity.startActivity(intent)
         })
         if (waterSet.value != null){
             if (waterSet.value!![position] != null){
