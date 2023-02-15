@@ -6,10 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityWaterBinding
 import com.example.healthExpert.view.sidebar.Sidebar
 
-class Water : AppCompatActivity() {
+class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
 
     companion object {
@@ -25,6 +26,8 @@ class Water : AppCompatActivity() {
         binding = ActivityWaterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        watersViewModel.getWaters()
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -37,6 +40,5 @@ class Water : AppCompatActivity() {
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
             WaterAdd.startFn(this)
         })
-
     }
 }
