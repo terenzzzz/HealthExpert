@@ -11,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
+import com.example.healthExpert.service.LocationService
+import com.example.healthExpert.service.StepService
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.healthExpert.view.home.fragment.History
@@ -40,6 +42,9 @@ class Home : UserCompatActivity() {
         setContentView(binding.root)
         initPage()
 
+        // TODO Walking Service
+        callService()
+
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
@@ -52,6 +57,55 @@ class Home : UserCompatActivity() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        Log.w("Home", "onResume: ")
+        userViewModel.getUserInfo()
+
+        userViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+            }
+        })
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.w("Home", "onDestroy: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.w("Home", "onStop: ")
+    }
+
+    /**
+     * function to call the Location Service to start
+     */
+    private fun callService(){
+        Log.d("Train Record", "callService: ")
+        Intent(this, StepService::class.java).apply {
+            startService(this)
+        }
+    }
+
+    /**
+     * function to stop Service when is no longer needed
+     */
+    private fun stopService(){
+        Intent(this, LocationService::class.java).apply {
+            stopService(this)
+        }
+
+    }
 
     private fun initFragment(): MutableList<Fragment> {
         val overall = Overall()
@@ -95,40 +149,5 @@ class Home : UserCompatActivity() {
             tab.icon = getDrawable(tabIcons[position])
         }.attach()
     }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.w("Home", "onRestart: ")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.w("Home", "onResume: ")
-        userViewModel.getUserInfo()
-
-        userViewModel.user.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                if (item.Gender == "Male"){
-                    binding.avatar.setImageResource(R.drawable.avatar)
-                }else{
-                    binding.avatar.setImageResource(R.drawable.hannah)
-                }
-            }
-        })
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.w("Home", "onDestroy: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.w("Home", "onStop: ")
-    }
-
 
 }

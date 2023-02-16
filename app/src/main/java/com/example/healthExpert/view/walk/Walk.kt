@@ -1,22 +1,14 @@
 package com.example.healthExpert.view.walk
 
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventCallback
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WalkCompatActivity
 import com.example.healthExpert.databinding.ActivityWalkBinding
@@ -27,18 +19,17 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
+import java.text.SimpleDateFormat
+import java.util.*
+
+import kotlin.collections.ArrayList
 
 
 class Walk : WalkCompatActivity() {
     private lateinit var binding: ActivityWalkBinding
+    private lateinit var ring: Ring
+    private lateinit var barChart: BarChart
 
-    private lateinit var sensorManager: SensorManager
-    private var stepSensor:Sensor? = null
-    private lateinit var stepCallback:SensorEventCallback
-    private var startingSteps = 0f
 
     companion object {
         fun startFn(context: Context) {
@@ -57,35 +48,12 @@ class Walk : WalkCompatActivity() {
         binding.walkViewmodel = walkViewModel
         setContentView(binding.root)
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION)
-            != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
-                5)
-        }else{
-            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            Log.d("Walk", sensorManager.toString())
-            stepCallback = object : SensorEventCallback(){
-                override fun onSensorChanged(event: SensorEvent) {
-                    val steps = event.values[0]
-                    Log.d("Walk", "onSensorChanged: $steps")
-                }
-            }
-            stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-            Log.d("Walk", "stepSensor: $stepSensor")
-            sensorManager.registerListener(stepCallback,stepSensor,SensorManager.SENSOR_DELAY_NORMAL)
-        }
 
 
 
+        ring = ringSetUp(binding.calories)
+        barChart = walkChart(binding.walkChart)
 
-
-
-
-        ringSetUp(binding.calories,84)
-        walkChart(binding.walkChart)
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
@@ -97,66 +65,102 @@ class Walk : WalkCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         })
 
-
     }
-    private fun ringSetUp(view: View, value: Int){
+
+    override fun onResume() {
+        super.onResume()
+
+
+        walkViewModel.walk.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null){
+                ring.setValueText(item.TotalSteps.toString())
+                ring.setSweepValue(item.TotalSteps.div(100).toFloat())
+            }
+        })
+
+        walkViewModel.walkSteps.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null){
+                val entries: MutableList<BarEntry> = ArrayList()
+                val map = mutableMapOf<String, Int>()
+                for (ws in list){
+                    val hour = SimpleDateFormat("HH").format(ws.Time)
+                    if (map.containsKey(hour)){
+                        map[hour] = map[hour]!!.plus(ws.Steps)
+                    }else{
+                        map[hour] = ws.Steps
+                    }
+
+                }
+                Log.d("Walk", map.toString())
+
+                for (i in 0..23) {
+                    for ((key, value) in map) {
+                        if (i == key.toInt()){
+                            entries.add(BarEntry(i.toFloat(), value.toFloat()))
+                        }else{
+                            entries.add(BarEntry(i.toFloat(), 0f))
+                        }
+                    }
+                }
+                barChart.data = setBarchartData(entries)
+            }
+        })
+        getTodayDate()?.let { walkViewModel.getWalks(it) }
+        walkViewModel.getWalkSteps(1)
+    }
+
+
+    private fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
-        var calories = value
-        ring.setSweepValue(calories.toFloat())
-        ring.setValueText("8,339")
+        ring.setSweepValue(84f)
+        ring.setValueText("0")
         ring.setStateText("Active")
         ring.setUnit("Steps Goal: ")
         ring.setUnitValue("10,000")
         ring.setBgColor(Color.argb(20,0, 0, 0))
         ring.setSweepColor(Color.rgb(0, 0, 0))
+        return ring
     }
 
-    private fun walkChart(view: View){
+    private fun getTodayDate(): String? {
+        val date = Date(System.currentTimeMillis())
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        return sdf.format(date)
+    }
+
+    private fun walkChart(view: View): BarChart {
         // Find View
         val barChart = view.findViewById<BarChart>(R.id.walkChart)
         // Init data
         val entries: MutableList<BarEntry> = ArrayList()
-        entries.add(BarEntry(0f, 100f))
-        entries.add(BarEntry(1f, 50f))
-        entries.add(BarEntry(2f, 300f))
-        entries.add(BarEntry(3f, 120f))
-        entries.add(BarEntry(4f, 100f))
-        entries.add(BarEntry(5f, 1400f))
-        entries.add(BarEntry(6f, 2000f))
-        entries.add(BarEntry(7f, 700f))
-        entries.add(BarEntry(8f, 3243f))
-        entries.add(BarEntry(9f, 300f))
-        entries.add(BarEntry(10f, 143f))
-        entries.add(BarEntry(11f, 140f))
-
-
         // Set data
-        val set = BarDataSet(entries, "Walking Steps")
-        val data = BarData(set)
-
-
-        // Create a list of x-axis labels
-        val xAxisLabels = listOf("0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24")
-
+        val data = setBarchartData(entries)
         // Set the x-axis labels
         val xAxis = barChart.xAxis
-        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
         xAxis.position = XAxis.XAxisPosition.BOTTOM        //X轴所在位置   默认为上面
-
         // Set the y-axis labels
         val yAxis = barChart.axisLeft
-
-
         // 设置
-        data.setBarWidth(0.9f); // set custom bar width
-        barChart.setData(data); // set the data and list of lables into chart
+
+        barChart.data = data; // set the data and list of lables into chart
         barChart.description.isEnabled = false;
-        barChart.setScaleEnabled(false) // disable zoom
+        // disable pinch zoom on the chart
+
+        barChart.setScaleEnabled(false) // D zoom
 
         barChart.animateXY(1000, 1000);
         barChart.invalidate(); // refresh
-
+        return barChart
     }
+
+    private fun setBarchartData(entries: MutableList<BarEntry>): BarData {
+        // Set data
+        val set = BarDataSet(entries, "Walking Steps")
+        return BarData(set)
+    }
+
 
 
 }

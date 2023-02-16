@@ -35,6 +35,11 @@
             android:exported="true"
             android:foregroundServiceType="location" />
 
+        <service
+            android:name=".service.StepService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".view.water.WaterEdit"
             android:exported="false"/>

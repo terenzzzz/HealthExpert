@@ -1,20 +1,48 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.WalkStep
+import com.example.healthExpert.model.Walks
 import com.example.healthExpert.repository.WalkRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.Date
 
 class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val repository = WalkRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
-    var steps = MutableLiveData<Int>(592)
-    var distance = MutableLiveData<Float>(4.5f)
-    var calories = MutableLiveData<Int>(999)
+    var walk = MutableLiveData<Walks?>()
+    var walkSteps = MutableLiveData<MutableList<WalkStep>?>()
+
+
+    fun getWalks(date: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.getWalks(it,date) }
+
+            // Refresh UI Update data
+            walk.postValue(updatedData)
+        }
+    }
+
+    fun getWalkSteps(idWalk:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.getWalkStep(it,idWalk) }
+
+            // Refresh UI Update data
+            walkSteps.postValue(updatedData)
+        }
+    }
 
 
 

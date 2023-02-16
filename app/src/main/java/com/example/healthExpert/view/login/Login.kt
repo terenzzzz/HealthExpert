@@ -1,13 +1,17 @@
 package com.example.healthExpert.view.login
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.parse.LoginParse
@@ -37,6 +41,16 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Permission Check
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION)
+            != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                5)
+        }
 
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
