@@ -1,14 +1,24 @@
 package com.example.healthExpert.view.walk
 
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventCallback
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.WalkCompatActivity
 import com.example.healthExpert.databinding.ActivityWalkBinding
 import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.BarChart
@@ -17,10 +27,18 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 
 
-class Walk : AppCompatActivity() {
+class Walk : WalkCompatActivity() {
     private lateinit var binding: ActivityWalkBinding
+
+    private lateinit var sensorManager: SensorManager
+    private var stepSensor:Sensor? = null
+    private lateinit var stepCallback:SensorEventCallback
+    private var startingSteps = 0f
 
     companion object {
         fun startFn(context: Context) {
@@ -35,9 +53,37 @@ class Walk : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWalkBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.walkViewmodel = walkViewModel
         setContentView(binding.root)
 
-        //
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION)
+            != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                5)
+        }else{
+            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            Log.d("Walk", sensorManager.toString())
+            stepCallback = object : SensorEventCallback(){
+                override fun onSensorChanged(event: SensorEvent) {
+                    val steps = event.values[0]
+                    Log.d("Walk", "onSensorChanged: $steps")
+                }
+            }
+            stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+            Log.d("Walk", "stepSensor: $stepSensor")
+            sensorManager.registerListener(stepCallback,stepSensor,SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
+
+
+
+
+
+
         ringSetUp(binding.calories,84)
         walkChart(binding.walkChart)
 
