@@ -56,7 +56,7 @@ class CaloriesAdd : CaloriesCompatActivity() {
             }else{
                 caloriesViewModel.addCalories(selectedType!!,title, content,Integer.parseInt(calories), time)
                 Snackbar.make(binding.root, "Record Added", Snackbar.LENGTH_LONG).show()
-                caloriesViewModel.addCaloriesOverall(selectedType!!,calories)
+                caloriesViewModel.updateCaloriesOverall()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }

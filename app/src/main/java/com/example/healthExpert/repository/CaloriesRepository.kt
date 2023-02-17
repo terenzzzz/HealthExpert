@@ -24,10 +24,9 @@ class CaloriesRepository {
             .build()
 
         client.newCall(request).execute().use { response ->
-//            Log.d("getCaloriesOverall", response.toString())
             val gson = Gson()
             val parsed: CaloriesOverallParse = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
-            Log.w("getCaloriesOverall", "message: " + parsed.message)
+            Log.w("getCaloriesOverall", "getCaloriesOverall调用1")
             if (parsed.data != null){
                 caloriesOverall = parsed.data!!
             }
@@ -37,15 +36,12 @@ class CaloriesRepository {
     }
 
     // 异步请求
-    fun addCaloriesOverall(token:String,intake:String,burn:String):Int{
+    fun updateCaloriesOverall(token:String):Int{
         var resStatus=-1
-        val body = FormBody.Builder()
-            .add("intake", intake)
-            .add("burn", burn)
-            .build()
+        val body = FormBody.Builder().build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addCaloriesOverall")
+            .url("http://terenzzzz.com:88/my/updateCaloriesOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -60,39 +56,7 @@ class CaloriesRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("CaloriesRepository", "addCaloriesOverall: $resStatus")
-                    response.close()
-                }
-            }
-        })
-        return resStatus
-    }
-
-    // 异步请求
-    fun subCaloriesOverall(token:String,intake:String,burn:String):Int{
-        var resStatus=-1
-        val body = FormBody.Builder()
-            .add("intake", intake)
-            .add("burn", burn)
-            .build()
-
-        val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/subCaloriesOverall")
-            .addHeader("Authorization",token)
-            .post(body)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    resStatus = parsed.status?:-1
-                    Log.w("CaloriesRepository", "subCaloriesOverall: $resStatus")
+                    Log.w("CaloriesRepository", "更新CaloriesOverall")
                     response.close()
                 }
             }

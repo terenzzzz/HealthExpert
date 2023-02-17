@@ -37,31 +37,16 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun addCaloriesOverall(type: String, calories: String){
+    fun updateCaloriesOverall(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if(token != null){
-                if (type == "Intake"){
-                    repository.addCaloriesOverall(token, calories,"0")
-                }else{
-                    repository.addCaloriesOverall(token, "0",calories)
-                }
+                repository.updateCaloriesOverall(token)
             }
         }
     }
 
-    fun subCaloriesOverall(type: String, calories: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            // retrieve updated data from the repository
-            if(token != null){
-                if (type == "Intake"){
-                    repository.subCaloriesOverall(token, calories,"0")
-                }else{
-                    repository.subCaloriesOverall(token, "0",calories)
-                }
-            }
-        }
-    }
+
 
     fun getCalories(){
         viewModelScope.launch(Dispatchers.IO) {
