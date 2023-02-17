@@ -23,7 +23,7 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var calories = MutableLiveData<MutableList<Calories>?>()
     var caloriesInfo = MutableLiveData<Calories?>()
-    var caloriesOverall = MutableLiveData<CaloriesOverall?>()
+    var caloriesAll = MutableLiveData<CaloriesOverall?>()
 
 
 
@@ -33,7 +33,7 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             val updatedData = token?.let { repository.getCaloriesOverall(it) }
 
             // Refresh UI Update data
-            caloriesOverall.postValue(updatedData)
+            caloriesAll.postValue(updatedData)
         }
     }
 
@@ -45,6 +45,19 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
                     repository.addCaloriesOverall(token, calories,"0")
                 }else{
                     repository.addCaloriesOverall(token, "0",calories)
+                }
+            }
+        }
+    }
+
+    fun subCaloriesOverall(type: String, calories: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if(token != null){
+                if (type == "Intake"){
+                    repository.subCaloriesOverall(token, calories,"0")
+                }else{
+                    repository.subCaloriesOverall(token, "0",calories)
                 }
             }
         }

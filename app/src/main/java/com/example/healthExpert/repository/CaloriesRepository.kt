@@ -68,6 +68,38 @@ class CaloriesRepository {
         return resStatus
     }
 
+    // 异步请求
+    fun subCaloriesOverall(token:String,intake:String,burn:String):Int{
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("intake", intake)
+            .add("burn", burn)
+            .build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/subCaloriesOverall")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val gson = Gson()
+                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    resStatus = parsed.status?:-1
+                    Log.w("CaloriesRepository", "subCaloriesOverall: $resStatus")
+                    response.close()
+                }
+            }
+        })
+        return resStatus
+    }
+
 
 
     // 同步请求

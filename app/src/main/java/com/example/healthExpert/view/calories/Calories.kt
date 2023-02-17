@@ -67,12 +67,12 @@ class Calories : CaloriesCompatActivity() {
         // Init ring
         ring = ringSetUp(binding.calories)
 
-        caloriesViewModel.caloriesOverall.observe(this, Observer { item ->
+        caloriesViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                var intake = caloriesViewModel.caloriesOverall.value?.Intake
-                var burn = caloriesViewModel.caloriesOverall.value?.Burn
+                var intake = item.Intake
+                var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
                 var rate = total?.div(10f)
                 ring.setValueText(total.toString())
