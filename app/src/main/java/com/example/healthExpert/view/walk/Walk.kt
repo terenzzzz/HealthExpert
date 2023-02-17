@@ -69,8 +69,6 @@ class Walk : WalkCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-
         walkViewModel.walk.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
@@ -124,12 +122,6 @@ class Walk : WalkCompatActivity() {
         return ring
     }
 
-    private fun getTodayDate(): String? {
-        val date = Date(System.currentTimeMillis())
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        return sdf.format(date)
-        Log.d("walk", "今日时间: $sdf")
-    }
 
     private fun walkChart(view: View): BarChart {
         // Find View

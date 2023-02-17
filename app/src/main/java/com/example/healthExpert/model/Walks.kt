@@ -7,6 +7,6 @@ data class Walks (
     var idUser: Int = -1,
     var TotalSteps: Int = 0,
     var Calories: Int = 0,
-    var Distance: Int = 0,
+    var Distance: Float = 0f,
     var Date: Date = Date()
 )

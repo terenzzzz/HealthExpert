@@ -29,7 +29,7 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             val updatedData = token?.let { repository.getWalks(it) }
 
-            // Refresh UI Update data
+//            // Refresh UI Update data
             walk.postValue(updatedData)
         }
     }

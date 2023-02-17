@@ -27,6 +27,7 @@ class WalkRepository {
             val gson = Gson()
             val parsed: WalksParse = gson.fromJson(response.body!!.string(), WalksParse::class.java)
             if (parsed.data != null){
+//                Log.d("getWalks", parsed.data.toString())
                 walk = parsed.data!!
             }
             Log.w("getWalks", "当天行走信息: $walk")
@@ -57,12 +58,10 @@ class WalkRepository {
         return walkSteps
     }
 
-    fun addWalk(token:String,steps:String,calories:String,distance:String):Int{
+    fun addWalk(token:String,steps:String):Int{
         var resStatus=-1
         val body = FormBody.Builder()
             .add("steps", steps)
-            .add("calories", calories)
-            .add("distance", distance)
             .build()
 
         val request = Request.Builder()
@@ -81,7 +80,7 @@ class WalkRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("addWalk", "addWalk: $resStatus")
+                    Log.w("addWalk", "更新行走成功: $resStatus")
                     response.close()
                 }
             }
@@ -111,7 +110,7 @@ class WalkRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("addWalkSteps", "addWalkSteps: $resStatus")
+                    Log.w("addWalkSteps", "步数更新成功: $steps")
                     response.close()
                 }
             }

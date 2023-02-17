@@ -26,6 +26,19 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var totalBurn = MutableLiveData<Int>()
     var totalCalories = MutableLiveData<Int>()
 
+    fun addCaloriesOverall(type: String, calories: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if(token != null){
+                if (type == "Intake"){
+                    repository.addCaloriesOverall(token, calories,"0")
+                }else{
+                    repository.addCaloriesOverall(token, "0",calories)
+                }
+            }
+        }
+    }
+
     fun getCalories(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository

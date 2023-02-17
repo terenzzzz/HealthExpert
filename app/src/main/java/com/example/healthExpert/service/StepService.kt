@@ -25,11 +25,12 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 class StepService: LifecycleService() {
+    // TODO Use PowerManager.WakeLock wakeLock to make it still running when screen off
+    // TODO Bug: when screen off, it wont reset the statingsSteps
     private val CHANNEL_ID = "step notification channel id"
     private var sensorManager: SensorManager? = null
     private var stepSensor:Sensor? = null
     private val broadcastReceiver: BroadcastReceiver? = null
-    // TODO 应该要读已经走过的步数，不然每次打开软件都会刷新成0
     private var startingSteps = 0
     private var stepCount = 0
     private lateinit var stepCallback: SensorEventCallback
@@ -54,9 +55,11 @@ class StepService: LifecycleService() {
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable: Runnable = Runnable {
             // code to execute every 60 seconds
-            walkRepository.addWalk(token,stepCount.toString(),"300","5.2")
+//            walkRepository.addWalk(token,stepCount.toString(),"300","5.2")
             walkRepository.addWalkSteps(token,stepCount.toString())
-            startingSteps = stepCount
+            startingSteps = 0
+            // Calc calories,distance,step
+            walkRepository.addWalk(token,stepCount.toString())
         }
         val initialDelay: Long = 0
         val period: Long = 30 // period in seconds
