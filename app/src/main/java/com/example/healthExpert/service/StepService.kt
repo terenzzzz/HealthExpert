@@ -1,59 +1,76 @@
 package com.example.healthExpert.service
 
-import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventCallback
 import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import com.example.healthExpert.repository.WalkRepository
 import com.example.healthExpert.view.home.Home
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
 
 class StepService: LifecycleService() {
     private val CHANNEL_ID = "step notification channel id"
-    private val TAG = "StepService"
     private var sensorManager: SensorManager? = null
     private var stepSensor:Sensor? = null
     private val broadcastReceiver: BroadcastReceiver? = null
+    // TODO 应该要读已经走过的步数，不然每次打开软件都会刷新成0
     private var startingSteps = 0
     private var stepCount = 0
     private lateinit var stepCallback: SensorEventCallback
     private var walkRepository = WalkRepository()
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var token:String
+
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "onCreate()")
+        sharedPreferences = applicationContext.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
+        token = sharedPreferences.getString("token","").toString()
+
+        Log.d("StepService", "onCreate()")
         startStepDetector()
         createChannel()
         val pendingIntent = createPendingIntent()
         val notification = pendingIntent?.let { createNotification(it) }
         startForeground(1, notification)
+
+        // 定时更新
+        val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+        val runnable: Runnable = Runnable {
+            // code to execute every 60 seconds
+            walkRepository.addWalk(token,stepCount.toString(),"300","5.2")
+            walkRepository.addWalkSteps(token,stepCount.toString())
+            startingSteps = stepCount
+        }
+        val initialDelay: Long = 0
+        val period: Long = 30 // period in seconds
+        executor.scheduleAtFixedRate(runnable, initialDelay, period, TimeUnit.SECONDS)
     }
 
 
 
     override fun onDestroy() {
-        Log.d("Service", "onDestroy: ")
+        Log.d("StepService", "onDestroy: ")
         super.onDestroy()
         stopSelf()
 //        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
-
-
 
 
     /**

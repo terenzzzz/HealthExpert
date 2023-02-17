@@ -107,7 +107,6 @@ class Walk : WalkCompatActivity() {
                 barChart.data = setBarchartData(entries)
             }
         })
-        // TODO modify API
         walkViewModel.getWalks()
         walkViewModel.getWalkSteps()
     }
