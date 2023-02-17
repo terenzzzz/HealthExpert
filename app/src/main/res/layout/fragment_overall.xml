@@ -97,55 +97,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!--Sleep-->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/sleepBlock"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardBackgroundColor="@color/home_green"
-                        app:contentPadding="15dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Sleep"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
-
-                            <com.github.mikephil.charting.charts.LineChart
-                                android:id="@+id/sleepChart"
-                                android:layout_width="match_parent"
-                                android:layout_height="80dp">
-                            </com.github.mikephil.charting.charts.LineChart>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
-                                    android:text="7.15"
-                                    android:textSize="20dp"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="5dp"
-                                    android:textColor="@color/black"
-                                    android:text="hours"
-                                    android:textSize="15dp"/>
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/trainBlock"
                         android:layout_width="match_parent"
@@ -252,6 +203,55 @@
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                             </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!--Sleep-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/sleepBlock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="@color/home_green"
+                        app:contentPadding="15dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="Sleep"
+                                android:textSize="20dp"
+                                android:textStyle="bold"/>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/sleepChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp">
+                            </com.github.mikephil.charting.charts.LineChart>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="7.15"
+                                    android:textSize="20dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:textColor="@color/black"
+                                    android:text="hours"
+                                    android:textSize="15dp"/>
+                            </LinearLayout>
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

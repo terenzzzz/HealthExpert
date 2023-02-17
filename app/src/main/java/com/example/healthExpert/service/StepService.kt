@@ -30,7 +30,6 @@ class StepService: LifecycleService() {
     private val CHANNEL_ID = "step notification channel id"
     private var sensorManager: SensorManager? = null
     private var stepSensor:Sensor? = null
-    private val broadcastReceiver: BroadcastReceiver? = null
     private var startingSteps = 0
     private var stepCount = 0
     private lateinit var stepCallback: SensorEventCallback
@@ -55,11 +54,9 @@ class StepService: LifecycleService() {
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable: Runnable = Runnable {
             // code to execute every 60 seconds
-//            walkRepository.addWalk(token,stepCount.toString(),"300","5.2")
             walkRepository.addWalkSteps(token,stepCount.toString())
             startingSteps = 0
-            // Calc calories,distance,step
-            walkRepository.addWalk(token,stepCount.toString())
+            walkRepository.updateWalksOverall(token)
         }
         val initialDelay: Long = 0
         val period: Long = 30 // period in seconds

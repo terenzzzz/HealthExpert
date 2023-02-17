@@ -95,6 +95,7 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
         }
         binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
             trainingsViewModel.deleteTraining(id)
+            trainingsViewModel.updateTrainingOverall()
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })

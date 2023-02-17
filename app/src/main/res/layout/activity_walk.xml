@@ -125,7 +125,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(walkViewmodel.walk.totalSteps)}"
+                                        android:text="@{String.valueOf(walkViewmodel.walkAll.totalSteps)}"
                                         android:textSize="15dp"
                                         android:textStyle="bold"
                                         android:textColor="@color/black"/>
@@ -167,7 +167,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text='@{String.valueOf(walkViewmodel.walk.distance) + ` km`}'
+                                        android:text='@{String.valueOf(walkViewmodel.walkAll.distance) + ` km`}'
                                         android:textSize="15dp"
                                         android:textStyle="bold"
                                         android:textColor="@color/black"/>
@@ -209,7 +209,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text='@{String.valueOf(walkViewmodel.walk.calories) + ` kcal`}'
+                                        android:text='@{String.valueOf(walkViewmodel.walkAll.calories) + ` kcal`}'
                                         android:textSize="15dp"
                                         android:textStyle="bold"
                                         android:textColor="@color/black"/>

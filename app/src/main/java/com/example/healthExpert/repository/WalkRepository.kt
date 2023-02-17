@@ -2,10 +2,10 @@ package com.example.healthExpert.repository
 
 import android.util.Log
 import com.example.healthExpert.model.WalkStep
-import com.example.healthExpert.model.Walks
+import com.example.healthExpert.model.WalksOverall
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.WalkStepsParse
-import com.example.healthExpert.parse.WalksParse
+import com.example.healthExpert.parse.WalksOverallParse
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -15,17 +15,17 @@ class WalkRepository {
     private val client = OkHttpClient()
 
     // 同步请求
-    fun getWalks(token:String): Walks {
-        var walk = Walks()
+    fun getWalksOverall(token:String): WalksOverall {
+        var walk = WalksOverall()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/walks")
+            .url("http://terenzzzz.com:88/my/walksOverall")
             .addHeader("Authorization",token)
             .get()
             .build()
 
         client.newCall(request).execute().use { response ->
             val gson = Gson()
-            val parsed: WalksParse = gson.fromJson(response.body!!.string(), WalksParse::class.java)
+            val parsed: WalksOverallParse = gson.fromJson(response.body!!.string(), WalksOverallParse::class.java)
             if (parsed.data != null){
 //                Log.d("getWalks", parsed.data.toString())
                 walk = parsed.data!!
@@ -58,14 +58,12 @@ class WalkRepository {
         return walkSteps
     }
 
-    fun addWalk(token:String,steps:String):Int{
+    fun updateWalksOverall(token:String):Int{
         var resStatus=-1
-        val body = FormBody.Builder()
-            .add("steps", steps)
-            .build()
+        val body = FormBody.Builder().build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addWalk")
+            .url("http://terenzzzz.com:88/my/updateWalksOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -80,7 +78,7 @@ class WalkRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("addWalk", "更新行走成功: $resStatus")
+                    Log.w("updateWalksOverall", "更新行走成功: $resStatus")
                     response.close()
                 }
             }

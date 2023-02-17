@@ -1,15 +1,13 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.WalkStep
-import com.example.healthExpert.model.Walks
+import com.example.healthExpert.model.WalksOverall
 import com.example.healthExpert.repository.WalkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,17 +18,17 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
-    var walk = MutableLiveData<Walks?>()
+    var walkAll = MutableLiveData<WalksOverall?>()
     var walkSteps = MutableLiveData<MutableList<WalkStep>?>()
 
 
-    fun getWalks(){
+    fun getWalksOverall(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWalks(it) }
+            val updatedData = token?.let { repository.getWalksOverall(it) }
 
 //            // Refresh UI Update data
-            walk.postValue(updatedData)
+            walkAll.postValue(updatedData)
         }
     }
 

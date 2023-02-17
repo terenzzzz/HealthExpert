@@ -89,10 +89,9 @@ class Water : WatersCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
+                watersViewModel.updateWatersOverall()
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
                 watersViewModel.getWatersOverall()
-
-                watersViewModel.updateWatersOverall()
             }
 
         })

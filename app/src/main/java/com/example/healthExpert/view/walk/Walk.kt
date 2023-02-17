@@ -69,7 +69,7 @@ class Walk : WalkCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        walkViewModel.walk.observe(this, Observer { item ->
+        walkViewModel.walkAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
                 ring.setValueText(item.TotalSteps.toString())
@@ -105,7 +105,7 @@ class Walk : WalkCompatActivity() {
                 barChart.data = setBarchartData(entries)
             }
         })
-        walkViewModel.getWalks()
+        walkViewModel.getWalksOverall()
         walkViewModel.getWalkSteps()
     }
 

@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.healthExpert.model.Location
-import com.example.healthExpert.model.Trainings
-import com.example.healthExpert.model.Weather
+import com.example.healthExpert.model.*
 import com.example.healthExpert.repository.TrainingsRepository
 import com.example.healthExpert.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +28,28 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var trainingInfo = MutableLiveData<MutableList<Trainings>?>()
     var trainingLocations = MutableLiveData<MutableList<Location>?>()
     var weather = MutableLiveData<Weather>()
-    var totalDistance = MutableLiveData<Float>()
-    var totalBurn = MutableLiveData<Int>()
-    var totalTime = MutableLiveData<Int>()
+    var trainingAll = MutableLiveData<TrainingOverall?>()
+
+
+
+    fun getTrainingOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.getTrainingOverall(it) }
+
+            // Refresh UI Update data
+            trainingAll.postValue(updatedData)
+        }
+    }
+
+    fun updateTrainingOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if(token != null){
+                repository.updateWaterOverall(token)
+            }
+        }
+    }
 
 
     fun getTrainings(){
@@ -105,26 +122,6 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // Refresh UI Update data
             weather.postValue(updatedData)
         }
-    }
-
-    fun calcDashboard(){
-        var totalDistance = 0f
-        var totalBurn = 0
-        var totalTime = 0
-        for (item in trainings.value!!){
-            totalDistance += item.Distance
-            totalBurn += item.CaloriesBurn
-            var startHour = SimpleDateFormat("HH").format(item.StartTime)
-            var startMinus = SimpleDateFormat("mm").format(item.StartTime)
-            var endHour = SimpleDateFormat("HH").format(item.EndTime)
-            var endMinus = SimpleDateFormat("mm").format(item.EndTime)
-            val duration = Duration.between(LocalTime.of(startHour.toInt(), startMinus.toInt()),
-                LocalTime.of(endHour.toInt(), endMinus.toInt())).toMinutes()
-            totalTime += duration.toInt()
-        }
-        this.totalTime.value = totalTime
-        this.totalDistance.value = totalDistance
-        this.totalBurn.value = totalBurn
     }
 
 }

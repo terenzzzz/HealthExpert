@@ -86,8 +86,9 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                caloriesViewModel.getCaloriesOverall()
+                caloriesViewModel.updateCaloriesOverall()
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
+                caloriesViewModel.getCaloriesOverall()
             }
         })
         caloriesViewModel.getCalories()

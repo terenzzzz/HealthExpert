@@ -128,6 +128,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                 Log.d("TrainRecord", locationJson)
                 trainingsViewModel.addTraining(type,title,"0","0","0",
                     startTime,endTime,locationJson)
+                trainingsViewModel.updateTrainingOverall()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }else{

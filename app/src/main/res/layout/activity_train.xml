@@ -98,7 +98,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(trainViewmodel.totalTime)}"
+                                        android:text="@{String.valueOf(trainViewmodel.trainingAll.Duration)}"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"/>
                                     <TextView
@@ -127,7 +127,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(trainViewmodel.totalDistance)}"
+                                        android:text="@{String.valueOf(trainViewmodel.trainingAll.Distance)}"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"/>
                                     <TextView

@@ -69,20 +69,26 @@ class Train : TrainingsCompatActivity() {
         // Init ring
         ring = ringSetUp(binding.calories)
 
+        trainingsViewModel.trainingAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                ring.setValueText(item.Calories.toString())
+                ring.setSweepValue(item.Calories.times(100).div(1000f))
+            }
+        })
+
         trainingsViewModel.trainings.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                trainingsViewModel.calcDashboard()
-                ring.setValueText(trainingsViewModel.totalBurn.value.toString())
-                ring.setSweepValue(trainingsViewModel.totalBurn.value!!.times(100).div(1000f))
-
+                trainingsViewModel.updateTrainingOverall()
                 recyclerView.adapter = TrainingsAdapter(
                     trainingsViewModel.trainings, this
                 )
+                trainingsViewModel.getTrainingOverall()
             }
         })
-
         trainingsViewModel.getTrainings()
     }
 

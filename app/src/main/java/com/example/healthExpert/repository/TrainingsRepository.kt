@@ -1,20 +1,64 @@
 package com.example.healthExpert.repository
 
 import android.util.Log
-import com.example.healthExpert.model.Calories
-import com.example.healthExpert.model.Location
-import com.example.healthExpert.model.Trainings
-import com.example.healthExpert.parse.BaseParse
-import com.example.healthExpert.parse.CaloriesParse
-import com.example.healthExpert.parse.LocationParse
-import com.example.healthExpert.parse.TrainingsParse
+import com.example.healthExpert.model.*
+import com.example.healthExpert.parse.*
 import com.google.gson.Gson
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import java.io.IOException
 
 class TrainingsRepository {
     private val client = OkHttpClient()
+
+    // 同步请求
+    fun getTrainingOverall(token:String): TrainingOverall {
+        var trainingOverall = TrainingOverall()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/trainingOverall")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: TrainingOverallParse = gson.fromJson(response.body!!.string(), TrainingOverallParse::class.java)
+            Log.w("TrainingsRepository", "trainingOverall调用")
+            if (parsed.data != null){
+                trainingOverall = parsed.data!!
+            }
+            response.close()
+        }
+        return trainingOverall
+    }
+
+    // 异步请求
+    fun updateWaterOverall(token:String):Int{
+        var resStatus=-1
+        val body = FormBody.Builder().build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/updateTrainingOverall")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val gson = Gson()
+                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    resStatus = parsed.status?:-1
+                    Log.w("TrainingsRepository", "更新TrainingOverall")
+                    response.close()
+                }
+            }
+        })
+        return resStatus
+    }
 
     // 同步请求
     fun getTrainings(token:String): MutableList<Trainings> {
