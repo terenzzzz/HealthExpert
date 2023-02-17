@@ -107,8 +107,9 @@ class Walk : WalkCompatActivity() {
                 barChart.data = setBarchartData(entries)
             }
         })
-        getTodayDate()?.let { walkViewModel.getWalks(it) }
-        walkViewModel.getWalkSteps(1)
+        // TODO modify API
+        walkViewModel.getWalks()
+        walkViewModel.getWalkSteps()
     }
 
 
@@ -128,6 +129,7 @@ class Walk : WalkCompatActivity() {
         val date = Date(System.currentTimeMillis())
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         return sdf.format(date)
+        Log.d("walk", "今日时间: $sdf")
     }
 
     private fun walkChart(view: View): BarChart {

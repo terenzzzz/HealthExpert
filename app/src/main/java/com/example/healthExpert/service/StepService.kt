@@ -71,7 +71,6 @@ class StepService: LifecycleService() {
                         startingSteps = steps
                     }else{
                         stepCount = steps - startingSteps
-
                         Log.d("Walk", "stepCount: $stepCount")
                     }
                 }
@@ -79,6 +78,7 @@ class StepService: LifecycleService() {
         }
         stepSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         sensorManager!!.registerListener(stepCallback,stepSensor,SensorManager.SENSOR_DELAY_NORMAL)
+
 
     }
 
