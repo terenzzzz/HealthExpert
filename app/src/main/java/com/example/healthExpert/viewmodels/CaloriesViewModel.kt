@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.repository.CaloriesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,9 +23,19 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var calories = MutableLiveData<MutableList<Calories>?>()
     var caloriesInfo = MutableLiveData<Calories?>()
-    var totalIntake = MutableLiveData<Int>()
-    var totalBurn = MutableLiveData<Int>()
-    var totalCalories = MutableLiveData<Int>()
+    var caloriesOverall = MutableLiveData<CaloriesOverall?>()
+
+
+
+    fun getCaloriesOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.getCaloriesOverall(it) }
+
+            // Refresh UI Update data
+            caloriesOverall.postValue(updatedData)
+        }
+    }
 
     fun addCaloriesOverall(type: String, calories: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -124,23 +135,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun calcDashboard(){
-        var totalBurn = 0
-        var totalIntake = 0
-        var totalCalories = 0
-        for (item in calories.value!!){
-            if (item.Type == "Intake"){
-                totalIntake += item.Calories
-                totalCalories += item.Calories
-            }else{
-                totalBurn += item.Calories
-                totalCalories -= item.Calories
-            }
-        }
-        this.totalIntake.value = totalIntake
-        this.totalBurn.value = totalBurn
-        this.totalCalories.value = totalCalories
-    }
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

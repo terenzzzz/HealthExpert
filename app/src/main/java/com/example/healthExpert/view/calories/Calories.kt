@@ -67,16 +67,29 @@ class Calories : CaloriesCompatActivity() {
         // Init ring
         ring = ringSetUp(binding.calories)
 
+        caloriesViewModel.caloriesOverall.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                var intake = caloriesViewModel.caloriesOverall.value?.Intake
+                var burn = caloriesViewModel.caloriesOverall.value?.Burn
+                var total = burn?.let { intake?.minus(it) }
+                var rate = total?.div(10f)
+                ring.setValueText(total.toString())
+                if (rate != null) {
+                    ring.setSweepValue(rate.toFloat())
+                }
+            }
+
+        })
+
         caloriesViewModel.calories.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                caloriesViewModel.calcDashboard()
-                ring.setValueText(caloriesViewModel.totalCalories.value.toString())
-                ring.setSweepValue(caloriesViewModel.totalCalories.value!!.times(100).div(1000f))
+                caloriesViewModel.getCaloriesOverall()
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
             }
-
         })
         caloriesViewModel.getCalories()
     }

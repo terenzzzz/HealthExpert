@@ -100,7 +100,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(caloriesViewmodel.totalIntake)}"
+                                        android:text="@{String.valueOf(caloriesViewmodel.caloriesOverall.burn)}"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"/>
                                     <TextView
@@ -128,7 +128,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(caloriesViewmodel.totalBurn)}"
+                                        android:text="@{String.valueOf(caloriesViewmodel.caloriesOverall.burn)}"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"/>
                                     <TextView

@@ -2,14 +2,40 @@ package com.example.healthExpert.repository
 
 import android.util.Log
 import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.parse.BaseParse
+import com.example.healthExpert.parse.CaloriesOverallParse
 import com.example.healthExpert.parse.CaloriesParse
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
+import kotlin.math.log
 
 class CaloriesRepository {
     private val client = OkHttpClient()
+
+    // 同步请求
+    fun getCaloriesOverall(token:String): CaloriesOverall {
+        var caloriesOverall = CaloriesOverall()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/caloriesOverall")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+//            Log.d("getCaloriesOverall", response.toString())
+            val gson = Gson()
+            val parsed: CaloriesOverallParse = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
+            Log.w("getCaloriesOverall", "message: " + parsed.message)
+            if (parsed.data != null){
+                caloriesOverall = parsed.data!!
+            }
+            response.close()
+        }
+        return caloriesOverall
+    }
+
     // 异步请求
     fun addCaloriesOverall(token:String,intake:String,burn:String):Int{
         var resStatus=-1
