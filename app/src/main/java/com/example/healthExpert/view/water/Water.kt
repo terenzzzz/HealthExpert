@@ -77,12 +77,22 @@ class Water : WatersCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        watersViewModel.watersAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                binding.rate.text = "${item.Total.div(80)} %"
+            }
+        })
+
         watersViewModel.waters.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
-                watersViewModel.calcDashboard()
+                watersViewModel.getWatersOverall()
+
+                watersViewModel.updateWatersOverall()
             }
 
         })

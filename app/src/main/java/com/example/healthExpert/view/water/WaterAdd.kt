@@ -73,6 +73,7 @@ class WaterAdd : WatersCompatActivity() {
                 Snackbar.make(binding.root, "Please fill in all the field", Snackbar.LENGTH_LONG).show()
             }else{
                 watersViewModel.addWaters(selectedType!!,title, content,Integer.parseInt(value), time)
+                Snackbar.make(binding.root, "Record Added", Snackbar.LENGTH_LONG).show()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }

@@ -94,10 +94,10 @@
                                     android:gravity="center"
                                     android:orientation="horizontal">
                                     <TextView
-                                        android:id="@+id/percent"
+                                        android:id="@+id/rate"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text='@{String.valueOf(waterViewmodel.rate)+`%`}'
+                                        android:text=''
                                         android:textColor="@color/white"
                                         android:textSize="30dp"/>
 
@@ -125,7 +125,7 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:paddingLeft="30dp"
-                                                android:text='@{String.valueOf(waterViewmodel.totalWater)+` ml`}'
+                                                android:text='@{String.valueOf(waterViewmodel.watersAll.total)+` ml`}'
                                                 android:textSize="20dp"
                                                 android:textColor="@color/white"/>
                                         </LinearLayout>

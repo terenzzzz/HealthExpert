@@ -2,16 +2,66 @@ package com.example.healthExpert.repository
 
 import android.util.Log
 import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.model.Water
-import com.example.healthExpert.parse.BaseParse
-import com.example.healthExpert.parse.CaloriesParse
-import com.example.healthExpert.parse.WaterParse
+import com.example.healthExpert.model.WaterOverall
+import com.example.healthExpert.parse.*
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 
 class WatersRepository {
     private val client = OkHttpClient()
+
+    // 同步请求
+    fun getWaterOverall(token:String): WaterOverall {
+        var waterOverall = WaterOverall()
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/waterOverall")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: WaterOverallParse = gson.fromJson(response.body!!.string(), WaterOverallParse::class.java)
+            Log.w("WatersRepository", "getWaterOverall调用1")
+            if (parsed.data != null){
+                waterOverall = parsed.data!!
+            }
+            response.close()
+        }
+        return waterOverall
+    }
+
+    // 异步请求
+    fun updateWaterOverall(token:String):Int{
+        var resStatus=-1
+        val body = FormBody.Builder().build()
+
+        val request = Request.Builder()
+            .url("http://terenzzzz.com:88/my/updateWaterOverall")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val gson = Gson()
+                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    resStatus = parsed.status?:-1
+                    Log.w("WatersRepository", "更新WaterOverall")
+                    response.close()
+                }
+            }
+        })
+        return resStatus
+    }
 
     // 同步请求
     fun getWaters(token: String): MutableList<Water> {

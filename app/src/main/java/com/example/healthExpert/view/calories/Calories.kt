@@ -80,7 +80,6 @@ class Calories : CaloriesCompatActivity() {
                     ring.setSweepValue(rate.toFloat())
                 }
             }
-
         })
 
         caloriesViewModel.calories.observe(this, Observer { list ->

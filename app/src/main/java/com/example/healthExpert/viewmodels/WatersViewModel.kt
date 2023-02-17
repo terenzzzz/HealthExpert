@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.model.Water
+import com.example.healthExpert.model.WaterOverall
 import com.example.healthExpert.repository.WatersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,9 +22,26 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val token = sharedPreferences.getString("token","")
     var waters = MutableLiveData<MutableList<Water>?>()
     var watersInfo = MutableLiveData<MutableList<Water>?>()
-    var totalWater = MutableLiveData<Int>()
-    // TODO combine goal and calculate
-    var rate = MutableLiveData<Int>()
+    var watersAll = MutableLiveData<WaterOverall?>()
+
+    fun getWatersOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.getWaterOverall(it) }
+
+            // Refresh UI Update data
+            watersAll.postValue(updatedData)
+        }
+    }
+
+    fun updateWatersOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if(token != null){
+                repository.updateWaterOverall(token)
+            }
+        }
+    }
 
 
     fun getWaters(){
@@ -108,14 +127,7 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
             }
         }
     }
-    fun calcDashboard(){
-        var totalWater = 0
-        for (item in waters.value!!){
-            totalWater += item.Value
-        }
-        this.rate.value = totalWater.div(80)
-        this.totalWater.value = totalWater
-    }
+
 
 }
 
