@@ -36,6 +36,8 @@ class StepService: LifecycleService() {
     private var walkRepository = WalkRepository()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token:String
+    private var height:Float = 0f
+    private var weight:Float = 0f
 
 
     override fun onCreate() {
@@ -43,6 +45,9 @@ class StepService: LifecycleService() {
         Log.d("StepService", "onCreate: ")
         sharedPreferences = applicationContext.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
         token = sharedPreferences.getString("token","").toString()
+        height = sharedPreferences.getFloat("height",0f)
+        weight = sharedPreferences.getFloat("weight",0f)
+
 
         Log.d("StepService", "onCreate()")
         startStepDetector()
@@ -55,7 +60,7 @@ class StepService: LifecycleService() {
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable = Runnable {
             walkRepository.addWalkSteps(token,stepCount.toString())
-            walkRepository.updateWalksOverall(token)
+            walkRepository.updateWalksOverall(token,height,weight)
             Log.d("StepService", "步数更新！！！！")
             startingSteps = 0
             stepCount = 0

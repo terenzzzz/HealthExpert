@@ -61,7 +61,6 @@ class Home : UserCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("Home", "onResume: ")
-        userViewModel.getUserInfo()
 
         userViewModel.user.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
@@ -72,9 +71,14 @@ class Home : UserCompatActivity() {
                 }else{
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
+                val sharedPreferences = getSharedPreferences("healthy_expert", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putFloat("height", item.Height)
+                editor.putFloat("weight", item.Weight)
+                editor.apply()
             }
         })
-
+        userViewModel.getUserInfo()
     }
 
     override fun onDestroy() {

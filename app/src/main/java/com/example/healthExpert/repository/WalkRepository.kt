@@ -58,9 +58,12 @@ class WalkRepository {
         return walkSteps
     }
 
-    fun updateWalksOverall(token:String):Int{
+    fun updateWalksOverall(token:String,weight:Float,height:Float):Int{
         var resStatus=-1
-        val body = FormBody.Builder().build()
+        val body = FormBody.Builder()
+            .add("weight", weight.toString())
+            .add("height", height.toString())
+            .build()
 
         val request = Request.Builder()
             .url("http://terenzzzz.com:88/my/updateWalksOverall")
