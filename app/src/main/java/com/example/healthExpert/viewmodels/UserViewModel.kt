@@ -53,7 +53,10 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun editAge(age:Int){
         viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
+                val bmi = calcBMI(user.value!!.Weight,user.value!!.Height)
+                val bfr = calcBFR(bmi, age, user.value!!.Gender)
                 repository.editAge(token,age)
+                repository.editBodyFatRate(token,bfr)
             }
         }
     }
