@@ -40,6 +40,7 @@ class StepService: LifecycleService() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("StepService", "onCreate: ")
         sharedPreferences = applicationContext.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
         token = sharedPreferences.getString("token","").toString()
 
@@ -48,18 +49,22 @@ class StepService: LifecycleService() {
         createChannel()
         val pendingIntent = createPendingIntent()
         val notification = pendingIntent?.let { createNotification(it) }
-        startForeground(1, notification)
+        startForeground(2, notification)
 
         // 定时更新
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
-        val runnable: Runnable = Runnable {
-            // code to execute every 60 seconds
+        val runnable = Runnable {
             walkRepository.addWalkSteps(token,stepCount.toString())
-            startingSteps = 0
             walkRepository.updateWalksOverall(token)
+            Log.d("StepService", "步数更新！！！！")
+            startingSteps = 0
+            stepCount = 0
+            Log.d("StepService", startingSteps.toString())
+            Log.d("StepService", "步数重置！！！！")
+
         }
         val initialDelay: Long = 0
-        val period: Long = 30 // period in seconds
+        val period: Long = 5 // period in seconds
         executor.scheduleAtFixedRate(runnable, initialDelay, period, TimeUnit.SECONDS)
     }
 
@@ -69,7 +74,6 @@ class StepService: LifecycleService() {
         Log.d("StepService", "onDestroy: ")
         super.onDestroy()
         stopSelf()
-//        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
 
@@ -88,15 +92,13 @@ class StepService: LifecycleService() {
                         startingSteps = steps
                     }else{
                         stepCount = steps - startingSteps
-                        Log.d("Walk", "stepCount: $stepCount")
+                        Log.d("Walk", "当前步数: $stepCount")
                     }
                 }
             }
         }
         stepSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         sensorManager!!.registerListener(stepCallback,stepSensor,SensorManager.SENSOR_DELAY_NORMAL)
-
-
     }
 
     /**
@@ -146,9 +148,4 @@ class StepService: LifecycleService() {
         }
     }
 
-    private fun getTodayDate(): String? {
-        val date = Date(System.currentTimeMillis())
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        return sdf.format(date)
-    }
 }
