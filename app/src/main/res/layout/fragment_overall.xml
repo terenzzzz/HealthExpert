@@ -72,10 +72,11 @@
                                 android:orientation="horizontal"
                                 android:layout_marginTop="15dp">
                                 <TextView
+                                    android:id="@+id/calories_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:text="1480"
+                                    android:text="0"
                                     android:textSize="20dp">
                                 </TextView>
 
@@ -123,12 +124,12 @@
                                 android:textSize="20dp"
                                 android:textStyle="bold"/>
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_weight="1"
-                                android:src="@drawable/runner"
-                                android:foregroundGravity="right"/>
+<!--                            <ImageView-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="30dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:src="@drawable/runner"-->
+<!--                                android:foregroundGravity="right"/>-->
 
                             </LinearLayout>
 
@@ -153,11 +154,12 @@
                                         android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
+                                        android:id="@+id/duration_value"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="2.8 hours"
+                                        android:text="0.0  hours"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                                 <LinearLayout
@@ -174,11 +176,12 @@
                                         android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
+                                        android:id="@+id/speed_value"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="3.0 km/h"
+                                        android:text="0.0 km/h"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                                 <LinearLayout
@@ -195,11 +198,34 @@
                                         android:textStyle="bold"
                                         android:textSize="15dp"/>
                                     <TextView
+                                        android:id="@+id/distance_value"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textAlignment="viewEnd"
                                         android:textColor="@color/black"
-                                        android:text="6.9 km"
+                                        android:text="0.0  km"
+                                        android:textSize="15dp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/black"
+                                        android:text="Calories:"
+                                        android:textStyle="bold"
+                                        android:textSize="15dp"/>
+                                    <TextView
+                                        android:id="@+id/train_calories_value"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="viewEnd"
+                                        android:textColor="@color/black"
+                                        android:text="0.0  kcal"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
                             </LinearLayout>
@@ -353,14 +379,16 @@
                                         android:textColor="@color/black"
                                         android:textSize="10dp"/>
                                     <TextView
+                                        android:id="@+id/walk_rate"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="75%"
+                                        android:text=""
                                         android:textColor="@color/black"
                                         android:textSize="10dp"/>
                                 </LinearLayout>
 
                                 <ProgressBar
+                                    android:id="@+id/walk_progress"
                                     android:indeterminateOnly="false"
                                     android:progressDrawable="@drawable/progressbar"
                                     android:minHeight="10dp"
@@ -368,11 +396,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginVertical="5dp"
-                                    android:progress="75"
+                                    android:progress="0"
                                     android:max="100"/>
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/walk_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="5500"
@@ -421,10 +450,11 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <TextView
+                                    android:id="@+id/water_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:text="4"
+                                    android:text="0"
                                     android:textSize="20dp"/>
 
                                 <TextView

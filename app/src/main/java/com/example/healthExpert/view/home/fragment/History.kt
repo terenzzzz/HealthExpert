@@ -17,7 +17,6 @@ import java.util.logging.SimpleFormatter
 
 class History : HistoryCompatFragment() {
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var userViewModel:UserViewModel
 
 
 

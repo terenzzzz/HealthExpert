@@ -19,7 +19,6 @@ class UserRepository {
         .url("$url/userInfo")
         .addHeader("Authorization",token)
         .build()
-
         client.newCall(request).execute().use { response ->
             val gson = Gson()
             val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)

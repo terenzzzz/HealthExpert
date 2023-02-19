@@ -2,12 +2,17 @@ package com.example.login.view.homePage.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.OverallCompatFragment
+import com.example.healthExpert.databinding.FragmentHistoryBinding
+import com.example.healthExpert.databinding.FragmentOverallBinding
 import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.view.heart.Heart
 import com.example.healthExpert.view.medication.Medication
@@ -17,6 +22,7 @@ import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
 import com.example.healthExpert.widget.Ring
+import com.example.healthExpert.widget.RingView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -27,10 +33,77 @@ import com.github.mikephil.charting.data.LineDataSet
 import java.util.ArrayList
 
 
-class Overall : Fragment() {
+class Overall : OverallCompatFragment() {
+    private lateinit var binding: FragmentOverallBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        overallViewModel.caloriesAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                var intake = item.Intake
+                var burn = item.Burn
+                var total = burn?.let { intake?.minus(it) }
+                var rate = total?.div(10f)
+                binding.calories.setValueText(total.toString())
+                binding.calories.setUnit("kcal")
+                binding.caloriesValue.text = total.toString()
+                if (rate != null) {
+                    binding.calories.setSweepValue(rate.toFloat())
+                }
+            }
+        })
+
+        overallViewModel.walkAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null){
+                    binding.walkProgress.progress = item.TotalSteps/100
+                    binding.walkRate.text = "${(item.TotalSteps/100)} %"
+                    binding.walkValue.text = item.TotalSteps.toString()
+                }
+            }
+        })
+
+        overallViewModel.watersAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null){
+                    binding.waterRing.setSweepValue((item.Total/80).toFloat())
+                    binding.waterRing.setValueText("${item.Total/80}%")
+                    binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
+                    binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
+                    binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
+                }
+            }
+        })
+
+        overallViewModel.trainingAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null) {
+                    // Update the UI
+                    binding.durationValue.text = "${ item.Duration.toFloat() / 60 } hours"
+                    binding.speedValue.text = "${ item.Speed } km/h"
+                    binding.distanceValue.text = "${ item.Distance } km"
+                    binding.trainCaloriesValue.text = "${ item.Calories } kcal"
+                }
+            }
+        })
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        overallViewModel.getCaloriesOverall()
+        overallViewModel.getWalksOverall()
+        overallViewModel.getWatersOverall()
+        overallViewModel.getTrainingOverall()
     }
 
     override fun onCreateView(
@@ -38,99 +111,72 @@ class Overall : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mView = inflater.inflate(R.layout.fragment_overall, container, false)
+        binding = FragmentOverallBinding.inflate(layoutInflater)
 
 
 
-        // Ring set up
-        ringSetUp(mView)
         // Sleep set up
-        sleepSetUp(mView)
+        sleepSetUp(binding.root)
         // Heart Set Up
-        heartSetUp(mView)
-        // Water ring Set Up
-        waterRingSetUp(mView)
-
-        // Block Listener
-        val caloriesBlock = mView.findViewById<CardView>(R.id.caloriesBlock)
-        val sleepBlock = mView.findViewById<CardView>(R.id.sleepBlock)
-        val stepBlock = mView.findViewById<CardView>(R.id.stepBlock)
-        val waterBlock = mView.findViewById<CardView>(R.id.waterBlock)
-        val heartBlock = mView.findViewById<CardView>(R.id.heartBlock)
-        val trainBlock = mView.findViewById<CardView>(R.id.trainBlock)
-        val medicalBlock = mView.findViewById<CardView>(R.id.medicalBlock)
-        val periodBlock = mView.findViewById<CardView>(R.id.periodBlock)
+        heartSetUp(binding.root)
 
 
-        caloriesBlock.setOnClickListener(View.OnClickListener { view ->
+
+
+        binding.caloriesBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Calories.startFn(it)
             }
 
         })
 
-        sleepBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.sleepBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Sleep.startFn(it)
             }
         })
 
-        stepBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.stepBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Walk.startFn(it)
             }
         })
 
-        waterBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.waterBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Water.startFn(it)
             }
         })
 
-        heartBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.heartBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Heart.startFn(it)
             }
         })
 
-        trainBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.trainBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Train.startFn(it)
             }
         })
 
-        medicalBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.medicalBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Medication.startFn(it)
             }
         })
 
-        periodBlock.setOnClickListener(View.OnClickListener { view ->
+        binding.periodBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
                 Period.startFn(it)
             }
         })
 
 
-        return  mView
+        return  binding.root
     }
 
-    private fun ringSetUp(view: View){
-        val ring = view.findViewById<Ring>(R.id.calories)
-        var calories = 65
-        ring.setSweepValue(calories.toFloat())
-        ring.setValueText("962")
-        ring.setUnit("kcal")
-    }
 
-    private fun waterRingSetUp(view: View){
-        val ring = view.findViewById<Ring>(R.id.water_ring)
-        var water = 65
-        ring.setSweepValue(water.toFloat())
-        ring.setValueText("50%")
-        ring.setBgColor(Color.rgb(217, 217, 217))
-        ring.setSweepColor(Color.rgb(27, 204, 243))
-    }
 
     private fun sleepSetUp(view: View){
         // Find View

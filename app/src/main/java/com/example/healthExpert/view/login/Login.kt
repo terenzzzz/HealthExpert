@@ -1,6 +1,7 @@
 package com.example.healthExpert.view.login
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,7 +16,6 @@ import androidx.core.content.ContextCompat
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.parse.LoginParse
-import com.example.healthExpert.repository.UserRepository
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
@@ -85,7 +85,7 @@ class Login : AppCompatActivity() {
         })
     }
 
-    fun login(email:String, password:String){
+    private fun login(email:String, password:String){
         val client = OkHttpClient()
         val body = FormBody.Builder()
             .add("email", email)
@@ -99,7 +99,7 @@ class Login : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
+                Snackbar.make(binding.root, "Network Error!", Snackbar.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -126,4 +126,5 @@ class Login : AppCompatActivity() {
             }
         })
     }
+
 }
