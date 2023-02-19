@@ -12,12 +12,13 @@ import java.io.IOException
 
 class WatersRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
     fun getWaterOverall(token:String): WaterOverall {
         var waterOverall = WaterOverall()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/waterOverall")
+            .url("$url/waterOverall")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -40,7 +41,7 @@ class WatersRepository {
         val body = FormBody.Builder().build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/updateWaterOverall")
+            .url("$url/updateWaterOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -67,7 +68,7 @@ class WatersRepository {
     fun getWaters(token: String): MutableList<Water> {
         var water: MutableList<Water> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/waters")
+            .url("$url/waters")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -90,7 +91,7 @@ class WatersRepository {
     fun getWatersInfo(token:String,id:Int): MutableList<Water> {
         var water: MutableList<Water> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/watersInfo?id=$id")
+            .url("$url/watersInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -121,7 +122,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addWaters")
+            .url("$url/addWaters")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -144,7 +145,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWatersType")
+            .url("$url/editWatersType")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -167,7 +168,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWatersTitle")
+            .url("$url/editWatersTitle")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -190,7 +191,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWatersContent")
+            .url("$url/editWatersContent")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -213,7 +214,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWatersValue")
+            .url("$url/editWatersValue")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -236,7 +237,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWatersTime")
+            .url("$url/editWatersTime")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -258,7 +259,7 @@ class WatersRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/deleteWaters")
+            .url("$url/deleteWaters")
             .addHeader("Authorization",token)
             .post(body)
             .build()

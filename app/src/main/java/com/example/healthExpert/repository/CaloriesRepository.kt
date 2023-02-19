@@ -13,12 +13,14 @@ import kotlin.math.log
 
 class CaloriesRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/my"
+
 
     // 同步请求
     fun getCaloriesOverall(token:String): CaloriesOverall {
         var caloriesOverall = CaloriesOverall()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/caloriesOverall")
+            .url("$url/caloriesOverall")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -41,7 +43,7 @@ class CaloriesRepository {
         val body = FormBody.Builder().build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/updateCaloriesOverall")
+            .url("$url/updateCaloriesOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -70,7 +72,7 @@ class CaloriesRepository {
     fun getCalories(token:String): MutableList<Calories> {
         var calories: MutableList<Calories> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/calories")
+            .url("$url/calories")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -93,7 +95,7 @@ class CaloriesRepository {
     fun getCaloriesInfo(token:String,id:Int): Calories? {
         var calories = Calories()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/caloriesInfo?id=$id")
+            .url("$url/caloriesInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -122,7 +124,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addCalories")
+            .url("$url/addCalories")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -153,7 +155,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editCaloriesType")
+            .url("$url/editCaloriesType")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -176,7 +178,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editCaloriesTitle")
+            .url("$url/editCaloriesTitle")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -199,7 +201,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editCaloriesContent")
+            .url("$url/editCaloriesContent")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -222,7 +224,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editCaloriesCalories")
+            .url("$url/editCaloriesCalories")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -245,7 +247,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editCaloriesTime")
+            .url("$url/editCaloriesTime")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -267,7 +269,7 @@ class CaloriesRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/deleteCalories")
+            .url("$url/deleteCalories")
             .addHeader("Authorization",token)
             .post(body)
             .build()

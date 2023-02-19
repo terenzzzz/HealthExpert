@@ -11,12 +11,13 @@ import okhttp3.Request
 
 class NewsRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/api"
 
     // 同步请求
     fun getNews(): MutableList<News> {
         var news: MutableList<News> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/api/news")
+            .url("$url/news")
             .get()
             .build()
 
@@ -37,7 +38,7 @@ class NewsRepository {
     fun getNewInfo(id:Int): MutableList<News> {
         var news: MutableList<News> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/api/news?id=$id")
+            .url("$url/news?id=$id")
             .get()
             .build()
 

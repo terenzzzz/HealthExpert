@@ -10,12 +10,13 @@ import java.io.IOException
 
 class UserRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
     fun getUserInfo(token:String):User {
         var user = User()
         val request = Request.Builder()
-        .url("http://terenzzzz.com:88/my/userInfo")
+        .url("$url/userInfo")
         .addHeader("Authorization",token)
         .build()
 
@@ -44,7 +45,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editName")
+            .url("$url/editName")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -66,7 +67,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editGender")
+            .url("$url/editGender")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -88,7 +89,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editAge")
+            .url("$url/editAge")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -110,7 +111,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editHeight")
+            .url("$url/editHeight")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -132,7 +133,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editWeight")
+            .url("$url/editWeight")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -155,7 +156,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editBmi")
+            .url("$url/editBmi")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -177,7 +178,7 @@ class UserRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/editBodyFatRate")
+            .url("$url/editBodyFatRate")
             .addHeader("Authorization",token)
             .post(body)
             .build()

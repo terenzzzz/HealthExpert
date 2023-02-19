@@ -13,12 +13,13 @@ import java.io.IOException
 
 class WalkRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
     fun getWalksOverall(token:String): WalksOverall {
         var walk = WalksOverall()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/walksOverall")
+            .url("$url/walksOverall")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -39,7 +40,7 @@ class WalkRepository {
     fun getWalkStep(token:String): MutableList<WalkStep> {
         var walkSteps: MutableList<WalkStep> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/walkSteps")
+            .url("$url/walkSteps")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -66,7 +67,7 @@ class WalkRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/updateWalksOverall")
+            .url("$url/updateWalksOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -96,7 +97,7 @@ class WalkRepository {
             .build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addWalkSteps")
+            .url("$url/addWalkSteps")
             .addHeader("Authorization",token)
             .post(body)
             .build()

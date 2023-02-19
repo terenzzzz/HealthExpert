@@ -2,4 +2,5 @@
 <resources>
     <string name="googleMapAPIKey">AIzaSyBJtnXvWVd_aeGOUN3Ei6k1q3_iOv142TE</string>
     <string name="openweatherAPIKey">bb01585d3dafe1d3b04332150c924d32</string>
+    <string name="serverUrl">http://terenzzzz.com:88</string>
 </resources>

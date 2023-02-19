@@ -9,12 +9,13 @@ import java.io.IOException
 
 class TrainingsRepository {
     private val client = OkHttpClient()
+    private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
     fun getTrainingOverall(token:String): TrainingOverall {
         var trainingOverall = TrainingOverall()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/trainingOverall")
+            .url("$url/trainingOverall")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -37,7 +38,7 @@ class TrainingsRepository {
         val body = FormBody.Builder().build()
 
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/updateTrainingOverall")
+            .url("$url/updateTrainingOverall")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -64,7 +65,7 @@ class TrainingsRepository {
     fun getTrainings(token:String): MutableList<Trainings> {
         var trainings: MutableList<Trainings> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/trainings")
+            .url("$url/trainings")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -87,7 +88,7 @@ class TrainingsRepository {
     fun getTrainingInfo(token:String,id:Int): MutableList<Trainings> {
         var trainings: MutableList<Trainings> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/trainingInfo?id=$id")
+            .url("$url/trainingInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -111,7 +112,7 @@ class TrainingsRepository {
     fun getTrainingLocations(token:String,idTraining:Int): MutableList<Location> {
         var locations: MutableList<Location> = mutableListOf()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/trainingLocation?idTraining=$idTraining")
+            .url("$url/trainingLocation?idTraining=$idTraining")
             .addHeader("Authorization",token)
             .get()
             .build()
@@ -155,7 +156,7 @@ class TrainingsRepository {
             .add("endTime", endTime)
             .build()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addTraining")
+            .url("$url/addTraining")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -179,7 +180,7 @@ class TrainingsRepository {
             .add("locations", locations)
             .build()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/addLocations")
+            .url("$url/addLocations")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -201,7 +202,7 @@ class TrainingsRepository {
             .add("id", id.toString())
             .build()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/deleteTraining")
+            .url("$url/deleteTraining")
             .addHeader("Authorization",token)
             .post(body)
             .build()
@@ -222,7 +223,7 @@ class TrainingsRepository {
             .add("idTraining", idTraining.toString())
             .build()
         val request = Request.Builder()
-            .url("http://terenzzzz.com:88/my/deleteTrainingLocation")
+            .url("$url/deleteTrainingLocation")
             .addHeader("Authorization",token)
             .post(body)
             .build()
