@@ -69,7 +69,7 @@ class StepService: LifecycleService() {
 
         }
         val initialDelay: Long = 0
-        val period: Long = 5 // period in seconds
+        val period: Long = 600 // period in seconds
         executor.scheduleAtFixedRate(runnable, initialDelay, period, TimeUnit.SECONDS)
     }
 
