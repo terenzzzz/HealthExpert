@@ -23,6 +23,7 @@ import java.util.*
 class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
 
     companion object {
         fun startFn(context: Context) {
@@ -41,8 +42,12 @@ class Water : WatersCompatActivity() {
 
 
 
-        recyclerView = findViewById (R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView = binding.recyclerView
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+
+        recyclerView.layoutManager = layoutManager
 
 
         binding.add200.setOnClickListener (View.OnClickListener { view ->

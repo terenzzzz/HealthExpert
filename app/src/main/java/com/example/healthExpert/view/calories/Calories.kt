@@ -25,6 +25,7 @@ class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var ring: Ring
+    private lateinit var layoutManager: LinearLayoutManager
 
     companion object {
         fun startFn(context: Context) {
@@ -44,7 +45,10 @@ class Calories : CaloriesCompatActivity() {
         setContentView(binding.root)
 
         recyclerView = findViewById (R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
 
 
         binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
