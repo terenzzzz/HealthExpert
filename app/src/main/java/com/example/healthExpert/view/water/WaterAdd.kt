@@ -2,6 +2,7 @@ package com.example.healthExpert.view.water
 
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.healthExpert.databinding.ActivityCaloriesAddBinding
 import com.example.healthExpert.databinding.ActivityWaterAddBinding
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
+import java.util.Date
 
 class WaterAdd : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterAddBinding
@@ -28,6 +30,8 @@ class WaterAdd : WatersCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWaterAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.etTime.text = SimpleDateFormat("HH:mm").format(Date())
 
         // Todo: Need to change default border color
         binding.cardA.background = getDrawable(R.drawable.radius_btn_gray)

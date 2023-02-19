@@ -2,6 +2,7 @@ package com.example.healthExpert.view.calories
 
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
@@ -9,6 +10,7 @@ import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesAddBinding
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class CaloriesAdd : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesAddBinding
@@ -27,6 +29,7 @@ class CaloriesAdd : CaloriesCompatActivity() {
         binding = ActivityCaloriesAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.etTime.text = SimpleDateFormat("HH:mm").format(Date())
 
         binding.intakeBtn.setOnClickListener(View.OnClickListener { view ->
             selectedType = binding.intakeType.text.toString()
