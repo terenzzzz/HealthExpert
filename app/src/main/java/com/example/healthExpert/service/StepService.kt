@@ -59,17 +59,16 @@ class StepService: LifecycleService() {
         // 定时更新
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable = Runnable {
-            walkRepository.addWalkSteps(token,stepCount.toString())
-            walkRepository.updateWalksOverall(token,height,weight)
-            Log.d("StepService", "步数更新！！！！")
-            startingSteps = 0
-            stepCount = 0
-            Log.d("StepService", startingSteps.toString())
-            Log.d("StepService", "步数重置！！！！")
-
+            if(stepCount!=0){
+                walkRepository.addWalkSteps(token,stepCount.toString())
+                walkRepository.updateWalksOverall(token,height,weight)
+                Log.d("StepService", "更新步数：$stepCount")
+                startingSteps = 0
+                stepCount = 0
+            }
         }
         val initialDelay: Long = 0
-        val period: Long = 180 // period in seconds
+        val period: Long = 30 // period in seconds
         executor.scheduleAtFixedRate(runnable, initialDelay, period, TimeUnit.SECONDS)
     }
 
