@@ -116,14 +116,10 @@ class Overall : OverallCompatFragment() {
         binding = FragmentOverallBinding.inflate(layoutInflater)
 
 
-
         // Sleep set up
         sleepSetUp(binding.root)
         // Heart Set Up
         heartSetUp(binding.root)
-
-
-
 
         binding.caloriesBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {

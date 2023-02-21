@@ -6,14 +6,66 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
-import com.example.healthExpert.repository.UserRepository
+import com.example.healthExpert.model.CaloriesOverall
+import com.example.healthExpert.model.TrainingOverall
+import com.example.healthExpert.model.WalksOverall
+import com.example.healthExpert.model.WaterOverall
+import com.example.healthExpert.repository.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
-    private val repository = UserRepository()
-
     private val sharedPreferences: SharedPreferences =
         fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+    private val caloriesRepository = CaloriesRepository()
+    private val walkRepository = WalkRepository()
+    private val watersRepository = WatersRepository()
+    private val trainingsRepository = TrainingsRepository()
+
+    var caloriesAll = MutableLiveData<CaloriesOverall?>()
+    fun getCaloriesOverall(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
+
+            // Refresh UI Update data
+            caloriesAll.postValue(updatedData)
+        }
+    }
+
+    var walkAll = MutableLiveData<WalksOverall?>()
+    fun getWalksOverall(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
+
+            // Refresh UI Update data
+            walkAll.postValue(updatedData)
+        }
+    }
+
+    var watersAll = MutableLiveData<WaterOverall?>()
+    fun getWatersOverall(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { watersRepository.getWaterOverall(it,date) }
+
+            // Refresh UI Update data
+            watersAll.postValue(updatedData)
+        }
+    }
+
+    var trainingAll = MutableLiveData<TrainingOverall?>()
+    fun getTrainingOverall(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { trainingsRepository.getTrainingOverall(it,date) }
+
+            // Refresh UI Update data
+            trainingAll.postValue(updatedData)
+        }
+    }
 
 }
 

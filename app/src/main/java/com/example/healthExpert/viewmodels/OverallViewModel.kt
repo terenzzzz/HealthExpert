@@ -66,8 +66,6 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
         }
     }
 
-
-
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation
