@@ -17,10 +17,10 @@ class CaloriesRepository {
 
 
     // 同步请求
-    fun getCaloriesOverall(token:String): CaloriesOverall {
+    fun getCaloriesOverall(token:String,date:String): CaloriesOverall {
         var caloriesOverall = CaloriesOverall()
         val request = Request.Builder()
-            .url("$url/caloriesOverall")
+            .url("$url/caloriesOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

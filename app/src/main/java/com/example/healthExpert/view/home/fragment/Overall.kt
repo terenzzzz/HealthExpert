@@ -13,6 +13,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.OverallCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.databinding.FragmentOverallBinding
+import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.view.heart.Heart
 import com.example.healthExpert.view.medication.Medication
@@ -30,11 +31,12 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import java.util.ArrayList
+import java.util.*
 
 
 class Overall : OverallCompatFragment() {
     private lateinit var binding: FragmentOverallBinding
+    private var todayDate = DateTimeConvert().toDate(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +102,7 @@ class Overall : OverallCompatFragment() {
 
     override fun onResume() {
         super.onResume()
-        overallViewModel.getCaloriesOverall()
+        overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall()
         overallViewModel.getWatersOverall()
         overallViewModel.getTrainingOverall()

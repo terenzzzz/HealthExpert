@@ -20,12 +20,15 @@ import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer;
+import com.example.healthExpert.utils.DateTimeConvert
+import java.util.*
 
 class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var ring: Ring
     private lateinit var layoutManager: LinearLayoutManager
+    private var todayDate = DateTimeConvert().toDate(Date())
 
     companion object {
         fun startFn(context: Context) {
@@ -92,7 +95,7 @@ class Calories : CaloriesCompatActivity() {
                 // Update the UI
                 caloriesViewModel.updateCaloriesOverall()
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
-                caloriesViewModel.getCaloriesOverall()
+                caloriesViewModel.getCaloriesOverall(todayDate)
             }
         })
         caloriesViewModel.getCalories()

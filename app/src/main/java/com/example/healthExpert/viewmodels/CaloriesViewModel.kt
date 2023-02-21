@@ -27,10 +27,10 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
 
 
 
-    fun getCaloriesOverall(){
+    fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getCaloriesOverall(it) }
+            val updatedData = token?.let { repository.getCaloriesOverall(it,date) }
 
             // Refresh UI Update data
             caloriesAll.postValue(updatedData)
