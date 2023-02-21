@@ -119,6 +119,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val dialog = DatePickerDialog(requireContext(), this, year, month, day)
+        dialog.datePicker.maxDate = calendar.timeInMillis
         dialog.show()
     }
 
