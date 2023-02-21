@@ -34,10 +34,10 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     }
 
     var walkAll = MutableLiveData<WalksOverall?>()
-    fun getWalksOverall(){
+    fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { walkRepository.getWalksOverall(it) }
+            val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
 
             // Refresh UI Update data
             walkAll.postValue(updatedData)
@@ -45,10 +45,10 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     }
 
     var watersAll = MutableLiveData<WaterOverall?>()
-    fun getWatersOverall(){
+    fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { watersRepository.getWaterOverall(it) }
+            val updatedData = token?.let { watersRepository.getWaterOverall(it,date) }
 
             // Refresh UI Update data
             watersAll.postValue(updatedData)
@@ -56,10 +56,10 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     }
 
     var trainingAll = MutableLiveData<TrainingOverall?>()
-    fun getTrainingOverall(){
+    fun getTrainingOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { trainingsRepository.getTrainingOverall(it) }
+            val updatedData = token?.let { trainingsRepository.getTrainingOverall(it,date) }
 
             // Refresh UI Update data
             trainingAll.postValue(updatedData)

@@ -24,10 +24,10 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var watersInfo = MutableLiveData<MutableList<Water>?>()
     var watersAll = MutableLiveData<WaterOverall?>()
 
-    fun getWatersOverall(){
+    fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWaterOverall(it) }
+            val updatedData = token?.let { repository.getWaterOverall(it,date) }
 
             // Refresh UI Update data
             watersAll.postValue(updatedData)

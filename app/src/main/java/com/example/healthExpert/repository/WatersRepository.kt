@@ -15,10 +15,10 @@ class WatersRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getWaterOverall(token:String): WaterOverall {
+    fun getWaterOverall(token:String,date:String): WaterOverall {
         var waterOverall = WaterOverall()
         val request = Request.Builder()
-            .url("$url/waterOverall")
+            .url("$url/waterOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

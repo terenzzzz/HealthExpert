@@ -22,10 +22,10 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var walkSteps = MutableLiveData<MutableList<WalkStep>?>()
 
 
-    fun getWalksOverall(){
+    fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWalksOverall(it) }
+            val updatedData = token?.let { repository.getWalksOverall(it,date) }
 
 //            // Refresh UI Update data
             walkAll.postValue(updatedData)

@@ -103,9 +103,9 @@ class Overall : OverallCompatFragment() {
     override fun onResume() {
         super.onResume()
         overallViewModel.getCaloriesOverall(todayDate)
-        overallViewModel.getWalksOverall()
-        overallViewModel.getWatersOverall()
-        overallViewModel.getTrainingOverall()
+        overallViewModel.getWalksOverall(todayDate)
+        overallViewModel.getWatersOverall(todayDate)
+        overallViewModel.getTrainingOverall(todayDate)
     }
 
     override fun onCreateView(

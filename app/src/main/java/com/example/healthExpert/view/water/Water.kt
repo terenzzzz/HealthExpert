@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityWaterBinding
+import com.example.healthExpert.utils.DateTimeConvert
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,6 +25,7 @@ class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
+    private var todayDate = DateTimeConvert().toDate(Date())
 
     companion object {
         fun startFn(context: Context) {
@@ -96,7 +98,7 @@ class Water : WatersCompatActivity() {
                 // Update the UI
                 watersViewModel.updateWatersOverall()
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
-                watersViewModel.getWatersOverall()
+                watersViewModel.getWatersOverall(todayDate)
             }
 
         })

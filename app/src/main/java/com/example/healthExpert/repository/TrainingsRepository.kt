@@ -12,10 +12,10 @@ class TrainingsRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getTrainingOverall(token:String): TrainingOverall {
+    fun getTrainingOverall(token:String,date:String): TrainingOverall {
         var trainingOverall = TrainingOverall()
         val request = Request.Builder()
-            .url("$url/trainingOverall")
+            .url("$url/trainingOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

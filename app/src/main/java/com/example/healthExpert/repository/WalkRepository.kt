@@ -16,10 +16,10 @@ class WalkRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getWalksOverall(token:String): WalksOverall {
+    fun getWalksOverall(token:String,date:String): WalksOverall {
         var walk = WalksOverall()
         val request = Request.Builder()
-            .url("$url/walksOverall")
+            .url("$url/walksOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

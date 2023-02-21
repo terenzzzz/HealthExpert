@@ -19,14 +19,17 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainBinding
 import com.example.healthExpert.model.Trainings
+import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.calories.CaloriesEdit
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
+import java.util.*
 
 class Train : TrainingsCompatActivity() {
     private lateinit var binding: ActivityTrainBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var ring: Ring
+    private var todayDate = DateTimeConvert().toDate(Date())
 
     companion object {
         fun startFn(context: Context) {
@@ -86,7 +89,7 @@ class Train : TrainingsCompatActivity() {
                 recyclerView.adapter = TrainingsAdapter(
                     trainingsViewModel.trainings, this
                 )
-                trainingsViewModel.getTrainingOverall()
+                trainingsViewModel.getTrainingOverall(todayDate)
             }
         })
         trainingsViewModel.getTrainings()

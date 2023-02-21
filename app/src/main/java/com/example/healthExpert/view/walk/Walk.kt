@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WalkCompatActivity
 import com.example.healthExpert.databinding.ActivityWalkBinding
+import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -29,6 +30,7 @@ class Walk : WalkCompatActivity() {
     private lateinit var binding: ActivityWalkBinding
     private lateinit var ring: Ring
     private lateinit var barChart: BarChart
+    private var todayDate = DateTimeConvert().toDate(Date())
 
 
     companion object {
@@ -105,7 +107,7 @@ class Walk : WalkCompatActivity() {
                 barChart.data = setBarchartData(entries)
             }
         })
-        walkViewModel.getWalksOverall()
+        walkViewModel.getWalksOverall(todayDate)
         walkViewModel.getWalkSteps()
     }
 
