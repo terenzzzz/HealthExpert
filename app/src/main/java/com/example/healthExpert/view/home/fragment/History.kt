@@ -1,30 +1,91 @@
 package com.example.healthExpert.view.home.fragment
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.lifecycle.Observer
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
-import com.example.healthExpert.utils.DatePickerFragment
 import com.example.healthExpert.utils.DateTimeConvert
-import com.example.healthExpert.viewmodels.UserViewModel
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
-import java.util.logging.SimpleFormatter
-import kotlin.math.log
+import kotlin.math.roundToInt
 
 
 class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var binding: FragmentHistoryBinding
     private var selectedDate = DateTimeConvert().toDate(Date())
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        historyViewModel.caloriesAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                var intake = item.Intake
+                var burn = item.Burn
+                var total = burn?.let { intake?.minus(it) }
+                var rate = total?.div(10f)
+                if (rate != null) {
+                    binding.caloriesRing.setValueText("${rate.roundToInt()}%")
+                    binding.caloriesRing.setSweepValue(rate.toFloat())
+                }
+                binding.caloriesValue.text = "${total.toString()} / 1000 kcal"
+
+
+            }
+        })
+
+        historyViewModel.walkAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null){
+                    binding.stepsRing.setValueText("${item.TotalSteps/80}%")
+                    binding.stepsRing.setSweepValue((item.TotalSteps/80).toFloat())
+                    binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
+                    binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
+                }
+            }
+        })
+
+        historyViewModel.watersAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null){
+                    binding.drinkingRing.setSweepValue((item.Total/80).toFloat())
+                    binding.drinkingRing.setValueText("${item.Total/80}%")
+                    binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
+                    binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
+                }
+            }
+        })
+
+        historyViewModel.trainingAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item != null) {
+                    // Update the UI
+                    binding.trainingRing.setSweepValue((item.Duration/1.2).toFloat())
+                    binding.trainingRing.setValueText("${(item.Duration/1.2).roundToInt()}%")
+                    binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
+                    binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
+                }
+            }
+        })
+
+    }
+
 
     override fun onResume() {
+        Log.d("History", "onResume: ")
         super.onResume()
         historyViewModel.getCaloriesOverall(selectedDate)
         historyViewModel.getWalksOverall(selectedDate)
