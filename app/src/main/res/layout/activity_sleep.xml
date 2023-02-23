@@ -68,6 +68,8 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="1dp"
+                        android:layout_marginVertical="15dp"
                         app:contentPadding="10dp">
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -143,7 +145,7 @@
                                             android:layout_marginLeft="10dp"
                                             android:gravity="center"
                                             android:text="Noice(db)"
-                                            android:textSize="20dp"
+                                            android:textSize="15dp"
                                             android:textColor="@color/black"/>
                                     </LinearLayout>
                                     <TextView
@@ -151,44 +153,122 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
                                         android:text="33"
-                                        android:textSize="20dp"
+                                        android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:orientation="vertical">
-                                    <ImageView
+                                    <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/sun"/>
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:src="@drawable/temperature"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center"
+                                            android:text="Temp(°C)"
+                                            android:textSize="15dp"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="09 : 00"
-                                        android:textSize="20dp"
+                                        android:text="8.0"
+                                        android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
                                 </LinearLayout>
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:src="@drawable/pressuregauge"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center"
+                                            android:text="Pressure(hPa)"
+                                            android:textSize="15dp"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="5dp"
+                                        android:text="986.3"
+                                        android:textSize="15dp"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:src="@drawable/temperature"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center"
+                                            android:text="Light(°Lm)"
+                                            android:textSize="15dp"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="5dp"
+                                        android:text="800"
+                                        android:textSize="15dp"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
 
-
-\
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/sleepChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp">
-                    </com.github.mikephil.charting.charts.LineChart>
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -239,301 +319,14 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/sleepChart"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:orientation="vertical">
+                        android:layout_height="150dp">
+                    </com.github.mikephil.charting.charts.LineChart>
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_A"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            app:cardCornerRadius="15dp"
-                            app:contentPadding="10dp"
-                            app:layout_constraintEnd_toStartOf="@id/card_B"
-                            app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal">
-                                    <ImageView
-                                        android:layout_width="15dp"
-                                        android:layout_height="15dp"
-                                        android:src="@drawable/ear"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="10dp"
-                                        android:gravity="center"
-                                        android:text="Noice"
-                                        android:textSize="12dp"
-                                        android:textColor="@color/black"/>
-                                </LinearLayout>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="33 - 34 (db)"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/black"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_B"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            app:cardCornerRadius="15dp"
-                            app:contentPadding="10dp"
-                            app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintEnd_toStartOf="@id/card_C"
-                            app:layout_constraintStart_toEndOf="@id/card_A"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal">
-                                    <ImageView
-                                        android:layout_width="15dp"
-                                        android:layout_height="15dp"
-                                        android:src="@drawable/distance"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="10dp"
-                                        android:gravity="center"
-                                        android:text="Temp"
-                                        android:textSize="12dp"
-                                        android:textColor="@color/black"/>
-
-                                </LinearLayout>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="8.0 (°C)"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/black"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_C"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            app:cardCornerRadius="15dp"
-                            app:contentPadding="10dp"
-                            app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/card_B"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal">
-                                    <ImageView
-                                        android:layout_width="15dp"
-                                        android:layout_height="15dp"
-                                        android:src="@drawable/pressuregauge"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="10dp"
-                                        android:gravity="center"
-                                        android:text="Pressure"
-                                        android:textSize="12dp"
-                                        android:textColor="@color/black"/>
-
-                                </LinearLayout>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="986.3 (hPa)"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/black"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Progress"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1 hours 23 mins"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:indeterminateOnly="false"
-                            android:progressDrawable="@drawable/progressbar"
-                            android:minHeight="10dp"
-                            android:maxHeight="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="5dp"
-                            android:progress="15"
-                            android:max="100"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Progress"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0 hours 10 mins"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:indeterminateOnly="false"
-                            android:progressDrawable="@drawable/progressbar"
-                            android:minHeight="10dp"
-                            android:maxHeight="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="5dp"
-                            android:progress="3"
-                            android:max="100"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Progress"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="3 hours 18 mins"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:indeterminateOnly="false"
-                            android:progressDrawable="@drawable/progressbar"
-                            android:minHeight="10dp"
-                            android:maxHeight="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="5dp"
-                            android:progress="80"
-                            android:max="100"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Progress"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2 hours 43 mins"
-                                android:textColor="@color/black"
-                                android:textSize="10dp"/>
-                        </LinearLayout>
-
-                        <ProgressBar
-                            android:indeterminateOnly="false"
-                            android:progressDrawable="@drawable/progressbar"
-                            android:minHeight="10dp"
-                            android:maxHeight="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="5dp"
-                            android:progress="65"
-                            android:max="100"/>
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>
