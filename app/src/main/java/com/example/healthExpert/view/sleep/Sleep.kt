@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.SleepCompatActivity
 import com.example.healthExpert.databinding.ActivitySleepBinding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -18,7 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.util.ArrayList
 
-class Sleep : AppCompatActivity() {
+class Sleep : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepBinding
 
     companion object {
