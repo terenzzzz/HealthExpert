@@ -17,4 +17,8 @@ class DateTimeConvert {
         return SimpleDateFormat("YYYY-mm-dd HH:mm:ss").format(datetime)
     }
 
+    fun toHHmm(datetime:Date): String {
+        return SimpleDateFormat("HH:mm").format(datetime)
+    }
+
 }
