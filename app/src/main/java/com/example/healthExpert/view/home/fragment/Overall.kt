@@ -60,40 +60,45 @@ class Overall : OverallCompatFragment() {
 
         overallViewModel.walkAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                if (item != null){
-                    binding.walkProgress.progress = item.TotalSteps/100
-                    binding.walkRate.text = "${(item.TotalSteps/100)} %"
-                    binding.walkValue.text = item.TotalSteps.toString()
-                }
+            if (item != null){
+                binding.walkProgress.progress = item.TotalSteps/100
+                binding.walkRate.text = "${(item.TotalSteps/100)} %"
+                binding.walkValue.text = item.TotalSteps.toString()
             }
         })
 
         overallViewModel.watersAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                if (item != null){
-                    binding.waterRing.setSweepValue((item.Total/80).toFloat())
-                    binding.waterRing.setValueText("${item.Total/80}%")
-                    binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
-                    binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
-                    binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
-                }
+            if (item != null){
+                binding.waterRing.setSweepValue((item.Total/80).toFloat())
+                binding.waterRing.setValueText("${item.Total/80}%")
+                binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
+                binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
+                binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
             }
         })
 
         overallViewModel.trainingAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
+                binding.durationValue.text = "${ item.Duration.toFloat() / 60 } hours"
+                binding.speedValue.text = "${ item.Speed } km/h"
+                binding.distanceValue.text = "${ item.Distance } km"
+                binding.trainCaloriesValue.text = "${ item.Calories } kcal"
+            }
+        })
+
+        overallViewModel.medications.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null && list.size >= 0) {
                 // Update the UI
-                if (item != null) {
-                    // Update the UI
-                    binding.durationValue.text = "${ item.Duration.toFloat() / 60 } hours"
-                    binding.speedValue.text = "${ item.Speed } km/h"
-                    binding.distanceValue.text = "${ item.Distance } km"
-                    binding.trainCaloriesValue.text = "${ item.Calories } kcal"
+                binding.medicationName.text = list[0].Name
+                binding.medicationDose.text = "${list[0].Dose} g"
+                binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
+                when(list[0].Type){
+                    "Capsule" -> binding.medicationIcon.setImageResource(R.drawable.capsule)
+                    "Tablet" -> binding.medicationIcon.setImageResource(R.drawable.drug)
+                    "Liquid" -> binding.medicationIcon.setImageResource(R.drawable.syrup)
                 }
             }
         })
@@ -106,6 +111,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)
         overallViewModel.getTrainingOverall(todayDate)
+        overallViewModel.medications(todayDate)
     }
 
     override fun onCreateView(
