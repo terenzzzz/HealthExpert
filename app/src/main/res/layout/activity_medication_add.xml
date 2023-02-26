@@ -74,16 +74,15 @@
                         android:textColor="@color/gray"
                         android:textSize="15dp"/>
 
-                    <EditText
-                        android:id="@+id/et_type"
-                        android:inputType="text"
+                    <Spinner
+                        android:id="@+id/et_gender"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
                         android:paddingHorizontal="10dp"
                         android:background="@drawable/radius_input"
-                        android:maxLines="1"
-                        android:hint="Capsule"/>
+                        android:entries="@array/medicineClass"
+                        android:spinnerMode="dialog" />
 
                     <TextView
                         android:layout_width="wrap_content"
