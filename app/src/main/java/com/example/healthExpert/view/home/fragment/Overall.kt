@@ -90,7 +90,7 @@ class Overall : OverallCompatFragment() {
 
         overallViewModel.medications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
-            if (list != null && list.size >= 0) {
+            if (list != null && list.size > 0) {
                 // Update the UI
                 binding.medicationName.text = list[0].Name
                 binding.medicationDose.text = "${list[0].Dose} g"
