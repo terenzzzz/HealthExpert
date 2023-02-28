@@ -21,16 +21,30 @@
 
 # TODO
 - Main Feature
-    1. - [] Steps Tracker
-    2. - [] Training Tracker
-    3. - [] Water Drinking Reminder
-    4. - [] Calories Records
-    5. - [] Heart Rate Record 
-    6. - [] Medication Reminder 
-    7. - [] Menstrual period
-    8. - [] Sleep Tracker
+    - [x] Steps Tracker
+        - [x] Can get user's steps
+        - [x] Can get steps in the baground(Service)
+        - [x] Can update to database(every 30s)
+        - [x] Can get data from database
+        - [x] Can show the data in the activity
+        - [x] Can plot the graph
+    - [ ] Training Tracker
+        - [x] Can select mode (walking/running/cycling)
+        - [x] Can add title
+        - [ ] Can get metric about the training during recording
+        - [x] Can get location during training(Service)
+        - [x] Can show location in the map
+        - [x] Can add training to database 
+        - [x] Can add get trainining record from database
+        - [x] Can delete record
+    - [ ] Water Drinking Reminder
+    - [ ] Calories Records
+    - [ ] Heart Rate Record 
+    - [ ] Medication Reminder 
+    - [ ] Menstrual period
+    - [ ] Sleep Tracker
 - Aside
-    1. - [] Body index monitoring
-    2. - [] Emergency contact
+    - [ ] Body index monitoring
+    - [ ] Emergency contact
 
 
