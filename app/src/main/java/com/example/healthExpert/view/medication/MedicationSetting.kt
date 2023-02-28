@@ -2,15 +2,18 @@ package com.example.healthExpert.view.medication
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityCaloriesSettingBinding
+import com.example.healthExpert.compatActivity.MedicationsCompatActivity
 import com.example.healthExpert.databinding.ActivityMedicationSettingBinding
 
-class MedicationSetting : AppCompatActivity() {
+class MedicationSetting : MedicationsCompatActivity() {
     private lateinit var binding: ActivityMedicationSettingBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
 
     companion object {
         fun startFn(context: Context) {
@@ -24,6 +27,16 @@ class MedicationSetting : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMedicationSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recyclerView = findViewById (R.id.recycler_view)
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
+
+//        recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,this)
+
+
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()

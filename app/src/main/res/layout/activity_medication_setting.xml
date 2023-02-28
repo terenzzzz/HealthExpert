@@ -66,24 +66,17 @@
                         android:background="@color/light_gray"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Time of Notice(min)"
-                        android:textStyle="bold"
-                        android:textColor="@color/gray"
-                        android:textSize="15dp"/>
-
-                    <EditText
-                        android:id="@+id/et_time"
-                        android:inputType="text"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingHorizontal="10dp"
-                        android:background="@drawable/radius_input"
-                        android:maxLines="1"
-                        android:hint="10"/>
+                        android:layout_height="wrap_content"
+                        android:text="Pending"
+                        android:textSize="15dp"
+                        android:textColor="@color/black" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
 
                 </LinearLayout>
 
