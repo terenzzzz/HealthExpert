@@ -18,3 +18,19 @@
 
 # Design
 - https://www.figma.com/file/2rSFX3lfBXgDCZYWQHIaEK/Health-Expert?node-id=4%3A659&t=xlKEFISCkBVcsJcn-0
+
+# TODO
+- Main Feature
+    1. - [] Steps Tracker
+    2. - [] Training Tracker
+    3. - [] Water Drinking Reminder
+    4. - [] Calories Records
+    5. - [] Heart Rate Record 
+    6. - [] Medication Reminder 
+    7. - [] Menstrual period
+    8. - [] Sleep Tracker
+- Aside
+    1. - [] Body index monitoring
+    2. - [] Emergency contact
+
+
