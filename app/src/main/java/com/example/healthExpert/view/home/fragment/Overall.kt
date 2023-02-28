@@ -32,6 +32,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class Overall : OverallCompatFragment() {
@@ -81,7 +82,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.trainingAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                binding.durationValue.text = "${ item.Duration.toFloat() / 60 } hours"
+                binding.durationValue.text = "${ (item.Duration.toFloat() / 60).roundToInt() } hours"
                 binding.speedValue.text = "${ item.Speed } km/h"
                 binding.distanceValue.text = "${ item.Distance } km"
                 binding.trainCaloriesValue.text = "${ item.Calories } kcal"
