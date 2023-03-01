@@ -9,5 +9,5 @@ data class Medication (
     var Name: String,
     var Dose: Float,
     var Date: Date,
-    var Status: String,
+    var Status: Int,
 )

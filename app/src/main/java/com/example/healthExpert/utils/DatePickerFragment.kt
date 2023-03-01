@@ -30,7 +30,15 @@ class DatePickerFragment(var showView: Button) : DialogFragment(), DatePickerDia
         if(newMonth<10){
             newMonthStr = "0$newMonth"
         }
-        showView.text= "$year-$newMonthStr-$day"
+
+
+        var newDayStr = day.toString()
+        if(day<10){
+            newDayStr = "0$day"
+        }
+
+
+        showView.text= "$year-$newMonthStr-$newDayStr"
 
     }
 }

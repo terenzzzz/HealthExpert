@@ -96,11 +96,6 @@ class Overall : OverallCompatFragment() {
                 binding.medicationName.text = list[0].Name
                 binding.medicationDose.text = "${list[0].Dose} g"
                 binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
-                when(list[0].Type){
-                    "Capsule" -> binding.medicationIcon.setImageResource(R.drawable.capsule)
-                    "Tablet" -> binding.medicationIcon.setImageResource(R.drawable.drug)
-                    "Liquid" -> binding.medicationIcon.setImageResource(R.drawable.syrup)
-                }
             }
         })
 

@@ -120,7 +120,7 @@ class MedicationsAdapter(private val medicationsSet: MutableLiveData<MutableList
             "Liquid" -> holder.type.setImageResource(R.drawable.syrup)
         }
 
-        if(medicationsSet.value!![position].Status == "Done"){
+        if(medicationsSet.value!![position].Status == 1){
             holder.radioBtn.isChecked = true
             holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             holder.dose.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

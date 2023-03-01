@@ -18,6 +18,7 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
     var medications = MutableLiveData<MutableList<Medication>?>()
+    var pendingMedications = MutableLiveData<MutableList<Medication>?>()
 
 
 
@@ -28,6 +29,23 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
 
             // Refresh UI Update data
             medications.postValue(updatedData)
+        }
+    }
+
+    fun pendingMedications(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.pendingMedications(token) }
+
+            // Refresh UI Update data
+            pendingMedications.postValue(updatedData)
+        }
+    }
+
+    fun addMedication(type:String,name:String,dose:String,date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.addMedication(token,type,name,dose,date) }
         }
     }
 
