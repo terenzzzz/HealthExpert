@@ -61,7 +61,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Period"
-                            android:textColor="@color/black"
+                            android:textColor="@color/yellow"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 

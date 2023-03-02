@@ -110,124 +110,66 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:weightSum="4">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="3"
                                 android:textColor="@color/black"
-                                android:text="Train"
+                                android:text="Training"
                                 android:textSize="20dp"
                                 android:textStyle="bold"/>
-
-<!--                            <ImageView-->
-<!--                                android:layout_width="30dp"-->
-<!--                                android:layout_height="30dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:src="@drawable/runner"-->
-<!--                                android:foregroundGravity="right"/>-->
-
-                            </LinearLayout>
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:weightSum="3"
+                                android:layout_marginVertical="10dp"
                                 android:orientation="vertical">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/black"
-                                        android:text="Duration:"
-                                        android:textStyle="bold"
-                                        android:textSize="15dp"/>
-                                    <TextView
-                                        android:id="@+id/duration_value"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="viewEnd"
-                                        android:textColor="@color/black"
-                                        android:text="0.0  hours"
-                                        android:textSize="15dp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/black"
-                                        android:text="Speed:"
-                                        android:textStyle="bold"
-                                        android:textSize="15dp"/>
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+
+                                        android:src="@drawable/chronometer"/>
+
                                     <TextView
                                         android:id="@+id/speed_value"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="viewEnd"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="0.0 km/h"
+                                        android:text="1.6 km/h"
+                                        android:textStyle="bold"
                                         android:textSize="15dp"/>
+
+
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="15dp"
                                     android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/black"
-                                        android:text="Distance:"
-                                        android:textStyle="bold"
-                                        android:textSize="15dp"/>
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+
+                                        android:src="@drawable/distance"/>
+
                                     <TextView
                                         android:id="@+id/distance_value"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="viewEnd"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="0.0  km"
-                                        android:textSize="15dp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/black"
-                                        android:text="Calories:"
+                                        android:text="3.4 km"
                                         android:textStyle="bold"
                                         android:textSize="15dp"/>
-                                    <TextView
-                                        android:id="@+id/train_calories_value"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="viewEnd"
-                                        android:textColor="@color/black"
-                                        android:text="0.0  kcal"
-                                        android:textSize="15dp"/>
                                 </LinearLayout>
+
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>

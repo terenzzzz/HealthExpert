@@ -73,7 +73,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="Calories"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/yellow"
                                     android:textStyle="bold"
                                     android:textSize="20dp"/>
                                 <ImageView

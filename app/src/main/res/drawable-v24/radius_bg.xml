@@ -8,6 +8,6 @@
     </corners>
 
     <solid android:color="@color/white"/>   <!-- 设置背景颜色 -->
-    <stroke android:color="@color/main" android:width="1dp"/> <!-- 设置边框颜色以及宽度 -->
+<!--    <stroke android:color="@color/main" android:width="1dp"/> &lt;!&ndash; 设置边框颜色以及宽度 &ndash;&gt;-->
 
 </shape>
