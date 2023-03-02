@@ -76,6 +76,7 @@ class Overall : OverallCompatFragment() {
                 binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
                 binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
+
             }
         })
 

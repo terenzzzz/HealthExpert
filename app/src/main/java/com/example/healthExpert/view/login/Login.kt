@@ -53,7 +53,7 @@ class Login : AppCompatActivity() {
                 arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
                 5)
         }
-        getNotificationPermission()
+//        getNotificationPermission()
 
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
