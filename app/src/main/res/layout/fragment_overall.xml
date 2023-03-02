@@ -42,22 +42,41 @@
                         android:id="@+id/caloriesBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        app:cardBackgroundColor="@color/home_orrange"
+
+                        app:cardBackgroundColor="@color/white"
                         app:contentPadding="15dp"
-                        app:cardCornerRadius="20dp" >
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Calories"
-                                android:textSize="20dp"
-                                android:textStyle="bold">
-                            </TextView>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Calories"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/calories"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
 
                             <com.example.healthExpert.widget.Ring
                                 android:id="@+id/calories"
@@ -102,37 +121,38 @@
                         android:id="@+id/trainBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        app:cardBackgroundColor="@color/home_light_grey"
+                        app:cardBackgroundColor="@color/white"
                         app:contentPadding="15dp"
-                        app:cardCornerRadius="20dp" >
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:weightSum="4">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:textColor="@color/black"
-                                android:text="Train"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Trainning"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
 
-<!--                            <ImageView-->
-<!--                                android:layout_width="30dp"-->
-<!--                                android:layout_height="30dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:src="@drawable/runner"-->
-<!--                                android:foregroundGravity="right"/>-->
-
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/runner"
+                                    android:layout_gravity="center"/>
                             </LinearLayout>
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -237,22 +257,38 @@
                         android:id="@+id/sleepBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
                         app:cardCornerRadius="20dp"
-                        app:cardBackgroundColor="@color/home_green"
-                        app:contentPadding="15dp">
+                        app:cardBackgroundColor="@color/white"
+                        app:contentPadding="15dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Sleep"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Sleep"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/sleeping"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
                             <com.github.mikephil.charting.charts.LineChart
                                 android:id="@+id/sleepChart"
                                 android:layout_width="match_parent"
@@ -285,21 +321,37 @@
                         android:id="@+id/periodBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
                         app:cardCornerRadius="20dp"
-                        app:cardBackgroundColor="@color/home_deep_red"
-                        app:contentPadding="15dp">
+                        app:cardBackgroundColor="@color/white"
+                        app:contentPadding="15dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Period"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Period"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/menstruation"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -335,7 +387,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:orientation="vertical"
                     android:gravity="right"
                     android:weightSum="1">
@@ -344,23 +396,42 @@
                         android:id="@+id/stepBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        app:cardBackgroundColor="@color/home_gray"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="20dp"
-                        app:contentPadding="15dp">
+                        app:contentPadding="15dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Daily Walk"
-                                android:textColor="@color/black"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Walk"
+                                    android:textColor="@color/black"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/shoes"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -422,21 +493,39 @@
                         android:id="@+id/waterBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
+
                         app:cardCornerRadius="20dp"
                         app:contentPadding="15dp"
-                        app:cardBackgroundColor="@color/home_blue">
+                        app:cardBackgroundColor="@color/white"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Water"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Water"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/waterbottle"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
 
                             <com.example.healthExpert.widget.Ring
                                 android:id="@+id/water_ring"
@@ -474,21 +563,39 @@
                         android:id="@+id/medicalBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
                         app:cardCornerRadius="20dp"
-                        app:cardBackgroundColor="@color/home_deep_blue"
-                        app:contentPadding="15dp">
+                        app:cardBackgroundColor="@color/white"
+                        app:contentPadding="15dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Medication"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Medicine"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/capsule"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -537,21 +644,37 @@
                         android:id="@+id/heartBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
                         app:cardCornerRadius="20dp"
                         app:contentPadding="15dp"
-                        app:cardBackgroundColor="@color/home_red">
+                        app:cardBackgroundColor="@color/white"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true"
+                        app:cardPreventCornerOverlap="false"
+                        android:padding="4dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="Heart Rate"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/black"
+                                    android:text="Heart Rate"
+                                    android:textSize="20dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/heartattack"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
 
                             <com.github.mikephil.charting.charts.LineChart
                                 android:id="@+id/heartChart"

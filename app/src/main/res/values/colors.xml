@@ -15,6 +15,8 @@
     <color name="red">#E86969</color>
     <color name="green">#20B008</color>
     <color name="light_gray">#FBFAF3</color>
+    <color name="light_gray_bg">#fdfdfd</color>
+    <color name="light_blue">#4d42ff</color>
 
     <color name="home_orrange">#F3CB8D</color>
     <color name="home_gray">#DDD3C8</color>

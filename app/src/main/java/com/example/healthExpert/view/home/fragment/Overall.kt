@@ -51,6 +51,8 @@ class Overall : OverallCompatFragment() {
                 var total = burn?.let { intake?.minus(it) }
                 var rate = total?.div(10f)
                 binding.calories.setValueText(total.toString())
+                binding.calories.setBgColor(Color.rgb(217, 217, 217))
+                binding.calories.setSweepColor(Color.rgb(255, 205, 105))
                 binding.calories.setUnit("kcal")
                 binding.caloriesValue.text = total.toString()
                 if (rate != null) {
