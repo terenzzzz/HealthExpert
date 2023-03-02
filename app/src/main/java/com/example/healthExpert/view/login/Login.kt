@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.util.Log
 import android.view.View
@@ -51,6 +53,7 @@ class Login : AppCompatActivity() {
                 arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
                 5)
         }
+        getNotificationPermission()
 
         // Retrieve Token from SharedPreferences
         val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
@@ -125,6 +128,21 @@ class Login : AppCompatActivity() {
                 response.close()
             }
         })
+    }
+
+    private fun getNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val intent = Intent()
+            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.packageName)
+            this.startActivity(intent)
+        } else {
+            val intent = Intent()
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            intent.putExtra("app_package", this.applicationContext.packageName)
+            intent.putExtra("app_uid", this.applicationInfo.uid)
+            this.startActivity(intent)
+        }
     }
 
 }

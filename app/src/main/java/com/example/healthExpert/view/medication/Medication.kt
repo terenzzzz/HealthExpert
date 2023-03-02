@@ -1,6 +1,7 @@
 package com.example.healthExpert.view.medication
 
 import android.app.*
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
@@ -103,7 +104,7 @@ class Medication : MedicationsCompatActivity() {
         }
         //生成intent，让通知可以点击回到主页面
         val intent = Intent(this, Home::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 222, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 222, intent, FLAG_IMMUTABLE)
         //检查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //生成notication模板
@@ -125,21 +126,6 @@ class Medication : MedicationsCompatActivity() {
         }
     }
 
-
-    fun getPermission(view: View?) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            val intent = Intent()
-            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.packageName)
-            this.startActivity(intent)
-        } else {
-            val intent = Intent()
-            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-            intent.putExtra("app_package", this.applicationContext.packageName)
-            intent.putExtra("app_uid", this.applicationInfo.uid)
-            this.startActivity(intent)
-        }
-    }
 }
 
 // RecycleView Adapter
