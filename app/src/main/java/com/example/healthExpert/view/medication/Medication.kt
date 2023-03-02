@@ -1,9 +1,13 @@
 package com.example.healthExpert.view.medication
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +25,9 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.MedicationsCompatActivity
 import com.example.healthExpert.databinding.ActivityMedicationBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.view.login.Login
 import java.util.*
+
 
 
 class Medication : MedicationsCompatActivity() {
@@ -56,8 +64,6 @@ class Medication : MedicationsCompatActivity() {
 
         recyclerView = findViewById (R.id.recycler_view)
         layoutManager = LinearLayoutManager(this)
-        layoutManager.reverseLayout = true
-        layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
 
         binding.settingBtn.setOnClickListener(View.OnClickListener { view ->
@@ -69,14 +75,47 @@ class Medication : MedicationsCompatActivity() {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
+
+        binding.notificationBtn.setOnClickListener(View.OnClickListener { view ->
+            // Create the NotificationChannel
+            val name = "My Notification Channel"
+            val descriptionText = "This is my notification channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("my_channel_01", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+            val builder = NotificationCompat.Builder(this, "my_channel_01")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("My Notification")
+                .setContentText("This is my notification content")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            val intent = Intent(this, Login::class.java)
+            val pendingIntent = PendingIntent.getActivity(
+                this,
+                1,
+                intent,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            )
+            builder.setContentIntent(pendingIntent)
+
+            with(NotificationManagerCompat.from(this)) {
+                // notificationId is a unique int for each notification that you must define
+                notify(1, builder.build())
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
         medicationsViewModel.medications(todayDate)
-
-
     }
+
+
 }
 
 // RecycleView Adapter
