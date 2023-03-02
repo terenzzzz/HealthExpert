@@ -1,14 +1,13 @@
 package com.example.healthExpert.view.medication
 
-import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +24,9 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.MedicationsCompatActivity
 import com.example.healthExpert.databinding.ActivityMedicationBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.login.Login
 import java.util.*
-
 
 
 class Medication : MedicationsCompatActivity() {
@@ -35,6 +34,7 @@ class Medication : MedicationsCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private var todayDate = DateTimeConvert().toDate(Date())
+    private var manager: NotificationManager? = null
 
     companion object {
         fun startFn(context: Context) {
@@ -76,37 +76,11 @@ class Medication : MedicationsCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
+
+
         binding.notificationBtn.setOnClickListener(View.OnClickListener { view ->
-            // Create the NotificationChannel
-            val name = "My Notification Channel"
-            val descriptionText = "This is my notification channel"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("my_channel_01", name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-
-            val builder = NotificationCompat.Builder(this, "my_channel_01")
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle("My Notification")
-                .setContentText("This is my notification content")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            val intent = Intent(this, Login::class.java)
-            val pendingIntent = PendingIntent.getActivity(
-                this,
-                1,
-                intent,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
-            )
-            builder.setContentIntent(pendingIntent)
-
-            with(NotificationManagerCompat.from(this)) {
-                // notificationId is a unique int for each notification that you must define
-                notify(1, builder.build())
-            }
+            Log.d("Medication", "notificationBtn: Clicked ")
+            createNotification(binding.root)
         })
     }
 
@@ -115,7 +89,57 @@ class Medication : MedicationsCompatActivity() {
         medicationsViewModel.medications(todayDate)
     }
 
+    fun createNotification(view: View?) {
+//        getPermission(view)
+        //生成manager
+        manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        //检查版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //生成Channel
+            val notificationChannel =
+                NotificationChannel("testChannelId", "test", NotificationManager.IMPORTANCE_HIGH)
+            //添加Channel到manager
+            manager!!.createNotificationChannel(notificationChannel)
+        }
+        //生成intent，让通知可以点击回到主页面
+        val intent = Intent(this, Home::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 222, intent, 0)
+        //检查版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //生成notication模板
+            val notification = Notification.Builder(this, "testChannelId")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.icon) //自定义样式
+                //                    .setCustomContentView(remoteViews)
+                .setContentTitle("Medication Reminder")
+                .setContentText("You have some medicine you may need to take!") //                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                //                    .addAction(R.drawable.ic_launcher_background,"按钮",pendingIntent)
+                //                    .setProgress(100,50,false)
+                //                    .setStyle(new Notification.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.cat)))
+                //                    .setStyle(new Notification.BigTextStyle().bigText("6666666666666666666666666666666666666666666666666666666666666666666666"))
+                .build()
+            //添加notication模板到manager
+            manager!!.notify(11, notification)
+        }
+    }
 
+
+    fun getPermission(view: View?) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val intent = Intent()
+            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.packageName)
+            this.startActivity(intent)
+        } else {
+            val intent = Intent()
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            intent.putExtra("app_package", this.applicationContext.packageName)
+            intent.putExtra("app_uid", this.applicationInfo.uid)
+            this.startActivity(intent)
+        }
+    }
 }
 
 // RecycleView Adapter
