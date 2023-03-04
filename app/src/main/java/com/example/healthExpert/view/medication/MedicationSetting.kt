@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +50,6 @@ class MedicationSetting : MedicationsCompatActivity() {
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = MedicationSettingAdapter(medicationsViewModel.pendingMedications,this)
-                Log.d("芜湖", medicationsViewModel.pendingMedications.value.toString())
             }
         })
 
@@ -98,6 +98,13 @@ class MedicationSettingAdapter(private val medicationsSet: MutableLiveData<Mutab
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener { view ->
             Log.d("adapter", medicationsSet.value!![position].id.toString())
+
+            val intent = Intent(activity, MedicationEdit::class.java)
+            val bundle = Bundle()
+            bundle.putString("id", medicationsSet.value!![position].id.toString())
+            intent.putExtras(bundle)
+            activity.startActivity(intent)
+
         })
         holder.date.text = DateTimeConvert().toDate(medicationsSet.value!![position].Date)
         holder.time.text = DateTimeConvert().toHHmm(medicationsSet.value!![position].Date)

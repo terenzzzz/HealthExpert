@@ -18,6 +18,7 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
     var medications = MutableLiveData<MutableList<Medication>?>()
+    var medication = MutableLiveData<Medication?>()
     var pendingMedications = MutableLiveData<MutableList<Medication>?>()
 
 
@@ -25,10 +26,20 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
     fun medications(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.medicines(token,date) }
+            val updatedData = token?.let { repository.medications(token,date) }
 
             // Refresh UI Update data
             medications.postValue(updatedData)
+        }
+    }
+
+    fun medication(id:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.medication(token,id) }
+
+            // Refresh UI Update data
+            medication.postValue(updatedData)
         }
     }
 
@@ -46,6 +57,34 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             val updatedData = token?.let { repository.addMedication(token,type,name,dose,date) }
+        }
+    }
+
+    fun editMedicationType(id: String, type:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.editMedicationType(token,id,type) }
+        }
+    }
+
+    fun editMedicationName(id: String, name:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.editMedicationName(token,id,name) }
+        }
+    }
+
+    fun editMedicationDose(id: String, dose:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.editMedicationDose(token,id,dose) }
+        }
+    }
+
+    fun editMedicationDate(id: String, date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.editMedicationDate(token,id,date) }
         }
     }
 

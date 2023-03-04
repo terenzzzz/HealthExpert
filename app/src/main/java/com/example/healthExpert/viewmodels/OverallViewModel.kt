@@ -71,7 +71,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun medications(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { medicationRepository.medicines(it,date) }
+            val updatedData = token?.let { medicationRepository.medications(it,date) }
 
             // Refresh UI Update data
             medications.postValue(updatedData)

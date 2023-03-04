@@ -18,7 +18,7 @@ class MedicationRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun medicines(token:String, date:String): MutableList<Medication> {
+    fun medications(token:String, date:String): MutableList<Medication> {
         var medications: MutableList<Medication> = mutableListOf()
         val request = Request.Builder()
             .url("$url/medications?date=$date")
@@ -38,6 +38,27 @@ class MedicationRepository {
             response.close()
         }
         return medications
+    }
+
+    // 同步请求
+    fun medication(token:String, id:String): Medication? {
+        var medication : Medication? = null
+        val request = Request.Builder()
+            .url("$url/medication?id=$id")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
+            if (parsed.data != null){
+                medication = parsed.data!![0]
+            }
+            Log.d("药物", medication.toString())
+            response.close()
+        }
+        return medication
     }
 
     // 同步请求
@@ -94,6 +115,98 @@ class MedicationRepository {
                 }
             }
         })
+        return resStatus
+    }
+
+    fun editMedicationName(token:String,id: String,name: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id)
+            .add("name", name)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/editMedicationName")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesType", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editMedicationDate(token:String,id: String,date: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id)
+            .add("date", date)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/editMedicationDate")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesType", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editMedicationDose(token:String,id: String,dose: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id)
+            .add("dose", dose)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/editMedicationDose")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesType", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
+    fun editMedicationType(token:String,id: String,type: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id)
+            .add("type", type)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/editMedicationType")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editCaloriesType", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
         return resStatus
     }
 }

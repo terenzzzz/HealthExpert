@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/main"
+        tools:context=".view.medication.MedicationEdit">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingHorizontal="30dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/back_btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/back"/>
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/avatar" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/radius_bg"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    app:cardElevation="0dp"
+                    app:contentPadding="30dp"
+                    app:contentPaddingTop="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Medication Reminder"
+                            android:textSize="20dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"/>
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/light_gray"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Type"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <Spinner
+                            android:id="@+id/et_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:entries="@array/medicineClass"
+                            android:spinnerMode="dialog" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Name of Drug"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <EditText
+                            android:id="@+id/et_name"
+                            android:inputType="textPersonName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:maxLines="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Dose(g)"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <EditText
+                            android:id="@+id/et_dose"
+                            android:inputType="textPersonName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:maxLines="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Date"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <Button
+                            android:id="@+id/et_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:maxLines="1"
+                            android:onClick="showDatePickerDialog"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Time"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"
+                            android:textSize="15dp"/>
+
+                        <Button
+                            android:id="@+id/et_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:background="@drawable/radius_input"
+                            android:maxLines="1"
+                            android:onClick="showTimePickerDialog"/>
+
+                        <Button
+                            android:id="@+id/delete_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/radius_btn_bg_red"
+                            android:text="Delete Record"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:id="@+id/update_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:text="update"
+                android:textSize="20dp"
+                android:background="@drawable/radius_btn"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</layout>
