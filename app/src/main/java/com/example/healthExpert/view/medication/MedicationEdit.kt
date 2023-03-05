@@ -62,6 +62,13 @@ class MedicationEdit : MedicationsCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
+        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
+            medicationsViewModel.deleteMedication(id)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        })
+
+
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
             val type = binding.etType.selectedItem.toString()
             val name = binding.etName.text.toString()
