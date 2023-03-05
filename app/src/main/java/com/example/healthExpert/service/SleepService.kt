@@ -38,9 +38,12 @@ class SleepService:LifecycleService() {
     private var lastPressure = 0F
     private var lastTemperature = 0F
     private var lastLight = 0F
+    private var lastHumidity = 0F
+
     val pressureSet = mutableSetOf<Float>()
     val temperatureSet = mutableSetOf<Float>()
     val lightSet = mutableSetOf<Float>()
+    val humiditySet = mutableSetOf<Float>()
 
     // Sensor
     private lateinit var sensorManager: SensorManager
@@ -50,6 +53,8 @@ class SleepService:LifecycleService() {
     private lateinit var pressureCallback: SensorEventCallback
     private var lightSensor: Sensor?=null
     private lateinit var lightCallback: SensorEventCallback
+    private var humiditySensor: Sensor?=null
+    private lateinit var humidityCallback: SensorEventCallback
 
 
 
@@ -74,6 +79,8 @@ class SleepService:LifecycleService() {
         timerHandler.removeCallbacks(timerRunnable)
         sensorManager.unregisterListener(temperatureCallback)
         sensorManager.unregisterListener(pressureCallback)
+        sensorManager.unregisterListener(lightCallback)
+        sensorManager.unregisterListener(humidityCallback)
 
         stopSelf()
 
@@ -91,6 +98,7 @@ class SleepService:LifecycleService() {
         temperatureCallback = getTemperatureCallback()
         pressureCallback = getPressureCallback()
         lightCallback = getLightCallback()
+        humidityCallback = getHumidityCallback()
 
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
         sensorManager.registerListener(temperatureCallback,temperatureSensor,SensorManager.SENSOR_DELAY_NORMAL)
@@ -100,6 +108,9 @@ class SleepService:LifecycleService() {
 
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         sensorManager.registerListener(lightCallback,lightSensor,SensorManager.SENSOR_DELAY_NORMAL)
+
+        humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
+        sensorManager.registerListener(humidityCallback,humiditySensor,SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private fun getTemperatureCallback(): SensorEventCallback {
@@ -113,11 +124,7 @@ class SleepService:LifecycleService() {
                     temperatureSet.add(lastTemperature)
 //                    Log.d("服务", "temperatureSet: $temperatureSet")
 
-                    val intent = Intent("sensor_update")
-                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
-                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
-                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
-                    sendBroadcast(intent)
+                    brocasting()
                 }
             }
         }
@@ -135,11 +142,7 @@ class SleepService:LifecycleService() {
                     pressureSet.add(lastPressure)
 //                    Log.d("服务", "lastPressure: ${pressureSet}")
 
-                    val intent = Intent("sensor_update")
-                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
-                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
-                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
-                    sendBroadcast(intent)
+                    brocasting()
 
                 }
             }
@@ -158,16 +161,30 @@ class SleepService:LifecycleService() {
                     lightSet.add(lastLight)
 //                    Log.d("服务", "lightSet: ${lightSet}")
 
-                    val intent = Intent("sensor_update")
-                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
-                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
-                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
-                    sendBroadcast(intent)
+                    brocasting()
 
                 }
             }
         }
         return lightCallback
+    }
+
+    private fun getHumidityCallback(): SensorEventCallback {
+        // Handle Pressure update
+        val humidityCallback = object : SensorEventCallback(){
+            override fun onSensorChanged(event: SensorEvent?) {
+                val currentHumidity = event?.values?.get(0)
+                if (currentHumidity != null && abs(currentHumidity - lastHumidity) > 0.1f) {
+                    // process the new pressure value
+                    lastHumidity = currentHumidity
+                    humiditySet.add(lastHumidity)
+//                    Log.d("服务", "lightSet: ${lightSet}")
+
+                    brocasting()
+                }
+            }
+        }
+        return humidityCallback
     }
 
 
@@ -188,6 +205,15 @@ class SleepService:LifecycleService() {
 
         // Start the timer
         timerHandler.post(timerRunnable)
+    }
+
+    private fun brocasting(){
+        val intent = Intent("sensor_update")
+        intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
+        intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+        intent.putExtra("lightSet", lightSet as java.io.Serializable)
+        intent.putExtra("humiditySet", humiditySet as java.io.Serializable)
+        sendBroadcast(intent)
     }
 
     /**
