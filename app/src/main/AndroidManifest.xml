@@ -45,6 +45,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service
+            android:name=".service.SleepService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".view.water.WaterEdit"
             android:exported="false"/>

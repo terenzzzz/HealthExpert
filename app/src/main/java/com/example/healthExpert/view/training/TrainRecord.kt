@@ -176,7 +176,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         Intent(this, LocationService::class.java).apply {
             stopService(this)
         }
-
     }
 
     private fun addMarker(latitude:Double,longitude:Double){

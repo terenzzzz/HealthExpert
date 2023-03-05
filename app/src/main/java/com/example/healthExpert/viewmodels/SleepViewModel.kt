@@ -3,8 +3,10 @@ package com.example.healthExpert.viewmodels
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.healthExpert.model.News
 import com.example.healthExpert.repository.NewsRepository
 import com.example.healthExpert.repository.SleepRepository
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +17,13 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+    var time = MutableLiveData<String>()
 
-    
+    fun updateTimer(time:String){
+        this.time.value = time
+    }
+
+
 
 
 
