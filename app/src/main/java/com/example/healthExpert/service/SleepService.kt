@@ -19,13 +19,13 @@ import androidx.lifecycle.LifecycleService
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.sleep.SleepRecord
 import java.util.*
+
 import kotlin.math.abs
 
 
 class SleepService:LifecycleService() {
     private val CHANNEL_ID = "sleep notification channel id"
-    private var startDateTime = Date()
-    private var startTime = DateTimeConvert().toDateTime(startDateTime)
+    private var startTime = DateTimeConvert().toDateTime(Date())
     private var currentTime = ""
     private var endTime = ""
 
@@ -134,7 +134,7 @@ class SleepService:LifecycleService() {
         val pressureCallback = object : SensorEventCallback(){
             override fun onSensorChanged(event: SensorEvent?) {
                 val currentPressure = event?.values?.get(0)
-                if (currentPressure != null && abs(currentPressure - lastPressure) > 0.1f) {
+                if (currentPressure != null && abs(currentPressure - lastPressure) > 1f) {
                     // process the new pressure value
                     lastPressure = currentPressure
                     pressureSet.add(lastPressure)
@@ -153,7 +153,7 @@ class SleepService:LifecycleService() {
         val lightCallback = object : SensorEventCallback(){
             override fun onSensorChanged(event: SensorEvent?) {
                 val currentLight = event?.values?.get(0)
-                if (currentLight != null && abs(currentLight - lastLight) > 0.1f) {
+                if (currentLight != null && abs(currentLight - lastLight) > 1f) {
                     // process the new pressure value
                     lastLight = currentLight
                     lightSet.add(lastLight)
@@ -172,7 +172,7 @@ class SleepService:LifecycleService() {
         val humidityCallback = object : SensorEventCallback(){
             override fun onSensorChanged(event: SensorEvent?) {
                 val currentHumidity = event?.values?.get(0)
-                if (currentHumidity != null && abs(currentHumidity - lastHumidity) > 0.1f) {
+                if (currentHumidity != null && abs(currentHumidity - lastHumidity) > 1f) {
                     // process the new pressure value
                     lastHumidity = currentHumidity
                     humiditySet.add(lastHumidity)
@@ -193,8 +193,7 @@ class SleepService:LifecycleService() {
             override fun run() {
                 // Execute your code here
 
-                currentTime = DateTimeConvert().toDateTime(Date())
-                val timeDifference = DateTimeConvert().subTimes(startTime,currentTime)
+                val timeDifference = DateTimeConvert().subTimes(startTime,DateTimeConvert().toDateTime(Date()))
 
 
                 val intent = Intent("timer_update")

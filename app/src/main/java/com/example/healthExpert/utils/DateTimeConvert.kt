@@ -1,8 +1,11 @@
 package com.example.healthExpert.utils
 
+import android.util.Log
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class DateTimeConvert {
 
@@ -15,7 +18,7 @@ class DateTimeConvert {
     }
 
     fun toDateTime(datetime:Date): String {
-        return SimpleDateFormat("YYYY-mm-dd HH:mm:ss").format(datetime)
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(datetime)
     }
 
     fun toHHmm(datetime:Date): String {
@@ -23,16 +26,24 @@ class DateTimeConvert {
     }
 
     fun subTimes(startTime: String, endTime: String): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val startDateTime = dateFormat.parse(startTime)
-        val endDateTime = dateFormat.parse(endTime)
-        val timeDifferenceMillis = endDateTime.time - startDateTime.time
-        return String.format(
-            "%02d:%02d:%02d",
-            TimeUnit.MILLISECONDS.toHours(timeDifferenceMillis),
-            TimeUnit.MILLISECONDS.toMinutes(timeDifferenceMillis) % TimeUnit.HOURS.toMinutes(1),
-            TimeUnit.MILLISECONDS.toSeconds(timeDifferenceMillis) % TimeUnit.MINUTES.toSeconds(1)
-        )
+        // Create formatter for the input string
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+        // Parse the input strings into LocalDateTime objects
+        val startDateTime = LocalDateTime.parse(startTime, formatter)
+        val endDateTime = LocalDateTime.parse(endTime, formatter)
+
+        // Calculate the difference between the two LocalDateTime objects
+        val duration = Duration.between(startDateTime, endDateTime)
+
+
+        // Extract the hours, minutes, and seconds from the duration
+        val hours = duration.toHours()
+        val minutes = duration.toMinutes() % 60
+        val seconds = duration.seconds % 60
+
+        // Format the result as a string with format HH:mm:ss
+        return "%02d:%02d:%02d".format(hours, minutes, seconds)
     }
 
 }
