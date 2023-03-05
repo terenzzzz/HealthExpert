@@ -35,6 +35,10 @@ class Sleep : SleepCompatActivity() {
         binding = ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+            SleepRecord.startFn(this)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)

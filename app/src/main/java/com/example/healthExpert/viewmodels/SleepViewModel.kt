@@ -1,5 +1,6 @@
 package com.example.healthExpert.viewmodels
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -11,9 +12,12 @@ import kotlinx.coroutines.launch
 
 class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val repository = SleepRepository()
-    //    private val sharedPreferences: SharedPreferences =
-//        fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
-//    private val token = sharedPreferences.getString("token","")
+    private val sharedPreferences: SharedPreferences =
+        activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
+    private val token = sharedPreferences.getString("token","")
+
+    
+
 
 
 

@@ -98,6 +98,9 @@
             android:name=".view.sleep.Sleep"
             android:exported="false" />
         <activity
+            android:name=".view.sleep.SleepRecord"
+            android:exported="false" />
+        <activity
             android:name=".view.water.WaterAdd"
             android:exported="false" />
         <activity
