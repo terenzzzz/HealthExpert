@@ -22,6 +22,7 @@ import java.util.*
 
 class SleepRecord : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepRecordBinding
+    private var startTime = DateTimeConvert().toDateTime(Date())
 
 
     // Broadcast

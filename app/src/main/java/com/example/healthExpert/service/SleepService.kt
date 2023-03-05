@@ -11,7 +11,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventCallback
 import android.hardware.SensorManager
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -19,15 +18,14 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.sleep.SleepRecord
-
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.log
+
 
 class SleepService:LifecycleService() {
     private val CHANNEL_ID = "sleep notification channel id"
     private var startDateTime = Date()
-    private var startTime = DateTimeConvert().toTime(startDateTime)
+    private var startTime = DateTimeConvert().toDateTime(startDateTime)
     private var currentTime = ""
     private var endTime = ""
 
@@ -194,9 +192,13 @@ class SleepService:LifecycleService() {
         timerRunnable = object : Runnable {
             override fun run() {
                 // Execute your code here
-                currentTime = DateTimeConvert().toTime(Date())
+
+                currentTime = DateTimeConvert().toDateTime(Date())
+                val timeDifference = DateTimeConvert().subTimes(startTime,currentTime)
+
+
                 val intent = Intent("timer_update")
-                intent.putExtra("currentTime", currentTime)
+                intent.putExtra("currentTime", timeDifference)
                 sendBroadcast(intent)
                 // Schedule the next execution of this Runnable in 1 second
                 timerHandler.postDelayed(this, 1000)
