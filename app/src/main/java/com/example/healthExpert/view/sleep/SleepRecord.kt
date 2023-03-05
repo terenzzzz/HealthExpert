@@ -22,12 +22,15 @@ import java.util.*
 
 class SleepRecord : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepRecordBinding
-    private lateinit var mHandler: Handler
-    private lateinit var mRunnable: Runnable
-    private var mCounter: Int = 0
+
 
     // Broadcast
-    private lateinit var receiver: BroadcastReceiver
+    private lateinit var timeReceiver: BroadcastReceiver
+    private lateinit var sensorReceiver: BroadcastReceiver
+
+    //data
+    private var pressureSet = mutableSetOf<Float>()
+    private var temperatureSet = mutableSetOf<Float>()
 
     companion object {
         fun startFn(context: Context) {
@@ -47,6 +50,11 @@ class SleepRecord : SleepCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
+        binding.stopBtn.setOnClickListener (View.OnClickListener {
+//            finish()
+//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        })
+
 
         binding.clockRing.setBgColor(Color.rgb(174,214,207))
         sleepViewModel.time.observe(this, Observer { item ->
@@ -59,27 +67,16 @@ class SleepRecord : SleepCompatActivity() {
         })
 
         callService()
-        broadcastReceiverStart()
+        timeReceiver = timeBroadcastReceiverStart()
+        sensorReceiver = sensorBroadcastReceiverStart()
 
-//        mHandler = Handler(Looper.getMainLooper())
-//        mRunnable = object : Runnable {
-//            override fun run() {
-//                // Execute your method here
-//                sleepViewModel.updateTimer(DateTimeConvert().toTime(Date()))
-//
-//                // Schedule the next execution of this Runnable in 1 second
-//                mHandler.postDelayed(this, 1000)
-//            }
-//        }
-//
-//        // Start the timer
-//        mHandler.post(mRunnable)
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
+        unregisterReceiver(timeReceiver)
+        unregisterReceiver(sensorReceiver)
         stopService()
     }
 
@@ -102,19 +99,47 @@ class SleepRecord : SleepCompatActivity() {
         }
     }
 
-    private fun broadcastReceiverStart(){
+    private fun timeBroadcastReceiverStart(): BroadcastReceiver {
         // Receive Location value from Service and update UI
-        receiver = object : BroadcastReceiver() {
+        val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // Get location from service
                 val currentTime = intent.getStringExtra("currentTime")
-                Log.d("测试", "onReceive: $currentTime")
-                sleepViewModel.updateTimer(DateTimeConvert().toTime(Date()))
+
+                sleepViewModel.updateTimer(currentTime!!)
             }
 
         }
         val filter = IntentFilter("timer_update")
         registerReceiver(receiver, filter)
+        return receiver
     }
+
+    private fun sensorBroadcastReceiverStart(): BroadcastReceiver {
+        // Receive Location value from Service and update UI
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                // Get Sensor data from service
+                val temperatureSet = intent.getSerializableExtra("temperatureSet") as? Set<Float>
+                if (temperatureSet != null) {
+                    this@SleepRecord.temperatureSet = temperatureSet.toMutableSet()
+                }
+
+
+                val pressureSet = intent.getSerializableExtra("pressureSet") as? Set<Float>
+                if (pressureSet != null) {
+                    this@SleepRecord.pressureSet = pressureSet.toMutableSet()
+                }
+
+
+                Log.d("测试", "temperatureSet: $temperatureSet")
+                Log.d("测试", "pressureSet: $pressureSet")
+            }
+        }
+        val filter = IntentFilter("sensor_update")
+        registerReceiver(receiver, filter)
+        return receiver
+    }
+
 
 }

@@ -4,8 +4,14 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventCallback
+import android.hardware.SensorManager
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -13,7 +19,9 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.sleep.SleepRecord
+
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.log
 
 class SleepService:LifecycleService() {
@@ -26,18 +34,33 @@ class SleepService:LifecycleService() {
     private lateinit var timerHandler: Handler
     private lateinit var timerRunnable: Runnable
 
+    // data
+    private var lastPressure = 0F
+    private var lastTemperature = 0F
+    val pressureSet = mutableSetOf<Float>()
+    val temperatureSet = mutableSetOf<Float>()
+
+    // Sensor
+    private lateinit var sensorManager: SensorManager
+    private var temperatureSensor: Sensor?=null
+    private lateinit var temperatureCallback: SensorEventCallback
+    private var pressureSensor: Sensor?=null
+    private lateinit var pressureCallback: SensorEventCallback
+
+
 
     override fun onCreate() {
         super.onCreate()
 
         Log.d("服务", "onCreate() $startTime")
-        startStepDetector()
         createChannel()
         val pendingIntent = createPendingIntent()
         val notification = pendingIntent?.let { createNotification(it) }
         startForeground(3, notification)
 
         startTimer()
+        startSensor()
+
     }
 
 
@@ -45,20 +68,76 @@ class SleepService:LifecycleService() {
         Log.d("SleepService", "onDestroy: ")
         super.onDestroy()
         timerHandler.removeCallbacks(timerRunnable)
+        sensorManager.unregisterListener(temperatureCallback)
+        sensorManager.unregisterListener(pressureCallback)
+
         stopSelf()
 
     }
 
 
-
     /**
      * 获取传感器实例
      */
-    private fun startStepDetector() {
-        // 获取传感器管理器的实例
+    private fun startSensor(){
+        // Init sensorManager
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
 
+        temperatureCallback = getTemperatureCallback()
+        pressureCallback = getPressureCallback()
+
+        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        sensorManager.registerListener(temperatureCallback,temperatureSensor,SensorManager.SENSOR_DELAY_NORMAL)
+
+        pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
+        sensorManager.registerListener(pressureCallback,pressureSensor,SensorManager.SENSOR_DELAY_NORMAL)
     }
+
+    private fun getTemperatureCallback(): SensorEventCallback {
+        // Handle Temperature update
+         val temperatureCallback = object : SensorEventCallback(){
+            override fun onSensorChanged(event: SensorEvent?) {
+
+                val currentTemperature = String.format("%.2f", event?.values?.get(0)).toFloat()
+                if (currentTemperature != null && abs(currentTemperature - lastTemperature) > 0.1f) {
+                    lastTemperature = currentTemperature
+                    temperatureSet.add(lastTemperature)
+                    Log.d("服务", "temperatureSet: $temperatureSet")
+
+                    val intent = Intent("sensor_update")
+                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
+                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+                    sendBroadcast(intent)
+                }
+            }
+        }
+        return temperatureCallback
+    }
+
+    private fun getPressureCallback(): SensorEventCallback {
+        // Handle Pressure update
+        val pressureCallback = object : SensorEventCallback(){
+            override fun onSensorChanged(event: SensorEvent?) {
+                val currentPressure = event?.values?.get(0)
+                if (currentPressure != null && abs(currentPressure - lastPressure) > 0.1f) {
+                    // process the new pressure value
+                    lastPressure = currentPressure
+                    pressureSet.add(lastPressure)
+                    Log.d("服务", "lastPressure: ${pressureSet}")
+
+                    val intent = Intent("sensor_update")
+                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
+                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+                    sendBroadcast(intent)
+
+                }
+            }
+        }
+        return pressureCallback
+    }
+
+
 
     private fun startTimer(){
         timerHandler = Handler(Looper.getMainLooper())
@@ -66,11 +145,9 @@ class SleepService:LifecycleService() {
             override fun run() {
                 // Execute your code here
                 currentTime = DateTimeConvert().toTime(Date())
-                Log.d("服务", "startTimer() $currentTime")
                 val intent = Intent("timer_update")
                 intent.putExtra("currentTime", currentTime)
                 sendBroadcast(intent)
-
                 // Schedule the next execution of this Runnable in 1 second
                 timerHandler.postDelayed(this, 1000)
             }

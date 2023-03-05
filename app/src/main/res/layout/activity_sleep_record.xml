@@ -354,7 +354,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
         <Button
-            android:id="@+id/add_btn"
+            android:id="@+id/stop_btn"
             android:background="@drawable/radius_btn_bg_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
