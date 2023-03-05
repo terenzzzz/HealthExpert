@@ -31,6 +31,8 @@ class SleepRecord : SleepCompatActivity() {
     //data
     private var pressureSet = mutableSetOf<Float>()
     private var temperatureSet = mutableSetOf<Float>()
+    private var lightSet = mutableSetOf<Float>()
+
 
     companion object {
         fun startFn(context: Context) {
@@ -131,9 +133,15 @@ class SleepRecord : SleepCompatActivity() {
                     this@SleepRecord.pressureSet = pressureSet.toMutableSet()
                 }
 
+                val lightSet = intent.getSerializableExtra("lightSet") as? Set<Float>
+                if (lightSet != null) {
+                    this@SleepRecord.lightSet = lightSet.toMutableSet()
+                }
+
 
                 Log.d("测试", "temperatureSet: $temperatureSet")
                 Log.d("测试", "pressureSet: $pressureSet")
+                Log.d("测试", "lightSet: $lightSet")
             }
         }
         val filter = IntentFilter("sensor_update")

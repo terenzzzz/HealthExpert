@@ -37,8 +37,10 @@ class SleepService:LifecycleService() {
     // data
     private var lastPressure = 0F
     private var lastTemperature = 0F
+    private var lastLight = 0F
     val pressureSet = mutableSetOf<Float>()
     val temperatureSet = mutableSetOf<Float>()
+    val lightSet = mutableSetOf<Float>()
 
     // Sensor
     private lateinit var sensorManager: SensorManager
@@ -46,6 +48,8 @@ class SleepService:LifecycleService() {
     private lateinit var temperatureCallback: SensorEventCallback
     private var pressureSensor: Sensor?=null
     private lateinit var pressureCallback: SensorEventCallback
+    private var lightSensor: Sensor?=null
+    private lateinit var lightCallback: SensorEventCallback
 
 
 
@@ -86,12 +90,16 @@ class SleepService:LifecycleService() {
 
         temperatureCallback = getTemperatureCallback()
         pressureCallback = getPressureCallback()
+        lightCallback = getLightCallback()
 
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
         sensorManager.registerListener(temperatureCallback,temperatureSensor,SensorManager.SENSOR_DELAY_NORMAL)
 
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
         sensorManager.registerListener(pressureCallback,pressureSensor,SensorManager.SENSOR_DELAY_NORMAL)
+
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+        sensorManager.registerListener(lightCallback,lightSensor,SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     private fun getTemperatureCallback(): SensorEventCallback {
@@ -103,11 +111,12 @@ class SleepService:LifecycleService() {
                 if (currentTemperature != null && abs(currentTemperature - lastTemperature) > 0.1f) {
                     lastTemperature = currentTemperature
                     temperatureSet.add(lastTemperature)
-                    Log.d("服务", "temperatureSet: $temperatureSet")
+//                    Log.d("服务", "temperatureSet: $temperatureSet")
 
                     val intent = Intent("sensor_update")
                     intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
                     intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
                     sendBroadcast(intent)
                 }
             }
@@ -124,17 +133,41 @@ class SleepService:LifecycleService() {
                     // process the new pressure value
                     lastPressure = currentPressure
                     pressureSet.add(lastPressure)
-                    Log.d("服务", "lastPressure: ${pressureSet}")
+//                    Log.d("服务", "lastPressure: ${pressureSet}")
 
                     val intent = Intent("sensor_update")
                     intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
                     intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
                     sendBroadcast(intent)
 
                 }
             }
         }
         return pressureCallback
+    }
+
+    private fun getLightCallback(): SensorEventCallback {
+        // Handle Pressure update
+        val lightCallback = object : SensorEventCallback(){
+            override fun onSensorChanged(event: SensorEvent?) {
+                val currentLight = event?.values?.get(0)
+                if (currentLight != null && abs(currentLight - lastLight) > 0.1f) {
+                    // process the new pressure value
+                    lastLight = currentLight
+                    lightSet.add(lastLight)
+//                    Log.d("服务", "lightSet: ${lightSet}")
+
+                    val intent = Intent("sensor_update")
+                    intent.putExtra("temperatureSet", temperatureSet as java.io.Serializable)
+                    intent.putExtra("pressureSet", pressureSet as java.io.Serializable)
+                    intent.putExtra("lightSet", lightSet as java.io.Serializable)
+                    sendBroadcast(intent)
+
+                }
+            }
+        }
+        return lightCallback
     }
 
 
