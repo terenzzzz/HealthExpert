@@ -190,6 +190,11 @@
                                             android:text="Humidity(%)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
+                                        <ImageView
+                                            android:id="@+id/humidity_info"
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:src="@drawable/circlequestionmark" />
                                     </LinearLayout>
                                     <TextView
                                         android:id="@+id/humidity_value"
@@ -225,6 +230,11 @@
                                             android:text="Temp(°C)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
+                                        <ImageView
+                                            android:id="@+id/temperature_info"
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:src="@drawable/circlequestionmark"/>
                                     </LinearLayout>
                                     <TextView
                                         android:id="@+id/temperature_value"
@@ -266,6 +276,11 @@
                                             android:text="Pressure(hPa)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
+                                        <ImageView
+                                            android:id="@+id/pressure_info"
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:src="@drawable/circlequestionmark"/>
                                     </LinearLayout>
                                     <TextView
                                         android:id="@+id/pressure_value"
@@ -301,6 +316,11 @@
                                             android:text="Light(°Lm)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
+                                        <ImageView
+                                            android:id="@+id/light_info"
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:src="@drawable/circlequestionmark"/>
                                     </LinearLayout>
                                     <TextView
                                         android:id="@+id/light_value"
@@ -342,6 +362,7 @@
                                     android:textSize="12dp"/>
 
                                 <TextView
+                                    android:id="@+id/duration_value"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
