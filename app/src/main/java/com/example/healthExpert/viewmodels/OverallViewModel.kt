@@ -22,6 +22,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     private val watersRepository = WatersRepository()
     private val trainingsRepository = TrainingsRepository()
     private val medicationRepository = MedicationRepository()
+    private val sleepRepository = SleepRepository()
 
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
     fun getCaloriesOverall(date:String){
@@ -75,6 +76,17 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
 
             // Refresh UI Update data
             medications.postValue(updatedData)
+        }
+    }
+
+    var sleep = MutableLiveData<Sleep?>()
+    fun getSleep(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { sleepRepository.getSleep(it) }
+
+            // Refresh UI Update data
+            sleep.postValue(updatedData)
         }
     }
 

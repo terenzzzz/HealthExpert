@@ -49,25 +49,26 @@
                 app:contentPadding="30dp"
                 app:contentPaddingTop="0dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sleep Recording"
-                    android:textSize="20dp"
-                    android:textColor="@color/yellow"
-                    android:textStyle="bold"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sleep Recording"
+                        android:textSize="20dp"
+                        android:textColor="@color/yellow"
+                        android:textStyle="bold"/>
 
                     <com.example.healthExpert.widget.Ring
                         android:id="@+id/clock_ring"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:foregroundGravity="center"/>
+                        android:layout_gravity="center"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -117,7 +118,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="15dp">
                                     <TextView
-                                        android:id="@+id/noise_value"
+                                        android:id="@+id/humidity_value"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
@@ -331,7 +332,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="5dp"
-                                        android:text="Lm"
+                                        android:text="lx"
                                         android:textColor="@color/black"
                                         android:textSize="15dp"/>
                                 </LinearLayout>
@@ -339,6 +340,13 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="* If there is no data present, maybe because your device don't have the specific sensor supported."
+                        android:textSize="12dp"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

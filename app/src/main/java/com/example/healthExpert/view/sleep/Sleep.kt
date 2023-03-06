@@ -82,6 +82,10 @@ class Sleep : SleepCompatActivity() {
             }
         })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         sleepViewModel.getSleep()
     }
 

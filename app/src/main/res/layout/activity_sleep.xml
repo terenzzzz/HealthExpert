@@ -313,7 +313,7 @@
                                             android:layout_gravity="center"
                                             android:layout_marginLeft="10dp"
                                             android:gravity="center"
-                                            android:text="Light(°Lm)"
+                                            android:text="Light(lx)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
                                         <ImageView

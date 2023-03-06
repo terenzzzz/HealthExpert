@@ -206,6 +206,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <TextView
+                                    android:id="@+id/sleep_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
@@ -447,8 +448,7 @@
                                         android:id="@+id/medication_name"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-
-                                        android:text="Aspirin"
+                                        android:text="Empty"
                                         android:textColor="@color/black"
                                         android:textSize="15dp"
                                         android:gravity="center"/>
@@ -456,7 +456,7 @@
                                         android:id="@+id/medication_dose"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="0.5 g"
+                                        android:text=""
                                         android:textColor="@color/black"
                                         android:textSize="10dp"
                                         android:gravity="center"/>
@@ -466,7 +466,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:text="14:00"
+                                    android:text=""
                                     android:textColor="@color/black"
                                     android:textSize="15dp"
                                     android:textStyle="bold"

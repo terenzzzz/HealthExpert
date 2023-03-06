@@ -2,16 +2,12 @@ package com.example.login.view.homePage.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.OverallCompatFragment
-import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.databinding.FragmentOverallBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.calories.Calories
@@ -22,8 +18,6 @@ import com.example.healthExpert.view.sleep.Sleep
 import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
-import com.example.healthExpert.widget.Ring
-import com.example.healthExpert.widget.RingView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -32,7 +26,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import java.util.*
-import kotlin.math.roundToInt
 
 
 class Overall : OverallCompatFragment() {
@@ -98,6 +91,18 @@ class Overall : OverallCompatFragment() {
             }
         })
 
+        overallViewModel.sleep.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null ) {
+                // Update the UI
+                binding.sleepValue.text = DateTimeConvert().toHHWithUnit(
+                    DateTimeConvert().toDateTime(item.StartTime),
+                    DateTimeConvert().toDateTime(item.EndTime)
+                )
+
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -107,6 +112,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.getWatersOverall(todayDate)
         overallViewModel.getTrainingOverall(todayDate)
         overallViewModel.medications(todayDate)
+        overallViewModel.getSleep()
     }
 
     override fun onCreateView(

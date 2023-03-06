@@ -61,8 +61,8 @@ class SleepRecord : SleepCompatActivity() {
             Log.d("数据", humiditySet.average().toString())
 
 
-            sleepViewModel.addSleep(temperatureSet.average().toFloat(),pressureSet.average().toFloat(),
-                lightSet.average().toFloat(),humiditySet.average().toFloat(),startTime)
+            sleepViewModel.addSleep(checkZero(temperatureSet),checkZero(pressureSet),
+                    checkZero(lightSet),checkZero(humiditySet),startTime)
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
@@ -137,6 +137,11 @@ class SleepRecord : SleepCompatActivity() {
                 lightSet = intent.getSerializableExtra("lightSet") as Set<Float>
                 humiditySet = intent.getSerializableExtra("humiditySet") as Set<Float>
 
+                binding.humidityValue.text = String.format("%.2f", humiditySet.lastOrNull() ?: 0f)
+                binding.tempValue.text = String.format("%.2f", temperatureSet.lastOrNull() ?: 0f)
+                binding.pressureValue.text = String.format("%.2f", pressureSet.lastOrNull() ?: 0f)
+                binding.lightValue.text = String.format("%.2f", lightSet.lastOrNull() ?: 0f)
+
 
                 Log.d("测试", "temperatureSet: $temperatureSet")
                 Log.d("测试", "pressureSet: $pressureSet")
@@ -147,6 +152,14 @@ class SleepRecord : SleepCompatActivity() {
         val filter = IntentFilter("sensor_update")
         registerReceiver(receiver, filter)
         return receiver
+    }
+
+    private fun checkZero(set:Set<Float>): Float {
+        return if (set.isEmpty()) {
+            0f
+        } else {
+            set.average().toFloat()
+        }
     }
 
 
