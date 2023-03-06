@@ -61,7 +61,7 @@ class SleepRecord : SleepCompatActivity() {
 
 
         binding.clockRing.setBgColor(Color.rgb(174,214,207))
-        sleepViewModel.time.observe(this, Observer { item ->
+        sleepViewModel.timer.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
