@@ -27,8 +27,7 @@
 
 - Main Feature
 
-  - [] Steps Tracker
-
+  - [ ] Steps Tracker
     - [x] Can get user's steps
     - [x] Can get steps in the baground(Service)
     - [x] Can update to database(every 30s)
@@ -38,7 +37,6 @@
     - [ ] Can set goal
 
   - [ ] Training Tracker
-
     - [x] Can select mode (walking/running/cycling)
     - [x] Can add title
     - [ ] Can get metric about the training during recording
@@ -50,7 +48,6 @@
     - [ ] Can set goal
 
   - [ ] Water Drinking Reminder
-
     - [x] Can get today's Drinking Records
     - [x] Can get specific Record
     - [x] Can calculate the metrics
@@ -60,7 +57,6 @@
     - [ ] Can set goal
 
   - [ ] Calories Records
-
     - [x] Can get today's Calories Records
     - [x] Can get specific Record
     - [x] Can calculate the metrics
@@ -75,11 +71,21 @@
     - [x] Can add medication reminder to the database
     - [ ] Can change the status of reminder to done
     - [ ] Can push notification
-    - [ ] Can delete reminder
-    - [ ] Can edit pending reminder
+    - [x] Can delete reminder
+    - [x] Can edit pending reminder
+    
+  - [ ] Sleep Tracker
+    - [x] Can see the latest Record of sleep
+    - [x] Can tracking Humidity properly
+    - [x] Can tracking Temperature properly
+    - [x] Can tracking Pressure properly
+    - [x] Can tracking Light properly
+    - [x] Can add sleep to database
+    - [x] Can view the explaination of each matric
+    
   - [ ] Heart Rate Record
   - [ ] Menstrual period
-  - [ ] Sleep Tracker
+   
 
 - Aside
   - [x] Can get Articles
@@ -87,5 +93,5 @@
   - [x] Can view History
   - [x] Body index monitoring
   - [ ] Emergency contact
-
+  - [ ] Store data in local
 
