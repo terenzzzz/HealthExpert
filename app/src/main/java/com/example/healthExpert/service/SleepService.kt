@@ -70,6 +70,11 @@ class SleepService:LifecycleService() {
 
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
+        Log.d("服务", "onStartCommand() ")
+    }
+
 
     override fun onDestroy() {
         Log.d("SleepService", "onDestroy: ")

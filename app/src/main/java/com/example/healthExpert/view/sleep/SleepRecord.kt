@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.sleep
 
+import android.app.ActivityManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -96,10 +97,12 @@ class SleepRecord : SleepCompatActivity() {
      * function to call the Location Service to start
      */
     private fun callService(){
-        Log.d("测试", "callService: ")
+
+        Log.d("记录", "callService: ")
         Intent(this, SleepService::class.java).apply {
             startService(this)
         }
+
     }
 
     /**
