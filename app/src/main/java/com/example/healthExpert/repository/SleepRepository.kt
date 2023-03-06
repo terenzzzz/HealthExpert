@@ -2,10 +2,11 @@ package com.example.healthExpert.repository
 
 import android.util.Log
 import com.example.healthExpert.model.Sleep
+import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.SleepParse
 import com.google.gson.Gson
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import java.io.IOException
 
 class SleepRepository {
     private val client = OkHttpClient()
@@ -30,5 +31,43 @@ class SleepRepository {
             response.close()
         }
         return sleep
+    }
+
+    // 异步请求
+    fun addSleep(token:String,temperature:Float,pressure:Float,light:Float,
+                 humidity:Float,startTime:String):Int{
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("temperature", temperature.toString())
+            .add("pressure", pressure.toString())
+            .add("light", light.toString())
+            .add("humidity", humidity.toString())
+            .add("startTime", startTime)
+            .build()
+
+        Log.d("添加睡眠", body.toString())
+
+        val request = Request.Builder()
+            .url("$url/addSleep")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val gson = Gson()
+                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    resStatus = parsed.status?:-1
+                    Log.w("SleepRepository", "添加Sleep")
+                    response.close()
+                }
+            }
+        })
+        return resStatus
     }
 }

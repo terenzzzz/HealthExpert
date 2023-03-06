@@ -37,6 +37,16 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
+    fun addSleep(temperature:Float,pressure:Float,light:Float,
+                 humidity:Float,startTime:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null) {
+                repository.addSleep(token,temperature,pressure,light,humidity,startTime)
+            }
+        }
+    }
+
 
 
 

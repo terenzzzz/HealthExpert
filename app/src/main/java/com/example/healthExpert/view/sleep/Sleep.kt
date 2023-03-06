@@ -48,17 +48,18 @@ class Sleep : SleepCompatActivity() {
         })
 
 //        sleepSetUp(binding.sleepChart)
-
         sleepViewModel.sleep.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
                 binding.date.text = DateTimeConvert().toDate(item.StartTime)
                 binding.startTime.text = DateTimeConvert().toHHmm(item.StartTime)
                 binding.endTime.text = DateTimeConvert().toHHmm(item.EndTime)
-                binding.humidityValue.text = item.Humidity.toString()
-                binding.temperatureValue.text = item.Temperature.toString()
-                binding.pressureValue.text = item.Pressure.toString()
-                binding.lightValue.text = item.Light.toString()
+                binding.startDate.text = DateTimeConvert().toDate(item.StartTime)
+                binding.endDate.text = DateTimeConvert().toDate(item.EndTime)
+                binding.humidityValue.text =  String.format("%.2f", item.Humidity)
+                binding.temperatureValue.text = String.format("%.2f", item.Temperature)
+                binding.pressureValue.text = String.format("%.2f", item.Pressure)
+                binding.lightValue.text = String.format("%.2f", item.Light)
             }
         })
 

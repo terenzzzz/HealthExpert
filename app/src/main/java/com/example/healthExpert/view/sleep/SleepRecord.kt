@@ -30,10 +30,10 @@ class SleepRecord : SleepCompatActivity() {
     private lateinit var sensorReceiver: BroadcastReceiver
 
     //data
-    private var pressureSet = mutableSetOf<Float>()
-    private var temperatureSet = mutableSetOf<Float>()
-    private var lightSet = mutableSetOf<Float>()
-    private var humiditySet = mutableSetOf<Float>()
+    private var pressureSet = setOf<Float>()
+    private var temperatureSet = setOf<Float>()
+    private var lightSet = setOf<Float>()
+    private var humiditySet = setOf<Float>()
 
 
     companion object {
@@ -55,8 +55,16 @@ class SleepRecord : SleepCompatActivity() {
         })
 
         binding.stopBtn.setOnClickListener (View.OnClickListener {
-//            finish()
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            Log.d("数据", temperatureSet.average().toString())
+            Log.d("数据", pressureSet.average().toString())
+            Log.d("数据", lightSet.average().toString())
+            Log.d("数据", humiditySet.average().toString())
+
+
+            sleepViewModel.addSleep(temperatureSet.average().toFloat(),pressureSet.average().toFloat(),
+                lightSet.average().toFloat(),humiditySet.average().toFloat(),startTime)
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
 
@@ -124,26 +132,10 @@ class SleepRecord : SleepCompatActivity() {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // Get Sensor data from service
-                val temperatureSet = intent.getSerializableExtra("temperatureSet") as? Set<Float>
-                if (temperatureSet != null) {
-                    this@SleepRecord.temperatureSet = temperatureSet.toMutableSet()
-                }
-
-
-                val pressureSet = intent.getSerializableExtra("pressureSet") as? Set<Float>
-                if (pressureSet != null) {
-                    this@SleepRecord.pressureSet = pressureSet.toMutableSet()
-                }
-
-                val lightSet = intent.getSerializableExtra("lightSet") as? Set<Float>
-                if (lightSet != null) {
-                    this@SleepRecord.lightSet = lightSet.toMutableSet()
-                }
-
-                val humiditySet = intent.getSerializableExtra("humiditySet") as? Set<Float>
-                if (humiditySet != null) {
-                    this@SleepRecord.humiditySet = humiditySet.toMutableSet()
-                }
+                temperatureSet = intent.getSerializableExtra("temperatureSet") as Set<Float>
+                pressureSet = intent.getSerializableExtra("pressureSet") as Set<Float>
+                lightSet = intent.getSerializableExtra("lightSet") as Set<Float>
+                humiditySet = intent.getSerializableExtra("humiditySet") as Set<Float>
 
 
                 Log.d("测试", "temperatureSet: $temperatureSet")
