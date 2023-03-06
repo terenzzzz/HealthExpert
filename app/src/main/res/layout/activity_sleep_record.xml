@@ -97,7 +97,7 @@
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
                                         android:layout_marginRight="5dp"
-                                        android:src="@drawable/ear"
+                                        android:src="@drawable/humidity"
                                         android:layout_gravity="center"/>
 
                                     <TextView
@@ -105,7 +105,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:textColor="@color/black"
-                                        android:text="Noise"
+                                        android:text="Humidity"
                                         android:textSize="20dp"
                                         android:textStyle="bold">
                                     </TextView>
@@ -129,7 +129,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="5dp"
-                                        android:text="db"
+                                        android:text="%"
                                         android:textColor="@color/black"
                                         android:textSize="15dp"/>
 

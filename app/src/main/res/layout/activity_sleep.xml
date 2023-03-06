@@ -53,17 +53,33 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sleep"
-                        android:textSize="20dp"
-                        android:textColor="@color/yellow"
-                        android:textStyle="bold"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Sleep"
+                            android:textSize="25dp"
+                            android:textColor="@color/yellow"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2023-03-05"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
+
+
+
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="@color/light_gray"/>
+
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -144,14 +160,14 @@
                                         <ImageView
                                             android:layout_width="20dp"
                                             android:layout_height="20dp"
-                                            android:src="@drawable/ear"/>
+                                            android:src="@drawable/humidity"/>
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:layout_marginLeft="10dp"
                                             android:gravity="center"
-                                            android:text="Noice(db)"
+                                            android:text="Humidity(%)"
                                             android:textSize="15dp"
                                             android:textColor="@color/black"/>
                                     </LinearLayout>
