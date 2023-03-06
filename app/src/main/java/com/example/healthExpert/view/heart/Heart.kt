@@ -35,6 +35,10 @@ class Heart : AppCompatActivity() {
 
         heartSetUp(binding.heartChart)
 
+        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+            HeartRecord.startFn(this)
+        })
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

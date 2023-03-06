@@ -10,11 +10,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- 弹出横幅通知的权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!--弹出横幅通知的权限-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
 
     <application
         android:allowBackup="true"
@@ -39,12 +39,10 @@
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="location" />
-
         <service
             android:name=".service.StepService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".service.SleepService"
             android:enabled="true"
@@ -52,17 +50,13 @@
 
         <activity
             android:name=".view.water.WaterEdit"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".view.training.TrainShow"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".view.news.NewActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".view.period.Period"
             android:exported="false">
@@ -72,12 +66,10 @@
         </activity>
         <activity
             android:name=".view.medication.MedicationSetting"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".view.medication.MedicationEdit"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".view.medication.MedicationAdd"
             android:exported="false" />
@@ -99,6 +91,10 @@
         <activity
             android:name=".view.heart.Heart"
             android:exported="false" />
+        <activity
+            android:name=".view.heart.HeartRecord"
+            android:exported="false" />
+
         <activity
             android:name=".view.sleep.Sleep"
             android:exported="false" />
