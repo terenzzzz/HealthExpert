@@ -6,23 +6,25 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
+import android.media.ImageReader
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
+import android.util.Size
 import android.view.Surface
 import android.view.TextureView
-import android.view.View
-import android.webkit.PermissionRequest
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import com.example.healthExpert.R
-import java.io.File
+import com.example.healthExpert.databinding.ActivityHeartBinding
+import com.example.healthExpert.databinding.ActivityHeartRecordBinding
 
 
 class HeartRecord : AppCompatActivity() {
+    private lateinit var binding: ActivityHeartRecordBinding
 
     lateinit var captureRequest: CaptureRequest.Builder
     lateinit var handler: Handler
@@ -31,7 +33,9 @@ class HeartRecord : AppCompatActivity() {
     lateinit var textureView: TextureView
     lateinit var cameraCaptureSession: CameraCaptureSession
     lateinit var cameraDevice: CameraDevice
-    lateinit var cameraRequest: CaptureRequest
+
+    private lateinit var imageReader: ImageReader
+
 
 
 
@@ -46,7 +50,8 @@ class HeartRecord : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_heart_record)
+        binding = ActivityHeartRecordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         getPermissions()
 
@@ -73,6 +78,8 @@ class HeartRecord : AppCompatActivity() {
 
         }
 
+
+
     }
 
     override fun onDestroy() {
@@ -88,12 +95,25 @@ class HeartRecord : AppCompatActivity() {
             override fun onOpened(p0: CameraDevice) {
                 cameraDevice = p0
 
+                val characteristics = cameraManager.getCameraCharacteristics(cameraDevice.id)
+                val streamConfigurationMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                val previewSizes = streamConfigurationMap?.getOutputSizes(SurfaceTexture::class.java)
+                val previewSize = previewSizes?.firstOrNull() ?: Size(640, 480) // Default size if none available
+
+                imageReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.YUV_420_888, 1)
+
+                // Configure the output surface to receive the preview frames
                 captureRequest = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
                 var surface = Surface(textureView.surfaceTexture)
-                captureRequest.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH)
+                captureRequest.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH) // turn on Flash light
                 captureRequest.addTarget(surface)
+                captureRequest.addTarget(imageReader.surface)
 
-                cameraDevice.createCaptureSession(listOf(surface),object : CameraCaptureSession.StateCallback(){
+                val outputSurfaces = listOf(surface, imageReader.surface)
+
+
+
+                cameraDevice.createCaptureSession(outputSurfaces,object : CameraCaptureSession.StateCallback(){
                     override fun onConfigured(p0: CameraCaptureSession) {
                         cameraCaptureSession = p0
                         cameraCaptureSession.setRepeatingRequest(captureRequest.build(),null,null)
@@ -104,6 +124,15 @@ class HeartRecord : AppCompatActivity() {
                     }
 
                 },handler)
+
+                imageReader.setOnImageAvailableListener({
+                    val image = it.acquireLatestImage()
+
+                    if (image != null) {
+                        // Process image data here
+                    }
+                    image.close()
+                }, null)
             }
 
             override fun onDisconnected(p0: CameraDevice) {
@@ -115,6 +144,15 @@ class HeartRecord : AppCompatActivity() {
             }
 
         },handler)
+    }
+
+    private fun detectHeartRate(red: Int, green: Int, blue: Int) {
+        // Implement heart rate detection algorithm here
+        // You can use signal processing techniques such as FFT and bandpass filtering
+        // to extract the heart rate signal from the color data
+        // There are also many open source heart rate detection algorithms available online
+        // that you can use or modify for your specific use case
+        Log.d("照片", "red: $red,green: $green,blue: $blue,")
     }
 
 
