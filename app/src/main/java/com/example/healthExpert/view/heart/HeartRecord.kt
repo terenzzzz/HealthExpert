@@ -1,14 +1,12 @@
 package com.example.healthExpert.view.heart
 
-
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
-import android.graphics.SurfaceTexture
+import android.graphics.*
 import android.hardware.camera2.*
+import android.media.Image
 import android.media.ImageReader
 import android.os.Bundle
 import android.os.Handler
@@ -19,8 +17,13 @@ import android.view.Surface
 import android.view.TextureView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityHeartBinding
 import com.example.healthExpert.databinding.ActivityHeartRecordBinding
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
+import java.io.ByteArrayOutputStream
 
 
 class HeartRecord : AppCompatActivity() {
@@ -54,6 +57,7 @@ class HeartRecord : AppCompatActivity() {
         setContentView(binding.root)
 
         getPermissions()
+
 
         textureView = findViewById(R.id.texture_view)
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -111,8 +115,6 @@ class HeartRecord : AppCompatActivity() {
 
                 val outputSurfaces = listOf(surface, imageReader.surface)
 
-
-
                 cameraDevice.createCaptureSession(outputSurfaces,object : CameraCaptureSession.StateCallback(){
                     override fun onConfigured(p0: CameraCaptureSession) {
                         cameraCaptureSession = p0
@@ -127,9 +129,22 @@ class HeartRecord : AppCompatActivity() {
 
                 imageReader.setOnImageAvailableListener({
                     val image = it.acquireLatestImage()
-
                     if (image != null) {
-                        // Process image data here
+
+                        val bitmap = imageToBitmap(image)
+
+                        val grayBitmap = bitmap?.let { it1 -> toGrayScale(it1) }
+
+//                        if (bitmap != null) {
+//                            Log.d("灰度", "onOpened: ${calculateGrayChannelAverage(bitmap)}")
+//                        }
+
+
+                        runOnUiThread {
+                            binding.image.setImageBitmap(grayBitmap)
+                        }
+
+
                     }
                     image.close()
                 }, null)
@@ -144,6 +159,102 @@ class HeartRecord : AppCompatActivity() {
             }
 
         },handler)
+    }
+
+
+    fun calculateGrayChannelAverage(bitmap: Bitmap): Double {
+        // Initialize OpenCV
+        if (!OpenCVLoader.initDebug()) {
+            // Handle initialization error
+        }
+
+        var sum = 0.0
+        val mat = Mat()
+        Utils.bitmapToMat(bitmap, mat)
+
+        // Convert the image to grayscale
+        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
+
+        // Loop through each pixel in the image and add its value to the sum
+        for (i in 0 until mat.rows()) {
+            for (j in 0 until mat.cols()) {
+                val pixelValue = mat.get(i, j)[0] // Get the gray channel value
+                sum += pixelValue
+            }
+        }
+
+        // Calculate the average value
+        val totalPixels = mat.rows() * mat.cols()
+        val average = sum / totalPixels
+
+        return average
+    }
+
+
+    fun toGrayScale(bitmap: Bitmap): Bitmap? {
+        // Initialize OpenCV
+        if (!OpenCVLoader.initDebug()) {
+            // Handle initialization error
+        }
+
+        // Convert the bitmap to a Mat object
+        val mat = Mat(bitmap!!.height, bitmap.width, CvType.CV_8UC4)
+        Utils.bitmapToMat(bitmap, mat)
+
+        // Convert the image to grayscale
+        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
+
+        // Convert the Mat object back to a bitmap
+        val grayBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(mat, grayBitmap)
+        return grayBitmap
+    }
+
+
+
+
+    fun imageToBitmap(image: Image): Bitmap? {
+        val width = image.width
+        val height = image.height
+
+        val yBuffer = image.planes[0].buffer
+        val uBuffer = image.planes[1].buffer
+        val vBuffer = image.planes[2].buffer
+
+        val ySize = yBuffer.remaining()
+        val uSize = uBuffer.remaining()
+        val vSize = vBuffer.remaining()
+
+        val nv21 = ByteArray(ySize + uSize + vSize)
+
+        // Copy the Y-plane buffer data to the nv21 array
+        yBuffer.get(nv21, 0, ySize)
+
+        // Copy the U and V plane buffer data to the nv21 array
+        vBuffer.get(nv21, ySize, vSize)
+        uBuffer.get(nv21, ySize + vSize, uSize)
+
+        // Create a YuvImage object from the nv21 array
+        val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
+
+        // Convert the YuvImage object to a Bitmap object
+        val out = ByteArrayOutputStream()
+        yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
+        val jpegArray = out.toByteArray()
+        return BitmapFactory.decodeByteArray(jpegArray, 0, jpegArray.size)
+    }
+
+
+
+
+
+    private fun showBitmapOnTextureView(bitmap: Bitmap) {
+        textureView.surfaceTexture?.let { surfaceTexture ->
+            val surface = Surface(surfaceTexture)
+            val canvas = surface.lockCanvas(null)
+            canvas.drawBitmap(bitmap, 0f, 0f, null)
+            surface.unlockCanvasAndPost(canvas)
+        }
     }
 
     private fun detectHeartRate(red: Int, green: Int, blue: Int) {
@@ -182,6 +293,7 @@ class HeartRecord : AppCompatActivity() {
             }
         }
     }
+
 
 
 
