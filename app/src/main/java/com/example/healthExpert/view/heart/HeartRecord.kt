@@ -25,6 +25,7 @@ import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
+import kotlin.math.pow
 
 
 class HeartRecord : AppCompatActivity() {
@@ -167,7 +168,18 @@ class HeartRecord : AppCompatActivity() {
     }
 
 
+
+
     private fun processImage(image: Image) {
+        val cropSize = 200
+
+        val width = image.width
+        val height = image.height
+
+        // 计算需要截取的区域左上角坐标
+        val x = (width - cropSize) / 2
+        val y = (height - cropSize) / 2
+
         // 获取 Y数据
         val yBuffer = image.planes[0].buffer
 
@@ -182,20 +194,79 @@ class HeartRecord : AppCompatActivity() {
         val yuvPixels = ByteArray(ySize)
         System.arraycopy(yBytes, 0, yuvPixels, 0, ySize)
 
+        // 截取 Y 数据中心100x100像素
+        val croppedYuvPixels = ByteArray(cropSize * cropSize)
+        for (i in 0 until cropSize) {
+            System.arraycopy(yuvPixels, (y + i) * width + x, croppedYuvPixels, i * cropSize, cropSize)
+        }
+
         // 将 Y 数据转换为灰度图像的像素数据
-        val grayPixels = IntArray(ySize)
-        for (i in 0 until ySize) {
-            val gray = yuvPixels[i].toInt() and 0xff
+        val grayPixels = IntArray(cropSize * cropSize)
+        for (i in 0 until cropSize * cropSize) {
+            val gray = croppedYuvPixels[i].toInt() and 0xff
             grayPixels[i] = Color.rgb(gray, gray, gray)
         }
 
         // 将灰度图像的像素数据转换为 Bitmap 对象
-        val bmp = Bitmap.createBitmap(grayPixels, image.width, image.height, Bitmap.Config.ARGB_8888)
+        val bmp = Bitmap.createBitmap(grayPixels, cropSize, cropSize, Bitmap.Config.ARGB_8888)
 
-        // 显示灰度图像
+        // 计算灰度图像的平均值和标准差
+        val pixels = IntArray(cropSize * cropSize)
+        bmp.getPixels(pixels, 0, cropSize, 0, 0, cropSize, cropSize)
+
+        var sum = 0.0
+        for (i in 0 until cropSize * cropSize) {
+            val gray = Color.red(pixels[i])
+            sum += gray
+        }
+        val mean = sum / (cropSize * cropSize)
+
+        var variance = 0.0
+        for (i in 0 until cropSize * cropSize) {
+            val gray = Color.red(pixels[i])
+            variance += (gray - mean) * (gray - mean)
+        }
+        variance /= (cropSize * cropSize)
+        val stdDev = Math.sqrt(variance)
+
+        Log.d("平均值", "mean: $mean ")
+        Log.d("标准差", "stdDev: $stdDev ")
+
+// 显示灰度图像
         runOnUiThread {
             binding.image.setImageBitmap(bmp)
         }
+
+//        // 计算灰度值的平均值
+//        val grayMean = yBytes.average()
+//
+//        // 计算灰度值的标准差
+//        val grayStd = Math.sqrt(yBytes.map { (it - grayMean).toDouble().pow(2.0) }.average())
+//
+//
+//        Log.d("平均值", "grayMean: $grayMean ")
+//        Log.d("标准差", "grayStd: $grayStd ")
+
+
+//        // 将 Y 数据存储到一维的 byte 数组中
+//        val ySize = image.width * image.height
+//        val yuvPixels = ByteArray(ySize)
+//        System.arraycopy(yBytes, 0, yuvPixels, 0, ySize)
+//
+//        // 将 Y 数据转换为灰度图像的像素数据
+//        val grayPixels = IntArray(ySize)
+//        for (i in 0 until ySize) {
+//            val gray = yuvPixels[i].toInt() and 0xff
+//            grayPixels[i] = Color.rgb(gray, gray, gray)
+//        }
+//
+//        // 将灰度图像的像素数据转换为 Bitmap 对象
+//        val bmp = Bitmap.createBitmap(grayPixels, image.width, image.height, Bitmap.Config.ARGB_8888)
+//
+//        // 显示灰度图像
+//        runOnUiThread {
+//            binding.image.setImageBitmap(bmp)
+//        }
 
     }
 
