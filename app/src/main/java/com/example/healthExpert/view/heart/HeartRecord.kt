@@ -24,6 +24,7 @@ import org.opencv.core.CvType
 import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 
 class HeartRecord : AppCompatActivity() {
@@ -38,6 +39,9 @@ class HeartRecord : AppCompatActivity() {
     lateinit var cameraDevice: CameraDevice
 
     private lateinit var imageReader: ImageReader
+
+    private var surfaceTextureAvailable = false
+
 
 
 
@@ -67,6 +71,7 @@ class HeartRecord : AppCompatActivity() {
 
         textureView.surfaceTextureListener = object: TextureView.SurfaceTextureListener{
             override fun onSurfaceTextureAvailable(p0: SurfaceTexture, p1: Int, p2: Int) {
+                surfaceTextureAvailable = true
                 openCamera()
             }
 
@@ -127,22 +132,22 @@ class HeartRecord : AppCompatActivity() {
 
                 },handler)
 
+
                 imageReader.setOnImageAvailableListener({
                     val image = it.acquireLatestImage()
                     if (image != null) {
 
-                        val bitmap = imageToBitmap(image)
 
-                        val grayBitmap = bitmap?.let { it1 -> toGrayScale(it1) }
-
-//                        if (bitmap != null) {
-//                            Log.d("灰度", "onOpened: ${calculateGrayChannelAverage(bitmap)}")
+//                        val bitmap = imageToBitmap(image)
+//
+//                        runOnUiThread {
+//                            binding.image.setImageBitmap(bitmap)
 //                        }
+                        processImage(image)
 
 
-                        runOnUiThread {
-                            binding.image.setImageBitmap(grayBitmap)
-                        }
+//                        showBitmapOnTextureView(bitmap)
+                        Log.d("帧", "bitmap: ")
 
 
                     }
@@ -162,100 +167,40 @@ class HeartRecord : AppCompatActivity() {
     }
 
 
-    fun calculateGrayChannelAverage(bitmap: Bitmap): Double {
-        // Initialize OpenCV
-        if (!OpenCVLoader.initDebug()) {
-            // Handle initialization error
-        }
-
-        var sum = 0.0
-        val mat = Mat()
-        Utils.bitmapToMat(bitmap, mat)
-
-        // Convert the image to grayscale
-        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
-
-        // Loop through each pixel in the image and add its value to the sum
-        for (i in 0 until mat.rows()) {
-            for (j in 0 until mat.cols()) {
-                val pixelValue = mat.get(i, j)[0] // Get the gray channel value
-                sum += pixelValue
-            }
-        }
-
-        // Calculate the average value
-        val totalPixels = mat.rows() * mat.cols()
-        val average = sum / totalPixels
-
-        return average
-    }
-
-
-    fun toGrayScale(bitmap: Bitmap): Bitmap? {
-        // Initialize OpenCV
-        if (!OpenCVLoader.initDebug()) {
-            // Handle initialization error
-        }
-
-        // Convert the bitmap to a Mat object
-        val mat = Mat(bitmap!!.height, bitmap.width, CvType.CV_8UC4)
-        Utils.bitmapToMat(bitmap, mat)
-
-        // Convert the image to grayscale
-        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
-
-        // Convert the Mat object back to a bitmap
-        val grayBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
-        Utils.matToBitmap(mat, grayBitmap)
-        return grayBitmap
-    }
-
-
-
-
-    fun imageToBitmap(image: Image): Bitmap? {
-        val width = image.width
-        val height = image.height
-
+    private fun processImage(image: Image) {
+        // 获取 Y数据
         val yBuffer = image.planes[0].buffer
-        val uBuffer = image.planes[1].buffer
-        val vBuffer = image.planes[2].buffer
 
-        val ySize = yBuffer.remaining()
-        val uSize = uBuffer.remaining()
-        val vSize = vBuffer.remaining()
+        // 创建 byte 数组保存 Y数据
+        val yBytes = ByteArray(yBuffer.remaining())
 
-        val nv21 = ByteArray(ySize + uSize + vSize)
+        // 将 Y数据存储到 byte 数组中
+        yBuffer.get(yBytes)
 
-        // Copy the Y-plane buffer data to the nv21 array
-        yBuffer.get(nv21, 0, ySize)
+        // 将 Y 数据存储到一维的 byte 数组中
+        val ySize = image.width * image.height
+        val yuvPixels = ByteArray(ySize)
+        System.arraycopy(yBytes, 0, yuvPixels, 0, ySize)
 
-        // Copy the U and V plane buffer data to the nv21 array
-        vBuffer.get(nv21, ySize, vSize)
-        uBuffer.get(nv21, ySize + vSize, uSize)
-
-        // Create a YuvImage object from the nv21 array
-        val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
-
-        // Convert the YuvImage object to a Bitmap object
-        val out = ByteArrayOutputStream()
-        yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
-        val jpegArray = out.toByteArray()
-        return BitmapFactory.decodeByteArray(jpegArray, 0, jpegArray.size)
-    }
-
-
-
-
-
-    private fun showBitmapOnTextureView(bitmap: Bitmap) {
-        textureView.surfaceTexture?.let { surfaceTexture ->
-            val surface = Surface(surfaceTexture)
-            val canvas = surface.lockCanvas(null)
-            canvas.drawBitmap(bitmap, 0f, 0f, null)
-            surface.unlockCanvasAndPost(canvas)
+        // 将 Y 数据转换为灰度图像的像素数据
+        val grayPixels = IntArray(ySize)
+        for (i in 0 until ySize) {
+            val gray = yuvPixels[i].toInt() and 0xff
+            grayPixels[i] = Color.rgb(gray, gray, gray)
         }
+
+        // 将灰度图像的像素数据转换为 Bitmap 对象
+        val bmp = Bitmap.createBitmap(grayPixels, image.width, image.height, Bitmap.Config.ARGB_8888)
+
+        // 显示灰度图像
+        runOnUiThread {
+            binding.image.setImageBitmap(bmp)
+        }
+
     }
+
+
+
 
     private fun detectHeartRate(red: Int, green: Int, blue: Int) {
         // Implement heart rate detection algorithm here
@@ -299,3 +244,129 @@ class HeartRecord : AppCompatActivity() {
 
 }
 
+
+//fun calculateGrayChannelAverage(bitmap: Bitmap): Double {
+//    // Initialize OpenCV
+//    if (!OpenCVLoader.initDebug()) {
+//        // Handle initialization error
+//    }
+//
+//    var sum = 0.0
+//    val mat = Mat()
+//    Utils.bitmapToMat(bitmap, mat)
+//
+//    // Convert the image to grayscale
+//    Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
+//
+//    // Loop through each pixel in the image and add its value to the sum
+//    for (i in 0 until mat.rows()) {
+//        for (j in 0 until mat.cols()) {
+//            val pixelValue = mat.get(i, j)[0] // Get the gray channel value
+//            sum += pixelValue
+//        }
+//    }
+//
+//    // Calculate the average value
+//    val totalPixels = mat.rows() * mat.cols()
+//    val average = sum / totalPixels
+//
+//    return average
+//}
+//
+//
+//fun toGrayScale(bitmap: Bitmap): Bitmap {
+//    // Initialize OpenCV
+//    if (!OpenCVLoader.initDebug()) {
+//        // Handle initialization error
+//    }
+//
+//    // Convert the bitmap to a Mat object
+//    val mat = Mat(bitmap!!.height, bitmap.width, CvType.CV_8UC4)
+//    Utils.bitmapToMat(bitmap, mat)
+//
+//    // Convert the image to grayscale
+//    Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
+//
+//    // Convert the Mat object back to a bitmap
+//    val grayBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+//    Utils.matToBitmap(mat, grayBitmap)
+//    return grayBitmap
+//}
+//
+//
+//
+//
+//fun imageToBitmap(image: Image): Bitmap {
+//    val width = image.width
+//    val height = image.height
+//
+//    val yBuffer = image.planes[0].buffer
+//    val uBuffer = image.planes[1].buffer
+//    val vBuffer = image.planes[2].buffer
+//
+//    val ySize = yBuffer.remaining()
+//    val uSize = uBuffer.remaining()
+//    val vSize = vBuffer.remaining()
+//
+//    val nv21 = ByteArray(ySize + uSize + vSize)
+//
+//    // Copy the Y-plane buffer data to the nv21 array
+//    yBuffer.get(nv21, 0, ySize)
+//
+//    // Copy the U and V plane buffer data to the nv21 array
+//    vBuffer.get(nv21, ySize, vSize)
+//    uBuffer.get(nv21, ySize + vSize, uSize)
+//
+//    // Create a YuvImage object from the nv21 array
+//    val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
+//
+//    // Convert the YuvImage object to a Bitmap object
+//    val out = ByteArrayOutputStream()
+//    yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
+//    val jpegArray = out.toByteArray()
+//    return BitmapFactory.decodeByteArray(jpegArray, 0, jpegArray.size)
+//}
+//
+//
+//
+//private fun showBitmapOnTextureView(bitmap: Bitmap) {
+//    textureView.surfaceTexture?.let { surfaceTexture ->
+//        val surface = Surface(surfaceTexture)
+//        if (surfaceTextureAvailable){
+//            val canvas = surface.lockCanvas(null)
+//            canvas.drawBitmap(bitmap, 0f, 0f, null)
+//            surface.unlockCanvasAndPost(canvas)
+//        }
+//
+//    }
+//}
+
+
+// 计算当前帧率
+//val FRAME_COUNT_INTERVAL = 60
+//    val NANO_IN_ONE_SECOND = 1000000000L
+//    var frameCount = 0
+//    var lastTimestamp: Long = 0
+//
+//
+//    val captureCallback = object : CameraCaptureSession.CaptureCallback() {
+//        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
+//            val timestamp = System.nanoTime()
+//
+//            if (lastTimestamp == 0L) {
+//                lastTimestamp = timestamp
+//            }
+//
+//            frameCount++
+//
+//            if (frameCount == FRAME_COUNT_INTERVAL) {
+//                val elapsedTime = timestamp - lastTimestamp
+//                val fps = FRAME_COUNT_INTERVAL.toDouble() * NANO_IN_ONE_SECOND / elapsedTime
+//
+//                Log.d("帧率", "FPS: $fps")
+//
+//                lastTimestamp = timestamp
+//                frameCount = 0
+//            }
+//        }
+//    }
