@@ -38,6 +38,8 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
     //    Location
     private var lastLocation: Location? = null
+    private var lastTimer: String = "00:00:00"
+
     private var headMarker:Marker? = null
     private var locations: MutableList<Location> = mutableListOf()
     private var id:Int = -1
@@ -49,6 +51,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
+    private lateinit var timeReceiver: BroadcastReceiver
 
 
     companion object {
@@ -66,7 +69,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         binding.trainingViewmodel = trainingsViewModel
         setContentView(binding.root)
 
-        Log.d("----------------------------------", startTime.toString())
+        timeReceiver = timeBroadcastReceiverStart()
 
         // get Data from add Activity
         val bundle = intent.extras
@@ -96,9 +99,9 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // Get location from service
+                val time = trainingsViewModel.timer.value!!
                 val latitude = intent.getStringExtra("latitude")!!
                 val longitude = intent.getStringExtra("longitude")!!
-                Log.d("TripActivity", "latitude: $latitude, longitude: $longitude")
                 // Safe Location to a List
                 val location = Location(latitude.toDouble(),longitude.toDouble())
                 locations.add(location)
@@ -113,7 +116,11 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                         LatLng(location!!.latitude, location!!.longitude)
                     ).toFloat()
                     trainingsViewModel.updateDistance(distance)
+                    trainingsViewModel.updateSpeed(distance,lastTimer!!,time)
+                    trainingsViewModel.updateCalories(distance,type)
+
                     Log.d("距离", "onReceive: ${trainingsViewModel.totalDistance.value}")
+                    Log.d("速度", "onReceive: ${trainingsViewModel.currentSpeed.value}")
 
                 }else{
                     // Init Start Point
@@ -121,6 +128,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                     addDot(location!!.latitude, location!!.longitude)
                 }
                 lastLocation = location
+                lastTimer = time
             }
         }
         val filter = IntentFilter("update-ui")
@@ -170,6 +178,21 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         super.onDestroy()
         stopService()
         unregisterReceiver(receiver)
+    }
+
+    private fun timeBroadcastReceiverStart(): BroadcastReceiver {
+        // Receive Location value from Service and update UI
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                // Get location from service
+                val currentTime = intent.getStringExtra("currentTime")
+                trainingsViewModel.updateTimer(currentTime!!)
+            }
+
+        }
+        val filter = IntentFilter("timer_update")
+        registerReceiver(receiver, filter)
+        return receiver
     }
 
     /**

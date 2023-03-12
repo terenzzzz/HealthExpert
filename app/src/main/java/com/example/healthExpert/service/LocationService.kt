@@ -10,13 +10,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
+import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.training.TrainRecord
 import com.google.android.gms.location.*
+import java.util.*
 
 
 /**
@@ -30,6 +33,11 @@ class LocationService : LifecycleService() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+    private var startTime = DateTimeConvert().toDateTime(Date())
+    private lateinit var timerHandler: Handler
+    private lateinit var timerRunnable: Runnable
+
+
     /**
      * onCreate lifecycle to create a Foreground Service
      */
@@ -40,6 +48,8 @@ class LocationService : LifecycleService() {
         val pendingIntent = createPendingIntent()
         val notification = pendingIntent?.let { createNotification(it) }
         startForeground(1, notification)
+
+        startTimer()
     }
 
     /**
@@ -84,6 +94,26 @@ class LocationService : LifecycleService() {
         super.onDestroy()
         stopSelf()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    private fun startTimer(){
+        timerHandler = Handler(Looper.getMainLooper())
+        timerRunnable = object : Runnable {
+            override fun run() {
+                // Execute your code here
+                val timeDifference = DateTimeConvert().subTimes(startTime,
+                    DateTimeConvert().toDateTime(Date()))
+
+                val intent = Intent("timer_update")
+                intent.putExtra("currentTime", timeDifference)
+                sendBroadcast(intent)
+                // Schedule the next execution of this Runnable in 1 second
+                timerHandler.postDelayed(this, 1000)
+            }
+        }
+
+        // Start the timer
+        timerHandler.post(timerRunnable)
     }
 
     /**

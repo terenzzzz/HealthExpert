@@ -26,8 +26,6 @@ import kotlin.math.abs
 class SleepService:LifecycleService() {
     private val CHANNEL_ID = "sleep notification channel id"
     private var startTime = DateTimeConvert().toDateTime(Date())
-    private var currentTime = ""
-    private var endTime = ""
 
     private lateinit var timerHandler: Handler
     private lateinit var timerRunnable: Runnable

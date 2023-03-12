@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.*
 import com.example.healthExpert.repository.TrainingsRepository
 import com.example.healthExpert.repository.WeatherRepository
+import com.example.healthExpert.utils.CaloriesCalc
+import com.example.healthExpert.utils.DateTimeConvert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -23,6 +25,7 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+    private val weight = sharedPreferences.getFloat("weight",0F)
 
     var trainings = MutableLiveData<MutableList<Trainings>?>()
     var trainingInfo = MutableLiveData<MutableList<Trainings>?>()
@@ -32,9 +35,9 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
 
     // Training Record data
     var totalDistance = MutableLiveData(0F)
-    var averageSpeed = MutableLiveData(0F)
-    var totalDuration = MutableLiveData(0F)
+    var currentSpeed = MutableLiveData(0F)
     var totalCalories = MutableLiveData(0F)
+    var timer = MutableLiveData("00:00:00")
 
 
     fun updateDistance(newDistance:Float){
@@ -42,16 +45,23 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
         totalDistance.postValue(newDistance.div(1000).plus(totalDistance.value!!))
     }
 
-    fun updateSpeed(newDistance:Float){
-
+    fun updateSpeed(newDistance:Float,lastTimer:String,timer: String){
+        val lastTime = DateTimeConvert().HHmmsstoSeconds(lastTimer)
+        val time = DateTimeConvert().HHmmsstoSeconds(timer)
+        val timeDiff = time - lastTime
+        val speed = newDistance.div(timeDiff).times(3.6F)  // km/h
+        currentSpeed.postValue(speed)
     }
 
-    fun updateDuration(newDistance:Float){
-
+    fun updateCalories(newDistance:Float,type: String){
+        if(weight != null) {
+            val calories = CaloriesCalc().calories(weight,newDistance.div(1000),type)
+            totalCalories.postValue(totalCalories.value?.plus(calories) ?: 0F)
+        }
     }
 
-    fun updateCalories(newDistance:Float){
-
+    fun updateTimer(time:String){
+        timer.value = time
     }
 
 

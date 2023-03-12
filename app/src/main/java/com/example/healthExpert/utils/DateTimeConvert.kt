@@ -1,6 +1,5 @@
 package com.example.healthExpert.utils
 
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
@@ -46,7 +45,7 @@ class DateTimeConvert {
         return "%02d:%02d:%02d".format(hours, minutes, seconds)
     }
 
-    fun toHHWithUnit(startTime: String, endTime: String): String {
+    fun toDecimalHours(startTime: String, endTime: String): String {
         val durationString = subTimes(startTime, endTime)
         val parts = durationString.split(":")
         val hours = parts[0].toLong()
@@ -57,4 +56,9 @@ class DateTimeConvert {
         return "${"%.2f".format(decimalHours)}"
     }
 
+    fun HHmmsstoSeconds(time: String): Int {
+        // "00:24:22" -> 0.41
+        val timeParts = time.split(":").map { it.toInt() }
+        return timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2]
+    }
 }

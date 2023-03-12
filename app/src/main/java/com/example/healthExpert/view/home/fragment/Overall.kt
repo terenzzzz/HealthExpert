@@ -95,7 +95,7 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (item != null ) {
                 // Update the UI
-                binding.sleepValue.text = DateTimeConvert().toHHWithUnit(
+                binding.sleepValue.text = DateTimeConvert().toDecimalHours(
                     DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime)
                 )
