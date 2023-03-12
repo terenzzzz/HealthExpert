@@ -222,29 +222,20 @@
                                 android:textStyle="bold"/>
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
+                                android:layout_marginTop="20dp"
                                 android:textColor="@color/black"
-                                android:text="Predicted start time is"
-                                android:textSize="10dp"/>
+                                android:text="10/16"
+                                android:textSize="20dp"/>
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginVertical="10dp"
-                                android:gravity="center"
+                                android:layout_marginHorizontal="5dp"
                                 android:textColor="@color/black"
-                                android:text="10 / 16"
-                                android:textSize="20dp"
-                                android:textStyle="bold"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:textColor="@color/black"
-                                android:text="Expected to last 5 days"
-                                android:textSize="10dp"/>
+                                android:text="Expected Date"
+                                android:textSize="20dp"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -470,6 +461,7 @@
                                 android:id="@+id/zero_notice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
                                 <TextView
                                     android:layout_width="wrap_content"

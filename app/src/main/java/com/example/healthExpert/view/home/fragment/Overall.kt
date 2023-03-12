@@ -99,6 +99,7 @@ class Overall : OverallCompatFragment() {
                 binding.zeroNotice.visibility = View.GONE
             }else{
                 binding.medicalNotice.visibility = View.GONE
+                binding.zeroNotice.visibility = View.VISIBLE
             }
         })
 
