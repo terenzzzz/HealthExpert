@@ -67,7 +67,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Training Recording"
                                 android:textSize="20dp"
-                                android:textColor="@color/black"
+                                android:textColor="@color/yellow"
                                 android:textStyle="bold"/>
                             <View
                                 android:layout_width="fill_parent"
@@ -77,7 +77,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginVertical="10dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginHorizontal="1dp"
                                 android:orientation="vertical">
 
@@ -95,8 +95,8 @@
                                     app:layout_constraintBottom_toBottomOf="parent">
                                     <ImageView
                                         android:id="@+id/weatherIcon"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/cloudy"/>
                                 </androidx.cardview.widget.CardView>
@@ -125,14 +125,14 @@
                                             android:layout_height="wrap_content"
                                             android:text="@{trainingViewmodel.weather.weather}"
                                             android:textColor="@color/black"
-                                            android:textSize="20dp"/>
+                                            android:textSize="15dp"/>
                                         <TextView
                                             android:id="@+id/temp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@{trainingViewmodel.weather.temp}"
                                             android:textColor="@color/black"
-                                            android:textSize="15dp"/>
+                                            android:textSize="12dp"/>
                                     </LinearLayout>
                                 </androidx.cardview.widget.CardView>
 
@@ -150,12 +150,22 @@
                                     app:layout_constraintBottom_toBottomOf="parent">
                                     <ImageView
                                         android:id="@+id/type"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/walk"/>
                                 </androidx.cardview.widget.CardView>
                             </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/count_down"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginVertical="10dp"
+                                android:text="00:00:00"
+                                android:textSize="20dp"
+                                android:gravity="center"
+                                android:textColor="@color/black"/>
 
                             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                                 xmlns:tools="http://schemas.android.com/tools"
@@ -164,6 +174,7 @@
                                 android:id="@+id/map"
                                 tools:context=".MapsActivity"
                                 android:name="com.google.android.gms.maps.SupportMapFragment" />
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -175,11 +186,17 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
                                     android:layout_weight="1">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/distance"/>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginVertical="5dp"
                                         android:gravity="center"
-                                        android:text="0.60 km"
+                                        android:text='@{String.format("%.2f",trainingViewmodel.totalDistance) + ` km`}'
                                         android:textColor="@color/black"
                                         android:textSize="15dp"/>
                                     <TextView
@@ -196,11 +213,17 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
                                     android:layout_weight="1">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/speed"/>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginVertical="5dp"
                                         android:gravity="center"
-                                        android:text="1.40 km/h"
+                                        android:text='@{String.valueOf(trainingViewmodel.averageSpeed) + ` km/h`}'
                                         android:textColor="@color/black"
                                         android:textSize="15dp"/>
                                     <TextView
@@ -217,18 +240,24 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
                                     android:layout_weight="1">
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/calories"/>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginVertical="5dp"
                                         android:gravity="center"
-                                        android:text="124 kcal"
+                                        android:text="@{String.valueOf(trainingViewmodel.totalCalories) + ` kcal`}"
                                         android:textColor="@color/black"
                                         android:textSize="15dp"/>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Calories"
+                                        android:text="Duration"
                                         android:textColor="@color/black"
                                         android:textSize="12dp"/>
                                 </LinearLayout>

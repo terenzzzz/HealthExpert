@@ -171,7 +171,7 @@ class HeartRecord : AppCompatActivity() {
 
 
     private fun processImage(image: Image) {
-        val cropSize = 200
+        val cropSize = 1000
 
         val width = image.width
         val height = image.height

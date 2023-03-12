@@ -23,10 +23,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.maps.android.SphericalUtil
 import com.squareup.picasso.Picasso
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import java.time.LocalDateTime
+import com.google.android.gms.maps.model.LatLng
+
+
 import java.util.*
 
 class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
@@ -42,6 +45,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private var title:String = ""
     private var startTime = SimpleDateFormat("HH:mm").format(Date())
     private lateinit var endTime:String
+    private var totalDistance:Float = 0F
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
@@ -103,6 +107,14 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                 if (lastLocation != null){
                     drawLine(lastLocation!!,location)
                     addDot(location.latitude,location.longitude)
+
+                    val distance = SphericalUtil.computeDistanceBetween(
+                        LatLng(lastLocation!!.latitude, lastLocation!!.longitude),
+                        LatLng(location!!.latitude, location!!.longitude)
+                    ).toFloat()
+                    trainingsViewModel.updateDistance(distance)
+                    Log.d("距离", "onReceive: ${trainingsViewModel.totalDistance.value}")
+
                 }else{
                     // Init Start Point
                     addMarker(location!!.latitude, location!!.longitude)
@@ -140,6 +152,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
+
 
         trainingsViewModel.weather.observe(this) { item ->
             // Update the UI based on the value of MutableLiveData

@@ -30,6 +30,29 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var weather = MutableLiveData<Weather>()
     var trainingAll = MutableLiveData<TrainingOverall?>()
 
+    // Training Record data
+    var totalDistance = MutableLiveData(0F)
+    var averageSpeed = MutableLiveData(0F)
+    var totalDuration = MutableLiveData(0F)
+    var totalCalories = MutableLiveData(0F)
+
+
+    fun updateDistance(newDistance:Float){
+        // Sum the distance (Unit KM)
+        totalDistance.postValue(newDistance.div(1000).plus(totalDistance.value!!))
+    }
+
+    fun updateSpeed(newDistance:Float){
+
+    }
+
+    fun updateDuration(newDistance:Float){
+
+    }
+
+    fun updateCalories(newDistance:Float){
+
+    }
 
 
     fun getTrainingOverall(date:String){
