@@ -145,9 +145,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
             endTime = SimpleDateFormat("HH:mm").format(Date())
             if (locations.size != 0){
                 val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
-                Log.d("TrainRecord", locationJson)
-                trainingsViewModel.addTraining(type,title,"0","0","0",
-                    startTime,endTime,locationJson)
+                trainingsViewModel.addTraining(type,title, startTime,endTime,locationJson)
                 trainingsViewModel.updateTrainingOverall()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)

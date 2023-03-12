@@ -72,7 +72,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="Training"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/yellow"
                                     android:textStyle="bold"
                                     android:textSize="20dp"/>
                                 <ImageView
@@ -105,7 +105,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="TIME"
+                                        android:text="TIME(Mins)"
                                         android:textColor="@color/black"
                                         android:textSize="10dp"/>
                                 </LinearLayout>
