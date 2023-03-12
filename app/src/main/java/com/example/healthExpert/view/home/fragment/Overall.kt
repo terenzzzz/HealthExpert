@@ -1,6 +1,8 @@
 package com.example.login.view.homePage.fragment
 
 import android.graphics.Color
+import android.graphics.ColorSpace.Rgb
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +20,13 @@ import com.example.healthExpert.view.sleep.Sleep
 import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
+import com.example.healthExpert.widget.RoundedBarChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import java.util.*
 
 
@@ -76,8 +78,8 @@ class Overall : OverallCompatFragment() {
         overallViewModel.trainingAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                binding.speedValue.text = "${ item.Speed } km/h"
-                binding.distanceValue.text = "${ item.Distance } km"
+                binding.trainingValue.text = "${ item.Duration } "
+                TrainingSetup(binding.trainingBar)
             }
         })
 
@@ -85,9 +87,18 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (list != null && list.size > 0) {
                 // Update the UI
+                binding.medicalNotice.visibility = View.VISIBLE
                 binding.medicationName.text = list[0].Name
                 binding.medicationDose.text = "${list[0].Dose} g"
                 binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
+                when(list[0].Type){
+                    "Capsule" -> binding.medicalType.setImageResource(R.drawable.capsule)
+                    "Tablet" -> binding.medicalType.setImageResource(R.drawable.drug)
+                    "Liquid" -> binding.medicalType.setImageResource(R.drawable.syrup)
+                }
+                binding.zeroNotice.visibility = View.GONE
+            }else{
+                binding.medicalNotice.visibility = View.GONE
             }
         })
 
@@ -207,7 +218,6 @@ class Overall : OverallCompatFragment() {
         legend.isEnabled = false //是否显示图例
         val xAxis: XAxis = lineChart.getXAxis()
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)        //X轴所在位置   默认为上面
-        val AxisLeft: YAxis = lineChart.getAxisLeft()
         lineChart.getAxisRight().setEnabled(false)
         lineChart.getAxisLeft().setEnabled(false)
         lineChart.xAxis.setEnabled(false)
@@ -261,5 +271,49 @@ class Overall : OverallCompatFragment() {
 
         lineChart.animateXY(1000, 1000);
         lineChart.invalidate() // 刷新
+    }
+
+    private fun TrainingSetup(view: BarChart) {
+        // Find View
+        // Create data entries
+        val entries = listOf(
+            BarEntry(1f, 4f),
+            BarEntry(2f, 6f),
+            BarEntry(3f, 2f),
+            BarEntry(4f, 8f),
+            BarEntry(5f, 3f),
+            BarEntry(6f, 5f),
+            BarEntry(7f, 9f)
+        )
+
+        // Create a dataset with entries and label
+        val barDataSet = BarDataSet(entries, "Sales")
+        view.xAxis.setDrawGridLines(false)  //是否绘制X轴上的网格线（背景里面的竖线）
+        view.axisLeft.setDrawGridLines(false)
+        view.axisLeft.setEnabled(false)
+        view.xAxis.setEnabled(false)
+        view.axisRight.setDrawGridLines(false)
+        view.axisRight.setEnabled(false)
+        view.description.isEnabled = false  //是否显示右下角描述
+        view.setTouchEnabled(false) // 禁止互动
+        val legend: Legend = view.legend
+        legend.isEnabled = false //是否显示图例
+        barDataSet.setDrawValues(false)  //禁止显示点上的数值
+        barDataSet.color = Color.rgb(44, 68, 99)
+        view.renderer = RoundedBarChart(view, view.animator, view.viewPortHandler)
+
+
+        // Create a BarData object with the dataset
+        val data = BarData(barDataSet)
+
+        // Set the data to the chart
+        view.data = data
+
+
+        // Set animation duration
+        view.animateY(1000)
+
+        // Invalidate the chart to refresh
+        view.invalidate()
     }
 }

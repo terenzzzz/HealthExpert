@@ -14,6 +14,7 @@ import com.example.healthExpert.compatActivity.WalkCompatActivity
 import com.example.healthExpert.databinding.ActivityWalkBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.widget.Ring
+import com.example.healthExpert.widget.RoundedBarChart
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -144,6 +145,7 @@ class Walk : WalkCompatActivity() {
         // disable pinch zoom on the chart
 
         barChart.setScaleEnabled(false) // D zoom
+        barChart.renderer = RoundedBarChart(barChart, barChart.animator, barChart.viewPortHandler)
 
         barChart.animateXY(1000, 1000);
         barChart.invalidate(); // refresh
