@@ -42,7 +42,7 @@ class LocationService : LifecycleService() {
      * onCreate lifecycle to create a Foreground Service
      */
     override fun onCreate() {
-        Log.d("Service", "onCreate: ")
+        Log.d("定位服务", "onCreate: ")
         super.onCreate()
         createChannel()
         val pendingIntent = createPendingIntent()
@@ -62,7 +62,7 @@ class LocationService : LifecycleService() {
      * @return an integer value indicating to the system how it should continue executing the Service
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("Service", "onStartCommand: ")
+        Log.d("定位服务", "onStartCommand: ")
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 p0?:return
@@ -90,7 +90,7 @@ class LocationService : LifecycleService() {
     }
 
     override fun onDestroy() {
-        Log.d("Service", "onDestroy: ")
+        Log.d("定位服务", "onDestroy: ")
         super.onDestroy()
         stopSelf()
         fusedLocationClient.removeLocationUpdates(locationCallback)
@@ -122,7 +122,7 @@ class LocationService : LifecycleService() {
      * @return a pendingIntent object
      */
     private fun createPendingIntent(): PendingIntent? {
-        Log.d("Service", "createPendingIntent: ")
+        Log.d("定位服务", "createPendingIntent: ")
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
@@ -140,7 +140,7 @@ class LocationService : LifecycleService() {
      * @return a pendingIntent object
      */
     private fun createNotification(pendingIntent: PendingIntent): Notification {
-        Log.d("Service", "createNotification: ")
+        Log.d("定位服务", "createNotification: ")
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("We are keep tracking your location...")
             .setContentText("Click here to come back")
@@ -153,7 +153,7 @@ class LocationService : LifecycleService() {
      * A function to Create the NotificationChannel
      */
     private fun createChannel() {
-        Log.d("Service", "createChannel: ")
+        Log.d("定位服务", "createChannel: ")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = "Notification Channel Name"

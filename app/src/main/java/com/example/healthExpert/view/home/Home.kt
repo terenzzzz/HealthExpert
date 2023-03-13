@@ -15,6 +15,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.service.LocationService
+import com.example.healthExpert.service.NotificationService
 import com.example.healthExpert.service.StepService
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
@@ -47,7 +48,9 @@ class Home : UserCompatActivity() {
         initPage()
 
         // TODO Walking Service
-        callService()
+        callLocationService()
+        callNotificationService()
+
 
         binding.sideBar.setOnClickListener (View.OnClickListener {
             Sidebar.startFn(this)
@@ -98,9 +101,19 @@ class Home : UserCompatActivity() {
     /**
      * function to call the Location Service to start
      */
-    private fun callService(){
-        Log.d("Train Record", "callService: ")
+    private fun callLocationService(){
+        Log.d("Home", "callService: ")
         Intent(this, StepService::class.java).apply {
+            startService(this)
+        }
+    }
+
+    /**
+     * function to call the Location Service to start
+     */
+    private fun callNotificationService(){
+        Log.d("通知服务", "call: ")
+        Intent(this, NotificationService::class.java).apply {
             startService(this)
         }
     }

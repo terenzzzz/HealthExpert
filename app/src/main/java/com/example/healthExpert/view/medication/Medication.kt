@@ -82,7 +82,7 @@ class Medication : MedicationsCompatActivity() {
 
         binding.notificationBtn.setOnClickListener(View.OnClickListener { view ->
             Log.d("Medication", "notificationBtn: Clicked ")
-            createNotification(binding.root)
+
         })
     }
 
@@ -91,41 +91,6 @@ class Medication : MedicationsCompatActivity() {
         medicationsViewModel.medications(todayDate)
     }
 
-    fun createNotification(view: View?) {
-//        getPermission(view)
-        //生成manager
-        manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        //检查版本
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //生成Channel
-            val notificationChannel =
-                NotificationChannel("testChannelId", "test", NotificationManager.IMPORTANCE_HIGH)
-            //添加Channel到manager
-            manager!!.createNotificationChannel(notificationChannel)
-        }
-        //生成intent，让通知可以点击回到主页面
-        val intent = Intent(this, Home::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 222, intent, FLAG_IMMUTABLE)
-        //检查版本
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //生成notication模板
-            val notification = Notification.Builder(this, "testChannelId")
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.icon) //自定义样式
-                //                    .setCustomContentView(remoteViews)
-                .setContentTitle("Medication Reminder")
-                .setContentText("You have some medicine you may need to take!") //                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                //                    .addAction(R.drawable.ic_launcher_background,"按钮",pendingIntent)
-                //                    .setProgress(100,50,false)
-                //                    .setStyle(new Notification.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.cat)))
-                //                    .setStyle(new Notification.BigTextStyle().bigText("6666666666666666666666666666666666666666666666666666666666666666666666"))
-                .build()
-            //添加notication模板到manager
-            manager!!.notify(11, notification)
-        }
-    }
 
 }
 

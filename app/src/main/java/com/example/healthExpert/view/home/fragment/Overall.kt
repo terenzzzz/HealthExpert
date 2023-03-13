@@ -1,8 +1,8 @@
 package com.example.login.view.homePage.fragment
 
+import android.content.Intent
+import android.content.Context
 import android.graphics.Color
-import android.graphics.ColorSpace.Rgb
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,6 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import java.util.*
 
@@ -86,6 +85,14 @@ class Overall : OverallCompatFragment() {
         overallViewModel.medications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null && list.size > 0) {
+
+                for (item in list){
+                    val intent = Intent("medication")
+                    intent.putExtra("time", DateTimeConvert().toTime(item.Date))
+                    activity?.sendBroadcast(intent)
+                }
+
+
                 // Update the UI
                 binding.medicalNotice.visibility = View.VISIBLE
                 binding.medicationName.text = list[0].Name
