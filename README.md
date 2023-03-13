@@ -39,7 +39,7 @@
   - [ ] Training Tracker
     - [x] Can select mode (walking/running/cycling)
     - [x] Can add title
-    - [ ] Can get metric about the training during recording
+    - [x] Can get metric about the training during recording
     - [x] Can get location during training(Service)
     - [x] Can show location in the map
     - [x] Can add training to database
@@ -84,13 +84,24 @@
     - [x] Can view the explaination of each matric
     
   - [ ] Heart Rate Record
+    - [x] Can use camera
+    - [x] Can get preview of the camera
+    - [x] Can get grey scal of the image
+    - [ ] Can calculate the color different
+    - [ ] Can work out Heart rate
+    - [ ] Can record heart rate
+    - [ ] Can show heart rate record
+    
   - [ ] Menstrual period
    
 
 - Aside
   - [x] Can get Articles
   - [x] User Profile
-  - [x] Can view History
+  - [] Can view History
+    - [x] Can select date
+    - [x] Can show the data of the specific date
+    - [ ] Can see All block of data
   - [x] Body index monitoring
   - [ ] Emergency contact
   - [ ] Store data in local
