@@ -235,7 +235,7 @@
                                 android:layout_marginHorizontal="5dp"
                                 android:textColor="@color/black"
                                 android:text="Expected Date"
-                                android:textSize="20dp"/>
+                                android:textSize="15dp"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

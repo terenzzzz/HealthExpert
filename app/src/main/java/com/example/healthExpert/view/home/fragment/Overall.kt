@@ -107,11 +107,12 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (item != null ) {
                 // Update the UI
+                // Sleep set up
+                sleepSetUp(binding.root)
                 binding.sleepValue.text = DateTimeConvert().toDecimalHours(
                     DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime)
                 )
-
             }
         })
 
@@ -119,6 +120,8 @@ class Overall : OverallCompatFragment() {
 
     override fun onResume() {
         super.onResume()
+        // Heart Set Up
+        heartSetUp(binding.root)
         overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)
@@ -134,11 +137,6 @@ class Overall : OverallCompatFragment() {
         // Inflate the layout for this fragment
         binding = FragmentOverallBinding.inflate(layoutInflater)
 
-
-        // Sleep set up
-        sleepSetUp(binding.root)
-        // Heart Set Up
-        heartSetUp(binding.root)
 
         binding.caloriesBlock.setOnClickListener(View.OnClickListener { view ->
             this.context?.let {
