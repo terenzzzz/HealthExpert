@@ -88,6 +88,13 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
         }
     }
 
+    fun editMedicationStatus(id: String, status:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.editMedicationStatus(token,id,status) }
+        }
+    }
+
     fun deleteMedication(id: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository

@@ -27,6 +27,7 @@ import com.example.healthExpert.databinding.ActivityMedicationBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.login.Login
+import com.example.healthExpert.viewmodels.MedicationsViewModel
 import java.util.*
 
 
@@ -59,7 +60,7 @@ class Medication : MedicationsCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,this)
+                recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,medicationsViewModel)
             }
         })
 
@@ -130,7 +131,7 @@ class Medication : MedicationsCompatActivity() {
 
 // RecycleView Adapter
 class MedicationsAdapter(private val medicationsSet: MutableLiveData<MutableList<com.example.healthExpert.model.Medication>?>,
-                      private val activity:Context) : RecyclerView.Adapter<MedicationsAdapter.ViewHolder>(){
+                      private val medicationsViewModel:MedicationsViewModel) : RecyclerView.Adapter<MedicationsAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         var time: TextView = itemView.findViewById(R.id.time)
@@ -154,9 +155,11 @@ class MedicationsAdapter(private val medicationsSet: MutableLiveData<MutableList
             if (holder.radioBtn.isChecked){
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 holder.dose.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"1")
             }else{
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 holder.dose.paintFlags = holder.dose.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"0")
             }
         })
         holder.time.text = DateTimeConvert().toHHmm(medicationsSet.value!![position].Date)

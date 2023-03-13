@@ -210,6 +210,29 @@ class MedicationRepository {
         return resStatus
     }
 
+    fun editMedicationStatus(token:String,id: String,status: String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("id", id)
+            .add("status", status)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/editMedicationStatus")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("editMedicationStatus", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
+
     fun deleteMedication(token:String,id: String):Int {
         var resStatus=-1
         val body = FormBody.Builder()
