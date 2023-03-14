@@ -17,6 +17,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityWaterBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +42,28 @@ class Water : WatersCompatActivity() {
         binding.lifecycleOwner = this
         binding.waterViewmodel = watersViewModel
         setContentView(binding.root)
+
+        watersViewModel.watersAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                binding.rate.text = "${item.Total.div(80)} %"
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
+            }
+        })
+
+        watersViewModel.waters.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                // Update the UI
+                watersViewModel.updateWatersOverall()
+                recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
+            }
+
+        })
 
 
 
@@ -84,24 +107,7 @@ class Water : WatersCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        watersViewModel.watersAll.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                binding.rate.text = "${item.Total.div(80)} %"
-            }
-        })
-
-        watersViewModel.waters.observe(this, Observer { list ->
-            // Update the UI based on the value of MutableLiveData
-            if (list != null) {
-                // Update the UI
-                watersViewModel.updateWatersOverall()
-                recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
-                watersViewModel.getWatersOverall(todayDate)
-            }
-
-        })
+        watersViewModel.getWatersOverall(todayDate)
         watersViewModel.getWaters()
     }
 

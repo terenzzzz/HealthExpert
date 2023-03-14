@@ -13,6 +13,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WalkCompatActivity
 import com.example.healthExpert.databinding.ActivityWalkBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.widget.Ring
 import com.example.healthExpert.widget.RoundedBarChart
 import com.github.mikephil.charting.charts.BarChart
@@ -79,7 +80,7 @@ class Walk : WalkCompatActivity() {
                 ring.setValueText(item.TotalSteps.toString())
                 ring.setSweepValue(item.TotalSteps.div(100).toFloat())
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -110,7 +111,7 @@ class Walk : WalkCompatActivity() {
                 }
                 barChart.data = setBarchartData(entries)
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
         walkViewModel.updateWalksOverall()

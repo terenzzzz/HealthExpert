@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.parse.LoginParse
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
@@ -40,7 +41,6 @@ class                                                                           
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        Log.d("测试", "Login onCreate: ")
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -104,7 +104,7 @@ class                                                                           
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Snackbar.make(binding.root, "Network Error!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
 
             override fun onResponse(call: Call, response: Response) {

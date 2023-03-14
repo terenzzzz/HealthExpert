@@ -26,7 +26,7 @@ class WatersRepository {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
                 val parsed: WaterOverallParse = gson.fromJson(response.body!!.string(), WaterOverallParse::class.java)
-                Log.w("WatersRepository", "getWaterOverall调用1")
+                Log.w("WatersRepository", "getWaterOverall调用")
                 if (parsed.data != null){
                     waterOverall = parsed.data!!
                 }
@@ -57,8 +57,9 @@ class WatersRepository {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     val gson = Gson()
-                    val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    resStatus = parsed.status?:-1
+                    val parsed: BaseParse =
+                        gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                    resStatus = parsed.status ?: -1
                     Log.w("WatersRepository", "更新WaterOverall")
                     response.close()
                 }
@@ -68,47 +69,56 @@ class WatersRepository {
     }
 
     // 同步请求
-    fun getWaters(token: String): MutableList<Water> {
-        var water: MutableList<Water> = mutableListOf()
+    fun getWaters(token: String): MutableList<Water>? {
+        var water: MutableList<Water>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/waters")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: WaterParse = gson.fromJson(response.body!!.string(), WaterParse::class.java)
-            if (parsed.data != null){
-                for (waterData in parsed.data!!){
-                    water.add(waterData)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: WaterParse = gson.fromJson(response.body!!.string(), WaterParse::class.java)
+                if (parsed.data != null){
+                    for (waterData in parsed.data!!){
+                        water!!.add(waterData)
+                    }
                 }
+                Log.w("getWaters", water.toString())
+                response.close()
             }
-            Log.w("getWaters", water.toString())
-            response.close()
+        }catch (e: IOException) {
+            water = null
         }
+
         return water
     }
 
     // 同步请求
-    fun getWatersInfo(token:String,id:Int): MutableList<Water> {
-        var water: MutableList<Water> = mutableListOf()
+    fun getWatersInfo(token:String,id:Int): MutableList<Water>? {
+        var water: MutableList<Water>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/watersInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: WaterParse = gson.fromJson(response.body!!.string(), WaterParse::class.java)
-            Log.w("getWatersInfo", "message: " + parsed.message)
-            if (parsed.data != null){
-                for (training in parsed.data!!){
-                    water.add(training)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: WaterParse = gson.fromJson(response.body!!.string(), WaterParse::class.java)
+                Log.w("getWatersInfo", "message: " + parsed.message)
+                if (parsed.data != null){
+                    for (training in parsed.data!!){
+                        water!!.add(training)
+                    }
                 }
+                response.close()
             }
-            response.close()
+        }catch (e: IOException) {
+            water = null
         }
         return water
     }

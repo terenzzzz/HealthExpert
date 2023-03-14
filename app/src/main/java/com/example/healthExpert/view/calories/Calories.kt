@@ -21,6 +21,7 @@ import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer;
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -67,7 +68,8 @@ class Calories : CaloriesCompatActivity() {
                 if (rate != null) {
                     ring.setSweepValue(rate.toFloat())
                 }
-
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -75,6 +77,8 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 binding.trainingValue.text = "- $item"
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -93,7 +97,7 @@ class Calories : CaloriesCompatActivity() {
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
                 caloriesViewModel.getCaloriesOverall(todayDate)
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 

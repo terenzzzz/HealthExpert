@@ -20,6 +20,7 @@ import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainBinding
 import com.example.healthExpert.model.Trainings
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.CaloriesEdit
 import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
@@ -54,6 +55,8 @@ class Train : TrainingsCompatActivity() {
                 // Update the UI
                 ring.setValueText(item.Calories.toString())
                 ring.setSweepValue(item.Calories.times(100).div(1000f))
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -65,6 +68,8 @@ class Train : TrainingsCompatActivity() {
                 recyclerView.adapter = TrainingsAdapter(
                     trainingsViewModel.trainings, this
                 )
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
