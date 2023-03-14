@@ -60,6 +60,7 @@ class Home : UserCompatActivity() {
                 }else{
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
+                binding.greating.text = "Hi, ${item.Name}"
                 val sharedPreferences = getSharedPreferences("healthy_expert", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putFloat("height", item.Height)

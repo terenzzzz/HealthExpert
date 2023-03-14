@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.FragmentMeBinding
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.viewmodels.UserViewModel
 
@@ -44,6 +45,8 @@ class Me : Fragment() {
                 }else{
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 

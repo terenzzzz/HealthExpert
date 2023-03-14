@@ -19,6 +19,7 @@ import com.example.healthExpert.compatActivity.SourcesCompatFragment
 import com.example.healthExpert.databinding.FragmentSourcesBinding
 import com.example.healthExpert.model.News
 import androidx.lifecycle.Observer
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.CaloriesEdit
 import com.example.healthExpert.view.news.NewActivity
 import com.squareup.picasso.Picasso
@@ -36,7 +37,6 @@ class Sources : SourcesCompatFragment() {
         binding = FragmentSourcesBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.sourcesViewmodel = sourcesViewModel
-        sourcesViewModel.getNews()
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -46,13 +46,22 @@ class Sources : SourcesCompatFragment() {
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.requireContext())
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
 
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        sourcesViewModel.getNews()
+    }
 }
+
+
 
 // RecycleView Adapter
 class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>, private val activity: Context)

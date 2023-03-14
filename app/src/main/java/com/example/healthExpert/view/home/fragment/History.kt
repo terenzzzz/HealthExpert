@@ -12,15 +12,17 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import java.util.*
 import kotlin.math.roundToInt
 
 
-class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
+class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
     private lateinit var binding: FragmentHistoryBinding
     private var selectedDate = DateTimeConvert().toDate(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("History", "onCreate: ")
         super.onCreate(savedInstanceState)
 
         historyViewModel.caloriesAll.observe(this, Observer { item ->
@@ -36,8 +38,8 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
                     binding.caloriesRing.setSweepValue(rate.toFloat())
                 }
                 binding.caloriesValue.text = "${total.toString()} / 1000 kcal"
-
-
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -45,12 +47,12 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                if (item != null){
-                    binding.stepsRing.setValueText("${item.TotalSteps/80}%")
-                    binding.stepsRing.setSweepValue((item.TotalSteps/80).toFloat())
-                    binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
-                    binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
-                }
+                binding.stepsRing.setValueText("${item.TotalSteps/80}%")
+                binding.stepsRing.setSweepValue((item.TotalSteps/80).toFloat())
+                binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
+                binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -58,12 +60,12 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                if (item != null){
-                    binding.drinkingRing.setSweepValue((item.Total/80).toFloat())
-                    binding.drinkingRing.setValueText("${item.Total/80}%")
-                    binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
-                    binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
-                }
+                binding.drinkingRing.setSweepValue((item.Total/80).toFloat())
+                binding.drinkingRing.setValueText("${item.Total/80}%")
+                binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
+                binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -71,16 +73,14 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                if (item != null) {
-                    // Update the UI
-                    binding.trainingRing.setSweepValue((item.Duration/1.2).toFloat())
-                    binding.trainingRing.setValueText("${(item.Duration/1.2).roundToInt()}%")
-                    binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
-                    binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
-                }
+                binding.trainingRing.setSweepValue((item.Duration/1.2).toFloat())
+                binding.trainingRing.setValueText("${(item.Duration/1.2).roundToInt()}%")
+                binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
+                binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
-
     }
 
 
@@ -97,10 +97,11 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("History", "onCreateView: ")
         // Inflate the layout for this fragment
         binding = FragmentHistoryBinding.inflate(layoutInflater)
-        binding.lifecycleOwner = this
-        binding.historyViewmodel = historyViewModel
+
+
 
         binding.etDate.text = selectedDate
 
@@ -125,6 +126,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
 
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
+        Log.d("Debug,,,,,,,,,,,,,,,,,", "onCreateView: ")
         var newMonth = month + 1
         var newMonthStr = newMonth.toString()
         if(newMonth<10){
@@ -132,6 +134,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener {
         }
         selectedDate = "$year-$newMonthStr-$day"
         binding.etDate.text = selectedDate
+
 
         historyViewModel.getCaloriesOverall(selectedDate)
         historyViewModel.getWalksOverall(selectedDate)
