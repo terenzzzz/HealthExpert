@@ -25,6 +25,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.MedicationsCompatActivity
 import com.example.healthExpert.databinding.ActivityMedicationBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.viewmodels.MedicationsViewModel
@@ -61,6 +62,8 @@ class Medication : MedicationsCompatActivity() {
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,medicationsViewModel)
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
