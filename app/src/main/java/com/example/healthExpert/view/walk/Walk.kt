@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -77,6 +78,8 @@ class Walk : WalkCompatActivity() {
             if (item != null){
                 ring.setValueText(item.TotalSteps.toString())
                 ring.setSweepValue(item.TotalSteps.div(100).toFloat())
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -106,6 +109,8 @@ class Walk : WalkCompatActivity() {
                     }
                 }
                 barChart.data = setBarchartData(entries)
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
         walkViewModel.updateWalksOverall()
