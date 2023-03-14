@@ -18,6 +18,10 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+    private val height = sharedPreferences.getFloat("height",0f)
+    private val weight = sharedPreferences.getFloat("weight",0f)
+
+
     var walkAll = MutableLiveData<WalksOverall?>()
     var walkSteps = MutableLiveData<MutableList<WalkStep>?>()
 
@@ -42,7 +46,13 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
+    fun updateWalksOverall(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { repository.updateWalksOverall(it,weight,height) }
 
+        }
+    }
 
 }
 

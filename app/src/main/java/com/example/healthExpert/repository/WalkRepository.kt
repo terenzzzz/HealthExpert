@@ -66,6 +66,9 @@ class WalkRepository {
             .add("height", height.toString())
             .build()
 
+        Log.d("测试", "updateWalksOverall: $weight")
+        Log.d("测试", "updateWalksOverall: $height")
+
         val request = Request.Builder()
             .url("$url/updateWalksOverall")
             .addHeader("Authorization",token)

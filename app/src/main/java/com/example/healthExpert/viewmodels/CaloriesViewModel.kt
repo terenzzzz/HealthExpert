@@ -20,8 +20,8 @@ import java.util.*
 
 class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val repository = CaloriesRepository()
-//    private val walkRepository = WalkRepository()
-//    private val trainingsRepository = TrainingsRepository()
+    private val walkRepository = WalkRepository()
+    private val trainingsRepository = TrainingsRepository()
 
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -30,8 +30,8 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var caloriesInfo = MutableLiveData<Calories?>()
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
 
-//    var stepsCalories = MutableLiveData(0)
-//    var trainingCalories = MutableLiveData(0)
+    var stepsCalories = MutableLiveData(0)
+    var trainingCalories = MutableLiveData(0)
 
 
 
@@ -41,19 +41,19 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null){
                 val updatedData = repository.getCaloriesOverall(token,date)
-//                val updateStepsCalories = walkRepository.getWalksOverall(token,date).Calories
-//                val updateTrainingCalories = walkRepository.getWalksOverall(token,date).Calories
-//
-//                Log.d("燃烧", "更新前: $updatedData")
-//
-//                updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
-//
-//                Log.d("燃烧", "更新后: $updatedData")
+                val updateStepsCalories = walkRepository.getWalksOverall(token,date).Calories
+                val updateTrainingCalories = trainingsRepository.getTrainingOverall(token,date).Calories.toInt()
+
+                Log.d("燃烧", "更新前: $updatedData")
+
+                updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
+
+                Log.d("燃烧", "更新后: $updatedData")
 
                 // Refresh UI Update data
                 caloriesAll.postValue(updatedData)
-//                stepsCalories.postValue(updateStepsCalories)
-//                trainingCalories.postValue(updateTrainingCalories)
+                stepsCalories.postValue(updateStepsCalories)
+                trainingCalories.postValue(updateTrainingCalories)
             }
 
         }

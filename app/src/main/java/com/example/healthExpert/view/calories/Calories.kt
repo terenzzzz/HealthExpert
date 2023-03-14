@@ -86,6 +86,21 @@ class Calories : CaloriesCompatActivity() {
                 if (rate != null) {
                     ring.setSweepValue(rate.toFloat())
                 }
+
+            }
+        })
+
+        caloriesViewModel.trainingCalories.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                binding.trainingValue.text = "- $item"
+            }
+        })
+
+        caloriesViewModel.stepsCalories.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                binding.stepValue.text = "- $item"
             }
         })
 

@@ -58,7 +58,7 @@ class StepService: LifecycleService() {
         val runnable = Runnable {
             if(stepCount!=0){
                 walkRepository.addWalkSteps(token,stepCount.toString())
-                walkRepository.updateWalksOverall(token,height,weight)
+                walkRepository.updateWalksOverall(token,weight,height)
                 Log.d("StepService", "更新步数：$stepCount")
                 startingSteps = 0
                 stepCount = 0

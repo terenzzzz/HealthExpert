@@ -108,6 +108,7 @@ class Walk : WalkCompatActivity() {
                 barChart.data = setBarchartData(entries)
             }
         })
+        walkViewModel.updateWalksOverall()
         walkViewModel.getWalksOverall(todayDate)
         walkViewModel.getWalkSteps()
     }
