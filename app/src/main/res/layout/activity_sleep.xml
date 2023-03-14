@@ -70,7 +70,7 @@
                             android:id="@+id/date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2023-03-05"
+                            android:text=""
                             android:textSize="12dp"/>
                     </LinearLayout>
 
@@ -111,7 +111,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
-                                        android:text="22 : 00"
+                                        android:text="00 : 00"
                                         android:textSize="20dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -120,7 +120,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="5dp"
-                                        android:text="22 : 00"
+                                        android:text=""
                                         android:textSize="12dp"
                                         android:textAlignment="center" />
                                 </LinearLayout>
@@ -140,7 +140,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="09 : 00"
+                                        android:text="00 : 00"
                                         android:textSize="20dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -150,7 +150,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="5dp"
-                                        android:text="22 : 00"
+                                        android:text=""
                                         android:textSize="12dp"
                                         android:textAlignment="center" />
                                 </LinearLayout>
@@ -201,7 +201,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="33"
+                                        android:text="0"
                                         android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -241,7 +241,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="8.0"
+                                        android:text="0.0"
                                         android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -287,7 +287,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="986.3"
+                                        android:text="0.0"
                                         android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -327,7 +327,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginVertical="5dp"
-                                        android:text="800"
+                                        android:text="0"
                                         android:textSize="15dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"/>
@@ -366,7 +366,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="8hours 36mins"
+                                    android:text="0"
                                     android:textColor="@color/home_water_blue"
                                     android:textSize="12dp"/>
                             </LinearLayout>
@@ -381,17 +381,12 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Your sleep last night was peaceful, mostly light sleep and deep sleep. A good night's sleep will help you feel more active the next day"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="10dp"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-<!--                    <com.github.mikephil.charting.charts.LineChart-->
-<!--                        android:id="@+id/sleepChart"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="150dp">-->
-<!--                    </com.github.mikephil.charting.charts.LineChart>-->
+                    
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

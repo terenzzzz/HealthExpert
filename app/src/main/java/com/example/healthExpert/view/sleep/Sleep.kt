@@ -10,6 +10,7 @@ import com.example.healthExpert.compatActivity.SleepCompatActivity
 import com.example.healthExpert.databinding.ActivitySleepBinding
 import com.example.healthExpert.utils.AlertDialog
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import java.util.*
 
 
@@ -79,6 +80,8 @@ class Sleep : SleepCompatActivity() {
                 binding.lightValue.text = String.format("%.2f", item.Light)
                 binding.durationValue.text = DateTimeConvert().subTimes(DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime))
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
