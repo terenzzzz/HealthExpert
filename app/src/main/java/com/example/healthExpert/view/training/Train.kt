@@ -48,6 +48,26 @@ class Train : TrainingsCompatActivity() {
         binding.trainViewmodel = trainingsViewModel
         setContentView(binding.root)
 
+        trainingsViewModel.trainingAll.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                ring.setValueText(item.Calories.toString())
+                ring.setSweepValue(item.Calories.times(100).div(1000f))
+            }
+        })
+
+        trainingsViewModel.trainings.observe(this, Observer { list ->
+            // Update the UI based on the value of MutableLiveData
+            if (list != null) {
+                // Update the UI
+                trainingsViewModel.updateTrainingOverall()
+                recyclerView.adapter = TrainingsAdapter(
+                    trainingsViewModel.trainings, this
+                )
+            }
+        })
+
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -72,33 +92,14 @@ class Train : TrainingsCompatActivity() {
         // Init ring
         ring = ringSetUp(binding.calories)
 
-        trainingsViewModel.trainingAll.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                ring.setValueText(item.Calories.toString())
-                ring.setSweepValue(item.Calories.times(100).div(1000f))
-            }
-        })
-
-        trainingsViewModel.trainings.observe(this, Observer { list ->
-            // Update the UI based on the value of MutableLiveData
-            if (list != null) {
-                // Update the UI
-                trainingsViewModel.updateTrainingOverall()
-                recyclerView.adapter = TrainingsAdapter(
-                    trainingsViewModel.trainings, this
-                )
-                trainingsViewModel.getTrainingOverall(todayDate)
-            }
-        })
+        trainingsViewModel.getTrainingOverall(todayDate)
         trainingsViewModel.getTrainings()
     }
 
     private fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
         ring.setSweepValue(0f)
-        ring.setValueText("392")
+        ring.setValueText("0")
         ring.setStateText("Active")
         ring.setUnit("kcal")
         ring.setBgColor(Color.argb(20,0, 0, 0))

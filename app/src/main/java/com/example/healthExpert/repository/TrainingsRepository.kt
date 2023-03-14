@@ -65,80 +65,89 @@ class TrainingsRepository {
     }
 
     // 同步请求
-    fun getTrainings(token:String): MutableList<Trainings> {
-        var trainings: MutableList<Trainings> = mutableListOf()
+    fun getTrainings(token:String): MutableList<Trainings>? {
+        var trainings: MutableList<Trainings>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/trainings")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
-            Log.w("TrainingRepository", "message: " + parsed.message)
-            if (parsed.data != null){
-                for (training in parsed.data!!){
-                    trainings.add(training)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
+                Log.w("TrainingRepository", "message: " + parsed.message)
+                if (parsed.data != null){
+                    for (training in parsed.data!!){
+                        trainings!!.add(training)
+                    }
                 }
+                response.close()
             }
-            response.close()
+        }catch (e:IOException){
+            trainings = null
         }
+
         return trainings
     }
 
     // 同步请求
-    fun getTrainingInfo(token:String,id:Int): MutableList<Trainings> {
-        var trainings: MutableList<Trainings> = mutableListOf()
+    fun getTrainingInfo(token:String,id:Int): MutableList<Trainings>? {
+        var trainings: MutableList<Trainings>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/trainingInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
-            Log.w("TrainingRepository", "getTrainingInfo: " + parsed.message)
-            if (parsed.data != null){
-                for (training in parsed.data!!){
-                    trainings.add(training)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
+                Log.w("TrainingRepository", "getTrainingInfo: " + parsed.message)
+                if (parsed.data != null){
+                    for (training in parsed.data!!){
+                        trainings!!.add(training)
+                    }
                 }
+                Log.d("getTrainingInfo", trainings.toString())
+                response.close()
             }
-            Log.d("getTrainingInfo", trainings.toString())
-            response.close()
+        }catch (e:IOException){
+            trainings = null
         }
         return trainings
     }
 
     // 同步请求
-    fun getTrainingLocations(token:String,idTraining:Int): MutableList<Location> {
-        var locations: MutableList<Location> = mutableListOf()
+    fun getTrainingLocations(token:String,idTraining:Int): MutableList<Location>? {
+        var locations: MutableList<Location>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/trainingLocation?idTraining=$idTraining")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: LocationParse = gson.fromJson(response.body!!.string(), LocationParse::class.java)
-            if (parsed.data != null){
-                for (training in parsed.data!!){
-                    var newLocation = Location(training.latitude!!,training.longitude!!)
-                    locations.add(newLocation)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: LocationParse = gson.fromJson(response.body!!.string(), LocationParse::class.java)
+                if (parsed.data != null){
+                    for (training in parsed.data!!){
+                        var newLocation = Location(training.latitude!!,training.longitude!!)
+                        locations!!.add(newLocation)
+                    }
                 }
-            }
-            Log.d("getTrainingLocations", locations.toString())
+                Log.d("getTrainingLocations", locations.toString())
 
-            response.close()
+                response.close()
+            }
+        }catch (e:IOException){
+            locations = null
         }
         return locations
     }
 
-
-
-    // 同步请求
     fun addTraining(token:String,
                     type:String,
                     title:String,
@@ -175,7 +184,6 @@ class TrainingsRepository {
         return insertId
     }
 
-    // 同步请求
     fun addLocations(token:String,insertId: Int, locations:String): Int {
         var resStatus=-1
         val body = FormBody.Builder()
