@@ -23,6 +23,7 @@ import com.example.healthExpert.view.home.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
 import com.example.healthExpert.view.home.fragment.Sources
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -47,9 +48,25 @@ class Home : UserCompatActivity() {
         setContentView(binding.root)
         initPage()
 
-        // TODO Walking Service
         callLocationService()
         callNotificationService()
+
+        userViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+                val sharedPreferences = getSharedPreferences("healthy_expert", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putFloat("height", item.Height)
+                editor.putFloat("weight", item.Weight)
+                editor.apply()
+            }
+        })
 
 
         binding.sideBar.setOnClickListener (View.OnClickListener {
@@ -69,22 +86,6 @@ class Home : UserCompatActivity() {
         super.onResume()
         Log.w("Home", "onResume: ")
 
-        userViewModel.user.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                if (item.Gender == "Male"){
-                    binding.avatar.setImageResource(R.drawable.avatar)
-                }else{
-                    binding.avatar.setImageResource(R.drawable.hannah)
-                }
-                val sharedPreferences = getSharedPreferences("healthy_expert", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putFloat("height", item.Height)
-                editor.putFloat("weight", item.Weight)
-                editor.apply()
-            }
-        })
         userViewModel.getUserInfo()
     }
 
@@ -173,8 +174,6 @@ class Home : UserCompatActivity() {
             tabView.findViewById<ImageView>(R.id.tab_icon).setImageResource(tabIcons[position])
 //            tabView.findViewById<TextView>(R.id.tab_text).text = tabs[position]
             tab.customView = tabView
-
-
         }.attach()
     }
 

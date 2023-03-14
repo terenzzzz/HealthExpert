@@ -13,27 +13,34 @@ class UserRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getUserInfo(token:String):User {
-        var user = User()
+    fun getUserInfo(token:String): User? {
+        var user: User? = null
         val request = Request.Builder()
         .url("$url/userInfo")
         .addHeader("Authorization",token)
         .build()
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)
-            Log.w("getUserInfo", "userId: "+parsed.data?.idUser.toString())
-            user.idUser = parsed.data?.idUser!!
-            user.Email = parsed.data?.email!!
-            user.Name = parsed.data?.name?: ""
-            user.Gender = parsed.data?.gender?: ""
-            user.Age = parsed.data?.age?: 0
-            user.Height = parsed.data?.height?: 0f
-            user.Weight = parsed.data?.weight?: 0f
-            user.Bmi = parsed.data?.bmi?: 0f
-            user.BodyFactRate = parsed.data?.bodyFatRate?: 0f
-            response.close()
+
+        try {
+            client.newCall(request).execute().use { response ->
+                user = User()
+                val gson = Gson()
+                val parsed: UserInfoParse = gson.fromJson(response.body!!.string(), UserInfoParse::class.java)
+                Log.w("getUserInfo", "userId: "+parsed.data?.idUser.toString())
+                user!!.idUser = parsed.data?.idUser!!
+                user!!.Email = parsed.data?.email!!
+                user!!.Name = parsed.data?.name?: ""
+                user!!.Gender = parsed.data?.gender?: ""
+                user!!.Age = parsed.data?.age?: 0
+                user!!.Height = parsed.data?.height?: 0f
+                user!!.Weight = parsed.data?.weight?: 0f
+                user!!.Bmi = parsed.data?.bmi?: 0f
+                user!!.BodyFactRate = parsed.data?.bodyFatRate?: 0f
+                response.close()
+            }
+        }catch (e: IOException){
+            user = null
         }
+
         return user
     }
 

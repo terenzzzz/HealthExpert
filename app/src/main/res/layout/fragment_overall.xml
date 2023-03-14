@@ -186,7 +186,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:text="7.15"
+                                    android:text="0"
                                     android:textSize="20dp"/>
 
                                 <TextView
@@ -226,7 +226,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
                                 android:textColor="@color/black"
-                                android:text="10/16"
+                                android:text=""
                                 android:textSize="20dp"/>
 
                             <TextView
@@ -315,7 +315,7 @@
                                 android:id="@+id/walk_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5500"
+                                android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="25dp"/>
 
@@ -516,7 +516,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:text="87"
+                                    android:text="0"
                                     android:textSize="20dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"

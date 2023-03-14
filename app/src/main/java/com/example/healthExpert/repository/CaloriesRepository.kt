@@ -17,22 +17,27 @@ class CaloriesRepository {
 
 
     // 同步请求
-    fun getCaloriesOverall(token:String,date:String): CaloriesOverall {
-        var caloriesOverall = CaloriesOverall()
+
+    fun getCaloriesOverall(token:String,date:String): CaloriesOverall? {
+        var caloriesOverall: CaloriesOverall? = null
         val request = Request.Builder()
             .url("$url/caloriesOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: CaloriesOverallParse = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
-            Log.w("getCaloriesOverall", "getCaloriesOverall调用1")
-            if (parsed.data != null){
-                caloriesOverall = parsed.data!!
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: CaloriesOverallParse = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
+                Log.w("getCaloriesOverall", "getCaloriesOverall调用1")
+                if (parsed.data != null){
+                    caloriesOverall = parsed.data!!
+                }
+                response.close()
             }
-            response.close()
+        } catch (e:IOException){
+            caloriesOverall = null
         }
         return caloriesOverall
     }

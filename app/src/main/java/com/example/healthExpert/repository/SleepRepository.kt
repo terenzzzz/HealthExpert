@@ -20,15 +20,18 @@ class SleepRepository {
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
+        try {
+            client.newCall(request).execute().use { response ->
 //            Log.d("getSleep", response.body.toString())
-            val gson = Gson()
-            val parsed: SleepParse = gson.fromJson(response.body!!.string(), SleepParse::class.java)
-            if (parsed.data != null){
-                sleep = parsed.data
+                val gson = Gson()
+                val parsed: SleepParse = gson.fromJson(response.body!!.string(), SleepParse::class.java)
+                if (parsed.data != null){
+                    sleep = parsed.data
+                }
+                response.close()
             }
-            response.close()
+        }catch (e:IOException){
+            sleep = null
         }
         return sleep
     }

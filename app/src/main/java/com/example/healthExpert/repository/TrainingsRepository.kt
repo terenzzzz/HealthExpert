@@ -12,22 +12,25 @@ class TrainingsRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getTrainingOverall(token:String,date:String): TrainingOverall {
-        var trainingOverall = TrainingOverall()
+    fun getTrainingOverall(token:String,date:String): TrainingOverall? {
+        var trainingOverall: TrainingOverall? = null
         val request = Request.Builder()
             .url("$url/trainingOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: TrainingOverallParse = gson.fromJson(response.body!!.string(), TrainingOverallParse::class.java)
-            Log.w("TrainingsRepository", "trainingOverall调用")
-            if (parsed.data != null){
-                trainingOverall = parsed.data!!
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: TrainingOverallParse = gson.fromJson(response.body!!.string(), TrainingOverallParse::class.java)
+                Log.w("TrainingsRepository", "trainingOverall调用")
+                if (parsed.data != null){
+                    trainingOverall = parsed.data!!
+                }
+                response.close()
             }
-            response.close()
+        }catch (e: IOException){
+            trainingOverall = null
         }
         return trainingOverall
     }

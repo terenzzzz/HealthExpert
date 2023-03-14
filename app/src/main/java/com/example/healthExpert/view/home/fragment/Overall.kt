@@ -26,6 +26,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
@@ -50,6 +51,8 @@ class Overall : OverallCompatFragment() {
                 if (rate != null) {
                     binding.calories.setSweepValue(rate.toFloat())
                 }
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -59,6 +62,8 @@ class Overall : OverallCompatFragment() {
                 binding.walkProgress.progress = item.TotalSteps/100
                 binding.walkRate.text = "${(item.TotalSteps/100)} %"
                 binding.walkValue.text = item.TotalSteps.toString()
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -70,7 +75,8 @@ class Overall : OverallCompatFragment() {
                 binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
                 binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
-
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -79,13 +85,16 @@ class Overall : OverallCompatFragment() {
             if (item != null) {
                 binding.trainingValue.text = "${ item.Duration } "
                 TrainingSetup(binding.trainingBar)
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
         overallViewModel.medications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
-            if (list != null && list.size > 0) {
+            if (list != null) {
 
+                // send time to service to pending notification
                 for (item in list){
                     val intent = Intent("medication")
                     intent.putExtra("time", DateTimeConvert().toTime(item.Date))
@@ -94,19 +103,25 @@ class Overall : OverallCompatFragment() {
 
 
                 // Update the UI
-                binding.medicalNotice.visibility = View.VISIBLE
-                binding.medicationName.text = list[0].Name
-                binding.medicationDose.text = "${list[0].Dose} g"
-                binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
-                when(list[0].Type){
-                    "Capsule" -> binding.medicalType.setImageResource(R.drawable.capsule)
-                    "Tablet" -> binding.medicalType.setImageResource(R.drawable.drug)
-                    "Liquid" -> binding.medicalType.setImageResource(R.drawable.syrup)
+                if (list.size > 0){
+                    binding.medicalNotice.visibility = View.VISIBLE
+                    binding.medicationName.text = list[0].Name
+                    binding.medicationDose.text = "${list[0].Dose} g"
+                    binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
+                    when(list[0].Type){
+                        "Capsule" -> binding.medicalType.setImageResource(R.drawable.capsule)
+                        "Tablet" -> binding.medicalType.setImageResource(R.drawable.drug)
+                        "Liquid" -> binding.medicalType.setImageResource(R.drawable.syrup)
+                    }
+                    binding.zeroNotice.visibility = View.GONE
+                }else{
+                    binding.medicalNotice.visibility = View.GONE
+                    binding.zeroNotice.visibility = View.VISIBLE
                 }
-                binding.zeroNotice.visibility = View.GONE
             }else{
                 binding.medicalNotice.visibility = View.GONE
                 binding.zeroNotice.visibility = View.VISIBLE
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -120,6 +135,8 @@ class Overall : OverallCompatFragment() {
                     DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime)
                 )
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -149,7 +166,6 @@ class Overall : OverallCompatFragment() {
             this.context?.let {
                 Calories.startFn(it)
             }
-
         })
 
         binding.sleepBlock.setOnClickListener(View.OnClickListener { view ->

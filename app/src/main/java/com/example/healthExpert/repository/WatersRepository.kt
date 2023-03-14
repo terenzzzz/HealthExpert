@@ -15,22 +15,25 @@ class WatersRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getWaterOverall(token:String,date:String): WaterOverall {
-        var waterOverall = WaterOverall()
+    fun getWaterOverall(token:String,date:String): WaterOverall? {
+        var waterOverall: WaterOverall? = null
         val request = Request.Builder()
             .url("$url/waterOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: WaterOverallParse = gson.fromJson(response.body!!.string(), WaterOverallParse::class.java)
-            Log.w("WatersRepository", "getWaterOverall调用1")
-            if (parsed.data != null){
-                waterOverall = parsed.data!!
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: WaterOverallParse = gson.fromJson(response.body!!.string(), WaterOverallParse::class.java)
+                Log.w("WatersRepository", "getWaterOverall调用1")
+                if (parsed.data != null){
+                    waterOverall = parsed.data!!
+                }
+                response.close()
             }
-            response.close()
+        }catch (e: IOException){
+            waterOverall = null
         }
         return waterOverall
     }

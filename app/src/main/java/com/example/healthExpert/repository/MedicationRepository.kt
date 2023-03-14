@@ -18,25 +18,29 @@ class MedicationRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun medications(token:String, date:String): MutableList<Medication> {
-        var medications: MutableList<Medication> = mutableListOf()
+    fun medications(token:String, date:String): MutableList<Medication>? {
+        var medications: MutableList<Medication>? = mutableListOf()
         val request = Request.Builder()
             .url("$url/medications?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
-            if (parsed.data != null){
-                for (medicationsInfo in parsed.data!!){
-                    medications.add(medicationsInfo)
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
+                if (parsed.data != null){
+                    for (medicationsInfo in parsed.data!!){
+                        medications!!.add(medicationsInfo)
+                    }
                 }
+                Log.d("药物", medications.toString())
+                response.close()
             }
-            Log.d("药物", medications.toString())
-            response.close()
+        }catch (e: IOException){
+            medications = null
         }
+
         return medications
     }
 

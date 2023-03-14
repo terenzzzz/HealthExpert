@@ -41,15 +41,13 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null){
                 val updatedData = repository.getCaloriesOverall(token,date)
-                val updateStepsCalories = walkRepository.getWalksOverall(token,date).Calories
-                val updateTrainingCalories = trainingsRepository.getTrainingOverall(token,date).Calories.toInt()
+                val updateStepsCalories = walkRepository.getWalksOverall(token,date)?.Calories
+                val updateTrainingCalories = trainingsRepository.getTrainingOverall(token,date)?.Calories?.toInt()
 
-                Log.d("燃烧", "更新前: $updatedData")
 
-                updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
-
-                Log.d("燃烧", "更新后: $updatedData")
-
+                if (updatedData!=null && updateStepsCalories!=null && updateTrainingCalories!=null){
+                    updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
+                }
                 // Refresh UI Update data
                 caloriesAll.postValue(updatedData)
                 stepsCalories.postValue(updateStepsCalories)

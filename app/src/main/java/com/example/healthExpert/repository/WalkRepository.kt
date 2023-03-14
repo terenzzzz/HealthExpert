@@ -16,23 +16,28 @@ class WalkRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getWalksOverall(token:String,date:String): WalksOverall {
-        var walk = WalksOverall()
+    fun getWalksOverall(token:String,date:String): WalksOverall? {
+        var walk: WalksOverall? = null
         val request = Request.Builder()
             .url("$url/walksOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: WalksOverallParse = gson.fromJson(response.body!!.string(), WalksOverallParse::class.java)
-            if (parsed.data != null){
-//                Log.d("getWalks", parsed.data.toString())
-                walk = parsed.data!!
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: WalksOverallParse =
+                    gson.fromJson(response.body!!.string(), WalksOverallParse::class.java)
+                if (parsed.data != null) {
+                    //                Log.d("getWalks", parsed.data.toString())
+                    walk = parsed.data!!
+                }
+                Log.w("getWalks", "当天行走信息: $walk")
+                response.close()
             }
-            Log.w("getWalks", "当天行走信息: $walk")
-            response.close()
+        }catch (e: IOException){
+            walk = null
         }
         return walk
     }
