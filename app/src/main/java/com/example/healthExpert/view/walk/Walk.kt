@@ -122,7 +122,7 @@ class Walk : WalkCompatActivity() {
 
     private fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
-        ring.setSweepValue(84f)
+        ring.setSweepValue(0f)
         ring.setValueText("0")
         ring.setStateText("Active")
         ring.setUnit("Steps Goal: ")

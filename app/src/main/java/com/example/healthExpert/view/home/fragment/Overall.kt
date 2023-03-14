@@ -12,6 +12,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.OverallCompatFragment
 import com.example.healthExpert.databinding.FragmentOverallBinding
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.Calories
 import com.example.healthExpert.view.heart.Heart
 import com.example.healthExpert.view.medication.Medication
@@ -52,7 +53,7 @@ class Overall : OverallCompatFragment() {
                     binding.calories.setSweepValue(rate.toFloat())
                 }
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -63,7 +64,7 @@ class Overall : OverallCompatFragment() {
                 binding.walkRate.text = "${(item.TotalSteps/100)} %"
                 binding.walkValue.text = item.TotalSteps.toString()
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -76,7 +77,7 @@ class Overall : OverallCompatFragment() {
                 binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
                 binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -86,7 +87,7 @@ class Overall : OverallCompatFragment() {
                 binding.trainingValue.text = "${ item.Duration } "
                 TrainingSetup(binding.trainingBar)
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -121,7 +122,7 @@ class Overall : OverallCompatFragment() {
             }else{
                 binding.medicalNotice.visibility = View.GONE
                 binding.zeroNotice.visibility = View.VISIBLE
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -136,7 +137,7 @@ class Overall : OverallCompatFragment() {
                     DateTimeConvert().toDateTime(item.EndTime)
                 )
             }else{
-                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
