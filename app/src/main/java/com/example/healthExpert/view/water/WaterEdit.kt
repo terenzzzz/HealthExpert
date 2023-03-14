@@ -9,6 +9,7 @@ import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesEditBinding
 import com.example.healthExpert.databinding.ActivityWatersEditBinding
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -119,6 +120,8 @@ class WaterEdit : WatersCompatActivity() {
                     "BubbleTea" -> setSelectedCard("BubbleTea",binding.cardE)
                     "Beer" -> setSelectedCard("Beer",binding.cardF)
                 }
+            }else{
+                SnackbarUtil().buildNetwork(binding.root)
             }
         })
     }

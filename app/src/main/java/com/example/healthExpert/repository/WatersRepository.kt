@@ -1,11 +1,17 @@
 package com.example.healthExpert.repository
 
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.healthExpert.R
 import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.model.Water
 import com.example.healthExpert.model.WaterOverall
 import com.example.healthExpert.parse.*
+import com.example.healthExpert.utils.SnackbarUtil
+import com.example.healthExpert.view.home.Home
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -139,14 +145,20 @@ class WatersRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            resStatus = parsed.status?:-1
-            Log.w("addCalories", "addCalories: $resStatus")
-            response.close()
-        }
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status?:-1
+                Log.w("addCalories", "addCalories: $resStatus")
+                response.close()
+                response.close()
+            }
+        })
         return resStatus
     }
 
@@ -163,13 +175,20 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWatersType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWatersType", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
+
         return resStatus
     }
 
@@ -186,13 +205,20 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWatersTitle", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWatersTitle", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
+
         return resStatus
     }
 
@@ -209,13 +235,21 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWatersContent", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWatersContent", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
+
         return resStatus
     }
 
@@ -232,13 +266,19 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWatersValue", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWatersValue", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
         return resStatus
     }
 
@@ -255,13 +295,20 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWatersTime", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWatersTime", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
+
         return resStatus
     }
 
@@ -277,13 +324,21 @@ class WatersRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("deleteWaters", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                resStatus = -1
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("deleteWaters", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        })
+
+
         return resStatus
     }
 }
