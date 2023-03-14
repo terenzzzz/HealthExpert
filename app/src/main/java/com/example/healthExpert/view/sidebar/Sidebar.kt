@@ -83,9 +83,16 @@ class Sidebar : UserCompatActivity() {
             // Clear SharedPreferences
             val sharedPreferences: SharedPreferences =
                 this.getSharedPreferences("healthy_expert", MODE_PRIVATE)
-            sharedPreferences.edit()
-                .remove("token")
-                .commit()
+            val remember = sharedPreferences.getBoolean("remember",false)
+            if (remember){
+                sharedPreferences.edit()
+                    .remove("token")
+                    .commit()
+            }else{
+                sharedPreferences.edit()
+                    .clear()
+                    .commit()
+            }
             Login.startFn(this)
         })
     }

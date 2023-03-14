@@ -27,7 +27,7 @@ import okhttp3.*
 import java.io.IOException
 
 
-class Login : AppCompatActivity() {
+class                                                                                                                          Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     companion object {
@@ -39,7 +39,8 @@ class Login : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        window.setBackgroundDrawable(null)
+
+        Log.d("测试", "Login onCreate: ")
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -60,17 +61,18 @@ class Login : AppCompatActivity() {
         val email = sharedPreferences.getString("email","")
         val password = sharedPreferences.getString("password","")
         val token = sharedPreferences.getString("token","")
-        if (token != null && token.isNotEmpty()) {
-            Home.startFn(this)
-            finish()
-        }
-        if (email != ""){
-            binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
-        }
-        if (password != ""){
-            binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
-        }
 
+        // refill User identity
+        if (email != "" && password != ""){
+            binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
+            binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
+            binding.checkbox.isChecked = true
+            if (token != null && token.isNotEmpty()) {
+                if (email != null && password != null) {
+                    login(email,password)
+                }
+            }
+        }
 
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
@@ -118,6 +120,7 @@ class Login : AppCompatActivity() {
                         .putString("password", binding.etPassword.text.toString())
                         .putString("token", parsed.token)
                         .putString("idUser", parsed.idUser.toString())
+                        .putBoolean("remember", binding.checkbox.isChecked)
                         .commit()
                     Home.startFn(this@Login)
                     finish()
