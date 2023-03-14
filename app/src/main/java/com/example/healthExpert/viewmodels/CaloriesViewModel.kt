@@ -11,6 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.repository.CaloriesRepository
+import com.example.healthExpert.repository.TrainingsRepository
+import com.example.healthExpert.repository.WalkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -18,6 +20,9 @@ import java.util.*
 
 class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     private val repository = CaloriesRepository()
+//    private val walkRepository = WalkRepository()
+//    private val trainingsRepository = TrainingsRepository()
+
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
@@ -25,15 +30,32 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var caloriesInfo = MutableLiveData<Calories?>()
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
 
+//    var stepsCalories = MutableLiveData(0)
+//    var trainingCalories = MutableLiveData(0)
+
+
 
 
     fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getCaloriesOverall(it,date) }
+            if (token != null){
+                val updatedData = repository.getCaloriesOverall(token,date)
+//                val updateStepsCalories = walkRepository.getWalksOverall(token,date).Calories
+//                val updateTrainingCalories = walkRepository.getWalksOverall(token,date).Calories
+//
+//                Log.d("燃烧", "更新前: $updatedData")
+//
+//                updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
+//
+//                Log.d("燃烧", "更新后: $updatedData")
 
-            // Refresh UI Update data
-            caloriesAll.postValue(updatedData)
+                // Refresh UI Update data
+                caloriesAll.postValue(updatedData)
+//                stepsCalories.postValue(updateStepsCalories)
+//                trainingCalories.postValue(updateTrainingCalories)
+            }
+
         }
     }
 

@@ -10,6 +10,8 @@
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="1dp"
         app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
         app:contentPadding="15dp"
         app:contentPaddingBottom="5dp">
         <LinearLayout

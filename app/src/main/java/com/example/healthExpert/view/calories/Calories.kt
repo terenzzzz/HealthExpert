@@ -77,7 +77,7 @@ class Calories : CaloriesCompatActivity() {
         caloriesViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                // Update the UI
+                // Update Ring the UI
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
