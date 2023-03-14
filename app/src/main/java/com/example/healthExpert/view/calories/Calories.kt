@@ -21,6 +21,7 @@ import com.example.healthExpert.widget.Ring
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer;
 import com.example.healthExpert.utils.DateTimeConvert
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 class Calories : CaloriesCompatActivity() {
@@ -53,26 +54,6 @@ class Calories : CaloriesCompatActivity() {
         layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
 
-
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
-            CaloriesSetting.startFn(this)
-        })
-
-        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
-            CaloriesAdd.startFn(this)
-        })
-
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.w("Calories", "onResume", )
-        // Init ring
-        ring = ringSetUp(binding.calories)
 
         caloriesViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
@@ -111,8 +92,33 @@ class Calories : CaloriesCompatActivity() {
                 caloriesViewModel.updateCaloriesOverall()
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
                 caloriesViewModel.getCaloriesOverall(todayDate)
+            }else{
+                Snackbar.make(binding.root, "Please Check Internet!", Snackbar.LENGTH_LONG).show()
             }
         })
+
+
+        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+            CaloriesSetting.startFn(this)
+        })
+
+        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+            CaloriesAdd.startFn(this)
+        })
+
+        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.w("Calories", "onResume", )
+        // Init ring
+        ring = ringSetUp(binding.calories)
+
+
         caloriesViewModel.getCalories()
     }
 
