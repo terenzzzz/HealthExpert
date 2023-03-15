@@ -28,10 +28,12 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
-
-            // Refresh UI Update data
-            caloriesAll.postValue(updatedData)
+            if (token != null) {
+                caloriesRepository.updateCaloriesOverall(token)
+                val updatedData = caloriesRepository.getCaloriesOverall(token,date)
+                // Refresh UI Update data
+                caloriesAll.postValue(updatedData)
+            }
         }
     }
 
@@ -39,6 +41,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
+
             val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
 
             // Refresh UI Update data
@@ -50,10 +53,12 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { watersRepository.getWaterOverall(it,date) }
-
-            // Refresh UI Update data
-            watersAll.postValue(updatedData)
+            if (token != null) {
+                watersRepository.updateWaterOverall(token)
+                val updatedData =watersRepository.getWaterOverall(token,date)
+                // Refresh UI Update data
+                watersAll.postValue(updatedData)
+            }
         }
     }
 
@@ -61,10 +66,14 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getTrainingOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { trainingsRepository.getTrainingOverall(it,date) }
+            if (token != null) {
+                trainingsRepository.updateWaterOverall(token)
+                val updatedData = trainingsRepository.getTrainingOverall(token,date)
 
-            // Refresh UI Update data
-            trainingAll.postValue(updatedData)
+                // Refresh UI Update data
+                trainingAll.postValue(updatedData)
+            }
+
         }
     }
 
