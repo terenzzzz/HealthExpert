@@ -20,6 +20,7 @@ import com.example.healthExpert.databinding.ActivityLoginBinding
 import com.example.healthExpert.parse.LoginParse
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.home.Home
+import com.example.healthExpert.view.onBoarding.OnBoarding
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.example.healthExpert.view.signup.Signup
 import com.google.android.material.snackbar.Snackbar
@@ -45,6 +46,9 @@ class                                                                           
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
+
         // Permission Check
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION)
@@ -61,19 +65,24 @@ class                                                                           
         val email = sharedPreferences.getString("email","")
         val password = sharedPreferences.getString("password","")
         val token = sharedPreferences.getString("token","")
+        val isOnBoarded = sharedPreferences.getBoolean("onBoarded",false)
+
+        if (!isOnBoarded){
+            OnBoarding.startFn(this)
+            finish()
+        }
 
         // refill User identity
         if (email != "" && password != ""){
-            binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
-            binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
-            binding.checkbox.isChecked = true
             if (token != null && token.isNotEmpty()) {
                 if (email != null && password != null) {
                     login(email,password)
                 }
             }
+            binding.etEmail.text = Editable.Factory.getInstance().newEditable(email)
+            binding.etPassword.text = Editable.Factory.getInstance().newEditable(password)
+            binding.checkbox.isChecked = true
         }
-
 
         binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
             Log.d("Login", "Loginbtn: Clicked")
