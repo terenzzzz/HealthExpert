@@ -81,7 +81,7 @@ class Sleep : SleepCompatActivity() {
                 binding.durationValue.text = DateTimeConvert().subTimes(DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime))
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

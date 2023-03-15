@@ -113,7 +113,7 @@ class                                                                           
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
 
             override fun onResponse(call: Call, response: Response) {

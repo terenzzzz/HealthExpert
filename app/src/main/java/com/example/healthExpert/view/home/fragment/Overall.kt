@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,13 @@ class Overall : OverallCompatFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        overallViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item == null) {
+                SnackbarUtil.buildNetwork(binding.root)
+            }
+        })
+
         overallViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
@@ -52,8 +60,6 @@ class Overall : OverallCompatFragment() {
                 if (rate != null) {
                     binding.calories.setSweepValue(rate.toFloat())
                 }
-            }else{
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -63,8 +69,6 @@ class Overall : OverallCompatFragment() {
                 binding.walkProgress.progress = item.TotalSteps/100
                 binding.walkRate.text = "${(item.TotalSteps/100)} %"
                 binding.walkValue.text = item.TotalSteps.toString()
-            }else{
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -76,8 +80,6 @@ class Overall : OverallCompatFragment() {
                 binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
                 binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
-            }else{
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -86,8 +88,6 @@ class Overall : OverallCompatFragment() {
             if (item != null) {
                 binding.trainingValue.text = "${ item.Duration } "
                 TrainingSetup(binding.trainingBar)
-            }else{
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -115,14 +115,10 @@ class Overall : OverallCompatFragment() {
                         "Liquid" -> binding.medicalType.setImageResource(R.drawable.syrup)
                     }
                     binding.zeroNotice.visibility = View.GONE
-                }else{
-                    binding.medicalNotice.visibility = View.GONE
-                    binding.zeroNotice.visibility = View.VISIBLE
                 }
             }else{
                 binding.medicalNotice.visibility = View.GONE
                 binding.zeroNotice.visibility = View.VISIBLE
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -136,8 +132,6 @@ class Overall : OverallCompatFragment() {
                     DateTimeConvert().toDateTime(item.StartTime),
                     DateTimeConvert().toDateTime(item.EndTime)
                 )
-            }else{
-                SnackbarUtil().buildNetwork(binding.root)
             }
         })
 
@@ -147,6 +141,7 @@ class Overall : OverallCompatFragment() {
         super.onResume()
         // Heart Set Up
         heartSetUp(binding.root)
+        overallViewModel.getUserInfo()
         overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)

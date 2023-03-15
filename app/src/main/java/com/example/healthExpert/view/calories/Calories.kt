@@ -69,7 +69,7 @@ class Calories : CaloriesCompatActivity() {
                     ring.setSweepValue(rate.toFloat())
                 }
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -78,7 +78,7 @@ class Calories : CaloriesCompatActivity() {
             if (item != null) {
                 binding.trainingValue.text = "- $item"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -97,7 +97,7 @@ class Calories : CaloriesCompatActivity() {
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
                 caloriesViewModel.getCaloriesOverall(todayDate)
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

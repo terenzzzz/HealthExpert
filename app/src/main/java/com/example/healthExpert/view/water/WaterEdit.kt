@@ -121,7 +121,7 @@ class WaterEdit : WatersCompatActivity() {
                     "Beer" -> setSelectedCard("Beer",binding.cardF)
                 }
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
     }

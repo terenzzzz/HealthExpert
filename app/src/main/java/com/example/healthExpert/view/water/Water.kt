@@ -49,7 +49,7 @@ class Water : WatersCompatActivity() {
                 // Update the UI
                 binding.rate.text = "${item.Total.div(80)} %"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -60,7 +60,7 @@ class Water : WatersCompatActivity() {
                 watersViewModel.updateWatersOverall()
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
 
         })

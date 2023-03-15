@@ -56,7 +56,7 @@ class Train : TrainingsCompatActivity() {
                 ring.setValueText(item.Calories.toString())
                 ring.setSweepValue(item.Calories.times(100).div(1000f))
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -69,7 +69,7 @@ class Train : TrainingsCompatActivity() {
                     trainingsViewModel.trainings, this
                 )
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

@@ -80,7 +80,7 @@ class Walk : WalkCompatActivity() {
                 ring.setValueText(item.TotalSteps.toString())
                 ring.setSweepValue(item.TotalSteps.div(100).toFloat())
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -111,7 +111,7 @@ class Walk : WalkCompatActivity() {
                 }
                 barChart.data = setBarchartData(entries)
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
         walkViewModel.updateWalksOverall()

@@ -46,7 +46,7 @@ class Me : Fragment() {
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

@@ -39,7 +39,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 }
                 binding.caloriesValue.text = "${total.toString()} / 1000 kcal"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -52,7 +52,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
                 binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -65,7 +65,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -78,7 +78,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
     }

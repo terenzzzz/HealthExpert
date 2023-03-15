@@ -47,7 +47,7 @@ class Sources : SourcesCompatFragment() {
                 // Update the UI
                 recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.requireContext())
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

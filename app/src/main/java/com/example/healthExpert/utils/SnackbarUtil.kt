@@ -6,7 +6,10 @@ import com.google.android.material.snackbar.Snackbar
 
 class SnackbarUtil {
 
-    fun buildNetwork(view:View){
-        Snackbar.make(view, "Please Check Your Network", Snackbar.LENGTH_LONG).show()
+    companion object{
+        fun buildNetwork(view:View){
+            Snackbar.make(view, "Please Check Your Network", Snackbar.LENGTH_LONG).show()
+        }
     }
+
 }

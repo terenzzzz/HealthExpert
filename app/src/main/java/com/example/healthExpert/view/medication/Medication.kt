@@ -63,7 +63,7 @@ class Medication : MedicationsCompatActivity() {
                 // Update the UI
                 recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,medicationsViewModel)
             }else{
-                SnackbarUtil().buildNetwork(binding.root)
+                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
