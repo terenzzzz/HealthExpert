@@ -12,6 +12,7 @@ import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
 import com.example.healthExpert.model.User
 import com.example.healthExpert.repository.CaloriesRepository
+import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.google.android.material.snackbar.Snackbar
 import kotlin.math.round
 
@@ -64,8 +65,10 @@ class Setting : UserCompatActivity() {
 
 
         // Change Password Button
-        binding.changePasswordBtn.setOnClickListener( View.OnClickListener {
-        })
+        binding.changePasswordBtn.setOnClickListener{
+            ResetPwd.startFn(this)
+            finish()
+        }
 
         // Help Button
         binding.helpBtn.setOnClickListener( View.OnClickListener { view ->

@@ -198,4 +198,27 @@ class UserRepository {
         }
         return resStatus
     }
+
+    fun changePassword(token:String,password:String,newPassword:String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("password", password)
+            .add("newPassword", newPassword)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/changePassword")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("changePassword", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
 }

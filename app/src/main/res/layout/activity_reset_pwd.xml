@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,132 +8,121 @@
     android:background="@color/main"
     tools:context=".view.resetPwd.ResetPwd">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/background1" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/radius_bg">
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="30dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/back"/>
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/avatar" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Healthy"
-                android:textSize="30dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Expert"
-                android:textSize="40dp"
-                android:textColor="@color/yellow"
-                android:textStyle="bold"/>
-        </LinearLayout>
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardElevation="0dp"
-            app:contentPadding="30dp"
-            app:contentPaddingTop="10dp">
-            <LinearLayout
+            android:layout_marginTop="30dp"
+            android:background="@drawable/radius_bg"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:textSize="15dp"/>
-
-                <EditText
-                    android:id="@+id/et_email"
-                    android:inputType="textEmailAddress"
+                android:layout_marginTop="30dp"
+                app:cardElevation="0dp"
+                app:contentPadding="30dp"
+                app:contentPaddingTop="0dp">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/radius_input"
-                    android:maxLines="1"
-                    android:hint="example@gmail.com"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Change Password"
+                        android:textSize="20dp"
+                        android:textColor="@color/yellow"
+                        android:textStyle="bold"/>
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gray"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Old Password"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray"
+                        android:textSize="15dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="New Password:"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:maxLines="1"
-                    android:textSize="15dp"/>
+                    <EditText
+                        android:id="@+id/old_password"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/radius_input"
+                        android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/et_new_password"
-                    android:inputType="textPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/radius_input"
-                    android:maxLines="1"
-                    android:hint="Enter Your Password"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="New Password"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray"
+                        android:textSize="15dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Verify Code:"
-                    android:textStyle="bold"
-                    android:textColor="@color/gray"
-                    android:maxLines="1"
-                    android:textSize="15dp"/>
-
-                <EditText
-                    android:id="@+id/et_code"
-                    android:inputType="textPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/radius_input"
-                    android:maxLines="1"
-                    android:hint="Enter Your Password"/>
-
-                <Button
-                    android:id="@+id/reset_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/radius_btn"
-                    android:text="RESET PASSWORD"
-                    android:textColor="@color/black"
-                    android:textSize="20dp" />
-
-                <Button
-                    android:id="@+id/back_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/radius_btn"
-                    android:text="Back"
-                    android:textColor="@color/black"
-                    android:textSize="20dp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <EditText
+                        android:id="@+id/new_password"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/radius_input"
+                        android:maxLines="1" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/change_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:text="change"
+            android:textSize="20dp"
+            android:background="@drawable/radius_btn"/>
+    </LinearLayout>
+
+</RelativeLayout>
