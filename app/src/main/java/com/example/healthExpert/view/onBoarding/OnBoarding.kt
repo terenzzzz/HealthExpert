@@ -22,10 +22,7 @@ import com.example.healthExpert.view.home.ViewPagerAdapter
 import com.example.healthExpert.view.home.fragment.History
 import com.example.healthExpert.view.home.fragment.Sources
 import com.example.healthExpert.view.login.Login
-import com.example.healthExpert.view.onBoarding.fragment.OnBoarding1
-import com.example.healthExpert.view.onBoarding.fragment.OnBoarding2
-import com.example.healthExpert.view.onBoarding.fragment.OnBoarding3
-import com.example.healthExpert.view.onBoarding.fragment.OnBoarding4
+import com.example.healthExpert.view.onBoarding.fragment.*
 import com.example.healthExpert.view.walk.Walk
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
@@ -80,7 +77,12 @@ class OnBoarding : AppCompatActivity() {
         }
 
         binding.skipBtn.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("healthy_expert", MODE_PRIVATE)
+            sharedPreferences.edit()
+                .putBoolean("onBoarded",true)
+                .commit()
             Login.startFn(this)
+            finish()
         }
     }
 
@@ -92,11 +94,13 @@ class OnBoarding : AppCompatActivity() {
         val onBoarding2 = OnBoarding2()
         val onBoarding3 = OnBoarding3()
         val onBoarding4 = OnBoarding4()
+        val onBoarding5 = OnBoarding5()
 
         list.add(onBoarding1)
         list.add(onBoarding2)
         list.add(onBoarding3)
         list.add(onBoarding4)
+        list.add(onBoarding5)
 
         // Get view
         val adapter = ViewPagerAdapter(this,list)
@@ -115,6 +119,7 @@ class OnBoarding : AppCompatActivity() {
         binding.secondBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_unselected_radio)
         binding.thirdBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_unselected_radio)
         binding.fourthBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_unselected_radio)
+        binding.fifthBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_unselected_radio)
     }
 
     private fun setSelected(position: Int){
@@ -124,17 +129,21 @@ class OnBoarding : AppCompatActivity() {
                 binding.firstBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_selected_radio)
             }
             1 ->  {
-                binding.firstBtn.width = 30
+                binding.secondBtn.width = 30
                 binding.secondBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_selected_radio)
             }
 
             2 ->  {
-                binding.firstBtn.width = 30
+                binding.thirdBtn.width = 30
                 binding.thirdBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_selected_radio)
             }
             3 ->  {
-                binding.firstBtn.width = 30
+                binding.fourthBtn.width = 30
                 binding.fourthBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_selected_radio)
+            }
+            4 ->  {
+                binding.fifthBtn.width = 30
+                binding.fifthBtn.background = ContextCompat.getDrawable(this@OnBoarding, R.drawable.ob_selected_radio)
             }
         }
 
