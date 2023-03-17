@@ -15,8 +15,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import com.example.healthExpert.repository.WalkRepository
 import com.example.healthExpert.view.home.Home
+import kotlinx.coroutines.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -57,11 +59,28 @@ class StepService: LifecycleService() {
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable = Runnable {
             if(stepCount!=0){
-                walkRepository.addWalkSteps(token,stepCount.toString())
-                walkRepository.updateWalksOverall(token,weight,height)
-                Log.d("StepService", "更新步数：$stepCount")
-                startingSteps = 0
-                stepCount = 0
+
+
+                walkRepository.addWalkSteps(token, stepCount.toString()) { resStatus ->
+                    if (resStatus == 200) {
+                        // 处理请求成功的情况
+                        walkRepository.updateWalksOverall(token,weight,height)
+                        Log.d("StepService", "更新步数：$stepCount")
+                        startingSteps = 0
+                        stepCount = 0
+                    } else {
+                        // 处理请求失败的情况
+                        Log.d("StepService", "startingSteps：$startingSteps")
+                        Log.d("StepService", "stepCount：$stepCount")
+
+                    }
+                }
+                //更新步数
+//                val updateStatus = walkRepository.addWalkSteps(token,stepCount.toString())
+//                walkRepository.updateWalksOverall(token,weight,height)
+//                Log.d("StepService", "更新步数：$stepCount")
+//                startingSteps = 0
+//                stepCount = 0
             }
         }
         val initialDelay: Long = 0
@@ -148,5 +167,6 @@ class StepService: LifecycleService() {
             notificationManager.createNotificationChannel(mChannel)
         }
     }
+
 
 }

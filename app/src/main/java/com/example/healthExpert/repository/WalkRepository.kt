@@ -88,6 +88,7 @@ class WalkRepository {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                resStatus = -1
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -103,8 +104,7 @@ class WalkRepository {
         return resStatus
     }
 
-    fun addWalkSteps(token:String,steps:String):Int{
-        var resStatus=-1
+    fun addWalkSteps(token:String,steps:String, callback: (Int) -> Unit){
         val body = FormBody.Builder()
             .add("steps", steps)
             .build()
@@ -117,19 +117,18 @@ class WalkRepository {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
+                callback.invoke(-1)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    resStatus = parsed.status?:-1
+                    val resStatus = parsed.status?:-1
                     Log.w("addWalkSteps", "步数更新成功: $steps")
-                    response.close()
+                    callback.invoke(resStatus)
                 }
             }
         })
-        return resStatus
     }
 }
