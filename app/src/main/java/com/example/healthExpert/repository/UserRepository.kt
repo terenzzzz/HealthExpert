@@ -221,4 +221,30 @@ class UserRepository {
         }
         return resStatus
     }
+
+    fun initUser(token:String,height:String,weight:String,age:String,gender:String,name:String):Int {
+        var resStatus=-1
+        val body = FormBody.Builder()
+            .add("height", height)
+            .add("weight", weight)
+            .add("age", age)
+            .add("gender", gender)
+            .add("name", name)
+            .build()
+
+        val request = Request.Builder()
+            .url("$url/initUser")
+            .addHeader("Authorization",token)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val gson = Gson()
+            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+            Log.d("initUser", parsed.status.toString())
+            resStatus = parsed.status?:-1
+            response.close()
+        }
+        return resStatus
+    }
 }

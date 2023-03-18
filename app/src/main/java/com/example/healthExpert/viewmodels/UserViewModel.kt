@@ -93,6 +93,14 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
+    fun initUser(height:String,weight:String,age:String,gender:String,name:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            if (token != null) {
+                repository.initUser(token,height, weight,age,gender,name)
+            }
+        }
+    }
+
     fun calcBMI(weight: Float,height: Float) : Float{
         //        BMI=体重（公斤）÷（身高×身高）（米）。
         return String.format("%.1f",weight.div(height.div(100).pow(2))).toFloat()

@@ -23,6 +23,7 @@ import com.example.healthExpert.view.home.fragment.History
 import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
 import com.example.healthExpert.view.home.fragment.Sources
+import com.example.healthExpert.view.setting.InitSetting
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -41,19 +42,16 @@ class Home : UserCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.w("Home", "onCreate: ")
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        binding.lifecycleOwner = this
-        binding.userViewmodel = userViewModel
-        setContentView(binding.root)
-        initPage()
-
-        callLocationService()
-        callNotificationService()
 
         userViewModel.user.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
+                // 检测用户有没有填写信息
+                if (item.Name.isNullOrEmpty() || item.Height.equals(0F) || item.Weight.equals(0F)){
+                    InitSetting.startFn(this)
+                }
+
+
                 // Update the UI
                 if (item.Gender == "Male"){
                     binding.avatar.setImageResource(R.drawable.avatar)
@@ -68,6 +66,21 @@ class Home : UserCompatActivity() {
                 editor.apply()
             }
         })
+        userViewModel.getUserInfo()
+
+
+
+        Log.w("Home", "onCreate: ")
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.userViewmodel = userViewModel
+        setContentView(binding.root)
+        initPage()
+
+        callLocationService()
+        callNotificationService()
+
+
 
 
         binding.sideBar.setOnClickListener (View.OnClickListener {

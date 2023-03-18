@@ -148,6 +148,10 @@
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:name=".view.setting.InitSetting"
+            android:exported="false"
+            android:theme="@style/Theme.Main" />
+        <activity
             android:name=".view.sidebar.Sidebar"
             android:exported="false"
             android:theme="@style/Theme.Main" />
