@@ -146,6 +146,11 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
             if (locations.size != 0){
                 val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
                 trainingsViewModel.addTraining(type,title, startTime,endTime,locationJson)
+//                Log.d("测试", "type: $type")
+//                Log.d("测试", "title: $title")
+//                Log.d("测试", "startTime: $startTime")
+//                Log.d("测试", "endTime: $endTime")
+//                Log.d("测试", "locationJson: $locationJson")
                 trainingsViewModel.updateTrainingOverall()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -158,8 +163,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-
-
         trainingsViewModel.weather.observe(this) { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {

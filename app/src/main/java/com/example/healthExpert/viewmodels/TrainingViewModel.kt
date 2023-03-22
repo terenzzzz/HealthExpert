@@ -38,7 +38,7 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var currentSpeed = MutableLiveData(0F)
     var totalCalories = MutableLiveData(0F)
     var timer = MutableLiveData("00:00:00")
-    var speedList :MutableList<Float> = mutableListOf()
+    var speedList :MutableList<Float> = mutableListOf(0f)
 
 
     fun updateDistance(newDistance:Float){
@@ -106,13 +106,15 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null) {
                 val distance = String.format("%.2f",this@TrainingViewModel.totalDistance.value)
-                val speed = String.format("%.2f",this@TrainingViewModel.speedList.average())
+
+                var speed = String.format("%.2f",this@TrainingViewModel.speedList.average())
+
                 val calories = String.format("%.2f",this@TrainingViewModel.totalCalories.value)
 
                 val insertId = repository.addTraining(token,type, title, distance,
                     speed, calories,
-                    startTime, endTime)
-                repository.addLocations(token, insertId, locations)
+                    startTime, endTime, locations)
+//                repository.addLocations(token, insertId, locations)
             }
         }
     }

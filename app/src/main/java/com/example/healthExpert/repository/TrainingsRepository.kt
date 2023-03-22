@@ -156,7 +156,15 @@ class TrainingsRepository {
                     caloriesBurn:String,
                     startTime:String,
                     endTime:String,
-                    ): Int {
+                    locations:String): Int {
+        Log.d("测试", "type: $type")
+        Log.d("测试", "title: $title")
+        Log.d("测试", "distance: $distance")
+        Log.d("测试", "speed: $speed")
+        Log.d("测试", "caloriesBurn: $caloriesBurn")
+        Log.d("测试", "startTime: $startTime")
+        Log.d("测试", "endTime: $endTime")
+        Log.d("测试", "locations: $locations")
         var insertId=-1
         val body = FormBody.Builder()
             .add("type", type)
@@ -178,6 +186,11 @@ class TrainingsRepository {
             val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
             Log.w("addLocations", "message: ${parsed.message}")
             insertId = parsed.insertId?:-1
+
+            if(parsed.status == 200){
+                addLocations(token,insertId,locations)
+            }
+
             Log.w("addLocations", "insertId: $insertId")
             response.close()
         }
