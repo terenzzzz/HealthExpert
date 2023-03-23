@@ -56,6 +56,16 @@ class DateTimeConvert {
         return "${"%.2f".format(decimalHours)}"
     }
 
+    fun toMinutes(startTime: String, endTime: String): String {
+        val durationString = subTimes(startTime, endTime)
+        val parts = durationString.split(":")
+        val hours = parts[0].toLong()
+        val minutes = parts[1].toLong()
+        val seconds = parts[2].toLong()
+        val duration = Duration.ofHours(hours).plusMinutes(minutes).plusSeconds(seconds)
+        return duration.toMinutes().toString()
+    }
+
     fun HHmmsstoSeconds(time: String): Int {
         // "00:24:22" -> 0.41
         val timeParts = time.split(":").map { it.toInt() }

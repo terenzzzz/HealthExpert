@@ -11,6 +11,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainShowBinding
 import com.example.healthExpert.model.Location
+import com.example.healthExpert.utils.DateTimeConvert
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -57,12 +58,14 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
         trainingsViewModel.trainingInfo.observe(this) { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                val startTime = SimpleDateFormat("HH:mm").format(item[0].StartTime)
-                val endTime = SimpleDateFormat("HH:mm").format(item[0].EndTime)
-                binding.duration.text = "$startTime - $endTime"
+                val startTime = DateTimeConvert().toDateTime(item[0].StartTime);
+                val endTime = DateTimeConvert().toDateTime(item[0].EndTime);
+                binding.duration.text = "${DateTimeConvert().toDecimalHours(startTime,endTime)} h"
                 binding.title.text = item[0].Title
                 binding.speed.text = "${item[0].Speed} km/h"
+                binding.distance.text = "${item[0].Distance} km"
                 binding.calories.text = "${item[0].CaloriesBurn} kcal"
+                binding.period.text = "$startTime - $endTime"
                 when(item[0].Type){
                     "Walking" -> binding.type.setImageResource(R.drawable.walk)
                     "Running" -> binding.type.setImageResource(R.drawable.runner)
@@ -93,12 +96,12 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
             }
 
         }
-        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
-            trainingsViewModel.deleteTraining(id)
-            trainingsViewModel.updateTrainingOverall()
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+//        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
+//            trainingsViewModel.deleteTraining(id)
+//            trainingsViewModel.updateTrainingOverall()
+//            finish()
+//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//        })
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()

@@ -1,0 +1,4 @@
+/Users/chichungcheung/Library/Android/sdk/cmake/3.18.1/bin/ninja \
+  -C \
+  /Users/chichungcheung/Desktop/HealthExpert/opencv/.cxx/Debug/635zb335/armeabi-v7a \
+  opencv_jni_shared

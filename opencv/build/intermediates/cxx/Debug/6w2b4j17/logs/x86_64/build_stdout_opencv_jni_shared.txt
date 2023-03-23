@@ -1,2 +1,0 @@
-ninja: Entering directory `C:\Users\zhang\OneDrive\Desktop\HealthExpert\opencv\.cxx\Debug\6w2b4j17\x86_64'
-ninja: no work to do.

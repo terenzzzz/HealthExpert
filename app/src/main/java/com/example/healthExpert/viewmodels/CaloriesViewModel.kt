@@ -53,7 +53,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
                 stepsCalories.postValue(updateStepsCalories)
                 trainingCalories.postValue(updateTrainingCalories)
             }
-
         }
     }
 

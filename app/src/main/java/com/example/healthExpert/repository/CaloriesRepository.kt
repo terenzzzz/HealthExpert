@@ -9,7 +9,6 @@ import com.example.healthExpert.parse.CaloriesParse
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
-import kotlin.math.log
 
 class CaloriesRepository {
     private val client = OkHttpClient()
@@ -17,7 +16,6 @@ class CaloriesRepository {
 
 
     // 同步请求
-
     fun getCaloriesOverall(token:String,date:String): CaloriesOverall? {
         var caloriesOverall: CaloriesOverall? = null
         val request = Request.Builder()
