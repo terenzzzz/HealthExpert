@@ -18,15 +18,6 @@ import android.view.TextureView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHeartRecordBinding
-import org.opencv.android.OpenCVLoader
-import org.opencv.android.Utils
-import org.opencv.core.CvType
-import org.opencv.core.Mat
-import org.opencv.imgproc.Imgproc
-import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
-import kotlin.math.pow
-
 
 class HeartRecord : AppCompatActivity() {
     private lateinit var binding: ActivityHeartRecordBinding
@@ -42,11 +33,7 @@ class HeartRecord : AppCompatActivity() {
     private lateinit var imageReader: ImageReader
 
     private var surfaceTextureAvailable = false
-
-
-
-
-
+    
     companion object {
         fun startFn(context: Context) {
             val intent =
