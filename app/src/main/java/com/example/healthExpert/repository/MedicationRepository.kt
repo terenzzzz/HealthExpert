@@ -40,7 +40,6 @@ class MedicationRepository {
         }catch (e: IOException){
             medications = null
         }
-
         return medications
     }
 

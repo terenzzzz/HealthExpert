@@ -1,6 +1,7 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.example.healthExpert.model.*
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
 
@@ -96,6 +98,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             val updatedData = token?.let { medicationRepository.medications(it,date) }
+
 
             // Refresh UI Update data
             medications.postValue(updatedData)

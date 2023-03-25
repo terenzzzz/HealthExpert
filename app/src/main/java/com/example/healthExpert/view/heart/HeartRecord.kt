@@ -33,7 +33,7 @@ class HeartRecord : AppCompatActivity() {
     private lateinit var imageReader: ImageReader
 
     private var surfaceTextureAvailable = false
-    
+
     companion object {
         fun startFn(context: Context) {
             val intent =

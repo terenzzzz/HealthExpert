@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
@@ -15,7 +14,6 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.service.LocationService
-import com.example.healthExpert.service.NotificationService
 import com.example.healthExpert.service.StepService
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
@@ -24,7 +22,6 @@ import com.example.login.view.homePage.fragment.Me
 import com.example.login.view.homePage.fragment.Overall
 import com.example.healthExpert.view.home.fragment.Sources
 import com.example.healthExpert.view.setting.InitSetting
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -68,8 +65,6 @@ class Home : UserCompatActivity() {
         })
         userViewModel.getUserInfo()
 
-
-
         Log.w("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
@@ -77,10 +72,7 @@ class Home : UserCompatActivity() {
         setContentView(binding.root)
         initPage()
 
-        callLocationService()
-        callNotificationService()
-
-
+        callStepService()
 
 
         binding.sideBar.setOnClickListener (View.OnClickListener {
@@ -99,7 +91,6 @@ class Home : UserCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("Home", "onResume: ")
-
         userViewModel.getUserInfo()
     }
 
@@ -116,28 +107,19 @@ class Home : UserCompatActivity() {
     /**
      * function to call the Location Service to start
      */
-    private fun callLocationService(){
+    private fun callStepService(){
         Log.d("Home", "callService: ")
         Intent(this, StepService::class.java).apply {
             startService(this)
         }
     }
 
-    /**
-     * function to call the Location Service to start
-     */
-    private fun callNotificationService(){
-        Log.d("通知服务", "call: ")
-        Intent(this, NotificationService::class.java).apply {
-            startService(this)
-        }
-    }
 
     /**
      * function to stop Service when is no longer needed
      */
-    private fun stopService(){
-        Intent(this, LocationService::class.java).apply {
+    private fun stopStepService(){
+        Intent(this, StepService::class.java).apply {
             stopService(this)
         }
 

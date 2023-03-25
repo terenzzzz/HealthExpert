@@ -93,16 +93,14 @@ class Overall : OverallCompatFragment() {
 
         overallViewModel.medications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
+            Log.d("测试", "medications: $list")
             if (list != null) {
-
                 // send time to service to pending notification
                 for (item in list){
                     val intent = Intent("medication")
                     intent.putExtra("time", DateTimeConvert().toTime(item.Date))
                     activity?.sendBroadcast(intent)
                 }
-
-
                 // Update the UI
                 if (list.size > 0){
                     binding.medicalNotice.visibility = View.VISIBLE
