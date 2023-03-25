@@ -47,16 +47,6 @@
                 android:background="@drawable/radius_bg"
                 android:orientation="vertical">
 
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="30dp"
-                        app:cardElevation="0dp"
-                        app:contentPadding="30dp"
-                        app:contentPaddingBottom="0dp"
-                        app:contentPaddingTop="0dp">
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -65,6 +55,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="30dp"
+                                android:layout_marginTop="30dp"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -106,7 +98,7 @@
                                 xmlns:tools="http://schemas.android.com/tools"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="20dp"
+                                android:layout_margin="10dp"
                                 android:id="@+id/map"
                                 tools:context=".MapsActivity"
                                 android:name="com.google.android.gms.maps.SupportMapFragment" >
@@ -131,7 +123,7 @@
                                                 android:layout_height="match_parent"
                                                 android:layout_weight="1"
                                                 android:layout_marginHorizontal="1dp"
-                                                app:contentPadding="15dp"
+                                                app:contentPadding="5dp"
                                                 app:cardCornerRadius="20dp"
                                                 app:cardUseCompatPadding="true">
                                                 <LinearLayout
@@ -172,7 +164,7 @@
                                                 android:layout_height="match_parent"
                                                 android:layout_weight="1"
                                                 android:layout_marginHorizontal="1dp"
-                                                app:contentPadding="15dp"
+                                                app:contentPadding="5dp"
                                                 app:cardCornerRadius="20dp"
                                                 app:cardUseCompatPadding="true">
                                                 <LinearLayout
@@ -219,7 +211,7 @@
                                                 android:layout_height="match_parent"
                                                 android:layout_weight="1"
                                                 android:layout_marginHorizontal="1dp"
-                                                app:contentPadding="15dp"
+                                                app:contentPadding="5dp"
                                                 app:cardCornerRadius="20dp"
                                                 app:cardUseCompatPadding="true">
                                                 <LinearLayout
@@ -260,7 +252,7 @@
                                                 android:layout_height="match_parent"
                                                 android:layout_weight="1"
                                                 android:layout_marginHorizontal="1dp"
-                                                app:contentPadding="15dp"
+                                                app:contentPadding="5dp"
                                                 app:cardCornerRadius="20dp"
                                                 app:cardUseCompatPadding="true">
                                                 <LinearLayout
@@ -308,7 +300,6 @@
 <!--                                android:background="@drawable/radius_btn_bg_red"-->
 <!--                                android:text="Delete Record"/>-->
                         </LinearLayout>
-                    </androidx.cardview.widget.CardView>
 
             </LinearLayout>
         </LinearLayout>

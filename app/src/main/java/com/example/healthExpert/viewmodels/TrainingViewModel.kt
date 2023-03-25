@@ -50,9 +50,15 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
         val lastTime = DateTimeConvert().HHmmsstoSeconds(lastTimer)
         val time = DateTimeConvert().HHmmsstoSeconds(timer)
         val timeDiff = time - lastTime
-        val speed = newDistance.div(timeDiff).times(3.6F)  // km/h
-        currentSpeed.postValue(speed)
-        speedList.add(speed)
+
+        // 如果时间差小于等于 0，将速度设置为 0
+        if (timeDiff <= 0.0F) {
+            currentSpeed.postValue(0.0F)
+        } else {
+            val speed = newDistance.div(timeDiff).times(3.6F)  // km/h
+            currentSpeed.postValue(speed)
+            speedList.add(speed)
+        }
     }
 
     fun updateCalories(newDistance:Float,type: String){

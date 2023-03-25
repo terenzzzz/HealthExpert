@@ -47,7 +47,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
     private var title:String = ""
     private var startTime = SimpleDateFormat("HH:mm").format(Date())
     private lateinit var endTime:String
-    private var totalDistance:Float = 0F
 
     // Broadcast
     private lateinit var receiver: BroadcastReceiver
@@ -77,9 +76,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
             id = bundle.getInt("id")
             type = bundle.getString("type").toString()
             title = bundle.getString("title").toString()
-            Log.d("TrainRecord", "id: $id")
-            Log.d("TrainRecord", "type: $type")
-            Log.d("TrainRecord", "tile: $title")
         }
 
         // Call Service
@@ -126,6 +122,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                     // Init Start Point
                     addMarker(location!!.latitude, location!!.longitude)
                     addDot(location!!.latitude, location!!.longitude)
+                    trainingsViewModel.getWeather(location!!.latitude, location!!.longitude)
                 }
                 lastLocation = location
                 lastTimer = time
@@ -171,7 +168,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
                 Picasso.get().load(imageUrl).into(binding.weatherIcon)
             }
         }
-        trainingsViewModel.getWeather(53.3848,-1.4740)
     }
 
     override fun onDestroy() {

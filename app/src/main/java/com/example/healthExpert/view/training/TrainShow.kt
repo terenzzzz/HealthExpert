@@ -82,13 +82,12 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
                 var lastLocation: Location? = null
                 for((index, location) in list.withIndex()){
                     if (index == 0){
-                        addMarker(location.latitude,location.longitude)
-                    }else{
+                        addMarker(location.latitude,location.longitude,BitmapDescriptorFactory.HUE_RED,"StartPoint")
+                    }else if (index == list.lastIndex){
+                        addMarker(location.latitude,location.longitude,BitmapDescriptorFactory.HUE_GREEN,"EndPoint")
+                    } else{
                         if (lastLocation != null) {
                             drawLine(lastLocation,location)
-                            if (index == list.lastIndex){
-                                addMarker(location.latitude,location.longitude)
-                            }
                         }
                     }
                     lastLocation = location
@@ -111,9 +110,13 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
 
 
 
-    private fun addMarker(latitude:Double,longitude:Double){
+    private fun addMarker(latitude:Double,longitude:Double,color: Float,title:String){
         val point = LatLng(latitude, longitude)
-        mMap.addMarker(MarkerOptions().position(point))
+        val markerOptions = MarkerOptions()
+            .position(point)
+            .title(title)
+            .icon(BitmapDescriptorFactory.defaultMarker(color))
+        mMap.addMarker(markerOptions)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15f))
     }
 

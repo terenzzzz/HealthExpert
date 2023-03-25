@@ -48,8 +48,6 @@ class LocationService : LifecycleService() {
         val pendingIntent = createPendingIntent()
         val notification = pendingIntent?.let { createNotification(it) }
         startForeground(1, notification)
-
-        startTimer()
     }
 
     /**
@@ -86,14 +84,17 @@ class LocationService : LifecycleService() {
             ).build()
             fusedLocationClient.requestLocationUpdates(locationRequest,locationCallback, Looper.getMainLooper())
         }
+
+        startTimer()
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onDestroy() {
         Log.d("定位服务", "onDestroy: ")
         super.onDestroy()
-        stopSelf()
+        stopTimer()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+        stopSelf()
     }
 
     private fun startTimer(){
@@ -114,6 +115,10 @@ class LocationService : LifecycleService() {
 
         // Start the timer
         timerHandler.post(timerRunnable)
+    }
+
+    private fun stopTimer() {
+        timerHandler.removeCallbacks(timerRunnable)
     }
 
     /**
