@@ -166,17 +166,18 @@ class CaloriesAdapter(private val caloriesSet: MutableLiveData<MutableList<com.e
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(mode=="view"){
+        if(mode!="edit"){
                 holder.editBtn.visibility = View.GONE
+        }else{
+            holder.itemView.setOnClickListener(View.OnClickListener { view ->
+                val intent = Intent(activity, CaloriesEdit::class.java)
+                val bundle = Bundle()
+                bundle.putInt("id", caloriesSet.value!![position].id)
+                intent.putExtras(bundle)
+                activity.startActivity(intent)
+            })
         }
 
-        holder.itemView.setOnClickListener(View.OnClickListener { view ->
-            val intent = Intent(activity, CaloriesEdit::class.java)
-            val bundle = Bundle()
-            bundle.putInt("id", caloriesSet.value!![position].id)
-            intent.putExtras(bundle)
-            activity.startActivity(intent)
-        })
         if (caloriesSet.value != null){
             if (caloriesSet.value!![position] != null){
                 if (caloriesSet.value!![position].Type == "Intake"){
