@@ -18,6 +18,7 @@ import com.example.healthExpert.compatActivity.WatersCompatActivity
 import com.example.healthExpert.databinding.ActivityWaterBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
+import com.example.healthExpert.view.calories.CaloriesEdit
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,7 @@ class Water : WatersCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private var todayDate = DateTimeConvert().toDate(Date())
+    var mode = "edit"
 
     companion object {
         fun startFn(context: Context) {
@@ -58,12 +60,21 @@ class Water : WatersCompatActivity() {
             if (list != null) {
                 // Update the UI
                 watersViewModel.updateWatersOverall()
-                recyclerView.adapter = WatersAdapter(watersViewModel.waters,this)
+                recyclerView.adapter = WatersAdapter(watersViewModel.waters,this,mode)
             }else{
                 SnackbarUtil.buildNetwork(binding.root)
             }
 
         })
+
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            mode = "view"
+            binding.addBtn.visibility = View.GONE
+            binding.settingBtn.visibility = View.GONE
+            binding.shortCut.visibility = View.GONE
+        }
 
 
 
@@ -108,7 +119,7 @@ class Water : WatersCompatActivity() {
     override fun onResume() {
         super.onResume()
         watersViewModel.getWatersOverall(todayDate)
-        watersViewModel.getWaters()
+        watersViewModel.getWaters(todayDate)
     }
 
     private fun addShortcut(value:Int){
@@ -122,12 +133,12 @@ class Water : WatersCompatActivity() {
         watersViewModel.addWaters(type,type,
             type,value, SimpleDateFormat("HH:mm").format(Date()))
         Snackbar.make(binding.root, "Record Added", Snackbar.LENGTH_LONG).show()
-        watersViewModel.getWaters()
+        watersViewModel.getWaters(todayDate)
     }
 }
 // RecycleView Adapter
 class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.example.healthExpert.model.Water>?>,
-                      private val activity:Context) : RecyclerView.Adapter<WatersAdapter.ViewHolder>(){
+                      private val activity:Context,private val mode:String) : RecyclerView.Adapter<WatersAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         var icon: ImageView = itemView.findViewById(R.id.icon)
@@ -135,6 +146,7 @@ class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.exampl
         var content: TextView = itemView.findViewById(R.id.content)
         var value: TextView = itemView.findViewById(R.id.value)
         var time: TextView = itemView.findViewById(R.id.time)
+        var editBtn: ImageView = itemView.findViewById(R.id.edit_btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -146,14 +158,20 @@ class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.exampl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.setOnClickListener(View.OnClickListener { view ->
-            val intent = Intent(activity, WaterEdit::class.java)
-            val bundle = Bundle()
-            bundle.putInt("id", waterSet.value!![position].id)
+        if(mode!="edit"){
+            holder.editBtn.visibility = View.GONE
+        }else{
+            holder.itemView.setOnClickListener(View.OnClickListener { view ->
+                val intent = Intent(activity, WaterEdit::class.java)
+                val bundle = Bundle()
+                bundle.putInt("id", waterSet.value!![position].id)
 
-            intent.putExtras(bundle)
-            activity.startActivity(intent)
-        })
+                intent.putExtras(bundle)
+                activity.startActivity(intent)
+            })
+        }
+
+
         if (waterSet.value != null){
             if (waterSet.value!![position] != null){
                 when(waterSet.value!![position].Type){

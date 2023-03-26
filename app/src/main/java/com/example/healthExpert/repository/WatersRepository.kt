@@ -75,10 +75,10 @@ class WatersRepository {
     }
 
     // 同步请求
-    fun getWaters(token: String): MutableList<Water>? {
+    fun getWaters(token: String,date: String): MutableList<Water>? {
         var water: MutableList<Water>? = mutableListOf()
         val request = Request.Builder()
-            .url("$url/waters")
+            .url("$url/waters?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

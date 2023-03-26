@@ -44,10 +44,10 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     }
 
 
-    fun getWaters(){
+    fun getWaters(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWaters(it) }
+            val updatedData = token?.let { repository.getWaters(it,date) }
 
             // Refresh UI Update data
             waters.postValue(updatedData)
