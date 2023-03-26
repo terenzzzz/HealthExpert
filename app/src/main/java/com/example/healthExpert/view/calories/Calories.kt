@@ -73,21 +73,15 @@ class Calories : CaloriesCompatActivity() {
             }
         })
 
-        caloriesViewModel.trainingCalories.observe(this, Observer { item ->
+        caloriesViewModel.activityCalories.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                binding.trainingValue.text = "- $item"
+                binding.activityValue.text = "- $item"
             }else{
                 SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
-        caloriesViewModel.stepsCalories.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                binding.stepValue.text = "- $item"
-            }
-        })
 
         caloriesViewModel.calories.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData

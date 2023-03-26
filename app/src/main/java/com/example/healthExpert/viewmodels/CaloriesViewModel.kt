@@ -30,8 +30,8 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var caloriesInfo = MutableLiveData<Calories?>()
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
 
-    var stepsCalories = MutableLiveData(0)
-    var trainingCalories = MutableLiveData(0)
+    // Activity data
+    var activityCalories = MutableLiveData(0) // without cycling
 
 
 
@@ -42,16 +42,22 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             if (token != null){
                 val updatedData = repository.getCaloriesOverall(token,date)
                 val updateStepsCalories = walkRepository.getWalksOverall(token,date)?.Calories
-                val updateTrainingCalories = trainingsRepository.getTrainingOverall(token,date)?.Calories?.toInt()
+                val trainingList = trainingsRepository.getTrainings(token)
+                var updateTrainingCalories = 0
+                if (updatedData!=null && updateStepsCalories!=null && trainingList!=null){
+                    for (training in trainingList){
+                        if (training.Type!="Cycling"){
+                            updateTrainingCalories += training.CaloriesBurn
+                        }
+                    }
 
-
-                if (updatedData!=null && updateStepsCalories!=null && updateTrainingCalories!=null){
                     updatedData.Burn = updatedData.Burn + updateStepsCalories + updateTrainingCalories
                 }
                 // Refresh UI Update data
                 caloriesAll.postValue(updatedData)
-                stepsCalories.postValue(updateStepsCalories)
-                trainingCalories.postValue(updateTrainingCalories)
+                if (updateStepsCalories != null) {
+                    activityCalories.postValue(updateStepsCalories + updateTrainingCalories)
+                }
             }
         }
     }

@@ -111,10 +111,10 @@
                                             android:layout_height="20dp"
                                             android:src="@drawable/shoes"/>
                                         <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
                                             android:layout_gravity="center"
-                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginLeft="5dp"
                                             android:gravity="center"
                                             android:text="Steps"
                                             android:textSize="12dp"
@@ -153,10 +153,10 @@
                                             android:layout_height="20dp"
                                             android:src="@drawable/distance"/>
                                         <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
                                             android:layout_gravity="center"
-                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginLeft="5dp"
                                             android:gravity="center"
                                             android:text="Distance"
                                             android:textSize="12dp"
@@ -195,10 +195,10 @@
                                             android:layout_height="20dp"
                                             android:src="@drawable/calories"/>
                                         <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
                                             android:layout_gravity="center"
-                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginLeft="5dp"
                                             android:gravity="center"
                                             android:text="Calories"
                                             android:textSize="12dp"
