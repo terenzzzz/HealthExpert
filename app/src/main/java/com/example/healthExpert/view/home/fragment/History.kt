@@ -1,6 +1,8 @@
 package com.example.healthExpert.view.home.fragment
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,13 +11,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.Calories
+import com.example.healthExpert.view.sleep.Sleep
+import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
+import com.example.healthExpert.view.water.Water
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -112,19 +118,23 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         })
 
         binding.caloriesCard.setOnClickListener {
-            val intent = Intent(activity, Calories::class.java)
-            val bundle = Bundle()
-            bundle.putString("selectedDate", selectedDate)
-            intent.putExtras(bundle)
-            startActivity(intent)
+            activity?.let { it1 -> goToActivity(it1,Calories::class.java) }
         }
 
         binding.stepsCard.setOnClickListener {
-            val intent = Intent(activity, Walk::class.java)
-            val bundle = Bundle()
-            bundle.putString("selectedDate", selectedDate)
-            intent.putExtras(bundle)
-            startActivity(intent)
+            activity?.let { it1 -> goToActivity(it1,Walk::class.java) }
+        }
+
+        binding.waterCard.setOnClickListener {
+            activity?.let { it1 -> goToActivity(it1,Water::class.java) }
+        }
+
+        binding.trainingCard.setOnClickListener {
+            activity?.let { it1 -> goToActivity(it1,Train::class.java) }
+        }
+
+        binding.sleepCard.setOnClickListener {
+            activity?.let { it1 -> goToActivity(it1,Sleep::class.java) }
         }
 
 
@@ -159,5 +169,14 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         historyViewModel.getWatersOverall(selectedDate)
         historyViewModel.getTrainingOverall(selectedDate)
     }
+
+    private fun goToActivity(activity: FragmentActivity, targetActivity: Class<out Activity>) {
+        val intent = Intent(activity, targetActivity)
+        val bundle = Bundle()
+        bundle.putString("selectedDate", selectedDate)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
 }
 
