@@ -72,10 +72,10 @@ class CaloriesRepository {
 
 
     // 同步请求
-    fun getCalories(token:String): MutableList<Calories>? {
+    fun getCalories(token:String,date: String): MutableList<Calories>? {
         var calories: MutableList<Calories>? = mutableListOf()
         val request = Request.Builder()
-            .url("$url/calories")
+            .url("$url/calories?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

@@ -12,17 +12,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesBinding
-import com.example.healthExpert.widget.Ring
-import java.text.SimpleDateFormat
-import androidx.lifecycle.Observer;
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
-import com.google.android.material.snackbar.Snackbar
+import com.example.healthExpert.widget.Ring
+import java.text.SimpleDateFormat
 import java.util.*
 
 class Calories : CaloriesCompatActivity() {
@@ -31,6 +30,7 @@ class Calories : CaloriesCompatActivity() {
     private lateinit var ring: Ring
     private lateinit var layoutManager: LinearLayoutManager
     private var todayDate = DateTimeConvert().toDate(Date())
+    var mode = "edit"
 
     companion object {
         fun startFn(context: Context) {
@@ -43,6 +43,8 @@ class Calories : CaloriesCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         Log.w("Calories", "onCreate: ")
         binding = ActivityCaloriesBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
@@ -88,12 +90,20 @@ class Calories : CaloriesCompatActivity() {
             if (list != null) {
                 // Update the UI
                 caloriesViewModel.updateCaloriesOverall()
-                recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this)
+                recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this,mode)
                 caloriesViewModel.getCaloriesOverall(todayDate)
             }else{
                 SnackbarUtil.buildNetwork(binding.root)
             }
         })
+
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            mode = "view"
+            binding.addBtn.visibility = View.GONE
+            binding.settingBtn.visibility = View.GONE
+        }
 
 
         binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
@@ -112,12 +122,12 @@ class Calories : CaloriesCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.w("Calories", "onResume", )
+        Log.w("Calories", "onResume")
         // Init ring
         ring = ringSetUp(binding.calories)
 
-
-        caloriesViewModel.getCalories()
+        caloriesViewModel.getCaloriesOverall(todayDate)
+        caloriesViewModel.getCalories(todayDate)
     }
 
     fun ringSetUp(view: View): Ring {
@@ -130,14 +140,13 @@ class Calories : CaloriesCompatActivity() {
         ring.setSweepColor(Color.rgb(255, 205, 105))
         return ring
     }
-
 }
 
 
 
 // RecycleView Adapter
 class CaloriesAdapter(private val caloriesSet: MutableLiveData<MutableList<com.example.healthExpert.model.Calories>?>,
-                      private val activity:Context) : RecyclerView.Adapter<CaloriesAdapter.ViewHolder>(){
+                      private val activity:Context,private val mode:String) : RecyclerView.Adapter<CaloriesAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         var icon: ImageView = itemView.findViewById(R.id.icon)
@@ -145,6 +154,7 @@ class CaloriesAdapter(private val caloriesSet: MutableLiveData<MutableList<com.e
         var content: TextView = itemView.findViewById(R.id.content)
         var calories: TextView = itemView.findViewById(R.id.calories)
         var time: TextView = itemView.findViewById(R.id.time)
+        var editBtn: ImageView = itemView.findViewById(R.id.edit_btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -156,8 +166,11 @@ class CaloriesAdapter(private val caloriesSet: MutableLiveData<MutableList<com.e
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if(mode=="view"){
+                holder.editBtn.visibility = View.GONE
+        }
+
         holder.itemView.setOnClickListener(View.OnClickListener { view ->
-            Log.w("Calories", caloriesSet.value!![position].id.toString() )
             val intent = Intent(activity, CaloriesEdit::class.java)
             val bundle = Bundle()
             bundle.putInt("id", caloriesSet.value!![position].id)

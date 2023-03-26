@@ -1,6 +1,7 @@
 package com.example.healthExpert.view.home.fragment
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
+import com.example.healthExpert.view.calories.Calories
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -81,6 +83,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 SnackbarUtil.buildNetwork(binding.root)
             }
         })
+
     }
 
 
@@ -101,13 +104,19 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         // Inflate the layout for this fragment
         binding = FragmentHistoryBinding.inflate(layoutInflater)
 
-
-
         binding.etDate.text = selectedDate
 
         binding.etDate.setOnClickListener (View.OnClickListener {
             showDatePicker()
         })
+
+        binding.caloriesCard.setOnClickListener {
+            val intent = Intent(activity, Calories::class.java)
+            val bundle = Bundle()
+            bundle.putString("selectedDate", selectedDate)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
 
 
         return binding.root

@@ -73,10 +73,10 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
 
 
 
-    fun getCalories(){
+    fun getCalories(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getCalories(it) }
+            val updatedData = token?.let { repository.getCalories(it,date) }
 
             // Refresh UI Update data
             calories.postValue(updatedData)
@@ -153,7 +153,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null) {
                 repository.deleteCalories(token, id)
-                getCalories()
             }
         }
     }
