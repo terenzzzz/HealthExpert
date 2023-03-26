@@ -53,7 +53,11 @@ class Walk : WalkCompatActivity() {
         binding.walkViewmodel = walkViewModel
         setContentView(binding.root)
 
-
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            binding.settingBtn.visibility = View.GONE
+        }
 
 
         ring = ringSetUp(binding.calories)
@@ -116,7 +120,7 @@ class Walk : WalkCompatActivity() {
         })
         walkViewModel.updateWalksOverall()
         walkViewModel.getWalksOverall(todayDate)
-        walkViewModel.getWalkSteps()
+        walkViewModel.getWalkSteps(todayDate)
     }
 
 

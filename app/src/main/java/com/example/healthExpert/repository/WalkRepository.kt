@@ -42,10 +42,10 @@ class WalkRepository {
         return walk
     }
 
-    fun getWalkStep(token:String): MutableList<WalkStep>? {
+    fun getWalkStep(token:String,date: String): MutableList<WalkStep>? {
         var walkSteps: MutableList<WalkStep>? = mutableListOf()
         val request = Request.Builder()
-            .url("$url/walkSteps")
+            .url("$url/walkSteps?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

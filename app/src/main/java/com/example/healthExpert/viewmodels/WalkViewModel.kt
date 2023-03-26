@@ -36,10 +36,10 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun getWalkSteps(){
+    fun getWalkSteps(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWalkStep(it) }
+            val updatedData = token?.let { repository.getWalkStep(it,date) }
 
             // Refresh UI Update data
             walkSteps.postValue(updatedData)

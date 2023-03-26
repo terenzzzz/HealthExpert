@@ -15,6 +15,7 @@ import com.example.healthExpert.databinding.FragmentHistoryBinding
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.Calories
+import com.example.healthExpert.view.walk.Walk
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -112,6 +113,14 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
 
         binding.caloriesCard.setOnClickListener {
             val intent = Intent(activity, Calories::class.java)
+            val bundle = Bundle()
+            bundle.putString("selectedDate", selectedDate)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+
+        binding.stepsCard.setOnClickListener {
+            val intent = Intent(activity, Walk::class.java)
             val bundle = Bundle()
             bundle.putString("selectedDate", selectedDate)
             intent.putExtras(bundle)
