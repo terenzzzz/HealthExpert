@@ -42,7 +42,7 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             if (token != null){
                 val updatedData = repository.getCaloriesOverall(token,date)
                 val updateStepsCalories = walkRepository.getWalksOverall(token,date)?.Calories
-                val trainingList = trainingsRepository.getTrainings(token)
+                val trainingList = trainingsRepository.getTrainings(token,date)
                 var updateTrainingCalories = 0
                 if (updatedData!=null && updateStepsCalories!=null && trainingList!=null){
                     for (training in trainingList){

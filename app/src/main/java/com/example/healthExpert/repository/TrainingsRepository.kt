@@ -65,10 +65,10 @@ class TrainingsRepository {
     }
 
     // 同步请求
-    fun getTrainings(token:String): MutableList<Trainings>? {
+    fun getTrainings(token:String,date: String): MutableList<Trainings>? {
         var trainings: MutableList<Trainings>? = mutableListOf()
         val request = Request.Builder()
-            .url("$url/trainings")
+            .url("$url/trainings?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

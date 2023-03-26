@@ -32,6 +32,7 @@ class Train : TrainingsCompatActivity() {
     private lateinit var ring: Ring
     private var todayDate = DateTimeConvert().toDate(Date())
 
+
     companion object {
         fun startFn(context: Context) {
             val intent =
@@ -73,6 +74,13 @@ class Train : TrainingsCompatActivity() {
             }
         })
 
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            binding.addBtn.visibility = View.GONE
+            binding.settingBtn.visibility = View.GONE
+        }
+
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -98,7 +106,7 @@ class Train : TrainingsCompatActivity() {
         ring = ringSetUp(binding.calories)
 
         trainingsViewModel.getTrainingOverall(todayDate)
-        trainingsViewModel.getTrainings()
+        trainingsViewModel.getTrainings(todayDate)
     }
 
     private fun ringSetUp(view: View): Ring {

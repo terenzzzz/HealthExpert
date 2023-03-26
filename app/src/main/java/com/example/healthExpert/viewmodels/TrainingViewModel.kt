@@ -93,10 +93,10 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     }
 
 
-    fun getTrainings(){
+    fun getTrainings(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getTrainings(it) }
+            val updatedData = token?.let { repository.getTrainings(it,date) }
 
             // Refresh UI Update data
             trainings.postValue(updatedData)
