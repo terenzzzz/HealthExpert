@@ -13,10 +13,10 @@ class SleepRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getSleep(token: String): Sleep? {
+    fun getSleep(token: String,date:String): Sleep? {
         var sleep: Sleep? = null
         val request = Request.Builder()
-            .url("$url/sleep")
+            .url("$url/sleep?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()

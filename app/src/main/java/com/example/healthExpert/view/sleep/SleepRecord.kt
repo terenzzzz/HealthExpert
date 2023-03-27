@@ -60,6 +60,7 @@ class SleepRecord : SleepCompatActivity() {
             Log.d("数据", pressureSet.average().toString())
             Log.d("数据", lightSet.average().toString())
             Log.d("数据", humiditySet.average().toString())
+            Log.d("数据", startTime)
 
 
             sleepViewModel.addSleep(checkZero(temperatureSet),checkZero(pressureSet),

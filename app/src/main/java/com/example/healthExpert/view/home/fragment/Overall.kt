@@ -145,7 +145,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.getWatersOverall(todayDate)
         overallViewModel.getTrainingOverall(todayDate)
         overallViewModel.medications(todayDate)
-        overallViewModel.getSleep()
+        overallViewModel.getSleep(todayDate)
     }
 
     override fun onCreateView(

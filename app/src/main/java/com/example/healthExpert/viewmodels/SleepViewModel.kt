@@ -27,10 +27,10 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         this.timer.value = time
     }
 
-    fun getSleep(){
+    fun getSleep(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getSleep(it) }
+            val updatedData = token?.let { repository.getSleep(it,date) }
 
             // Refresh UI Update data
             sleep.postValue(updatedData)

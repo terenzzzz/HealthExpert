@@ -16,6 +16,8 @@ import java.util.*
 
 class Sleep : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepBinding
+    private var todayDate = DateTimeConvert().toDate(Date())
+    var mode = "edit"
 
     companion object {
         fun startFn(context: Context) {
@@ -29,6 +31,14 @@ class Sleep : SleepCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            mode = "view"
+            binding.addBtn.visibility = View.GONE
+        }
+
 
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
             SleepRecord.startFn(this)
@@ -89,7 +99,7 @@ class Sleep : SleepCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        sleepViewModel.getSleep()
+        sleepViewModel.getSleep(todayDate)
     }
 
 

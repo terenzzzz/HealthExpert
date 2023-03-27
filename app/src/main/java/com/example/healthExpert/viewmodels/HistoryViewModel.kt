@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
-import com.example.healthExpert.model.CaloriesOverall
-import com.example.healthExpert.model.TrainingOverall
-import com.example.healthExpert.model.WalksOverall
-import com.example.healthExpert.model.WaterOverall
+import com.example.healthExpert.model.*
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +19,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     private val walkRepository = WalkRepository()
     private val watersRepository = WatersRepository()
     private val trainingsRepository = TrainingsRepository()
+    private val sleepRepository = SleepRepository()
 
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
     fun getCaloriesOverall(date:String){
@@ -64,6 +62,17 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
 
             // Refresh UI Update data
             trainingAll.postValue(updatedData)
+        }
+    }
+
+    var sleep = MutableLiveData<Sleep?>()
+    fun getSleep(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val updatedData = token?.let { sleepRepository.getSleep(it,date) }
+
+            // Refresh UI Update data
+            sleep.postValue(updatedData)
         }
     }
 

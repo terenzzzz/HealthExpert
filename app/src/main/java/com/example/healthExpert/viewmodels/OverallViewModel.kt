@@ -60,7 +60,6 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                Log.d("测试", "updateWalksOverall: 调用!!!!!!!!!!!!!!!")
                 walkRepository.updateWalksOverall(token,height,weight)
                 val updatedData = walkRepository.getWalksOverall(token,date)
                 // Refresh UI Update data
@@ -111,10 +110,10 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     }
 
     var sleep = MutableLiveData<Sleep?>()
-    fun getSleep(){
+    fun getSleep(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { sleepRepository.getSleep(it) }
+            val updatedData = token?.let { sleepRepository.getSleep(it,date) }
 
             // Refresh UI Update data
             sleep.postValue(updatedData)

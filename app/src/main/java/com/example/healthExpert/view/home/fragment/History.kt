@@ -91,6 +91,22 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             }
         })
 
+        historyViewModel.sleep.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                val startTime = DateTimeConvert().toDateTime(item.StartTime)
+                val endTime = DateTimeConvert().toDateTime(item.EndTime)
+                val duration = DateTimeConvert().toDecimalHours(startTime,endTime)
+                binding.sleepRing.setSweepValue(duration.toFloat().div(8F))
+                binding.sleepRing.setValueText("${(duration.toFloat()/8f).roundToInt()}%")
+                binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))
+                binding.sleepValue.text = "$duration Hours / 8.0 Hours"
+            }else{
+                SnackbarUtil.buildNetwork(binding.root)
+            }
+        })
+
     }
 
 
@@ -101,6 +117,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         historyViewModel.getWalksOverall(selectedDate)
         historyViewModel.getWatersOverall(selectedDate)
         historyViewModel.getTrainingOverall(selectedDate)
+        historyViewModel.getSleep(selectedDate)
     }
 
     override fun onCreateView(
@@ -168,6 +185,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         historyViewModel.getWalksOverall(selectedDate)
         historyViewModel.getWatersOverall(selectedDate)
         historyViewModel.getTrainingOverall(selectedDate)
+        historyViewModel.getSleep(selectedDate)
     }
 
     private fun goToActivity(activity: FragmentActivity, targetActivity: Class<out Activity>) {
