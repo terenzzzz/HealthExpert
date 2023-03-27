@@ -19,6 +19,8 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     private val sharedPreferences: SharedPreferences =
         fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
+    private val height = sharedPreferences.getFloat("height",0f)
+    private val weight = sharedPreferences.getFloat("weight",0f)
     private val caloriesRepository = CaloriesRepository()
     private val walkRepository = WalkRepository()
     private val watersRepository = WatersRepository()
@@ -57,11 +59,14 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
+            if (token != null) {
+                Log.d("测试", "updateWalksOverall: 调用!!!!!!!!!!!!!!!")
+                walkRepository.updateWalksOverall(token,height,weight)
+                val updatedData = walkRepository.getWalksOverall(token,date)
+                // Refresh UI Update data
+                walkAll.postValue(updatedData)
+            }
 
-            val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
-
-            // Refresh UI Update data
-            walkAll.postValue(updatedData)
         }
     }
 

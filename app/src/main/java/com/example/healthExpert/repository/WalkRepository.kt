@@ -93,10 +93,11 @@ class WalkRepository {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
+//                    Log.d("测试", "updateWalksOverall: 数据：${response}")
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("updateWalksOverall", "更新行走成功: $resStatus")
+                    Log.d("测试", "updateWalksOverall: 成功!!!!!!!!!!!!!!!")
                     response.close()
                 }
             }

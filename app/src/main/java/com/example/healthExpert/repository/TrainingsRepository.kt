@@ -56,7 +56,7 @@ class TrainingsRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status?:-1
-                    Log.w("TrainingsRepository", "更新TrainingOverall")
+                    Log.w("测试", "更新TrainingOverall")
                     response.close()
                 }
             }

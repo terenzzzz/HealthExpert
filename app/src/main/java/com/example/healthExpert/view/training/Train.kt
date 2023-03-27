@@ -29,6 +29,7 @@ import java.util.*
 class Train : TrainingsCompatActivity() {
     private lateinit var binding: ActivityTrainBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var ring: Ring
     private var todayDate = DateTimeConvert().toDate(Date())
 
@@ -81,9 +82,12 @@ class Train : TrainingsCompatActivity() {
             binding.settingBtn.visibility = View.GONE
         }
 
-
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
+
 
         binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
             TrainSetting.startFn(this)

@@ -49,6 +49,7 @@ class Water : WatersCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
+                Log.d("测试", "watersAll: ${item.Total}")
                 binding.rate.text = "${item.Total.div(80)} %"
             }else{
                 SnackbarUtil.buildNetwork(binding.root)
@@ -170,8 +171,6 @@ class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.exampl
                 activity.startActivity(intent)
             })
         }
-
-
         if (waterSet.value != null){
             if (waterSet.value!![position] != null){
                 when(waterSet.value!![position].Type){
