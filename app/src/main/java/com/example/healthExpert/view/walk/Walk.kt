@@ -90,7 +90,7 @@ class Walk : WalkCompatActivity() {
 
         walkViewModel.walkSteps.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
-            if (list != null){
+            if (list != null && list.size>0){
                 val entries: MutableList<BarEntry> = ArrayList()
                 val map = mutableMapOf<String, Int>()
                 for (ws in list){
@@ -102,7 +102,6 @@ class Walk : WalkCompatActivity() {
                     }
 
                 }
-                Log.d("Walk", map.toString())
 
                 for (i in 0..23) {
                     for ((key, value) in map) {
@@ -114,8 +113,6 @@ class Walk : WalkCompatActivity() {
                     }
                 }
                 barChart.data = setBarchartData(entries)
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
         walkViewModel.updateWalksOverall()
@@ -142,6 +139,9 @@ class Walk : WalkCompatActivity() {
         val barChart = view.findViewById<BarChart>(R.id.walkChart)
         // Init data
         val entries: MutableList<BarEntry> = ArrayList()
+        for (i in 0..23) {
+            entries.add(BarEntry(i.toFloat(), 0f))
+        }
         // Set data
         val data = setBarchartData(entries)
         // Set the x-axis labels
@@ -150,7 +150,6 @@ class Walk : WalkCompatActivity() {
         // Set the y-axis labels
         val yAxis = barChart.axisLeft
         // 设置
-
         barChart.data = data; // set the data and list of lables into chart
         barChart.description.isEnabled = false;
         // disable pinch zoom on the chart
