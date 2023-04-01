@@ -1,2 +1,0 @@
-ninja: Entering directory `/Users/chichungcheung/Desktop/HealthExpert/opencv/.cxx/Debug/635zb335/x86'
-ninja: no work to do.
