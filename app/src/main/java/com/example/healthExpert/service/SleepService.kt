@@ -25,7 +25,7 @@ import kotlin.math.abs
 
 class SleepService:LifecycleService() {
     private val CHANNEL_ID = "sleep notification channel id"
-    private var startTime = DateTimeConvert().toDateTime(Date())
+    private var startTime = DateTimeConvert.toDateTime(Date())
 
     private lateinit var timerHandler: Handler
     private lateinit var timerRunnable: Runnable
@@ -196,7 +196,7 @@ class SleepService:LifecycleService() {
             override fun run() {
                 // Execute your code here
 
-                val timeDifference = DateTimeConvert().subTimes(startTime,DateTimeConvert().toDateTime(Date()))
+                val timeDifference = DateTimeConvert.subTimes(startTime,DateTimeConvert.toDateTime(Date()))
 
 
                 val intent = Intent("timer_update")

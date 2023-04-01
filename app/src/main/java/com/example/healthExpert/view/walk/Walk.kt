@@ -33,7 +33,7 @@ class Walk : WalkCompatActivity() {
     private lateinit var binding: ActivityWalkBinding
     private lateinit var ring: Ring
     private lateinit var barChart: BarChart
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
 
 
     companion object {

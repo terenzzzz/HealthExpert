@@ -13,8 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityHomeBinding
-import com.example.healthExpert.service.LocationService
 import com.example.healthExpert.service.StepService
+import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.healthExpert.view.home.fragment.History
@@ -24,6 +24,8 @@ import com.example.healthExpert.view.home.fragment.Sources
 import com.example.healthExpert.view.setting.InitSetting
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Home : UserCompatActivity() {
@@ -48,13 +50,13 @@ class Home : UserCompatActivity() {
                     InitSetting.startFn(this)
                 }
 
-
                 // Update the UI
                 if (item.Gender == "Male"){
                     binding.avatar.setImageResource(R.drawable.avatar)
                 }else{
                     binding.avatar.setImageResource(R.drawable.hannah)
                 }
+                binding.dateTime.text = DateTimeConvert.toDate(Date())
                 binding.greating.text = "Hi, ${item.Name}"
                 val sharedPreferences = getSharedPreferences("healthy_expert", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
@@ -63,12 +65,10 @@ class Home : UserCompatActivity() {
                 editor.apply()
             }
         })
-        userViewModel.getUserInfo()
 
         Log.w("Home", "onCreate: ")
         binding = ActivityHomeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
-        binding.userViewmodel = userViewModel
         setContentView(binding.root)
         initPage()
 

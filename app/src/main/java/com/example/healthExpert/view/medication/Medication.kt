@@ -36,7 +36,7 @@ class Medication : MedicationsCompatActivity() {
     private lateinit var binding: ActivityMedicationBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
     private var manager: NotificationManager? = null
 
     companion object {
@@ -130,7 +130,7 @@ class MedicationsAdapter(private val medicationsSet: MutableLiveData<MutableList
                 medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"0")
             }
         })
-        holder.time.text = DateTimeConvert().toHHmm(medicationsSet.value!![position].Date)
+        holder.time.text = DateTimeConvert.toHHmm(medicationsSet.value!![position].Date)
         holder.name.text = medicationsSet.value!![position].Name
         holder.dose.text = medicationsSet.value!![position].Dose.toString()
 

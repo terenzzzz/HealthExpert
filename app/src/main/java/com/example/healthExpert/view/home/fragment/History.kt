@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 
 class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
     private lateinit var binding: FragmentHistoryBinding
-    private var selectedDate = DateTimeConvert().toDate(Date())
+    private var selectedDate = DateTimeConvert.toDate(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("History", "onCreate: ")
@@ -95,9 +95,9 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                val startTime = DateTimeConvert().toDateTime(item.StartTime)
-                val endTime = DateTimeConvert().toDateTime(item.EndTime)
-                val duration = DateTimeConvert().toDecimalHours(startTime,endTime)
+                val startTime = DateTimeConvert.toDateTime(item.StartTime)
+                val endTime = DateTimeConvert.toDateTime(item.EndTime)
+                val duration = DateTimeConvert.toDecimalHours(startTime,endTime)
                 binding.sleepRing.setSweepValue(duration.toFloat().div(8F))
                 binding.sleepRing.setValueText("${(duration.toFloat()/8f).roundToInt()}%")
                 binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))

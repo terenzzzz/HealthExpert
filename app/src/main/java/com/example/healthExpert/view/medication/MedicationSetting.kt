@@ -106,8 +106,8 @@ class MedicationSettingAdapter(private val medicationsSet: MutableLiveData<Mutab
             activity.startActivity(intent)
 
         })
-        holder.date.text = DateTimeConvert().toDate(medicationsSet.value!![position].Date)
-        holder.time.text = DateTimeConvert().toHHmm(medicationsSet.value!![position].Date)
+        holder.date.text = DateTimeConvert.toDate(medicationsSet.value!![position].Date)
+        holder.time.text = DateTimeConvert.toHHmm(medicationsSet.value!![position].Date)
         holder.name.text = medicationsSet.value!![position].Name
         holder.dose.text = medicationsSet.value!![position].Dose.toString()
 

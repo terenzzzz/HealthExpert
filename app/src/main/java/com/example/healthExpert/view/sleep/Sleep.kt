@@ -16,7 +16,7 @@ import java.util.*
 
 class Sleep : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepBinding
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
     var mode = "edit"
 
     companion object {
@@ -79,17 +79,17 @@ class Sleep : SleepCompatActivity() {
         sleepViewModel.sleep.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
-                binding.date.text = DateTimeConvert().toDate(item.StartTime)
-                binding.startTime.text = DateTimeConvert().toHHmm(item.StartTime)
-                binding.endTime.text = DateTimeConvert().toHHmm(item.EndTime)
-                binding.startDate.text = DateTimeConvert().toDate(item.StartTime)
-                binding.endDate.text = DateTimeConvert().toDate(item.EndTime)
+                binding.date.text = DateTimeConvert.toDate(item.StartTime)
+                binding.startTime.text = DateTimeConvert.toHHmm(item.StartTime)
+                binding.endTime.text = DateTimeConvert.toHHmm(item.EndTime)
+                binding.startDate.text = DateTimeConvert.toDate(item.StartTime)
+                binding.endDate.text = DateTimeConvert.toDate(item.EndTime)
                 binding.humidityValue.text =  String.format("%.2f", item.Humidity)
                 binding.temperatureValue.text = String.format("%.2f", item.Temperature)
                 binding.pressureValue.text = String.format("%.2f", item.Pressure)
                 binding.lightValue.text = String.format("%.2f", item.Light)
-                binding.durationValue.text = DateTimeConvert().subTimes(DateTimeConvert().toDateTime(item.StartTime),
-                    DateTimeConvert().toDateTime(item.EndTime))
+                binding.durationValue.text = DateTimeConvert.subTimes(DateTimeConvert.toDateTime(item.StartTime),
+                    DateTimeConvert.toDateTime(item.EndTime))
             }else{
                 SnackbarUtil.buildNetwork(binding.root)
             }

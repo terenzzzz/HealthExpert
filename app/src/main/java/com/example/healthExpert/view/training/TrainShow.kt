@@ -58,9 +58,9 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
         trainingsViewModel.trainingInfo.observe(this) { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                val startTime = DateTimeConvert().toDateTime(item[0].StartTime);
-                val endTime = DateTimeConvert().toDateTime(item[0].EndTime);
-                binding.duration.text = "${DateTimeConvert().toDecimalHours(startTime,endTime)} h"
+                val startTime = DateTimeConvert.toDateTime(item[0].StartTime);
+                val endTime = DateTimeConvert.toDateTime(item[0].EndTime);
+                binding.duration.text = "${DateTimeConvert.toDecimalHours(startTime,endTime)} h"
                 binding.title.text = item[0].Title
                 binding.speed.text = "${item[0].Speed} km/h"
                 binding.distance.text = "${item[0].Distance} km"

@@ -34,7 +34,7 @@ import java.util.*
 
 class Overall : OverallCompatFragment() {
     private lateinit var binding: FragmentOverallBinding
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +98,7 @@ class Overall : OverallCompatFragment() {
                 // send time to service to pending notification
                 for (item in list){
                     val intent = Intent("medication")
-                    intent.putExtra("time", DateTimeConvert().toTime(item.Date))
+                    intent.putExtra("time", DateTimeConvert.toTime(item.Date))
                     activity?.sendBroadcast(intent)
                 }
                 // Update the UI
@@ -106,7 +106,7 @@ class Overall : OverallCompatFragment() {
                     binding.medicalNotice.visibility = View.VISIBLE
                     binding.medicationName.text = list[0].Name
                     binding.medicationDose.text = "${list[0].Dose} g"
-                    binding.medicationTime.text = DateTimeConvert().toHHmm(list[0].Date)
+                    binding.medicationTime.text = DateTimeConvert.toHHmm(list[0].Date)
                     when(list[0].Type){
                         "Capsule" -> binding.medicalType.setImageResource(R.drawable.capsule)
                         "Tablet" -> binding.medicalType.setImageResource(R.drawable.drug)
@@ -126,9 +126,9 @@ class Overall : OverallCompatFragment() {
                 // Update the UI
                 // Sleep set up
                 sleepSetUp(binding.root)
-                binding.sleepValue.text = DateTimeConvert().toDecimalHours(
-                    DateTimeConvert().toDateTime(item.StartTime),
-                    DateTimeConvert().toDateTime(item.EndTime)
+                binding.sleepValue.text = DateTimeConvert.toDecimalHours(
+                    DateTimeConvert.toDateTime(item.StartTime),
+                    DateTimeConvert.toDateTime(item.EndTime)
                 )
             }
         })
@@ -137,6 +137,7 @@ class Overall : OverallCompatFragment() {
 
     override fun onResume() {
         super.onResume()
+        todayDate = DateTimeConvert.toDate(Date())
         // Heart Set Up
         heartSetUp(binding.root)
         overallViewModel.getUserInfo()

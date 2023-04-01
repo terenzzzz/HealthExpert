@@ -27,7 +27,7 @@ class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
     var mode = "edit"
 
     companion object {

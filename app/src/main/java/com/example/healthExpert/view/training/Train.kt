@@ -31,7 +31,7 @@ class Train : TrainingsCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var ring: Ring
-    private var todayDate = DateTimeConvert().toDate(Date())
+    private var todayDate = DateTimeConvert.toDate(Date())
 
 
     companion object {

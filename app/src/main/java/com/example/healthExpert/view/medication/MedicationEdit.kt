@@ -45,8 +45,8 @@ class MedicationEdit : MedicationsCompatActivity() {
                 setTypeDefault(item.Type)
                 binding.etName.hint = item.Name
                 binding.etDose.hint = item.Dose.toString()
-                binding.etDate.hint = DateTimeConvert().toDate(item.Date)
-                binding.etTime.hint = DateTimeConvert().toHHmm(item.Date)
+                binding.etDate.hint = DateTimeConvert.toDate(item.Date)
+                binding.etTime.hint = DateTimeConvert.toHHmm(item.Date)
 
             }
         })
@@ -86,11 +86,11 @@ class MedicationEdit : MedicationsCompatActivity() {
                 medicationsViewModel.editMedicationDose(id,dose)
             }
             if (date!=""){
-                val time = DateTimeConvert().toTime(medicationsViewModel.medication.value?.Date!!)
+                val time = DateTimeConvert.toTime(medicationsViewModel.medication.value?.Date!!)
                 medicationsViewModel.editMedicationDate(id,"$date $time")
             }
             if (time!=""){
-                val date = DateTimeConvert().toDate(medicationsViewModel.medication.value?.Date!!)
+                val date = DateTimeConvert.toDate(medicationsViewModel.medication.value?.Date!!)
                 medicationsViewModel.editMedicationDate(id,"$date $time")
             }
 

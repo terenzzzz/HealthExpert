@@ -47,8 +47,8 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     }
 
     fun updateSpeed(newDistance:Float,lastTimer:String,timer: String){
-        val lastTime = DateTimeConvert().HHmmsstoSeconds(lastTimer)
-        val time = DateTimeConvert().HHmmsstoSeconds(timer)
+        val lastTime = DateTimeConvert.HHmmsstoSeconds(lastTimer)
+        val time = DateTimeConvert.HHmmsstoSeconds(timer)
         val timeDiff = time - lastTime
 
         // 如果时间差小于等于 0，将速度设置为 0

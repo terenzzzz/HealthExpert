@@ -33,7 +33,7 @@ class LocationService : LifecycleService() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-    private var startTime = DateTimeConvert().toDateTime(Date())
+    private var startTime = DateTimeConvert.toDateTime(Date())
     private lateinit var timerHandler: Handler
     private lateinit var timerRunnable: Runnable
 
@@ -102,8 +102,8 @@ class LocationService : LifecycleService() {
         timerRunnable = object : Runnable {
             override fun run() {
                 // Execute your code here
-                val timeDifference = DateTimeConvert().subTimes(startTime,
-                    DateTimeConvert().toDateTime(Date()))
+                val timeDifference = DateTimeConvert.subTimes(startTime,
+                    DateTimeConvert.toDateTime(Date()))
 
                 val intent = Intent("timer_update")
                 intent.putExtra("currentTime", timeDifference)
