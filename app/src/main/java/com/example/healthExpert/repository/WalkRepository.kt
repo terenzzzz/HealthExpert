@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.healthExpert.model.WalkStep
 import com.example.healthExpert.model.WalksOverall
 import com.example.healthExpert.parse.BaseParse
+import com.example.healthExpert.parse.CaloriesOverallParse
 import com.example.healthExpert.parse.WalkStepsParse
 import com.example.healthExpert.parse.WalksOverallParse
 import com.google.gson.Gson
@@ -16,8 +17,8 @@ class WalkRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getWalksOverall(token:String,date:String): WalksOverall? {
-        var walk: WalksOverall? = null
+    fun getWalksOverall(token:String,date:String): WalksOverallParse {
+        var parsed = WalksOverallParse()
         val request = Request.Builder()
             .url("$url/walksOverall?date=$date")
             .addHeader("Authorization",token)
@@ -27,19 +28,13 @@ class WalkRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: WalksOverallParse =
-                    gson.fromJson(response.body!!.string(), WalksOverallParse::class.java)
-                if (parsed.data != null) {
-                    //                Log.d("getWalks", parsed.data.toString())
-                    walk = parsed.data!!
-                }
-                Log.w("getWalks", "当天行走信息: $walk")
+                parsed = gson.fromJson(response.body!!.string(), WalksOverallParse::class.java)
                 response.close()
             }
         }catch (e: IOException){
-            walk = null
+
         }
-        return walk
+        return parsed
     }
 
     fun getWalkStep(token:String,date: String): MutableList<WalkStep>? {

@@ -1,7 +1,6 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,6 @@ import com.example.healthExpert.model.*
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
 
@@ -47,10 +45,15 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                caloriesRepository.updateCaloriesOverall(token)
+                caloriesRepository.updateCaloriesOverall(token) { resStatus ->
+                    if (resStatus == 200) {
+
+                    } else {
+                    }
+                }
                 val updatedData = caloriesRepository.getCaloriesOverall(token,date)
                 // Refresh UI Update data
-                caloriesAll.postValue(updatedData)
+                caloriesAll.postValue(updatedData.data)
             }
         }
     }
@@ -63,7 +66,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
                 walkRepository.updateWalksOverall(token,height,weight)
                 val updatedData = walkRepository.getWalksOverall(token,date)
                 // Refresh UI Update data
-                walkAll.postValue(updatedData)
+                walkAll.postValue(updatedData.data)
             }
 
         }

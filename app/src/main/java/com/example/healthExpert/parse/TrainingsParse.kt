@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class TrainingsParse (
-    var status: Int? = null,
+    var status: Int = -1,
     var message: String? = null,
     var data: List<Trainings>? = null
 )

@@ -99,7 +99,9 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
             val updatedData = token?.let { repository.getTrainings(it,date) }
 
             // Refresh UI Update data
-            trainings.postValue(updatedData)
+            if (updatedData != null) {
+                trainings.postValue(updatedData.data as MutableList<Trainings>?)
+            }
         }
     }
 

@@ -50,12 +50,20 @@ class Calories : CaloriesCompatActivity() {
         binding.lifecycleOwner = this
         binding.caloriesViewmodel = caloriesViewModel
         setContentView(binding.root)
+        ring = ringSetUp(binding.calories)
 
         recyclerView = findViewById (R.id.recycler_view)
         layoutManager = LinearLayoutManager(this)
         layoutManager.reverseLayout = true
         layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
+
+        caloriesViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
 
 
         caloriesViewModel.caloriesAll.observe(this, Observer { item ->
@@ -70,8 +78,6 @@ class Calories : CaloriesCompatActivity() {
                 if (rate != null) {
                     ring.setSweepValue(rate.toFloat())
                 }
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -79,8 +85,6 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 binding.activityValue.text = "- $item"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -92,8 +96,6 @@ class Calories : CaloriesCompatActivity() {
                 caloriesViewModel.updateCaloriesOverall()
                 recyclerView.adapter = CaloriesAdapter(caloriesViewModel.calories,this,mode)
                 caloriesViewModel.getCaloriesOverall(todayDate)
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

@@ -28,7 +28,9 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
             val updatedData = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
 
             // Refresh UI Update data
-            caloriesAll.postValue(updatedData)
+            if (updatedData != null) {
+                caloriesAll.postValue(updatedData.data)
+            }
         }
     }
 
@@ -39,7 +41,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
             val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
 
             // Refresh UI Update data
-            walkAll.postValue(updatedData)
+            walkAll.postValue(updatedData!!.data)
         }
     }
 

@@ -94,7 +94,7 @@ class MedicationRepository {
         return medications
     }
 
-    // 异步请求
+
     fun addMedication(token:String,type:String,name:String,dose:String,date:String):Int{
         var resStatus=-1
         val body = FormBody.Builder()

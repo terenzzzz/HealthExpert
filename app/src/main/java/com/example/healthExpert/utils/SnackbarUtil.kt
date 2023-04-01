@@ -10,6 +10,10 @@ class SnackbarUtil {
         fun buildNetwork(view:View){
             Snackbar.make(view, "Please Check Your Network", Snackbar.LENGTH_LONG).show()
         }
+
+        fun buildTesting(view:View,code:Int){
+            Snackbar.make(view, "Testing Status: $code", Snackbar.LENGTH_LONG).show()
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesEditBinding
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.utils.TimePickerFragment
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -25,6 +26,13 @@ class CaloriesEdit : CaloriesCompatActivity() {
         binding.lifecycleOwner = this
         binding.caloriesViewmodels = caloriesViewModel
         setContentView(binding.root)
+
+        caloriesViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                finish()
+            }
+        })
 
 
         val bundle = intent.extras

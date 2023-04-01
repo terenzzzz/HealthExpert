@@ -65,8 +65,8 @@ class TrainingsRepository {
     }
 
     // 同步请求
-    fun getTrainings(token:String,date: String): MutableList<Trainings>? {
-        var trainings: MutableList<Trainings>? = mutableListOf()
+    fun getTrainings(token:String,date: String): TrainingsParse {
+        var parsed = TrainingsParse()
         val request = Request.Builder()
             .url("$url/trainings?date=$date")
             .addHeader("Authorization",token)
@@ -76,20 +76,12 @@ class TrainingsRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: TrainingsParse = gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
-                Log.w("TrainingRepository", "message: " + parsed.message)
-                if (parsed.data != null){
-                    for (training in parsed.data!!){
-                        trainings!!.add(training)
-                    }
-                }
+                parsed= gson.fromJson(response.body!!.string(), TrainingsParse::class.java)
                 response.close()
             }
         }catch (e:IOException){
-            trainings = null
         }
-
-        return trainings
+        return parsed
     }
 
     // 同步请求

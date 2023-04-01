@@ -1,8 +1,6 @@
 package com.example.healthExpert.repository
 
 import android.util.Log
-import com.example.healthExpert.model.Calories
-import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.CaloriesOverallParse
 import com.example.healthExpert.parse.CaloriesParse
@@ -16,32 +14,27 @@ class CaloriesRepository {
 
 
     // 同步请求
-    fun getCaloriesOverall(token:String,date:String): CaloriesOverall? {
-        var caloriesOverall: CaloriesOverall? = null
+    fun getCaloriesOverall(token:String,date:String): CaloriesOverallParse {
+        var parsed = CaloriesOverallParse()
         val request = Request.Builder()
             .url("$url/caloriesOverall?date=$date")
             .addHeader("Authorization",token)
             .get()
             .build()
-
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: CaloriesOverallParse = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
-                Log.w("getCaloriesOverall", "getCaloriesOverall调用1")
-                if (parsed.data != null){
-                    caloriesOverall = parsed.data!!
-                }
+                parsed = gson.fromJson(response.body!!.string(), CaloriesOverallParse::class.java)
                 response.close()
             }
         } catch (e:IOException){
-            caloriesOverall = null
+
         }
-        return caloriesOverall
+        return parsed
     }
 
     // 异步请求
-    fun updateCaloriesOverall(token:String):Int{
+    fun updateCaloriesOverall(token: String, param: (Any) -> Unit):Int{
         var resStatus=-1
         val body = FormBody.Builder().build()
 
@@ -72,8 +65,8 @@ class CaloriesRepository {
 
 
     // 同步请求
-    fun getCalories(token:String,date: String): MutableList<Calories>? {
-        var calories: MutableList<Calories>? = mutableListOf()
+    fun getCalories(token:String,date: String): CaloriesParse {
+        var parsed = CaloriesParse()
         val request = Request.Builder()
             .url("$url/calories?date=$date")
             .addHeader("Authorization",token)
@@ -83,45 +76,42 @@ class CaloriesRepository {
         try{
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: CaloriesParse = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
-                Log.w("CaloriesRepository", "message: " + parsed.message)
-                if (parsed.data != null){
-                    for (caloriesInfo in parsed.data!!){
-                        calories!!.add(caloriesInfo)
-                    }
-                }
+                parsed = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
                 response.close()
             }
-        }catch (e:IOException){
-            calories = null
-        }
+        }catch (e:IOException){ }
 
-        return calories
+        return parsed
     }
 
     // 同步请求
-    fun getCaloriesInfo(token:String,id:Int): Calories? {
-        var calories = Calories()
+    fun getCaloriesInfo(token:String,id:Int): CaloriesParse {
+        var parsed = CaloriesParse()
         val request = Request.Builder()
             .url("$url/caloriesInfo?id=$id")
             .addHeader("Authorization",token)
             .get()
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: CaloriesParse = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
-            Log.w("getCaloriesInfo", "message: " + parsed.message)
-            if (parsed.data != null){
-                calories = parsed.data!![0]
+        try{
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                parsed = gson.fromJson(response.body!!.string(), CaloriesParse::class.java)
+                response.close()
             }
-            response.close()
-        }
-        return calories
+        }catch (e:IOException){ }
+        return parsed
     }
 
     // 异步请求
-    fun addCalories(token:String,type:String,title:String,content:String,calories:Int,time:String):Int{
+    fun addCalories(
+        token: String,
+        type: String,
+        title: String,
+        content: String,
+        calories: Int,
+        time: String,
+        param: (Any) -> Unit
+    ):Int{
         var resStatus=-1
         val body = FormBody.Builder()
             .add("type", type)
@@ -155,7 +145,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun editCaloriesType(token:String,id: Int,type: String):Int {
+    fun editCaloriesType(token: String, id: Int, type: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -178,7 +168,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun editCaloriesTitle(token:String,id: Int,title: String):Int {
+    fun editCaloriesTitle(token: String, id: Int, title: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -201,7 +191,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun editCaloriesContent(token:String,id: Int,content: String):Int {
+    fun editCaloriesContent(token: String, id: Int, content: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -224,7 +214,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun editCaloriesCalories(token:String,id: Int,calories: String):Int {
+    fun editCaloriesCalories(token: String, id: Int, calories: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -247,7 +237,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun editCaloriesTime(token:String,id: Int,time: String):Int {
+    fun editCaloriesTime(token: String, id: Int, time: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -270,7 +260,7 @@ class CaloriesRepository {
         return resStatus
     }
 
-    fun deleteCalories(token:String,id: Int):Int {
+    fun deleteCalories(token: String, id: Int, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
