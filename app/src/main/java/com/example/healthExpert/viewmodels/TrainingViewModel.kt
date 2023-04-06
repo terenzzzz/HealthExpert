@@ -103,11 +103,14 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     fun getTrainings(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getTrainings(it,date) }
+            val trainingOverallParse = token?.let { repository.getTrainings(it,date) }
 
             // Refresh UI Update data
-            if (updatedData != null) {
-                trainings.postValue(updatedData.data as MutableList<Trainings>?)
+            if (trainingOverallParse != null) {
+                if (trainingOverallParse.status != 200){
+                    requestStatus.postValue(trainingOverallParse.status)
+                }
+                trainings.postValue(trainingOverallParse.data as MutableList<Trainings>?)
             }
         }
     }

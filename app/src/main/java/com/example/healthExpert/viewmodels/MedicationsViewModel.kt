@@ -29,6 +29,7 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             val medicationsParse = token?.let { repository.medications(it,date) }
+            Log.d("测试", "medication: ${medicationsParse!!.status}")
             // Refresh UI Update data
             if (medicationsParse != null) {
                 if (medicationsParse.status != 200){
@@ -42,10 +43,15 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
     fun medication(id:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.medication(token,id) }
+            val medicationsParse = token?.let { repository.medication(token,id) }
 
             // Refresh UI Update data
-            medication.postValue(updatedData)
+            if (medicationsParse != null) {
+                if (medicationsParse.status != 200){
+                    requestStatus.postValue(medicationsParse.status)
+                }
+                medication.postValue(medicationsParse.data?.get(0))
+            }
         }
     }
 

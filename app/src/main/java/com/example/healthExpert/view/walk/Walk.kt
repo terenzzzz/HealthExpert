@@ -59,6 +59,13 @@ class Walk : WalkCompatActivity() {
             binding.settingBtn.visibility = View.GONE
         }
 
+        walkViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
 
         ring = ringSetUp(binding.calories)
         barChart = walkChart(binding.walkChart)

@@ -9,5 +9,5 @@ data class User(var idUser: Int = -1,
                 var Height: Float = 0f,
                 var Weight: Float = 0f,
                 var Bmi: Float = 0f,
-                var BodyFactRate: Float = 0f,
+                var BodyFatRate: Float = 0f,
 )

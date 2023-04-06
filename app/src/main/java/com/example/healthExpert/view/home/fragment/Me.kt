@@ -33,7 +33,6 @@ class Me : Fragment() {
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         binding.userViewModel = userViewModel
         binding.lifecycleOwner = this
-        userViewModel.getUserInfo()
         val view = binding.root
 
         userViewModel.user.observe(requireActivity(), Observer { item ->
@@ -57,5 +56,10 @@ class Me : Fragment() {
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.getUserInfo()
     }
 }

@@ -33,8 +33,8 @@ class MedicationRepository {
     }
 
     // 同步请求
-    fun medication(token:String, id:String): Medication? {
-        var medication : Medication? = null
+    fun medication(token:String, id:String): MedicationsParse? {
+        var parsed  = MedicationsParse()
         val request = Request.Builder()
             .url("$url/medication?id=$id")
             .addHeader("Authorization",token)
@@ -43,17 +43,12 @@ class MedicationRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
-                if (parsed.data != null){
-                    medication = parsed.data!![0]
-                }
-                Log.d("药物", medication.toString())
+                parsed = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
                 response.close()
             }
         }catch (e: IOException){
-            medication = null
         }
-        return medication
+        return parsed
     }
 
     // 同步请求

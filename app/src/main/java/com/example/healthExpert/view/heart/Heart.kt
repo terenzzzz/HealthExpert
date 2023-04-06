@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.heart
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -25,6 +26,7 @@ class Heart : AppCompatActivity() {
             val intent =
                 Intent(context, Heart::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -41,7 +43,7 @@ class Heart : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
 

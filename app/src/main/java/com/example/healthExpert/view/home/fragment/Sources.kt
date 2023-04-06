@@ -41,28 +41,37 @@ class Sources : SourcesCompatFragment() {
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
+        sourcesViewModel.getNews()
+
+        sourcesViewModel.requestStatus.observe(viewLifecycleOwner, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
         sourcesViewModel.news.observe(viewLifecycleOwner, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
-                recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.requireContext())
+                recyclerView.adapter = SourcesAdapter(sourcesViewModel.news,this.requireContext(),
+                    sourcesViewModel.requestStatus.value,binding.root,requireActivity())
             }
         })
-
-
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        sourcesViewModel.getNews()
+
     }
 }
 
 
 
 // RecycleView Adapter
-class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>, private val activity: Context)
+class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>, private val activity: Context, private val status:Int?,
+                     private val view:View,private val requiredActivity:Activity)
     : RecyclerView.Adapter<SourcesAdapter.ViewHolder>(){
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -80,20 +89,25 @@ class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.setOnClickListener(View.OnClickListener {
-            Log.d("holder", sourcesSet.value?.get(position)?.id.toString())
-            val intent = Intent(activity, NewActivity::class.java)
-            val bundle = Bundle()
-            bundle.putInt("id", sourcesSet.value!![position].id)
-            bundle.putString("title", sourcesSet.value!![position].Title)
-            bundle.putString("content", sourcesSet.value!![position].Content)
-            bundle.putString("date", sourcesSet.value!![position].Date.toString())
-            bundle.putString("author", sourcesSet.value!![position].Author)
-            bundle.putString("image", sourcesSet.value!![position].Image)
-            intent.putExtras(bundle)
-            activity.startActivity(intent)
+        if (status!=null){
+            SnackbarUtil.buildTesting(view,status)
+        }else{
+            holder.itemView.setOnClickListener{
+                Log.d("holder", sourcesSet.value?.get(position)?.id.toString())
+                val intent = Intent(activity, NewActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt("id", sourcesSet.value!![position].id)
+                bundle.putString("title", sourcesSet.value!![position].Title)
+                bundle.putString("content", sourcesSet.value!![position].Content)
+                bundle.putString("date", sourcesSet.value!![position].Date.toString())
+                bundle.putString("author", sourcesSet.value!![position].Author)
+                bundle.putString("image", sourcesSet.value!![position].Image)
+                intent.putExtras(bundle)
+                activity.startActivity(intent)
+                requiredActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        }
 
-        })
         Picasso.get().load(sourcesSet.value?.get(position)?.Image).into(holder.image);
         holder.title.text = sourcesSet.value?.get(position)?.Title ?: ""
         holder.date.text = SimpleDateFormat("YYYY-mm-dd").format(sourcesSet.value?.get(position)?.Date)

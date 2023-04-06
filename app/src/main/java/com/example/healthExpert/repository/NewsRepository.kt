@@ -15,8 +15,8 @@ class NewsRepository {
     private val url = "http://terenzzzz.com:88/api"
 
     // 同步请求
-    fun getNews(): MutableList<News>? {
-        var news: MutableList<News>? = mutableListOf()
+    fun getNews(): NewsParse {
+        var parsed = NewsParse()
         val request = Request.Builder()
             .url("$url/news")
             .get()
@@ -25,19 +25,13 @@ class NewsRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: NewsParse = gson.fromJson(response.body!!.string(), NewsParse::class.java)
-                if (parsed.data != null){
-                    for (newsInfo in parsed.data!!){
-                        news!!.add(newsInfo)
-                    }
-                }
+                parsed = gson.fromJson(response.body!!.string(), NewsParse::class.java)
                 response.close()
             }
         }catch (o: IOException){
-            news = null
         }
 
-        return news
+        return parsed
     }
 
     // 同步请求

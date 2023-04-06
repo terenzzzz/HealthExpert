@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = WalkRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -29,20 +31,30 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
     fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWalksOverall(it,date) }
-
-//            // Refresh UI Update data
-            walkAll.postValue(updatedData!!.data)
+            if (token != null) {
+                repository.updateWalksOverall(token,height,weight)
+                val walksOverallParse = repository.getWalksOverall(token,date)
+                // Refresh UI Update data
+                if (walksOverallParse != null) {
+                    if (walksOverallParse.status != 200){
+                        requestStatus.postValue(walksOverallParse.status)
+                    }
+                    walkAll.postValue(walksOverallParse.data)
+                }
+            }
         }
     }
 
     fun getWalkSteps(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWalkStep(it,date) }
-
-            // Refresh UI Update data
-            walkSteps.postValue(updatedData)
+            val walkStepsParse = token?.let { repository.getWalkStep(it,date) }
+            if (walkStepsParse != null) {
+                if (walkStepsParse.status != 200){
+                    requestStatus.postValue(walkStepsParse.status)
+                }
+                walkSteps.postValue(walkStepsParse.data as MutableList<WalkStep>?)
+            }
         }
     }
 

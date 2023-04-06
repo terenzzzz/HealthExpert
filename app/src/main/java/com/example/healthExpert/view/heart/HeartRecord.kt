@@ -15,6 +15,7 @@ import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHeartRecordBinding
@@ -75,7 +76,10 @@ class HeartRecord : AppCompatActivity() {
 
         }
 
-
+        binding.backBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
 
     }
 

@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SourcesViewModel(private val fragment: Fragment) : ViewModel()  {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = NewsRepository()
     var news = MutableLiveData<MutableList<News>?>()
     var newInfo = MutableLiveData<MutableList<News>?>()
@@ -22,10 +24,16 @@ class SourcesViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getNews(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = repository.getNews()
+            val newsParse = repository.getNews()
 
             // Refresh UI Update data
-            news.postValue(updatedData)
+            if (newsParse != null) {
+                if (newsParse.status != 200){
+                    requestStatus.postValue(newsParse.status)
+                }
+                news.postValue(newsParse.data as MutableList<News>?)
+            }
+
         }
     }
 

@@ -17,7 +17,6 @@ import java.util.*
 
 class NewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewBinding
-    private lateinit var recyclerView: RecyclerView
     private var id = -1
     private var title = ""
     private var content = ""

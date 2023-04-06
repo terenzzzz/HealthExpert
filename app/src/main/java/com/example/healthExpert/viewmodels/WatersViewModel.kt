@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
+    var requestStatus = MutableLiveData<Int>()
     private val repository = WatersRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -27,10 +28,17 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWaterOverall(it,date) }
-
-            // Refresh UI Update data
-            watersAll.postValue(updatedData!!.data)
+            if (token != null) {
+                repository.updateWaterOverall(token)
+                val waterOverallParse =repository.getWaterOverall(token,date)
+                // Refresh UI Update data
+                if (waterOverallParse != null) {
+                    if (waterOverallParse.status != 200){
+                        requestStatus.postValue(waterOverallParse.status)
+                    }
+                    watersAll.postValue(waterOverallParse.data)
+                }
+            }
         }
     }
 
@@ -47,21 +55,30 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
     fun getWaters(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getWaters(it,date) }
+            val waterParse = token?.let { repository.getWaters(it,date) }
 
             // Refresh UI Update data
-            waters.postValue(updatedData)
+            if (waterParse != null) {
+                if (waterParse.status != 200){
+                    requestStatus.postValue(waterParse.status)
+                }
+                waters.postValue(waterParse.data as MutableList<Water>?)
+            }
         }
     }
 
     fun getWatersInfo(id:Int){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            Log.w("Calories", "Called: getCaloriesInfo")
-            val updatedData = token?.let { repository.getWatersInfo(it,id) }
+            val waterParse = token?.let { repository.getWatersInfo(it,id) }
 
             // Refresh UI Update data
-            watersInfo.postValue(updatedData)
+            if (waterParse != null) {
+                if (waterParse.status != 200){
+                    requestStatus.postValue(waterParse.status)
+                }
+                watersInfo.postValue(waterParse.data as MutableList<Water>?)
+            }
         }
     }
 

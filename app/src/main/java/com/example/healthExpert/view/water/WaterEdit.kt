@@ -29,6 +29,36 @@ class WaterEdit : WatersCompatActivity() {
         binding.watersViewmodel = watersViewModel
         setContentView(binding.root)
 
+        watersViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
+        val bundle = intent.extras
+        if (bundle != null) {
+            id = bundle.getInt("id")
+            watersViewModel.getWatersInfo(id)
+        }
+
+        watersViewModel.watersInfo.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                when(watersViewModel.watersInfo.value?.get(0)?.Type){
+                    "Coffee" -> setSelectedCard("Coffee",binding.cardA)
+                    "EnergyDrink" -> setSelectedCard("EnergyDrink",binding.cardB)
+                    "Water" -> setSelectedCard("Water",binding.cardC)
+                    "ColdDrink" -> setSelectedCard("ColdDrink",binding.cardD)
+                    "BubbleTea" -> setSelectedCard("BubbleTea",binding.cardE)
+                    "Beer" -> setSelectedCard("Beer",binding.cardF)
+                }
+            }else{
+                SnackbarUtil.buildNetwork(binding.root)
+            }
+        })
+
 
         // Todo: Need to change default border color
         binding.cardA.background = getDrawable(R.drawable.radius_btn_gray)
@@ -102,28 +132,6 @@ class WaterEdit : WatersCompatActivity() {
         Log.d("CaloriesEdit", "onResume: ")
         super.onResume()
 
-        val bundle = intent.extras
-        if (bundle != null) {
-            id = bundle.getInt("id")
-            watersViewModel.getWatersInfo(id)
-        }
-
-        watersViewModel.watersInfo.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                when(watersViewModel.watersInfo.value?.get(0)?.Type){
-                    "Coffee" -> setSelectedCard("Coffee",binding.cardA)
-                    "EnergyDrink" -> setSelectedCard("EnergyDrink",binding.cardB)
-                    "Water" -> setSelectedCard("Water",binding.cardC)
-                    "ColdDrink" -> setSelectedCard("ColdDrink",binding.cardD)
-                    "BubbleTea" -> setSelectedCard("BubbleTea",binding.cardE)
-                    "Beer" -> setSelectedCard("Beer",binding.cardF)
-                }
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
-            }
-        })
     }
 
     fun showTimePickerDialog(v: View) {

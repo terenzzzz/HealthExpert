@@ -37,7 +37,6 @@ class Medication : MedicationsCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private var todayDate = DateTimeConvert.toDate(Date())
-    private var manager: NotificationManager? = null
 
     companion object {
         fun startFn(context: Context) {
@@ -57,13 +56,18 @@ class Medication : MedicationsCompatActivity() {
         binding = ActivityMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        medicationsViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code!=null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
         medicationsViewModel.medications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
             if (list != null) {
                 // Update the UI
                 recyclerView.adapter = MedicationsAdapter(medicationsViewModel.medications,medicationsViewModel)
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -75,18 +79,11 @@ class Medication : MedicationsCompatActivity() {
             MedicationSetting.startFn(this)
         })
 
-
         binding.backBtn.setOnClickListener(View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
-
-
-        binding.notificationBtn.setOnClickListener(View.OnClickListener { view ->
-            Log.d("Medication", "notificationBtn: Clicked ")
-
-        })
     }
 
     override fun onResume() {

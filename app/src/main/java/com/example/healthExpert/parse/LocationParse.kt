@@ -3,7 +3,7 @@ package com.example.healthExpert.parse
 import com.google.gson.annotations.SerializedName
 
 class LocationParse {
-    var status: Int? = null
+    var status: Int = -1
     var message: String? = null
     var data: List<DataDTO>? = null
 

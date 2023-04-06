@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.sleep
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +25,7 @@ class Sleep : SleepCompatActivity() {
             val intent =
                 Intent(context, Sleep::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -31,6 +33,13 @@ class Sleep : SleepCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sleepViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
 
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
@@ -49,31 +58,31 @@ class Sleep : SleepCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
-        binding.humidityInfo.setOnClickListener (View.OnClickListener { view ->
+        binding.humidityInfo.setOnClickListener {
             val title = "Humidity Info"
             val message = "Medical research shows that the best humidity range for the human body is 45%-60%."
             AlertDialog().showDialog(this,title,message)
-        })
+        }
 
-        binding.temperatureInfo.setOnClickListener (View.OnClickListener { view ->
+        binding.temperatureInfo.setOnClickListener {
             val title = "Temperature Info"
             val message = "According to relevant research: when the bedroom temperature is 20-25℃, " +
                     "the human body feels the most comfortable."
             AlertDialog().showDialog(this,title,message)
-        })
+        }
 
-        binding.pressureInfo.setOnClickListener (View.OnClickListener { view ->
+        binding.pressureInfo.setOnClickListener {
             val title = "Pressure Info"
             val message = "People feel sleepy when air pressure is higher or lower than normal"
             AlertDialog().showDialog(this,title,message)
-        })
+        }
 
-        binding.lightInfo.setOnClickListener (View.OnClickListener { view ->
+        binding.lightInfo.setOnClickListener {
             val title = "Light Info"
             val message = "Light is a very strong signal. When it enters the eyes, it will interfere with the sleep mechanism in the brain, " +
                     "reduce the amount of melatonin secretion, and affect the depth and quality of sleep"
             AlertDialog().showDialog(this,title,message)
-        })
+        }
 
 //        sleepSetUp(binding.sleepChart)
         sleepViewModel.sleep.observe(this, Observer { item ->
@@ -90,8 +99,6 @@ class Sleep : SleepCompatActivity() {
                 binding.lightValue.text = String.format("%.2f", item.Light)
                 binding.durationValue.text = DateTimeConvert.subTimes(DateTimeConvert.toDateTime(item.StartTime),
                     DateTimeConvert.toDateTime(item.EndTime))
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

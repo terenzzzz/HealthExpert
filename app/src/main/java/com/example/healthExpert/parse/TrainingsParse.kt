@@ -4,8 +4,8 @@ import com.example.healthExpert.model.Trainings
 import com.google.gson.annotations.SerializedName
 
 
-data class TrainingsParse (
-    var status: Int = -1,
-    var message: String? = null,
+class TrainingsParse {
+    var status: Int = -1
+    var message: String? = null
     var data: List<Trainings>? = null
-)
+}

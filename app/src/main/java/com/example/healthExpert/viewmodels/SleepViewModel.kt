@@ -54,12 +54,6 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         }
     }
 
-
-
-
-
-
-
 }
 
 // Extends the ViewModelProvider.Factory allowing us to control the viewmodel creation

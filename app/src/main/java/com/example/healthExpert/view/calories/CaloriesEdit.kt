@@ -30,7 +30,7 @@ class CaloriesEdit : CaloriesCompatActivity() {
         caloriesViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
             if (code != null){
-                finish()
+                SnackbarUtil.buildTesting(binding.root,code)
             }
         })
 

@@ -37,8 +37,8 @@ class WalkRepository {
         return parsed
     }
 
-    fun getWalkStep(token:String,date: String): MutableList<WalkStep>? {
-        var walkSteps: MutableList<WalkStep>? = mutableListOf()
+    fun getWalkStep(token:String,date: String): WalkStepsParse {
+        var parsed = WalkStepsParse()
         val request = Request.Builder()
             .url("$url/walkSteps?date=$date")
             .addHeader("Authorization",token)
@@ -48,20 +48,13 @@ class WalkRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: WalkStepsParse = gson.fromJson(response.body!!.string(), WalkStepsParse::class.java)
-                if (parsed.data != null){
-                    for (step in parsed.data!!){
-                        walkSteps!!.add(step)
-                    }
-                }
-                Log.w("getWalkStep", "当天行走步数信息: $walkSteps")
+                parsed = gson.fromJson(response.body!!.string(), WalkStepsParse::class.java)
                 response.close()
             }
         }catch (e:IOException){
-            walkSteps = null
         }
 
-        return walkSteps
+        return parsed
     }
 
     fun updateWalksOverall(token:String,weight:Float,height:Float):Int{

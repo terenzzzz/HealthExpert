@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.water
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -35,6 +36,7 @@ class Water : WatersCompatActivity() {
             val intent =
                 Intent(context, Water::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -45,11 +47,18 @@ class Water : WatersCompatActivity() {
         binding.waterViewmodel = watersViewModel
         setContentView(binding.root)
 
+
+        watersViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
         watersViewModel.watersAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                Log.d("测试", "watersAll: ${item.Total}")
                 binding.rate.text = "${item.Total.div(80)} %"
             }
         })
@@ -60,10 +69,7 @@ class Water : WatersCompatActivity() {
                 // Update the UI
                 watersViewModel.updateWatersOverall()
                 recyclerView.adapter = WatersAdapter(watersViewModel.waters,this,mode)
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
-
         })
 
         val bundle = intent.extras
@@ -74,8 +80,6 @@ class Water : WatersCompatActivity() {
             binding.settingBtn.visibility = View.GONE
             binding.shortCut.visibility = View.GONE
         }
-
-
 
         recyclerView = binding.recyclerView
         layoutManager = LinearLayoutManager(this)
