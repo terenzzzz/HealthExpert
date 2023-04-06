@@ -1,17 +1,7 @@
 package com.example.healthExpert.repository
 
-import android.content.SharedPreferences
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.example.healthExpert.R
-import com.example.healthExpert.model.Calories
-import com.example.healthExpert.model.CaloriesOverall
-import com.example.healthExpert.model.Water
-import com.example.healthExpert.model.WaterOverall
 import com.example.healthExpert.parse.*
-import com.example.healthExpert.utils.SnackbarUtil
-import com.example.healthExpert.view.home.Home
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -109,7 +99,15 @@ class WatersRepository {
     }
 
     // 异步请求
-    fun addWaters(token:String,type:String,title:String,content:String,value:Int,time:String):Int{
+    fun addWaters(
+        token: String,
+        type: String,
+        title: String,
+        content: String,
+        value: Int,
+        time: String,
+        param: (Any) -> Unit
+    ):Int{
         var resStatus=-1
         val body = FormBody.Builder()
             .add("type", type)
@@ -133,15 +131,13 @@ class WatersRepository {
                 val gson = Gson()
                 val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                 resStatus = parsed.status?:-1
-                Log.w("addCalories", "addCalories: $resStatus")
-                response.close()
                 response.close()
             }
         })
         return resStatus
     }
 
-    fun editWatersType(token:String,id: Int,type: String):Int {
+    fun editWatersType(token: String, id: Int, type: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -171,7 +167,7 @@ class WatersRepository {
         return resStatus
     }
 
-    fun editWatersTitle(token:String,id: Int,title: String):Int {
+    fun editWatersTitle(token: String, id: Int, title: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -201,7 +197,7 @@ class WatersRepository {
         return resStatus
     }
 
-    fun editWatersContent(token:String,id: Int,content: String):Int {
+    fun editWatersContent(token: String, id: Int, content: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -232,7 +228,7 @@ class WatersRepository {
         return resStatus
     }
 
-    fun editWatersValue(token:String,id: Int,value: String):Int {
+    fun editWatersValue(token: String, id: Int, value: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -261,7 +257,7 @@ class WatersRepository {
         return resStatus
     }
 
-    fun editWatersTime(token:String,id: Int,time: String):Int {
+    fun editWatersTime(token: String, id: Int, time: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -291,7 +287,7 @@ class WatersRepository {
         return resStatus
     }
 
-    fun deleteWaters(token:String,id: Int):Int {
+    fun deleteWaters(token: String, id: Int, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())

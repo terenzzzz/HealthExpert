@@ -114,7 +114,12 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
-    fun addCalories(type:String,title:String,content:String,calories:Int,time:String){
+    fun addCalories(
+        type: String,
+        title: String,
+        content: String,
+        calories: Int,
+        time: String, ){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
@@ -197,6 +202,7 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             // retrieve updated data from the repository
             if (token != null) {
                 repository.deleteCalories(token, id) { resStatus ->
+                    Log.d("测试", "deleteCalories: ${resStatus}")
                     if (resStatus != 200) {
                         requestStatus.postValue(resStatus as Int?)
                     }

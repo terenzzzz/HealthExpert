@@ -112,7 +112,7 @@ class CaloriesRepository {
         time: String,
         param: (Any) -> Unit
     ):Int{
-        var resStatus=-1
+        var resStatus = -1
         val body = FormBody.Builder()
             .add("type", type)
             .add("title", title)
@@ -136,8 +136,7 @@ class CaloriesRepository {
                 response.use {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    resStatus = parsed.status?:-1
-                    Log.w("CaloriesRepository", "addCalories: $resStatus")
+                    resStatus = parsed.status
                     response.close()
                 }
             }
@@ -145,6 +144,7 @@ class CaloriesRepository {
         return resStatus
     }
 
+    // 同步
     fun editCaloriesType(token: String, id: Int, type: String, param: (Any) -> Unit):Int {
         var resStatus=-1
         val body = FormBody.Builder()
@@ -158,12 +158,17 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse =
+                    gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status
+                response.close()
+            }
+        } catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
         return resStatus
     }
@@ -181,13 +186,20 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesTitle", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        } catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
+        return resStatus
+
+
         return resStatus
     }
 
@@ -204,12 +216,16 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesContent", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        } catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
         return resStatus
     }
@@ -227,19 +243,22 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesCalories", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        } catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
+
         return resStatus
     }
 
     fun editCaloriesTime(token: String, id: Int, time: String, param: (Any) -> Unit):Int {
-        Log.d("测试", "id: $id")
-        Log.d("测试", "time: $time")
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -252,19 +271,25 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesTime", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            Log.d("测试", "parsed: ${parsed.message}")
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse =
+                    gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editCaloriesTime", parsed.status.toString())
+                resStatus = parsed.status ?: -1
+                Log.d("测试", "parsed: ${parsed.message}")
+                response.close()
+            }
+        }catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
         return resStatus
     }
 
     fun deleteCalories(token: String, id: Int, param: (Any) -> Unit):Int {
-        var resStatus=-1
+        var resStatus = -1
         val body = FormBody.Builder()
             .add("id", id.toString())
             .build()
@@ -275,13 +300,19 @@ class CaloriesRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("deleteCalories", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse =
+                    gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status
+                response.close()
+            }
+        } catch (e: IOException) {
+            Log.e("deleteCalories", "Failed to execute network request", e)
+            // 处理网络请求失败的情况，例如弹出一个Toast提示用户网络连接不可用
         }
         return resStatus
     }
 }
+

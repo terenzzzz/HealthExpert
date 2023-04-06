@@ -1,14 +1,11 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.healthExpert.model.Calories
-import com.example.healthExpert.model.CaloriesOverall
 import com.example.healthExpert.model.Water
 import com.example.healthExpert.model.WaterOverall
 import com.example.healthExpert.repository.WatersRepository
@@ -86,7 +83,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.addWaters(token,type,title,content,value,time)
+                repository.addWaters(token,type,title,content,value,time){ resStatus ->
+                    if (resStatus != 200) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -95,7 +96,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.editWatersType(token, id , type)
+                repository.editWatersType(token, id , type){ resStatus ->
+                    if (resStatus != 200) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -104,7 +109,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.editWatersTitle(token, id , title)
+                repository.editWatersTitle(token, id , title){ resStatus ->
+                    if (resStatus != 200) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -113,7 +122,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.editWatersContent(token, id , content)
+                repository.editWatersContent(token, id , content){ resStatus ->
+                    if (resStatus != 0) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -122,7 +135,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.editWatersValue(token, id , value)
+                repository.editWatersValue(token, id , value){ resStatus ->
+                    if (resStatus != 0) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -131,7 +148,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.editWatersTime(token, id , time)
+                repository.editWatersTime(token, id , time){ resStatus ->
+                    if (resStatus != 0) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }
@@ -140,7 +161,11 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.deleteWaters(token, id)
+                repository.deleteWaters(token, id){ resStatus ->
+                    if (resStatus != 0) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }

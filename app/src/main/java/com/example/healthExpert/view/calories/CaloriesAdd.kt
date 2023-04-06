@@ -31,24 +31,24 @@ class CaloriesAdd : CaloriesCompatActivity() {
 
         binding.etTime.text = SimpleDateFormat("HH:mm").format(Date())
 
-        binding.intakeBtn.setOnClickListener(View.OnClickListener { view ->
+        binding.intakeBtn.setOnClickListener{ view ->
             selectedType = binding.intakeType.text.toString()
             view.background = this.getDrawable(R.drawable.radius_btn_green)
             binding.burnBtn.background = this.getDrawable(R.drawable.radius_btn_gray)
-        })
+        }
 
-        binding.burnBtn.setOnClickListener(View.OnClickListener { view ->
+        binding.burnBtn.setOnClickListener{ view ->
             selectedType = binding.burnType.text.toString()
             view.background = this.getDrawable(R.drawable.radius_btn_green)
             binding.intakeBtn.background = this.getDrawable(R.drawable.radius_btn_gray)
-        })
+        }
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
 
-        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.addBtn.setOnClickListener {
             val title = binding.etTitle.text.toString()
             val content = binding.etContent.text.toString()
             val calories = binding.etCalories.text.toString()
@@ -58,12 +58,12 @@ class CaloriesAdd : CaloriesCompatActivity() {
                 Snackbar.make(binding.root, "Please fill in all the field", Snackbar.LENGTH_LONG).show()
             }else{
                 caloriesViewModel.addCalories(selectedType!!,title, content,Integer.parseInt(calories), time)
-                Snackbar.make(binding.root, "Record Added", Snackbar.LENGTH_LONG).show()
+
                 caloriesViewModel.updateCaloriesOverall()
                 finish()
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }
-        })
+        }
     }
 
     fun showTimePickerDialog(v: View) {

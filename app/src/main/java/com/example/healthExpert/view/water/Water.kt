@@ -27,6 +27,7 @@ import java.util.*
 class Water : WatersCompatActivity() {
     private lateinit var binding: ActivityWaterBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: WatersAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var todayDate = DateTimeConvert.toDate(Date())
     var mode = "edit"
@@ -68,7 +69,8 @@ class Water : WatersCompatActivity() {
             if (list != null) {
                 // Update the UI
                 watersViewModel.updateWatersOverall()
-                recyclerView.adapter = WatersAdapter(watersViewModel.waters,this,mode)
+                adapter = WatersAdapter(watersViewModel.waters,this, mode)
+                recyclerView.adapter = adapter
             }
         })
 
@@ -89,9 +91,9 @@ class Water : WatersCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
 
-        binding.add200.setOnClickListener (View.OnClickListener { view ->
+        binding.add200.setOnClickListener{
             addShortcut(200)
-        })
+        }
 
         binding.add330.setOnClickListener (View.OnClickListener { view ->
             addShortcut(330)
@@ -121,6 +123,7 @@ class Water : WatersCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        recyclerView.invalidateItemDecorations()
         watersViewModel.getWatersOverall(todayDate)
         watersViewModel.getWaters(todayDate)
     }
@@ -164,14 +167,13 @@ class WatersAdapter(private val waterSet: MutableLiveData<MutableList<com.exampl
         if(mode!="edit"){
             holder.editBtn.visibility = View.GONE
         }else{
-            holder.itemView.setOnClickListener(View.OnClickListener { view ->
+            holder.itemView.setOnClickListener{
                 val intent = Intent(activity, WaterEdit::class.java)
                 val bundle = Bundle()
-                bundle.putInt("id", waterSet.value!![position].id)
-
+                waterSet.value?.get(position)?.let { it1 -> bundle.putInt("id", it1.id) }
                 intent.putExtras(bundle)
                 activity.startActivity(intent)
-            })
+            }
         }
         if (waterSet.value != null){
             if (waterSet.value!![position] != null){
