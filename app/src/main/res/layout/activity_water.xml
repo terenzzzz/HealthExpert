@@ -144,9 +144,10 @@
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
+                                                android:gravity="bottom"
                                                 android:paddingLeft="5dp"
                                                 android:text="liters away from your target"
-                                                android:textSize="14dp"
+                                                android:textSize="12dp"
                                                 android:textColor="@color/white"/>
                                         </LinearLayout>
                                     </LinearLayout>

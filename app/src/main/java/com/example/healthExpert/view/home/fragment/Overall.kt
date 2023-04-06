@@ -39,10 +39,10 @@ class Overall : OverallCompatFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        overallViewModel.user.observe(this, Observer { item ->
+        overallViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
-            if (item == null) {
-                SnackbarUtil.buildNetwork(binding.root)
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
             }
         })
 
@@ -140,7 +140,6 @@ class Overall : OverallCompatFragment() {
         todayDate = DateTimeConvert.toDate(Date())
         // Heart Set Up
         heartSetUp(binding.root)
-        overallViewModel.getUserInfo()
         overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)

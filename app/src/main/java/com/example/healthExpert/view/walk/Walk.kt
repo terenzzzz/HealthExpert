@@ -83,8 +83,6 @@ class Walk : WalkCompatActivity() {
             if (item != null){
                 ring.setValueText(item.TotalSteps.toString())
                 ring.setSweepValue(item.TotalSteps.div(100).toFloat())
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -100,7 +98,6 @@ class Walk : WalkCompatActivity() {
                     }else{
                         map[hour] = ws.Steps
                     }
-
                 }
 
                 for (i in 0..23) {

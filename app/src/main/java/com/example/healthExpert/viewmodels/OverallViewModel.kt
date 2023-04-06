@@ -8,11 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.*
+import com.example.healthExpert.parse.TrainingOverallParse
+import com.example.healthExpert.parse.UserInfoParse
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
+    var requestStatus = MutableLiveData<Int>()
 
     private val sharedPreferences: SharedPreferences =
         fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -25,20 +28,8 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     private val trainingsRepository = TrainingsRepository()
     private val medicationRepository = MedicationRepository()
     private val sleepRepository = SleepRepository()
-    private val userRepository = UserRepository()
 
 
-    var user = MutableLiveData<User?>()
-    fun getUserInfo(){
-        viewModelScope.launch(Dispatchers.IO) {
-            // retrieve updated data from the repository
-            val updatedData = token?.let { userRepository.getUserInfo(it) }
-
-            // Refresh UI Update data
-            user.postValue(updatedData)
-
-        }
-    }
 
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
     fun getCaloriesOverall(date:String){
@@ -46,14 +37,17 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
             // retrieve updated data from the repository
             if (token != null) {
                 caloriesRepository.updateCaloriesOverall(token) { resStatus ->
-                    if (resStatus == 200) {
-
-                    } else {
+                    if (resStatus != 200) {
+                        requestStatus.postValue(resStatus as Int?)
                     }
                 }
-                val updatedData = caloriesRepository.getCaloriesOverall(token,date)
-                // Refresh UI Update data
-                caloriesAll.postValue(updatedData.data)
+                val caloriesOverallParse = caloriesRepository.getCaloriesOverall(token,date)
+                if (caloriesOverallParse != null) {
+                    if (caloriesOverallParse.status != 200){
+                        requestStatus.postValue(caloriesOverallParse.status)
+                    }
+                    caloriesAll.postValue(caloriesOverallParse.data)
+                }
             }
         }
     }
@@ -64,9 +58,14 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
             // retrieve updated data from the repository
             if (token != null) {
                 walkRepository.updateWalksOverall(token,height,weight)
-                val updatedData = walkRepository.getWalksOverall(token,date)
+                val walksOverallParse = walkRepository.getWalksOverall(token,date)
                 // Refresh UI Update data
-                walkAll.postValue(updatedData.data)
+                if (walksOverallParse != null) {
+                    if (walksOverallParse.status != 200){
+                        requestStatus.postValue(walksOverallParse.status)
+                    }
+                    walkAll.postValue(walksOverallParse.data)
+                }
             }
 
         }
@@ -78,9 +77,14 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
             // retrieve updated data from the repository
             if (token != null) {
                 watersRepository.updateWaterOverall(token)
-                val updatedData =watersRepository.getWaterOverall(token,date)
+                val waterOverallParse =watersRepository.getWaterOverall(token,date)
                 // Refresh UI Update data
-                watersAll.postValue(updatedData)
+                if (waterOverallParse != null) {
+                    if (waterOverallParse.status != 200){
+                        requestStatus.postValue(waterOverallParse.status)
+                    }
+                    watersAll.postValue(waterOverallParse.data)
+                }
             }
         }
     }
@@ -91,10 +95,15 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
             // retrieve updated data from the repository
             if (token != null) {
                 trainingsRepository.updateWaterOverall(token)
-                val updatedData = trainingsRepository.getTrainingOverall(token,date)
+                val trainingOverallParse = trainingsRepository.getTrainingOverall(token,date)
 
                 // Refresh UI Update data
-                trainingAll.postValue(updatedData)
+                if (trainingOverallParse != null) {
+                    if (trainingOverallParse.status != 200){
+                        requestStatus.postValue(trainingOverallParse.status)
+                    }
+                    trainingAll.postValue(trainingOverallParse.data)
+                }
             }
 
         }
@@ -104,11 +113,14 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun medications(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { medicationRepository.medications(it,date) }
-
-
+            val medicationsParse = token?.let { medicationRepository.medications(it,date) }
             // Refresh UI Update data
-            medications.postValue(updatedData)
+            if (medicationsParse != null) {
+                if (medicationsParse.status != 200){
+                    requestStatus.postValue(medicationsParse.status)
+                }
+                medications.postValue(medicationsParse.data as MutableList<Medication>?)
+            }
         }
     }
 
@@ -116,10 +128,15 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getSleep(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { sleepRepository.getSleep(it,date) }
+            val sleepParse = token?.let { sleepRepository.getSleep(it,date) }
 
             // Refresh UI Update data
-            sleep.postValue(updatedData)
+            if (sleepParse != null) {
+                if (sleepParse.status != 200){
+                    requestStatus.postValue(sleepParse.status)
+                }
+                sleep.postValue(sleepParse.data)
+            }
         }
     }
 

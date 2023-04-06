@@ -1,19 +1,17 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.example.healthExpert.model.User
 import com.example.healthExpert.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.String.format
-import java.util.*
 import kotlin.math.pow
 
 class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = UserRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -23,11 +21,15 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun getUserInfo(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getUserInfo(it) }
+            val userInfoParse = token?.let { repository.getUserInfo(it) }
 
-            // Refresh UI Update data
-            user.postValue(updatedData)
-
+            if (userInfoParse != null) {
+                if (userInfoParse.status != 200){
+                    requestStatus.postValue(userInfoParse.status)
+                }else{
+                    user.postValue(userInfoParse.data)
+                }
+            }
         }
     }
 

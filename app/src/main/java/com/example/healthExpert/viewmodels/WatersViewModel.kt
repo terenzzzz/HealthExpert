@@ -30,7 +30,7 @@ class WatersViewModel(private val activity: AppCompatActivity) : ViewModel() {
             val updatedData = token?.let { repository.getWaterOverall(it,date) }
 
             // Refresh UI Update data
-            watersAll.postValue(updatedData)
+            watersAll.postValue(updatedData!!.data)
         }
     }
 

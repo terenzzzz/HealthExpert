@@ -16,6 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = SleepRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -27,13 +29,18 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         this.timer.value = time
     }
 
-    fun getSleep(date:String){
+    fun getSleep(date: String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getSleep(it,date) }
+            val sleepParse = token?.let { repository.getSleep(it,date) }
 
             // Refresh UI Update data
-            sleep.postValue(updatedData)
+            if (sleepParse != null) {
+                if (sleepParse.status != 200){
+                    requestStatus.postValue(sleepParse.status)
+                }
+                sleep.postValue(sleepParse.data)
+            }
         }
     }
 

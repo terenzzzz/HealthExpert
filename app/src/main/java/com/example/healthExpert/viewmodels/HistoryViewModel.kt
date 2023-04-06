@@ -7,11 +7,15 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.model.*
+import com.example.healthExpert.parse.CaloriesOverallParse
+import com.example.healthExpert.parse.WaterOverallParse
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
+    var requestStatus = MutableLiveData<Int>()
+
     private val sharedPreferences: SharedPreferences =
         fragment.requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
     private val token = sharedPreferences.getString("token","")
@@ -25,11 +29,12 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
-
-            // Refresh UI Update data
-            if (updatedData != null) {
-                caloriesAll.postValue(updatedData.data)
+            val caloriesOverallParse = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
+            if (caloriesOverallParse != null) {
+                if (caloriesOverallParse.status != 200){
+                    requestStatus.postValue(caloriesOverallParse.status)
+                }
+                caloriesAll.postValue(caloriesOverallParse.data)
             }
         }
     }
@@ -38,10 +43,14 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { walkRepository.getWalksOverall(it,date) }
+            val walksOverallParse = token?.let { walkRepository.getWalksOverall(it,date) }
 
-            // Refresh UI Update data
-            walkAll.postValue(updatedData!!.data)
+            if (walksOverallParse != null) {
+                if (walksOverallParse.status != 200){
+                    requestStatus.postValue(walksOverallParse.status)
+                }
+                walkAll.postValue(walksOverallParse.data)
+            }
         }
     }
 
@@ -49,10 +58,14 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { watersRepository.getWaterOverall(it,date) }
+            val waterOverallParse = token?.let { watersRepository.getWaterOverall(it,date) }
 
-            // Refresh UI Update data
-            watersAll.postValue(updatedData)
+            if (waterOverallParse != null) {
+                if (waterOverallParse.status != 200){
+                    requestStatus.postValue(waterOverallParse.status)
+                }
+                watersAll.postValue(waterOverallParse.data)
+            }
         }
     }
 
@@ -60,10 +73,15 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getTrainingOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { trainingsRepository.getTrainingOverall(it,date) }
+            val trainingOverallParse = token?.let { trainingsRepository.getTrainingOverall(it,date) }
 
             // Refresh UI Update data
-            trainingAll.postValue(updatedData)
+            if (trainingOverallParse != null) {
+                if (trainingOverallParse.status != 200){
+                    requestStatus.postValue(trainingOverallParse.status)
+                }
+                trainingAll.postValue(trainingOverallParse.data)
+            }
         }
     }
 
@@ -71,10 +89,15 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getSleep(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { sleepRepository.getSleep(it,date) }
+            val sleepParse = token?.let { sleepRepository.getSleep(it,date) }
 
             // Refresh UI Update data
-            sleep.postValue(updatedData)
+            if (sleepParse != null) {
+                if (sleepParse.status != 200){
+                    requestStatus.postValue(sleepParse.status)
+                }
+                sleep.postValue(sleepParse.data)
+            }
         }
     }
 

@@ -4,10 +4,7 @@ import android.util.Log
 import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.Medication
 import com.example.healthExpert.model.News
-import com.example.healthExpert.parse.BaseParse
-import com.example.healthExpert.parse.CaloriesParse
-import com.example.healthExpert.parse.MedicationsParse
-import com.example.healthExpert.parse.NewsParse
+import com.example.healthExpert.parse.*
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -18,8 +15,8 @@ class MedicationRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun medications(token:String, date:String): MutableList<Medication>? {
-        var medications: MutableList<Medication>? = mutableListOf()
+    fun medications(token:String, date:String): MedicationsParse {
+        var parsed = MedicationsParse()
         val request = Request.Builder()
             .url("$url/medications?date=$date")
             .addHeader("Authorization",token)
@@ -28,19 +25,11 @@ class MedicationRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
-                if (parsed.data != null){
-                    for (medicationsInfo in parsed.data!!){
-                        medications!!.add(medicationsInfo)
-                    }
-                }
-                Log.d("药物", medications.toString())
+                parsed = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
                 response.close()
             }
-        }catch (e: IOException){
-            medications = null
-        }
-        return medications
+        }catch (e: IOException){ }
+        return parsed
     }
 
     // 同步请求

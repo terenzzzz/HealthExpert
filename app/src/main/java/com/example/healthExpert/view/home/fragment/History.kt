@@ -34,6 +34,13 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         Log.d("History", "onCreate: ")
         super.onCreate(savedInstanceState)
 
+        historyViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
         historyViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
@@ -47,8 +54,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                     binding.caloriesRing.setSweepValue(rate.toFloat())
                 }
                 binding.caloriesValue.text = "${total.toString()} / 1000 kcal"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -60,8 +65,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.stepsRing.setSweepValue((item.TotalSteps/80).toFloat())
                 binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
                 binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -73,8 +76,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.drinkingRing.setValueText("${item.Total/80}%")
                 binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -86,8 +87,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.trainingRing.setValueText("${(item.Duration/1.2).roundToInt()}%")
                 binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 
@@ -102,8 +101,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.sleepRing.setValueText("${(duration.toFloat()/8f).roundToInt()}%")
                 binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.sleepValue.text = "$duration Hours / 8.0 Hours"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

@@ -51,8 +51,6 @@ class Water : WatersCompatActivity() {
                 // Update the UI
                 Log.d("测试", "watersAll: ${item.Total}")
                 binding.rate.text = "${item.Total.div(80)} %"
-            }else{
-                SnackbarUtil.buildNetwork(binding.root)
             }
         })
 

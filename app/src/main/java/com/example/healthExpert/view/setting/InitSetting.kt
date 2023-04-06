@@ -5,18 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
-import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivityInitSettingBinding
-import com.example.healthExpert.databinding.ActivitySettingBinding
-import com.example.healthExpert.model.User
-import com.example.healthExpert.repository.CaloriesRepository
-import com.example.healthExpert.view.home.Home
-import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.google.android.material.snackbar.Snackbar
-import kotlin.math.round
 
 class InitSetting : UserCompatActivity() {
     private lateinit var binding: ActivityInitSettingBinding

@@ -238,6 +238,8 @@ class CaloriesRepository {
     }
 
     fun editCaloriesTime(token: String, id: Int, time: String, param: (Any) -> Unit):Int {
+        Log.d("测试", "id: $id")
+        Log.d("测试", "time: $time")
         var resStatus=-1
         val body = FormBody.Builder()
             .add("id", id.toString())
@@ -255,6 +257,7 @@ class CaloriesRepository {
             val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
             Log.d("editCaloriesTime", parsed.status.toString())
             resStatus = parsed.status?:-1
+            Log.d("测试", "parsed: ${parsed.message}")
             response.close()
         }
         return resStatus

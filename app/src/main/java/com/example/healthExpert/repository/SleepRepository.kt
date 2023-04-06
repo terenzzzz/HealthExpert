@@ -3,6 +3,7 @@ package com.example.healthExpert.repository
 import android.util.Log
 import com.example.healthExpert.model.Sleep
 import com.example.healthExpert.parse.BaseParse
+import com.example.healthExpert.parse.MedicationsParse
 import com.example.healthExpert.parse.SleepParse
 import com.google.gson.Gson
 import okhttp3.*
@@ -13,8 +14,8 @@ class SleepRepository {
     private val url = "http://terenzzzz.com:88/my"
 
     // 同步请求
-    fun getSleep(token: String,date:String): Sleep? {
-        var sleep: Sleep? = null
+    fun getSleep(token: String,date:String): SleepParse {
+        var parsed = SleepParse()
         val request = Request.Builder()
             .url("$url/sleep?date=$date")
             .addHeader("Authorization",token)
@@ -22,18 +23,12 @@ class SleepRepository {
             .build()
         try {
             client.newCall(request).execute().use { response ->
-//            Log.d("getSleep", response.body.toString())
                 val gson = Gson()
-                val parsed: SleepParse = gson.fromJson(response.body!!.string(), SleepParse::class.java)
-                if (parsed.data != null){
-                    sleep = parsed.data
-                }
+                parsed = gson.fromJson(response.body!!.string(), SleepParse::class.java)
                 response.close()
             }
-        }catch (e:IOException){
-            sleep = null
-        }
-        return sleep
+        }catch (e:IOException){}
+        return parsed
     }
 
     // 异步请求

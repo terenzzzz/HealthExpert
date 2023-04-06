@@ -19,6 +19,8 @@ import java.time.Duration
 import java.time.LocalTime
 
 class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = TrainingsRepository()
     private val weatherRepository = WeatherRepository()
 
@@ -76,10 +78,15 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     fun getTrainingOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.getTrainingOverall(it,date) }
+            val trainingOverallParse = token?.let { repository.getTrainingOverall(it,date) }
 
             // Refresh UI Update data
-            trainingAll.postValue(updatedData)
+            if (trainingOverallParse != null) {
+                if (trainingOverallParse.status != 200){
+                    requestStatus.postValue(trainingOverallParse.status)
+                }
+                trainingAll.postValue(trainingOverallParse.data)
+            }
         }
     }
 

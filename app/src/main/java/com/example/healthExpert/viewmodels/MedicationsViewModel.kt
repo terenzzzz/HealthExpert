@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel() {
+    var requestStatus = MutableLiveData<Int>()
+
     private val repository = MedicationRepository()
     private val sharedPreferences: SharedPreferences =
         activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
@@ -26,10 +28,14 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
     fun medications(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.medications(token,date) }
-
+            val medicationsParse = token?.let { repository.medications(it,date) }
             // Refresh UI Update data
-            medications.postValue(updatedData)
+            if (medicationsParse != null) {
+                if (medicationsParse.status != 200){
+                    requestStatus.postValue(medicationsParse.status)
+                }
+                medications.postValue(medicationsParse.data as MutableList<Medication>?)
+            }
         }
     }
 
