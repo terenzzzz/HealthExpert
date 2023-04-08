@@ -135,24 +135,18 @@ class TrainingsRepository {
         return locations
     }
 
-    fun addTraining(token:String,
-                    type:String,
-                    title:String,
-                    distance:String,
-                    speed:String,
-                    caloriesBurn:String,
-                    startTime:String,
-                    endTime:String,
-                    locations:String): Int {
-        Log.d("测试", "type: $type")
-        Log.d("测试", "title: $title")
-        Log.d("测试", "distance: $distance")
-        Log.d("测试", "speed: $speed")
-        Log.d("测试", "caloriesBurn: $caloriesBurn")
-        Log.d("测试", "startTime: $startTime")
-        Log.d("测试", "endTime: $endTime")
-        Log.d("测试", "locations: $locations")
-        var insertId=-1
+    fun addTraining(
+        token: String,
+        type: String,
+        title: String,
+        distance: String,
+        speed: String,
+        caloriesBurn: String,
+        startTime: String,
+        endTime: String,
+        locations: String): Int {
+        var statusCode = -1
+        var insertId = -1
         val body = FormBody.Builder()
             .add("type", type)
             .add("title", title)
@@ -167,25 +161,27 @@ class TrainingsRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse =
+                    gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.w("addLocations", "message: ${parsed.message}")
+                insertId = parsed.insertId ?: -1
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.w("addLocations", "message: ${parsed.message}")
-            insertId = parsed.insertId?:-1
+                if (parsed.status == 200) {
+                    statusCode = addLocations(token, insertId, locations)
+                }
 
-            if(parsed.status == 200){
-                addLocations(token,insertId,locations)
+                Log.w("addLocations", "insertId: $insertId")
+                response.close()
             }
-
-            Log.w("addLocations", "insertId: $insertId")
-            response.close()
-        }
-        return insertId
+        }catch (e:IOException){ }
+        return statusCode
     }
 
     fun addLocations(token:String,insertId: Int, locations:String): Int {
-        var resStatus=-1
+        var resStatus = -1
         val body = FormBody.Builder()
             .add("insertId", insertId.toString())
             .add("locations", locations)
@@ -195,14 +191,16 @@ class TrainingsRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status
+                Log.w("addLocations", "message: " + parsed.message)
+                response.close()
+            }
+        }catch (e:IOException){ }
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            resStatus = parsed.status?:-1
-            Log.w("addLocations", "message: " + parsed.message)
-            response.close()
-        }
         return resStatus
     }
 

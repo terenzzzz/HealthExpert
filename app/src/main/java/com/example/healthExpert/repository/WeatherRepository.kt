@@ -27,17 +27,19 @@ class WeatherRepository {
         val request = Request.Builder()
             .url(url)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: WeatherParse = gson.fromJson(response.body!!.string(), WeatherParse::class.java)
-            if (parsed != null){
-                weather.icon = "https://openweathermap.org/img/wn/${parsed.weather?.get(0)?.icon}@2x.png"
-                weather.weather = parsed.weather?.get(0)?.main.toString()
-                weather.temp = "${parsed.main?.temp_min}(℃)  -  ${parsed.main?.temp_max}(℃)"
+        try{
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: WeatherParse = gson.fromJson(response.body!!.string(), WeatherParse::class.java)
+                if (parsed != null){
+                    weather.icon = "https://openweathermap.org/img/wn/${parsed.weather?.get(0)?.icon}@2x.png"
+                    weather.weather = parsed.weather?.get(0)?.main.toString()
+                    weather.temp = "${parsed.main?.temp_min}(℃)  -  ${parsed.main?.temp_max}(℃)"
+                }
+                response.close()
             }
-            response.close()
-        }
+        }catch (e:IOException){ }
+
         return weather
     }
 }

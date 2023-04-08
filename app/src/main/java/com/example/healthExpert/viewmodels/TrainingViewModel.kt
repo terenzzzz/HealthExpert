@@ -14,12 +14,10 @@ import com.example.healthExpert.utils.CaloriesCalc
 import com.example.healthExpert.utils.DateTimeConvert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalTime
 
 class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
     var requestStatus = MutableLiveData<Int>()
+    var addTrainingStatus = MutableLiveData<Int>()
 
     private val repository = TrainingsRepository()
     private val weatherRepository = WeatherRepository()
@@ -129,10 +127,10 @@ class TrainingViewModel(private val activity: AppCompatActivity) : ViewModel() {
 
                 val calories = String.format("%.2f",this@TrainingViewModel.totalCalories.value)
 
-                val insertId = repository.addTraining(token,type, title, distance,
-                    speed, calories,
+                 val statusCode = repository.addTraining(token,type, title, distance, speed, calories,
                     startTime, endTime, locations)
-//                repository.addLocations(token, insertId, locations)
+                addTrainingStatus.postValue(statusCode)
+                Log.d("测试", "statusCode: ${statusCode}")
             }
         }
     }

@@ -98,8 +98,7 @@
                                         android:id="@+id/weatherIcon"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/cloudy"/>
+                                        android:layout_gravity="center" />
                                 </androidx.cardview.widget.CardView>
 
                                 <androidx.cardview.widget.CardView

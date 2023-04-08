@@ -17,6 +17,7 @@ import com.example.healthExpert.compatActivity.TrainingsCompatActivity
 import com.example.healthExpert.databinding.ActivityTrainRecordBinding
 import com.example.healthExpert.model.Location
 import com.example.healthExpert.service.LocationService
+import com.example.healthExpert.utils.SnackbarUtil
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -86,6 +87,30 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
             Snackbar.make(binding.root, "Please give Permission of Location", Snackbar.LENGTH_LONG).show()
         }
 
+        trainingsViewModel.addTrainingStatus.observe(this) { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                Log.d("测试", "item: $item")
+                // Update the UI
+                if (item == 200){
+                    trainingsViewModel.updateTrainingOverall()
+                    finish()
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                }else{
+                    SnackbarUtil.buildTesting(binding.root,item)
+                }
+            }
+        }
+
+        trainingsViewModel.weather.observe(this) { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                val imageUrl = item.icon
+                Picasso.get().load(imageUrl).into(binding.weatherIcon)
+            }
+        }
+
         // Adding map to the view
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -142,15 +167,8 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
             endTime = SimpleDateFormat("HH:mm").format(Date())
             if (locations.size != 0){
                 val locationJson = Json.encodeToString(ListSerializer(Location.serializer()), locations)
+
                 trainingsViewModel.addTraining(type,title, startTime,endTime,locationJson)
-//                Log.d("测试", "type: $type")
-//                Log.d("测试", "title: $title")
-//                Log.d("测试", "startTime: $startTime")
-//                Log.d("测试", "endTime: $endTime")
-//                Log.d("测试", "locationJson: $locationJson")
-                trainingsViewModel.updateTrainingOverall()
-                finish()
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }else{
                 Snackbar.make(binding.root, "No Data Collected!", Snackbar.LENGTH_LONG).show()
             }
@@ -160,14 +178,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        trainingsViewModel.weather.observe(this) { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                val imageUrl = item.icon
-                Picasso.get().load(imageUrl).into(binding.weatherIcon)
-            }
-        }
+
     }
 
     override fun onDestroy() {
