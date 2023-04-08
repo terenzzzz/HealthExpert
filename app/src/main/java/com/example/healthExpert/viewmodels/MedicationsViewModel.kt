@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel() {
-    var requestStatus = MutableLiveData<Int>()
+    var requestStatus = MutableLiveData<Int?>()
 
     private val repository = MedicationRepository()
     private val sharedPreferences: SharedPreferences =
@@ -58,10 +58,14 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
     fun pendingMedications(){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.pendingMedications(token) }
+            val medicationsParse = token?.let { repository.pendingMedications(token) }
+            if (medicationsParse != null) {
+                if (medicationsParse.status!=200){
+                    requestStatus.postValue(medicationsParse.status)
+                }
+                pendingMedications.postValue(medicationsParse.data as MutableList<Medication>?)
+            }
 
-            // Refresh UI Update data
-            pendingMedications.postValue(updatedData)
         }
     }
 
@@ -103,7 +107,10 @@ class MedicationsViewModel(private val activity: AppCompatActivity) : ViewModel(
     fun editMedicationStatus(id: String, status:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val updatedData = token?.let { repository.editMedicationStatus(token,id,status) }
+            val resStatus = token?.let { repository.editMedicationStatus(token,id,status) }
+            if (resStatus!=200){
+                requestStatus.postValue(resStatus)
+            }
         }
     }
 

@@ -45,9 +45,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
                 val trainingsParse = trainingsRepository.getTrainings(token,date)
 
                 if (caloriesOverallParse.status!=200 || walksOverallParse.status!=200 || trainingsParse.status!=200){
-                    Log.w("getCaloriesOverall", "caloriesOverallParse: " + caloriesOverallParse.status)
-                    Log.w("getCaloriesOverall", "walksOverallParse: " + walksOverallParse.status)
-                    Log.w("getCaloriesOverall", "trainingsParse: " + trainingsParse.status)
 
                     requestStatus.postValue(walksOverallParse.status)
                 }else{
@@ -75,7 +72,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
             if(token != null){
                 repository.updateCaloriesOverall(token) { resStatus ->
                     if (resStatus != 200) {
-                        Log.w("getCaloriesOverall", "updateCaloriesOverall: $resStatus")
                         requestStatus.postValue(resStatus as Int?)
                     }
                 }

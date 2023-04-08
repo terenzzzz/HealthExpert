@@ -60,9 +60,9 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Add Medication Reminder"
+                            android:text="Edit Medication Reminder"
                             android:textSize="20dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/yellow"
                             android:textStyle="bold"/>
                         <View
                             android:layout_width="fill_parent"

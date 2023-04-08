@@ -22,6 +22,7 @@ import com.example.healthExpert.compatActivity.MedicationsCompatActivity
 import com.example.healthExpert.databinding.ActivityMedicationSettingBinding
 import com.example.healthExpert.model.Medication
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 
 class MedicationSetting : MedicationsCompatActivity() {
     private lateinit var binding: ActivityMedicationSettingBinding
@@ -44,6 +45,13 @@ class MedicationSetting : MedicationsCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMedicationSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        medicationsViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code!=null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
 
         medicationsViewModel.pendingMedications.observe(this, Observer { list ->
             // Update the UI based on the value of MutableLiveData
@@ -64,13 +72,11 @@ class MedicationSetting : MedicationsCompatActivity() {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
-        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
-            MedicationAdd.startFn(this)
-        })
     }
 
     override fun onResume() {
         super.onResume()
+        recyclerView.invalidateItemDecorations()
         medicationsViewModel.pendingMedications()
     }
 }
@@ -96,16 +102,16 @@ class MedicationSettingAdapter(private val medicationsSet: MutableLiveData<Mutab
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.setOnClickListener(View.OnClickListener { view ->
-            Log.d("adapter", medicationsSet.value!![position].id.toString())
+        holder.itemView.setOnClickListener{
 
             val intent = Intent(activity, MedicationEdit::class.java)
             val bundle = Bundle()
-            bundle.putString("id", medicationsSet.value!![position].id.toString())
-            intent.putExtras(bundle)
-            activity.startActivity(intent)
 
-        })
+                bundle.putString("id", medicationsSet.value?.get(position)?.id.toString())
+                intent.putExtras(bundle)
+                activity.startActivity(intent)
+
+        }
         holder.date.text = DateTimeConvert.toDate(medicationsSet.value!![position].Date)
         holder.time.text = DateTimeConvert.toHHmm(medicationsSet.value!![position].Date)
         holder.name.text = medicationsSet.value!![position].Name

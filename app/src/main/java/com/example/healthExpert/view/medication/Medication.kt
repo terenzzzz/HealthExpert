@@ -75,15 +75,18 @@ class Medication : MedicationsCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        binding.settingBtn.setOnClickListener(View.OnClickListener { view ->
+        binding.settingBtn.setOnClickListener{
             MedicationSetting.startFn(this)
-        })
+        }
 
-        binding.backBtn.setOnClickListener(View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener{
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
 
+        binding.addBtn.setOnClickListener {
+            MedicationAdd.startFn(this)
+        }
     }
 
     override fun onResume() {
@@ -120,11 +123,16 @@ class MedicationsAdapter(private val medicationsSet: MutableLiveData<MutableList
             if (holder.radioBtn.isChecked){
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 holder.dose.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"1")
+                if (medicationsSet.value!![position].id!=null){
+                    medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"1")
+                }
             }else{
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 holder.dose.paintFlags = holder.dose.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"0")
+                if (medicationsSet.value!![position].id!=null){
+                    medicationsViewModel.editMedicationStatus((medicationsSet.value!![position].id).toString(),"0")
+                }
+
             }
         })
         holder.time.text = DateTimeConvert.toHHmm(medicationsSet.value!![position].Date)

@@ -52,8 +52,8 @@ class MedicationRepository {
     }
 
     // 同步请求
-    fun pendingMedications(token:String): MutableList<Medication>? {
-        var medications: MutableList<Medication>? = mutableListOf()
+    fun pendingMedications(token:String): MedicationsParse {
+        var parsed = MedicationsParse()
         val request = Request.Builder()
             .url("$url/pendingMedications")
             .addHeader("Authorization",token)
@@ -62,20 +62,11 @@ class MedicationRepository {
         try {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
-                val parsed: MedicationsParse = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
-                if (parsed.data != null){
-                    for (medicationsInfo in parsed.data!!){
-                        medications!!.add(medicationsInfo)
-                    }
-                }
-                Log.d("药物", medications.toString())
+                parsed = gson.fromJson(response.body!!.string(), MedicationsParse::class.java)
                 response.close()
             }
-        }catch (e: IOException){
-            medications = null
-        }
-
-        return medications
+        }catch (e: IOException){ }
+        return parsed
     }
 
 
@@ -125,14 +116,17 @@ class MedicationRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editCaloriesType", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e:IOException){}
         return resStatus
+
     }
 
     fun editMedicationDate(token:String,id: String,date: String):Int {
@@ -148,13 +142,16 @@ class MedicationRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editCaloriesType", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e:IOException){}
+
         return resStatus
     }
 
@@ -171,13 +168,17 @@ class MedicationRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editCaloriesType", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e:IOException){}
+
+
         return resStatus
     }
 
@@ -194,13 +195,16 @@ class MedicationRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editCaloriesType", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editCaloriesType", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e:IOException){}
+
         return resStatus
     }
 
@@ -217,20 +221,23 @@ class MedicationRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editMedicationStatus", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editMedicationStatus", parsed.status.toString())
+                resStatus = parsed.status
+                response.close()
+            }
+        }catch (e:IOException){}
+
         return resStatus
     }
 
     fun deleteMedication(token:String,id: String):Int {
         var resStatus=-1
         val body = FormBody.Builder()
-            .add("id", id.toString())
+            .add("id", id)
             .build()
 
         val request = Request.Builder()
@@ -238,14 +245,15 @@ class MedicationRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("deleteCalories", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("deleteCalories", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e:IOException){}
         return resStatus
     }
 }

@@ -90,7 +90,6 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
         trainingsViewModel.addTrainingStatus.observe(this) { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                Log.d("测试", "item: $item")
                 // Update the UI
                 if (item == 200){
                     trainingsViewModel.updateTrainingOverall()

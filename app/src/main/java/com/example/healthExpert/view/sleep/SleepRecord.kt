@@ -19,6 +19,7 @@ import com.example.healthExpert.databinding.ActivitySleepRecordBinding
 import com.example.healthExpert.service.LocationService
 import com.example.healthExpert.service.SleepService
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.utils.SnackbarUtil
 import java.util.*
 
 class SleepRecord : SleepCompatActivity() {
@@ -50,23 +51,27 @@ class SleepRecord : SleepCompatActivity() {
         binding = ActivitySleepRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sleepViewModel.addSleepStatus.observe(this) { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item == 200){
+                    finish()
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                }else{
+                    SnackbarUtil.buildTesting(binding.root,item)
+                }
+            }
+        }
+
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
         binding.stopBtn.setOnClickListener (View.OnClickListener {
-            Log.d("数据", temperatureSet.average().toString())
-            Log.d("数据", pressureSet.average().toString())
-            Log.d("数据", lightSet.average().toString())
-            Log.d("数据", humiditySet.average().toString())
-            Log.d("数据", startTime)
-
-
             sleepViewModel.addSleep(checkZero(temperatureSet),checkZero(pressureSet),
                     checkZero(lightSet),checkZero(humiditySet),startTime)
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         })
 
 
@@ -145,12 +150,6 @@ class SleepRecord : SleepCompatActivity() {
                 binding.tempValue.text = String.format("%.2f", temperatureSet.lastOrNull() ?: 0f)
                 binding.pressureValue.text = String.format("%.2f", pressureSet.lastOrNull() ?: 0f)
                 binding.lightValue.text = String.format("%.2f", lightSet.lastOrNull() ?: 0f)
-
-
-                Log.d("测试", "temperatureSet: $temperatureSet")
-                Log.d("测试", "pressureSet: $pressureSet")
-                Log.d("测试", "lightSet: $lightSet")
-                Log.d("测试", "humiditySet: $humiditySet")
             }
         }
         val filter = IntentFilter("sensor_update")
@@ -165,6 +164,4 @@ class SleepRecord : SleepCompatActivity() {
             set.average().toFloat()
         }
     }
-
-
 }

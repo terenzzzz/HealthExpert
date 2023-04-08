@@ -125,7 +125,7 @@ class Overall : OverallCompatFragment() {
             if (item != null ) {
                 // Update the UI
                 // Sleep set up
-                sleepSetUp(binding.root)
+
                 binding.sleepValue.text = DateTimeConvert.toDecimalHours(
                     DateTimeConvert.toDateTime(item.StartTime),
                     DateTimeConvert.toDateTime(item.EndTime)
@@ -140,6 +140,7 @@ class Overall : OverallCompatFragment() {
         todayDate = DateTimeConvert.toDate(Date())
         // Heart Set Up
         heartSetUp(binding.root)
+        sleepSetUp(binding.root)
         overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)

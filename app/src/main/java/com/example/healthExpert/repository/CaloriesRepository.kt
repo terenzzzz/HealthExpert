@@ -110,7 +110,7 @@ class CaloriesRepository {
         content: String,
         calories: Int,
         time: String,
-        param: (Any) -> Unit
+        callback: (Any) -> Unit
     ):Int{
         var resStatus = -1
         val body = FormBody.Builder()
@@ -130,6 +130,7 @@ class CaloriesRepository {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                callback.invoke(-1)
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -137,6 +138,7 @@ class CaloriesRepository {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                     resStatus = parsed.status
+                    callback.invoke(resStatus)
                     response.close()
                 }
             }

@@ -1,22 +1,20 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.healthExpert.model.News
 import com.example.healthExpert.model.Sleep
-import com.example.healthExpert.model.Trainings
-import com.example.healthExpert.repository.NewsRepository
 import com.example.healthExpert.repository.SleepRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     var requestStatus = MutableLiveData<Int>()
+    var addSleepStatus = MutableLiveData<Int>()
 
     private val repository = SleepRepository()
     private val sharedPreferences: SharedPreferences =
@@ -49,7 +47,18 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null) {
-                repository.addSleep(token,temperature,pressure,light,humidity,startTime)
+                repository.addSleep(
+                    token,
+                    temperature,
+                    pressure,
+                    light,
+                    humidity,
+                    startTime
+                ) { resStatus ->
+                    // 在这里处理返回的 resStatus 值
+                    Log.d("测试", "addSleep: $resStatus")
+                    addSleepStatus.postValue(resStatus)
+                }
             }
         }
     }
