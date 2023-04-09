@@ -41,13 +41,15 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editName", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editName", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -63,13 +65,15 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editGender", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editGender", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -84,14 +88,15 @@ class UserRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editAge", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editAge", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -107,13 +112,15 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editHeight", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editHeight", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -128,15 +135,15 @@ class UserRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editWeight", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
-
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editWeight", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -152,13 +159,15 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editBmi", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editBmi", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -173,14 +182,15 @@ class UserRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("editBodyFatRate", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("editBodyFatRate", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -197,13 +207,14 @@ class UserRepository {
             .post(body)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("changePassword", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 
@@ -222,14 +233,15 @@ class UserRepository {
             .addHeader("Authorization",token)
             .post(body)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            val gson = Gson()
-            val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-            Log.d("initUser", parsed.status.toString())
-            resStatus = parsed.status?:-1
-            response.close()
-        }
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
+                Log.d("initUser", parsed.status.toString())
+                resStatus = parsed.status?:-1
+                response.close()
+            }
+        }catch (e: IOException){ }
         return resStatus
     }
 }

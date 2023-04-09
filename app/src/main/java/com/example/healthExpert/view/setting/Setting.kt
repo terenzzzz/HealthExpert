@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.goals.GoalsSetting
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.google.android.material.snackbar.Snackbar
@@ -37,12 +38,33 @@ class Setting : UserCompatActivity() {
 
         setContentView(binding.root)
 
+        userViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
+        userViewModel.user.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                // Update the UI
+                if (item.Gender == "Male"){
+                    setGenderDefault("Male")
+                    binding.avatar.setImageResource(R.drawable.avatar)
+                }else{
+                    setGenderDefault("Female")
+                    binding.avatar.setImageResource(R.drawable.hannah)
+                }
+            }
+        })
+
         binding.goalsSettingBtn.setOnClickListener{
             GoalsSetting.startFn(this)
         }
 
         // Update Button
-        binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.updateBtn.setOnClickListener { view ->
             if (binding.etName.text.toString()!=""){
                 userViewModel.editName(binding.etName.text.toString())
                 binding.etName.text.clear()
@@ -65,26 +87,23 @@ class Setting : UserCompatActivity() {
             Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).show()
 
             userViewModel.getUserInfo()
-        })
+        }
 
 
         // Change Password Button
         binding.changePasswordBtn.setOnClickListener{
             ResetPwd.startFn(this)
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         // Help Button
-        binding.helpBtn.setOnClickListener( View.OnClickListener { view ->
-
-        })
+        binding.helpBtn.setOnClickListener {
+        }
 
         // Back Button
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener{
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
 
     }
 
@@ -97,20 +116,6 @@ class Setting : UserCompatActivity() {
         super.onResume()
         Log.w("Setting", "onResume: ")
         userViewModel.getUserInfo()
-
-        userViewModel.user.observe(this, Observer { item ->
-            // Update the UI based on the value of MutableLiveData
-            if (item != null) {
-                // Update the UI
-                if (item.Gender == "Male"){
-                    setGenderDefault("Male")
-                    binding.avatar.setImageResource(R.drawable.avatar)
-                }else{
-                    setGenderDefault("Female")
-                    binding.avatar.setImageResource(R.drawable.hannah)
-                }
-            }
-        })
     }
 
     override fun onDestroy() {

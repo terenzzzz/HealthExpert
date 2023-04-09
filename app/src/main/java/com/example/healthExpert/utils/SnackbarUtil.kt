@@ -12,7 +12,11 @@ class SnackbarUtil {
         }
 
         fun buildTesting(view:View,code:Int){
-            Snackbar.make(view, "Testing Status: $code", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, "Operation Failed! Please Check Your Network! ", Snackbar.LENGTH_LONG).show()
+        }
+
+        fun buildPassword(view:View,code:Int){
+            Snackbar.make(view, "Please Ensure Your Password is Correct(8-16 characters,1 uppercase,1 lowercase and 1 number)", Snackbar.LENGTH_LONG).show()
         }
     }
 

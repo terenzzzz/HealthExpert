@@ -11,6 +11,7 @@ import kotlin.math.pow
 
 class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     var requestStatus = MutableLiveData<Int>()
+    var passwordStatus = MutableLiveData<Int>()
 
     private val repository = UserRepository()
     private val sharedPreferences: SharedPreferences =
@@ -36,7 +37,10 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun editName(name:String){
         viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
-                repository.editName(token,name)
+                val resStatus = repository.editName(token,name)
+                if (resStatus != 200){
+                    requestStatus.postValue(resStatus)
+                }
             }
         }
     }
@@ -44,10 +48,18 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun editGender(gender:String){
         viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
-                val bmi = calcBMI(user.value!!.Weight,user.value!!.Height)
-                val bfr = calcBFR(bmi, user.value!!.Age,gender)
-                repository.editGender(token,gender)
-                repository.editBodyFatRate(token,bfr)
+                if (user.value != null){
+                    val bmi = calcBMI(user.value!!.Weight, user.value!!.Height)
+                    val bfr = calcBFR(bmi, user.value!!.Age,gender)
+                    val resStatus1 = repository.editGender(token,gender)
+                    val resStatus2 = repository.editBodyFatRate(token,bfr)
+                    if (resStatus1 != 200){
+                        requestStatus.postValue(resStatus1)
+                    }
+                    if (resStatus2 != 200){
+                        requestStatus.postValue(resStatus2)
+                    }
+                }
             }
         }
     }
@@ -57,8 +69,14 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
             if (token != null) {
                 val bmi = calcBMI(user.value!!.Weight,user.value!!.Height)
                 val bfr = calcBFR(bmi, age, user.value!!.Gender)
-                repository.editAge(token,age)
-                repository.editBodyFatRate(token,bfr)
+                val resStatus1 = repository.editAge(token,age)
+                val resStatus2 = repository.editBodyFatRate(token,bfr)
+                if (resStatus1 != 200){
+                    requestStatus.postValue(resStatus1)
+                }
+                if (resStatus2 != 200){
+                    requestStatus.postValue(resStatus2)
+                }
             }
         }
     }
@@ -68,9 +86,15 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
             if (token != null) {
                 val bmi = calcBMI(weight,user.value!!.Height)
                 val bfr = calcBFR(bmi, user.value!!.Age,user.value!!.Gender)
-                repository.editWeight(token,weight)
-                repository.editBmi(token,bmi)
+                val resStatus1 = repository.editWeight(token,weight)
+                val resStatus2 = repository.editBmi(token,bmi)
                 repository.editBodyFatRate(token,bfr)
+                if (resStatus1 != 200){
+                    requestStatus.postValue(resStatus1)
+                }
+                if (resStatus2 != 200){
+                    requestStatus.postValue(resStatus2)
+                }
             }
         }
     }
@@ -80,9 +104,18 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
             if (token != null) {
                 val bmi = calcBMI(user.value!!.Weight,height)
                 val bfr = calcBFR(bmi, user.value!!.Age,user.value!!.Gender)
-                repository.editHeight(token,height)
-                repository.editBmi(token,bmi)
-                repository.editBodyFatRate(token,bfr)
+                val resStatus1 = repository.editHeight(token,height)
+                val resStatus2 = repository.editBmi(token,bmi)
+                val resStatus3 = repository.editBodyFatRate(token,bfr)
+                if (resStatus1 != 200){
+                    requestStatus.postValue(resStatus1)
+                }
+                if (resStatus2 != 200){
+                    requestStatus.postValue(resStatus2)
+                }
+                if (resStatus3 != 200){
+                    requestStatus.postValue(resStatus3)
+                }
             }
         }
     }
@@ -90,7 +123,8 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun changePassword(password:String,newPassword:String){
         viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
-                repository.changePassword(token,password, newPassword)
+                val resStatus = repository.changePassword(token,password, newPassword)
+                passwordStatus.postValue(resStatus)
             }
         }
     }
@@ -98,7 +132,10 @@ class UserViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     fun initUser(height:String,weight:String,age:String,gender:String,name:String){
         viewModelScope.launch(Dispatchers.IO) {
             if (token != null) {
-                repository.initUser(token,height, weight,age,gender,name)
+                val resStatus = repository.initUser(token,height, weight,age,gender,name)
+                if (resStatus != 200){
+                    requestStatus.postValue(resStatus)
+                }
             }
         }
     }
