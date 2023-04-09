@@ -4,10 +4,12 @@ package com.example.healthExpert.view.walk
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.WalkCompatActivity
@@ -31,6 +33,7 @@ import kotlin.collections.ArrayList
 
 class Walk : WalkCompatActivity() {
     private lateinit var binding: ActivityWalkBinding
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var ring: Ring
     private lateinit var barChart: BarChart
     private var todayDate = DateTimeConvert.toDate(Date())
@@ -52,6 +55,8 @@ class Walk : WalkCompatActivity() {
         binding.lifecycleOwner = this
         binding.walkViewmodel = walkViewModel
         setContentView(binding.root)
+        sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
+
 
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
@@ -71,15 +76,15 @@ class Walk : WalkCompatActivity() {
         barChart = walkChart(binding.walkChart)
 
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
 
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.settingBtn.setOnClickListener {
             WalkSetting.startFn(this)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-        })
+        }
 
     }
 
@@ -88,8 +93,9 @@ class Walk : WalkCompatActivity() {
         walkViewModel.walkAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
+                val stepsGoal = sharedPreferences.getInt("stepsGoal",10000)
                 ring.setValueText(item.TotalSteps.toString())
-                ring.setSweepValue(item.TotalSteps.div(100).toFloat())
+                ring.setSweepValue(item.TotalSteps.div(stepsGoal.toFloat()).times(100f))
             }
         })
 
@@ -127,11 +133,12 @@ class Walk : WalkCompatActivity() {
 
     private fun ringSetUp(view: View): Ring {
         val ring = view.findViewById<Ring>(R.id.calories)
+        val stepsGoal = sharedPreferences.getInt("stepsGoal",10000)
         ring.setSweepValue(0f)
         ring.setValueText("0")
         ring.setStateText("Active")
         ring.setUnit("Steps Goal: ")
-        ring.setUnitValue("10,000")
+        ring.setUnitValue(stepsGoal.toString())
         ring.setBgColor(Color.argb(20,0, 0, 0))
         ring.setSweepColor(Color.rgb(0, 0, 0))
         return ring

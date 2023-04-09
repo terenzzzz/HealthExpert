@@ -3,6 +3,7 @@ package com.example.healthExpert.view.training
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +30,12 @@ import java.util.*
 
 class Train : TrainingsCompatActivity() {
     private lateinit var binding: ActivityTrainBinding
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var ring: Ring
     private var todayDate = DateTimeConvert.toDate(Date())
+
 
 
     companion object {
@@ -50,6 +54,7 @@ class Train : TrainingsCompatActivity() {
         binding.lifecycleOwner = this
         binding.trainViewmodel = trainingsViewModel
         setContentView(binding.root)
+        sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
 
         trainingsViewModel.requestStatus.observe(this, Observer { code ->
@@ -63,8 +68,10 @@ class Train : TrainingsCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                ring.setValueText(item.Calories.toString())
-                ring.setSweepValue(item.Calories.times(100).div(1000f))
+                val trainingGoal = sharedPreferences.getInt("trainingGoal",60)
+                var rate = item.Duration.toFloat() / trainingGoal.toFloat() * 100f
+                ring.setValueText(item.Duration.toString())
+                ring.setSweepValue(rate)
             }
         })
 
@@ -93,18 +100,18 @@ class Train : TrainingsCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
 
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.settingBtn.setOnClickListener {
             TrainSetting.startFn(this)
-        })
+        }
 
-        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.addBtn.setOnClickListener { view ->
             TrainAdd.startFn(this)
-        })
+        }
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
     }
 
     override fun onResume() {
@@ -122,9 +129,9 @@ class Train : TrainingsCompatActivity() {
         ring.setSweepValue(0f)
         ring.setValueText("0")
         ring.setStateText("Active")
-        ring.setUnit("kcal")
+        ring.setUnit("min")
         ring.setBgColor(Color.argb(20,0, 0, 0))
-        ring.setSweepColor(Color.rgb(234, 67, 53))
+        ring.setSweepColor(Color.rgb(255, 205, 105))
         return ring
     }
 }

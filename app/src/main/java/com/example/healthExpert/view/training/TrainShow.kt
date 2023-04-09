@@ -48,7 +48,6 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
         val bundle = intent.extras
         if (bundle != null) {
             id = bundle.getInt("id")
-            Log.d("TrainShow", "id: $id")
             trainingsViewModel.getTrainingInfo(id)
             trainingsViewModel.getTrainingLocations(id)
         }else{
@@ -60,7 +59,7 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
             if (item != null) {
                 val startTime = DateTimeConvert.toDateTime(item[0].StartTime);
                 val endTime = DateTimeConvert.toDateTime(item[0].EndTime);
-                binding.duration.text = "${DateTimeConvert.toDecimalHours(startTime,endTime)} h"
+                binding.duration.text = "${DateTimeConvert.toMinutes(startTime,endTime)} min"
                 binding.title.text = item[0].Title
                 binding.speed.text = "${item[0].Speed} km/h"
                 binding.distance.text = "${item[0].Distance} km"
@@ -95,17 +94,18 @@ class TrainShow : TrainingsCompatActivity(), OnMapReadyCallback {
             }
 
         }
-//        binding.deleteBtn.setOnClickListener (View.OnClickListener { view ->
-//            trainingsViewModel.deleteTraining(id)
-//            trainingsViewModel.updateTrainingOverall()
-//            finish()
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-//        })
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.deleteBtn.setOnClickListener {
+            trainingsViewModel.deleteTraining(id)
+            trainingsViewModel.updateTrainingOverall()
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
+
+        binding.backBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
     }
 
 

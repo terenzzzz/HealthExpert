@@ -288,17 +288,16 @@
                                                 </LinearLayout>
                                             </androidx.cardview.widget.CardView>
                                         </LinearLayout>
+                                        <Button
+                                            android:id="@+id/delete_btn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:background="@drawable/radius_btn_bg_red"
+                                            android:text="Delete Record"/>
                                     </LinearLayout>
                                 </RelativeLayout>
                             </fragment>
-
-<!--                            <Button-->
-<!--                                android:id="@+id/delete_btn"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginTop="10dp"-->
-<!--                                android:background="@drawable/radius_btn_bg_red"-->
-<!--                                android:text="Delete Record"/>-->
                         </LinearLayout>
 
             </LinearLayout>

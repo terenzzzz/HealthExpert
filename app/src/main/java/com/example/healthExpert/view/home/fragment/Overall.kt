@@ -87,9 +87,6 @@ class Overall : OverallCompatFragment() {
                 val progress = item.TotalSteps.toDouble() / stepsGoal.toDouble() * 100
                 binding.walkProgress.progress = progress.toInt()
                 binding.walkRate.text = "$progress %"
-                Log.d("测试", "progress: ${progress}")
-                Log.d("测试", "TotalSteps: ${item.TotalSteps}")
-                Log.d("测试", "stepsGoal: $stepsGoal")
                 binding.walkValue.text = item.TotalSteps.toString()
             }
         })

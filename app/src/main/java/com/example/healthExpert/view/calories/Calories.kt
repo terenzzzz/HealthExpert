@@ -3,6 +3,7 @@ package com.example.healthExpert.view.calories
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,7 @@ import java.util.*
 
 class Calories : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesBinding
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var recyclerView: RecyclerView
     private lateinit var ring: Ring
     private lateinit var layoutManager: LinearLayoutManager
@@ -44,6 +47,7 @@ class Calories : CaloriesCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
         Log.w("Calories", "onCreate: ")
         binding = ActivityCaloriesBinding.inflate(layoutInflater)
@@ -70,10 +74,14 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update Ring the UI
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
-                var rate = total?.div(10f)
+                Log.d("测试", "intake: ${intake}")
+                Log.d("测试", "burn: ${burn}")
+                Log.d("测试", "total: $total")
+                var rate = total?.div(caloriesGoal.toFloat())?.times(100)
                 ring.setValueText(total.toString())
                 if (rate != null) {
                     ring.setSweepValue(rate.toFloat())

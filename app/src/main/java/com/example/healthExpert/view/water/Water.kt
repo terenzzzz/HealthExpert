@@ -3,6 +3,7 @@ package com.example.healthExpert.view.water
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +31,7 @@ class Water : WatersCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WatersAdapter
     private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var sharedPreferences: SharedPreferences
     private var todayDate = DateTimeConvert.toDate(Date())
     var mode = "edit"
 
@@ -47,6 +50,7 @@ class Water : WatersCompatActivity() {
         binding.lifecycleOwner = this
         binding.waterViewmodel = watersViewModel
         setContentView(binding.root)
+        sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
 
         watersViewModel.requestStatus.observe(this, Observer { code ->
@@ -60,7 +64,9 @@ class Water : WatersCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                binding.rate.text = "${item.Total.div(80)} %"
+                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                binding.rate.text = String.format("%.0f", item.Total.div(waterGoal.toFloat()).times(100f))+ " %"
+                binding.fromGoal.text = "${(waterGoal.toFloat()-item.Total.toFloat()).div(1000f)}"
             }
         })
 
@@ -79,7 +85,6 @@ class Water : WatersCompatActivity() {
             todayDate = bundle.getString("selectedDate").toString()
             mode = "view"
             binding.addBtn.visibility = View.GONE
-            binding.settingBtn.visibility = View.GONE
             binding.shortCut.visibility = View.GONE
         }
 
@@ -110,10 +115,6 @@ class Water : WatersCompatActivity() {
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
-
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
-            WaterSetting.startFn(this)
         })
 
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->

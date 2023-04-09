@@ -98,14 +98,14 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="@{String.valueOf(trainViewmodel.trainingAll.Duration)}"
+                                        android:text="@{String.valueOf(trainViewmodel.trainingAll.calories)}"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"/>
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="TIME(Mins)"
+                                        android:text="Calories(kcal)"
                                         android:textColor="@color/black"
                                         android:textSize="10dp"/>
                                 </LinearLayout>
