@@ -6,10 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.CaloriesCompatActivity
 import com.example.healthExpert.databinding.ActivityCaloriesBinding
 import com.example.healthExpert.databinding.ActivityCaloriesSettingBinding
 
-class CaloriesSetting : AppCompatActivity() {
+class CaloriesSetting : CaloriesCompatActivity() {
     private lateinit var binding: ActivityCaloriesSettingBinding
 
     companion object {
@@ -25,14 +26,15 @@ class CaloriesSetting : AppCompatActivity() {
         binding = ActivityCaloriesSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
 
-        binding.saveBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.saveBtn.setOnClickListener {
+            caloriesViewModel
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
     }
 }

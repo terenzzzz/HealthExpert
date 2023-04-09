@@ -193,6 +193,14 @@
                             android:background="@color/light_gray"/>
 
                         <Button
+                            android:id="@+id/goals_setting_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:text="Goals Setting"
+                            android:background="@drawable/radius_btn"/>
+
+                        <Button
                             android:id="@+id/change_password_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

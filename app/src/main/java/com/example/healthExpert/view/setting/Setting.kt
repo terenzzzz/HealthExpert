@@ -1,5 +1,6 @@
 package com.example.healthExpert.view.setting
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
+import com.example.healthExpert.view.goals.GoalsSetting
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,6 +23,7 @@ class Setting : UserCompatActivity() {
             val intent =
                 Intent(context, Setting::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -33,6 +36,10 @@ class Setting : UserCompatActivity() {
         binding.userViewModel = userViewModel
 
         setContentView(binding.root)
+
+        binding.goalsSettingBtn.setOnClickListener{
+            GoalsSetting.startFn(this)
+        }
 
         // Update Button
         binding.updateBtn.setOnClickListener (View.OnClickListener { view ->
@@ -65,15 +72,12 @@ class Setting : UserCompatActivity() {
         binding.changePasswordBtn.setOnClickListener{
             ResetPwd.startFn(this)
             finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         // Help Button
         binding.helpBtn.setOnClickListener( View.OnClickListener { view ->
-//            Log.w("setting", "Gender: "+binding.etGender.selectedItem)
-//            Log.w("setting", "Name: "+userViewModel.user.value!!.Name)
-//            Log.w("setting", "Age: "+userViewModel.user.value!!.Age)
-//            Log.w("setting", "Height: "+userViewModel.user.value!!.Height)
-//            Log.w("setting", "Weight: "+userViewModel.user.value!!.Weight)
+
         })
 
         // Back Button
