@@ -45,7 +45,6 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
                 val trainingsParse = trainingsRepository.getTrainings(token,date)
 
                 if (caloriesOverallParse.status!=200 || walksOverallParse.status!=200 || trainingsParse.status!=200){
-
                     requestStatus.postValue(walksOverallParse.status)
                 }else{
                     var updateTrainingCalories = 0
@@ -56,11 +55,13 @@ class CaloriesViewModel(private val activity: AppCompatActivity) : ViewModel() {
                             }
                         }
                     }
-                    caloriesOverallParse.data!!.Burn = caloriesOverallParse.data!!.Burn + walksOverallParse.data!!.Calories + updateTrainingCalories
+                    caloriesOverallParse.data?.Burn = caloriesOverallParse.data!!.Burn + walksOverallParse.data!!.Calories + updateTrainingCalories
 
                     // Refresh UI Update data
                     caloriesAll.postValue(caloriesOverallParse.data)
-                    activityCalories.postValue(walksOverallParse.data!!.Calories + updateTrainingCalories)
+                    activityCalories.postValue(walksOverallParse.data?.Calories?.plus(
+                        updateTrainingCalories
+                    ) ?: 0)
                 }
             }
         }
