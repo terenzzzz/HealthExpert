@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
@@ -28,11 +30,13 @@ import kotlin.math.roundToInt
 
 class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
     private lateinit var binding: FragmentHistoryBinding
+    private lateinit var sharedPreferences: SharedPreferences
     private var selectedDate = DateTimeConvert.toDate(Date())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("History", "onCreate: ")
         super.onCreate(savedInstanceState)
+        sharedPreferences= requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
         historyViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
@@ -45,26 +49,28 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
-                var rate = total?.div(10f)
+                var rate = total?.div(caloriesGoal.toFloat())?.times(100)
                 if (rate != null) {
                     binding.caloriesRing.setValueText("${rate.roundToInt()}%")
                     binding.caloriesRing.setSweepValue(rate.toFloat())
                 }
-                binding.caloriesValue.text = "${total.toString()} / 1000 kcal"
+                binding.caloriesValue.text = "${total.toString()} kcal / ${sharedPreferences.getInt("caloriesGoal",2400)} kcal"
             }
         })
 
         historyViewModel.walkAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
-                // Update the UI
-                binding.stepsRing.setValueText("${item.TotalSteps/80}%")
-                binding.stepsRing.setSweepValue((item.TotalSteps/80).toFloat())
+                val stepsGoal = sharedPreferences.getInt("stepsGoal",10000)
+                val rate = item.TotalSteps.toFloat() / stepsGoal.toFloat() * 100
+                binding.stepsRing.setValueText(String.format("%.0f", rate)+" %")
+                binding.stepsRing.setSweepValue(rate)
                 binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
-                binding.stepsValue.text = "${ item.TotalSteps} Steps / 8000 Steps"
+                binding.stepsValue.text = "${ item.TotalSteps} Steps / ${sharedPreferences.getInt("stepsGoal",10000)} Steps"
             }
         })
 
@@ -72,10 +78,12 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                binding.drinkingRing.setSweepValue((item.Total/80).toFloat())
-                binding.drinkingRing.setValueText("${item.Total/80}%")
+                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                val rate = item.Total.toFloat()/waterGoal.toFloat()*100f
+                binding.drinkingRing.setSweepValue(rate)
+                binding.drinkingRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
-                binding.drinkingValue.text = "${ item.Total.toFloat() / 1000 } / 8 liters"
+                binding.drinkingValue.text = "${ item.Total} ml / ${sharedPreferences.getInt("waterGoal",8000)} ml"
             }
         })
 
@@ -83,10 +91,12 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                binding.trainingRing.setSweepValue((item.Duration/1.2).toFloat())
-                binding.trainingRing.setValueText("${(item.Duration/1.2).roundToInt()}%")
+                val trainingGoal = sharedPreferences.getInt("trainingGoal",60)
+                var rate = item.Duration.toFloat() / trainingGoal.toFloat() * 100f
+                binding.trainingRing.setSweepValue(rate)
+                binding.trainingRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
-                binding.trainingValue.text = "${ item.Duration } minutes / 120 minutes"
+                binding.trainingValue.text = "${ item.Duration } minutes / ${sharedPreferences.getInt("trainingGoal",60)} minutes"
             }
         })
 
@@ -94,13 +104,15 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
+                val sleepGoal = sharedPreferences.getInt("sleepGoal",8)
                 val startTime = DateTimeConvert.toDateTime(item.StartTime)
                 val endTime = DateTimeConvert.toDateTime(item.EndTime)
                 val duration = DateTimeConvert.toDecimalHours(startTime,endTime)
-                binding.sleepRing.setSweepValue(duration.toFloat().div(8F))
-                binding.sleepRing.setValueText("${(duration.toFloat()/8f).roundToInt()}%")
+                var rate = duration.toFloat() / sleepGoal.toFloat() * 100f
+                binding.sleepRing.setSweepValue(rate)
+                binding.sleepRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))
-                binding.sleepValue.text = "$duration Hours / 8.0 Hours"
+                binding.sleepValue.text = "$duration Hours / ${sharedPreferences.getInt("sleepGoal",8)} Hours"
             }
         })
 
@@ -110,6 +122,9 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
     override fun onResume() {
         Log.d("History", "onResume: ")
         super.onResume()
+        binding.sleepRing.setSweepValue(0f)
+        binding.sleepRing.setValueText("0 %")
+        binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))
         historyViewModel.getCaloriesOverall(selectedDate)
         historyViewModel.getWalksOverall(selectedDate)
         historyViewModel.getWatersOverall(selectedDate)

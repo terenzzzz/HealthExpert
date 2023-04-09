@@ -104,11 +104,11 @@ class Train : TrainingsCompatActivity() {
             TrainSetting.startFn(this)
         }
 
-        binding.addBtn.setOnClickListener { view ->
+        binding.addBtn.setOnClickListener {
             TrainAdd.startFn(this)
         }
 
-        binding.backBtn.setOnClickListener { view ->
+        binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
@@ -116,16 +116,15 @@ class Train : TrainingsCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.w("Calories", "onResume", )
         // Init ring
-        ring = ringSetUp(binding.calories)
+        ring = ringSetUp(binding.root)
 
         trainingsViewModel.getTrainingOverall(todayDate)
         trainingsViewModel.getTrainings(todayDate)
     }
 
     private fun ringSetUp(view: View): Ring {
-        val ring = view.findViewById<Ring>(R.id.calories)
+        val ring = view.findViewById<Ring>(R.id.training_ring)
         ring.setSweepValue(0f)
         ring.setValueText("0")
         ring.setStateText("Active")

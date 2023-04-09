@@ -108,7 +108,7 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 binding.trainingValue.text = "${ item.Duration } "
-                TrainingSetup(binding.trainingBar)
+                trainingSetup(binding.trainingBar)
             }
         })
 
@@ -160,6 +160,7 @@ class Overall : OverallCompatFragment() {
         // Heart Set Up
         heartSetUp(binding.root)
         sleepSetUp(binding.root)
+        trainingSetup(binding.trainingBar)
         overallViewModel.getCaloriesOverall(todayDate)
         overallViewModel.getWalksOverall(todayDate)
         overallViewModel.getWatersOverall(todayDate)
@@ -223,8 +224,6 @@ class Overall : OverallCompatFragment() {
                 Period.startFn(it)
             }
         })
-
-
         return  binding.root
     }
 
@@ -309,7 +308,7 @@ class Overall : OverallCompatFragment() {
         lineChart.invalidate() // 刷新
     }
 
-    private fun TrainingSetup(view: BarChart) {
+    private fun trainingSetup(view: BarChart) {
         // Find View
         // Create data entries
         val entries = listOf(
