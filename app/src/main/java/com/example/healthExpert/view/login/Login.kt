@@ -136,20 +136,4 @@ class                                                                           
             }
         })
     }
-
-    private fun getNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            val intent = Intent()
-            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.packageName)
-            this.startActivity(intent)
-        } else {
-            val intent = Intent()
-            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-            intent.putExtra("app_package", this.applicationContext.packageName)
-            intent.putExtra("app_uid", this.applicationInfo.uid)
-            this.startActivity(intent)
-        }
-    }
-
 }

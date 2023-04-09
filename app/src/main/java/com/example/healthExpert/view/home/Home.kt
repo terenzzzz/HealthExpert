@@ -19,7 +19,7 @@ import com.example.healthExpert.view.setting.Setting
 import com.example.healthExpert.view.sidebar.Sidebar
 import com.example.healthExpert.view.home.fragment.History
 import com.example.login.view.homePage.fragment.Me
-import com.example.login.view.homePage.fragment.Overall
+import com.example.healthExpert.view.home.fragment.Overall
 import com.example.healthExpert.view.home.fragment.Sources
 import com.example.healthExpert.view.setting.InitSetting
 import com.google.android.material.tabs.TabLayout

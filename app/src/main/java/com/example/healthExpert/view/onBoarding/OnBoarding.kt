@@ -1,33 +1,20 @@
 package com.example.healthExpert.view.onBoarding
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.healthExpert.R
-import com.example.healthExpert.databinding.ActivityHomeBinding
 import com.example.healthExpert.databinding.ActivityOnboardingBinding
-import com.example.healthExpert.databinding.ActivityWalkBinding
 import com.example.healthExpert.view.home.ViewPagerAdapter
-import com.example.healthExpert.view.home.fragment.History
-import com.example.healthExpert.view.home.fragment.Sources
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.onBoarding.fragment.*
-import com.example.healthExpert.view.walk.Walk
-import com.example.login.view.homePage.fragment.Me
-import com.example.login.view.homePage.fragment.Overall
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 class OnBoarding : AppCompatActivity() {
 

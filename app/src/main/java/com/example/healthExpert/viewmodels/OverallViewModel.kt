@@ -23,13 +23,22 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     private val height = sharedPreferences.getFloat("height",0f)
     private val weight = sharedPreferences.getFloat("weight",0f)
     private val caloriesRepository = CaloriesRepository()
+    private val goalsRepository = GoalsRepository()
     private val walkRepository = WalkRepository()
     private val watersRepository = WatersRepository()
     private val trainingsRepository = TrainingsRepository()
     private val medicationRepository = MedicationRepository()
     private val sleepRepository = SleepRepository()
 
-
+    var goals = MutableLiveData<Goal>()
+    fun getGoals(){
+        viewModelScope.launch(Dispatchers.IO) {
+            if (token != null) {
+                val goalParse = goalsRepository.getGoal(token)
+                goals.postValue(goalParse.data)
+            }
+        }
+    }
 
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
     fun getCaloriesOverall(date:String){

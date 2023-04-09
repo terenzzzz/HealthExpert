@@ -1,13 +1,14 @@
-package com.example.login.view.homePage.fragment
+package com.example.healthExpert.view.home.fragment
 
 import android.content.Intent
-import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.OverallCompatFragment
@@ -28,16 +29,18 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
 class Overall : OverallCompatFragment() {
     private lateinit var binding: FragmentOverallBinding
     private var todayDate = DateTimeConvert.toDate(Date())
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPreferences= requireActivity().getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
         overallViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
@@ -46,14 +49,28 @@ class Overall : OverallCompatFragment() {
             }
         })
 
+        overallViewModel.goals.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null){
+                val editor = sharedPreferences.edit()
+                editor.putInt("caloriesGoal", item.Calories)
+                editor.putInt("stepsGoal", item.Steps)
+                editor.putInt("trainingGoal", item.Training)
+                editor.putInt("sleepGoal", item.Sleep)
+                editor.putInt("waterGoal", item.Water)
+                editor.apply()
+            }
+        })
+
         overallViewModel.caloriesAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
-                var rate = total?.div(10f)
+                var rate = total?.div(caloriesGoal.toFloat())?.times(100)
                 binding.calories.setValueText(total.toString())
                 binding.calories.setUnit("kcal")
                 binding.caloriesValue.text = total.toString()
@@ -66,8 +83,13 @@ class Overall : OverallCompatFragment() {
         overallViewModel.walkAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
-                binding.walkProgress.progress = item.TotalSteps/100
-                binding.walkRate.text = "${(item.TotalSteps/100)} %"
+                val stepsGoal = sharedPreferences.getInt("stepsGoal",10000)
+                val progress = item.TotalSteps.toDouble() / stepsGoal.toDouble() * 100
+                binding.walkProgress.progress = progress.toInt()
+                binding.walkRate.text = "$progress %"
+                Log.d("测试", "progress: ${progress}")
+                Log.d("测试", "TotalSteps: ${item.TotalSteps}")
+                Log.d("测试", "stepsGoal: $stepsGoal")
                 binding.walkValue.text = item.TotalSteps.toString()
             }
         })
@@ -75,8 +97,10 @@ class Overall : OverallCompatFragment() {
         overallViewModel.watersAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
-                binding.waterRing.setSweepValue((item.Total/80).toFloat())
-                binding.waterRing.setValueText("${item.Total/80}%")
+                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                val rate = item.Total.toDouble()/waterGoal.toDouble()*100
+                binding.waterRing.setSweepValue(rate.toFloat())
+                binding.waterRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.waterRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.waterRing.setSweepColor(Color.rgb(27, 204, 243))
                 binding.waterValue.text = "${ item.Total.toFloat() / 1000 }"
@@ -123,9 +147,6 @@ class Overall : OverallCompatFragment() {
         overallViewModel.sleep.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null ) {
-                // Update the UI
-                // Sleep set up
-
                 binding.sleepValue.text = DateTimeConvert.toDecimalHours(
                     DateTimeConvert.toDateTime(item.StartTime),
                     DateTimeConvert.toDateTime(item.EndTime)
@@ -137,6 +158,7 @@ class Overall : OverallCompatFragment() {
 
     override fun onResume() {
         super.onResume()
+        overallViewModel.getGoals()
         todayDate = DateTimeConvert.toDate(Date())
         // Heart Set Up
         heartSetUp(binding.root)
