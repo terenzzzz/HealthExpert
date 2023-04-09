@@ -46,9 +46,6 @@ class                                                                           
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
         // Permission Check
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION)
@@ -84,19 +81,17 @@ class                                                                           
             binding.checkbox.isChecked = true
         }
 
-        binding.logInBtn.setOnClickListener (View.OnClickListener { view ->
-            Log.d("Login", "Loginbtn: Clicked")
+        binding.logInBtn.setOnClickListener { view ->
             login(binding.etEmail.text.toString(),binding.etPassword.text.toString())
-        })
+        }
 
-
-        binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.signUpBtn.setOnClickListener {
             Signup.startFn(this)
-        })
+        }
 
-        binding.resetBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.resetBtn.setOnClickListener {
             ResetPwd.startFn(this)
-        })
+        }
     }
 
     private fun login(email:String, password:String){

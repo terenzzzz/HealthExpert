@@ -1,19 +1,16 @@
 package com.example.healthExpert.view.signup
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivitySignupBinding
 import com.example.healthExpert.parse.BaseParse
-import com.example.healthExpert.view.home.Home
+import com.example.healthExpert.repository.GoalsRepository
 import com.example.healthExpert.view.login.Login
-import com.example.healthExpert.viewmodels.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.*
@@ -27,6 +24,7 @@ class Signup : AppCompatActivity() {
             val intent =
                 Intent(context, Signup::class.java)
             context.startActivity(intent)
+            (context as Activity).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -70,7 +68,6 @@ class Signup : AppCompatActivity() {
                 val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
                 if (parsed.status == 200){
                     Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
-                    Home.startFn(this@Signup)
                     finish()
                 }else{
                     Snackbar.make(binding.root, "Signup Fail!", Snackbar.LENGTH_LONG).show()
