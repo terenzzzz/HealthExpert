@@ -53,28 +53,22 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Walk Steps"
+                        android:textColor="@color/yellow"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:id="@+id/date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Sleep"
-                            android:textSize="25dp"
-                            android:textColor="@color/yellow"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="12dp"/>
-                    </LinearLayout>
-
-
+                        android:text="2023-02-21"
+                        android:textSize="12dp"
+                        android:textColor="@color/gray"
+                        android:textStyle="bold"/>
 
                     <View
                         android:layout_width="fill_parent"
@@ -381,7 +375,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text=""
+                                android:text="Good sleep improves mental health, promotes physical healing and boosts immunity."
                                 android:textColor="@color/black"
                                 android:textSize="10dp"/>
                         </LinearLayout>

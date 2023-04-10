@@ -33,6 +33,7 @@ class Sleep : SleepCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.date.text = todayDate
 
         sleepViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
@@ -44,6 +45,7 @@ class Sleep : SleepCompatActivity() {
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
+            binding.date.text = todayDate
             mode = "view"
             binding.addBtn.visibility = View.GONE
         }

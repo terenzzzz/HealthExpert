@@ -55,13 +55,14 @@ class Walk : WalkCompatActivity() {
         binding.lifecycleOwner = this
         binding.walkViewmodel = walkViewModel
         setContentView(binding.root)
+        binding.dateTime.text = todayDate
         sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
 
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
-            binding.settingBtn.visibility = View.GONE
+            binding.dateTime.text = todayDate
         }
 
         walkViewModel.requestStatus.observe(this, Observer { code ->
@@ -79,11 +80,6 @@ class Walk : WalkCompatActivity() {
         binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
-
-        binding.settingBtn.setOnClickListener {
-            WalkSetting.startFn(this)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
     }

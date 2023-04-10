@@ -20,6 +20,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    android.applicationVariants.all { variant ->
+        variant.outputs.all{
+            outputFileName = "HealthyExpert_${buildType.name}_v${versionName}_${generateTime()}.apk"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -39,6 +45,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+
+def generateTime(){
+    return new Date().format("yyyy_MM_dd")
 }
 
 dependencies {

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityHeartBinding
+import com.example.healthExpert.utils.DateTimeConvert
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -16,10 +17,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import java.util.ArrayList
+import java.util.*
 
 class Heart : AppCompatActivity() {
     private lateinit var binding: ActivityHeartBinding
+    private var todayDate = DateTimeConvert.toDate(Date())
 
     companion object {
         fun startFn(context: Context) {
@@ -34,6 +36,7 @@ class Heart : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHeartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.dateTime.text = todayDate
 
         heartSetUp(binding.heartChart)
 

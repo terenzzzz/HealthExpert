@@ -86,7 +86,7 @@ class Overall : OverallCompatFragment() {
                 val stepsGoal = sharedPreferences.getInt("stepsGoal",10000)
                 val progress = item.TotalSteps.toDouble() / stepsGoal.toDouble() * 100
                 binding.walkProgress.progress = progress.toInt()
-                binding.walkRate.text = "$progress %"
+                binding.walkRate.text = String.format("%.2f", progress)+" %"
                 binding.walkValue.text = item.TotalSteps.toString()
             }
         })

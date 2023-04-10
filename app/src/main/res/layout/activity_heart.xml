@@ -56,11 +56,20 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Heart Rate"
+                            android:textColor="@color/yellow"
+                            android:textStyle="bold"
+                            android:textSize="20dp"/>
+
+                        <TextView
+                            android:id="@+id/dateTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sleep"
-                            android:textSize="20dp"
-                            android:textColor="@color/yellow"
+                            android:text="2023-02-21"
+                            android:textSize="12dp"
+                            android:textColor="@color/gray"
                             android:textStyle="bold"/>
                         <View
                             android:layout_width="fill_parent"

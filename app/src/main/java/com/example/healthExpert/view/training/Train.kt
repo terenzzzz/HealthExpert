@@ -54,6 +54,7 @@ class Train : TrainingsCompatActivity() {
         binding.lifecycleOwner = this
         binding.trainViewmodel = trainingsViewModel
         setContentView(binding.root)
+        binding.dateTime.text = todayDate
         sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
 
@@ -89,8 +90,8 @@ class Train : TrainingsCompatActivity() {
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
+            binding.dateTime.text = todayDate
             binding.addBtn.visibility = View.GONE
-            binding.settingBtn.visibility = View.GONE
         }
 
         recyclerView = binding.recyclerView
@@ -99,10 +100,6 @@ class Train : TrainingsCompatActivity() {
         layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
 
-
-        binding.settingBtn.setOnClickListener {
-            TrainSetting.startFn(this)
-        }
 
         binding.addBtn.setOnClickListener {
             TrainAdd.startFn(this)

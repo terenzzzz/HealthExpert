@@ -29,12 +29,37 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
-            val caloriesOverallParse = token?.let { caloriesRepository.getCaloriesOverall(it,date) }
-            if (caloriesOverallParse != null) {
-                if (caloriesOverallParse.status != 200){
-                    requestStatus.postValue(caloriesOverallParse.status)
+            if (token != null){
+                // 获取卡路里汇总数据
+                val caloriesOverallParse = caloriesRepository.getCaloriesOverall(token,date)
+                // 获取步数卡路里数据
+                val walksOverallParse = walkRepository.getWalksOverall(token,date)
+                // 获取训练数据
+                val trainingsParse = trainingsRepository.getTrainings(token,date)
+
+                if (caloriesOverallParse.status!=200 || walksOverallParse.status!=200 || trainingsParse.status!=200){
+                    requestStatus.postValue(walksOverallParse.status)
+                }else{
+                    var updateTrainingCalories = 0
+                    if (trainingsParse.data != null) {
+                        for (training in trainingsParse.data!!){
+                            if (training.Type=="Cycling"){
+                                updateTrainingCalories += training.CaloriesBurn
+                            }
+                        }
+                    }
+                    caloriesOverallParse.data?.Burn = caloriesOverallParse.data!!.Burn + walksOverallParse.data!!.Calories + updateTrainingCalories
+
+                    // Refresh UI Update data
+                    caloriesAll.postValue(caloriesOverallParse.data)
                 }
-                caloriesAll.postValue(caloriesOverallParse.data)
+            }
+            if (token != null) {
+                caloriesRepository.updateCaloriesOverall(token) { resStatus ->
+                    if (resStatus != 200) {
+                        requestStatus.postValue(resStatus as Int?)
+                    }
+                }
             }
         }
     }

@@ -62,7 +62,6 @@ class WalkViewModel(private val activity: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             val updatedData = token?.let { repository.updateWalksOverall(it,weight,height) }
-
         }
     }
 

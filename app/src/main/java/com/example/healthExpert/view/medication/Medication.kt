@@ -55,6 +55,7 @@ class Medication : MedicationsCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.dateTime.text = todayDate
 
         medicationsViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
@@ -75,9 +76,6 @@ class Medication : MedicationsCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        binding.settingBtn.setOnClickListener{
-            MedicationSetting.startFn(this)
-        }
 
         binding.backBtn.setOnClickListener{
             finish()

@@ -55,6 +55,7 @@ class Calories : CaloriesCompatActivity() {
         binding.caloriesViewmodel = caloriesViewModel
         setContentView(binding.root)
         ring = ringSetUp(binding.calories)
+        binding.dateTime.text = todayDate
 
         recyclerView = findViewById (R.id.recycler_view)
         layoutManager = LinearLayoutManager(this)
@@ -110,24 +111,25 @@ class Calories : CaloriesCompatActivity() {
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
+            binding.dateTime.text = todayDate
             mode = "view"
             binding.addBtn.visibility = View.GONE
             binding.settingBtn.visibility = View.GONE
         }
 
 
-        binding.settingBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.settingBtn.setOnClickListener {
             CaloriesSetting.startFn(this)
-        })
+        }
 
-        binding.addBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.addBtn.setOnClickListener {
             CaloriesAdd.startFn(this)
-        })
+        }
 
-        binding.backBtn.setOnClickListener (View.OnClickListener { view ->
+        binding.backBtn.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        })
+        }
     }
 
     override fun onResume() {

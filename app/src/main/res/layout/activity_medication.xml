@@ -56,25 +56,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <LinearLayout
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Medication Reminder"
+                            android:textColor="@color/yellow"
+                            android:textStyle="bold"
+                            android:textSize="20dp"/>
+
+                        <TextView
+                            android:id="@+id/dateTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Medication Reminder"
-                                android:textColor="@color/yellow"
-                                android:textStyle="bold"
-                                android:textSize="20dp"/>
-                            <ImageView
-                                android:id="@+id/setting_btn"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/settings" />
-                        </LinearLayout>
+                            android:text="2023-02-21"
+                            android:textSize="12dp"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_view"
