@@ -27,16 +27,16 @@
 
 - Main Feature
 
-  - [ ] Steps Tracker
+  - [x] Steps Tracker
     - [x] Can get user's steps
     - [x] Can get steps in the baground(Service)
     - [x] Can update to database(every 30s)
     - [x] Can get data from database
     - [x] Can show the data in the activity
     - [x] Can plot the graph
-    - [ ] Can set goal
+    - [x] Can set goal
 
-  - [ ] Training Tracker
+  - [x] Training Tracker
     - [x] Can select mode (walking/running/cycling)
     - [x] Can add title
     - [x] Can get metric about the training during recording
@@ -45,25 +45,25 @@
     - [x] Can add training to database
     - [x] Can add get trainining record from database
     - [x] Can delete record
-    - [ ] Can set goal
+    - [x] Can set goal
 
-  - [ ] Water Drinking Reminder
+  - [x] Water Drinking Reminder
     - [x] Can get today's Drinking Records
     - [x] Can get specific Record
     - [x] Can calculate the metrics
     - [x] Can add Drinking record
     - [x] Can edit Drinking record
     - [x] Can delete Drinking record
-    - [ ] Can set goal
+    - [x] Can set goal
 
-  - [ ] Calories Records
+  - [x] Calories Records
     - [x] Can get today's Calories Records
     - [x] Can get specific Record
     - [x] Can calculate the metrics
     - [x] Can add calories record
     - [x] Can edit calories record
     - [x] Can delete calories record
-    - [ ] Can set goal
+    - [x] Can set goal
 
   - [ ] Medication Reminder
     - [x] Can get today's medication reminder
@@ -74,7 +74,7 @@
     - [x] Can delete reminder
     - [x] Can edit pending reminder
     
-  - [ ] Sleep Tracker
+  - [x] Sleep Tracker
     - [x] Can see the latest Record of sleep
     - [x] Can tracking Humidity properly
     - [x] Can tracking Temperature properly
@@ -98,10 +98,10 @@
 - Aside
   - [x] Can get Articles
   - [x] User Profile
-  - [] Can view History
+  - [x] Can view History
     - [x] Can select date
     - [x] Can show the data of the specific date
-    - [ ] Can see All block of data
+    - [x] Can see All block of data
   - [x] Body index monitoring
   - [ ] Emergency contact
   - [ ] Store data in local
