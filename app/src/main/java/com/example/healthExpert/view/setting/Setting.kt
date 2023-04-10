@@ -3,6 +3,7 @@ package com.example.healthExpert.view.setting
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,8 @@ import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.goals.GoalsSetting
+import com.example.healthExpert.view.help.Help
+import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.resetPwd.ResetPwd
 import com.google.android.material.snackbar.Snackbar
 
@@ -97,12 +100,32 @@ class Setting : UserCompatActivity() {
 
         // Help Button
         binding.helpBtn.setOnClickListener {
+            Help.startFn(this)
         }
 
         // Back Button
         binding.backBtn.setOnClickListener{
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+        binding.logOutBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            // Clear SharedPreferences
+            val sharedPreferences: SharedPreferences =
+                this.getSharedPreferences("healthy_expert", MODE_PRIVATE)
+            val remember = sharedPreferences.getBoolean("remember",false)
+            if (remember){
+                sharedPreferences.edit()
+                    .remove("token")
+                    .commit()
+            }else{
+                sharedPreferences.edit()
+                    .clear()
+                    .commit()
+            }
+            Login.startFn(this)
         }
 
     }

@@ -12,6 +12,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 
 import com.example.healthExpert.databinding.ActivitySidebarBinding
+import com.example.healthExpert.view.help.Help
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.setting.Setting
 
@@ -62,6 +63,7 @@ class Sidebar : UserCompatActivity() {
         })
 
         binding.supportBtn.setOnClickListener (View.OnClickListener { view ->
+            Help.startFn(this)
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         })

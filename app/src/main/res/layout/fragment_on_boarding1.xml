@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Vaccination is an important step to stop the pandemic."
+            android:text="Designed to help you live a healthy, fulfilling life."
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20dp" />

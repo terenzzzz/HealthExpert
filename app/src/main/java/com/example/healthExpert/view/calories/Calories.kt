@@ -114,13 +114,8 @@ class Calories : CaloriesCompatActivity() {
             binding.dateTime.text = todayDate
             mode = "view"
             binding.addBtn.visibility = View.GONE
-            binding.settingBtn.visibility = View.GONE
         }
 
-
-        binding.settingBtn.setOnClickListener {
-            CaloriesSetting.startFn(this)
-        }
 
         binding.addBtn.setOnClickListener {
             CaloriesAdd.startFn(this)

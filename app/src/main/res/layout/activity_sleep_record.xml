@@ -123,7 +123,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:text="0"
-                                        android:textSize="20dp">
+                                        android:textSize="18dp">
                                     </TextView>
 
                                     <TextView
@@ -189,7 +189,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:text="0"
-                                        android:textSize="20dp">
+                                        android:textSize="18dp">
                                     </TextView>
 
                                     <TextView
@@ -260,7 +260,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:text="0"
-                                        android:textSize="20dp">
+                                        android:textSize="18dp">
                                     </TextView>
 
                                     <TextView
@@ -325,7 +325,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:text="0"
-                                        android:textSize="20dp">
+                                        android:textSize="18dp">
                                     </TextView>
 
                                     <TextView

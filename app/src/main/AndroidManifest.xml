@@ -34,13 +34,15 @@
         tools:remove="android:appComponentFactory"
         tools:targetApi="31">
         <activity
+            android:name=".view.help.Help"
+            android:exported="false"/>
+        <activity
             android:name=".view.goals.GoalsSetting"
-            android:exported="false">
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".view.onBoarding.OnBoarding"
             android:exported="true"
-            android:theme="@style/Theme.onBoarding"></activity>
+            android:theme="@style/Theme.onBoarding" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
