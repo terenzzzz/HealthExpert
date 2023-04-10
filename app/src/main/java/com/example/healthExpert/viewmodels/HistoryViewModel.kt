@@ -1,6 +1,7 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -120,6 +121,9 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
             if (sleepParse != null) {
                 if (sleepParse.status != 200){
                     requestStatus.postValue(sleepParse.status)
+                }
+                if (sleepParse.data==null){
+                    sleepParse.data = Sleep()
                 }
                 sleep.postValue(sleepParse.data)
             }

@@ -3,8 +3,10 @@ package com.example.healthExpert.view.sleep
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.SleepCompatActivity
@@ -17,6 +19,7 @@ import java.util.*
 
 class Sleep : SleepCompatActivity() {
     private lateinit var binding: ActivitySleepBinding
+    private lateinit var sharedPreferences: SharedPreferences
     private var todayDate = DateTimeConvert.toDate(Date())
     var mode = "edit"
 
@@ -33,6 +36,7 @@ class Sleep : SleepCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySleepBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
         binding.date.text = todayDate
 
         sleepViewModel.requestStatus.observe(this, Observer { code ->
@@ -86,7 +90,6 @@ class Sleep : SleepCompatActivity() {
             AlertDialog().showDialog(this,title,message)
         }
 
-//        sleepSetUp(binding.sleepChart)
         sleepViewModel.sleep.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
@@ -101,6 +104,15 @@ class Sleep : SleepCompatActivity() {
                 binding.lightValue.text = String.format("%.2f", item.Light)
                 binding.durationValue.text = DateTimeConvert.subTimes(DateTimeConvert.toDateTime(item.StartTime),
                     DateTimeConvert.toDateTime(item.EndTime))
+
+                // progress Bar
+                val sleepGoal = sharedPreferences.getInt("sleepGoal",8)
+                val duration = DateTimeConvert.toDecimalHours(DateTimeConvert.toDateTime(item.StartTime),
+                    DateTimeConvert.toDateTime(item.EndTime))
+
+                val progress = duration.toFloat() / sleepGoal.toFloat() * 100
+                binding.sleepProgress.progress = progress.toInt()
+                binding.sleepRate.text = String.format("%.2f", progress)+" %"
             }
         })
 
@@ -110,53 +122,4 @@ class Sleep : SleepCompatActivity() {
         super.onResume()
         sleepViewModel.getSleep(todayDate)
     }
-
-
-//    private fun sleepSetUp(view: View){
-//        // Find View
-//        val lineChart = view.findViewById<LineChart>(R.id.sleepChart)
-//        // Init data
-//        val list: MutableList<Entry> = ArrayList()
-//        list.add(Entry(0f,0f))
-//        list.add(Entry(1f,1f))
-//        list.add(Entry(2f,1f))
-//        list.add(Entry(3f,2f))
-//        list.add(Entry(4f,0f))
-//        list.add(Entry(5f,0f))
-//        list.add(Entry(6f,0f))
-//
-//        // Create a list of x-axis labels
-//        val xAxisLabels = listOf("22", "00", "02", "04", "06", "08", "10")
-//
-//        // Create a list of x-axis labels
-//        val yAxisLabels = listOf("Awake", "Light", "Deep")
-//
-//        // Add data to Chart
-//        val lineDataSet = LineDataSet(list, "123")
-//        val lineData = LineData(lineDataSet)
-//
-//        // Chart Setting
-//        lineChart.setData(lineData)
-//        lineChart.getXAxis().setDrawGridLines(false)  //是否绘制X轴上的网格线（背景里面的竖线）
-//        lineChart.getDescription().setEnabled(false)  //是否显示右下角描述
-//        lineChart.setTouchEnabled(false) // 禁止互动
-//        val legend: Legend = lineChart.getLegend()
-//        legend.isEnabled = false //是否显示图例
-//        val xAxis: XAxis = lineChart.getXAxis()
-//        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)        //X轴所在位置   默认为上面
-//        xAxis.setAxisMaximum(lineChart.xChartMax+1f);
-//        xAxis.setLabelCount(xAxisLabels.size)
-//        lineChart.axisLeft.valueFormatter = IndexAxisValueFormatter(yAxisLabels)
-//        lineChart.getAxisLeft().setAxisMaximum(lineChart.getYMax()+1f);
-//        lineChart.getAxisRight().setEnabled(false)
-//        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER)
-//        lineDataSet.setColor(Color.rgb(52,179,241)) //折线的颜色
-//        lineDataSet.setLineWidth(4F)     //折线的粗细
-//        lineDataSet.setCircleColor(Color.BLACK)
-//        lineDataSet.setDrawValues(false)  //禁止显示点上的数值
-//        lineDataSet.setDrawCircles(false)
-//        lineChart.animateXY(1000, 1000);
-//        lineChart.invalidate() // 刷新
-//    }
 }

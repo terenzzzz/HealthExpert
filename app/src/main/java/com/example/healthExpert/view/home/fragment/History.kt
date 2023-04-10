@@ -104,6 +104,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
+                Log.d("测试", "getSleep: ${item.id}")
                 val sleepGoal = sharedPreferences.getInt("sleepGoal",8)
                 val startTime = DateTimeConvert.toDateTime(item.StartTime)
                 val endTime = DateTimeConvert.toDateTime(item.EndTime)
