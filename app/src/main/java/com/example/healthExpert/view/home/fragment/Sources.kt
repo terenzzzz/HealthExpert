@@ -61,10 +61,6 @@ class Sources : SourcesCompatFragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 }
 
 
@@ -110,7 +106,7 @@ class SourcesAdapter(private val sourcesSet: MutableLiveData<MutableList<News>?>
 
         Picasso.get().load(sourcesSet.value?.get(position)?.Image).into(holder.image);
         holder.title.text = sourcesSet.value?.get(position)?.Title ?: ""
-        holder.date.text = SimpleDateFormat("YYYY-mm-dd").format(sourcesSet.value?.get(position)?.Date)
+        holder.date.text = SimpleDateFormat("YYYY-MM-dd").format(sourcesSet.value?.get(position)?.Date)
     }
 
     override fun getItemCount()= sourcesSet.value?.size ?:0

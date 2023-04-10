@@ -89,7 +89,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
                                 android:textAlignment="center"
-                                android:text="Didn’t meet the goal, you can try to spend more time each day doing physical activity, maintain a healthy lifestyle"/>
+                                android:text="Stick to a healthy diet and moderate exercise, which will help you achieve your ideal calorie intake and maintain a healthy body. Go for it!"/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -141,7 +141,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
                                 android:textAlignment="center"
-                                android:text="Didn’t meet the goal, you can try to spend more time each day doing physical activity, maintain a healthy lifestyle"/>
+                                android:text="Walking enough steps a day can help you stay healthy and active and reduce the risk of many diseases."/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -193,7 +193,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
                                 android:textAlignment="center"
-                                android:text="Didn’t meet the goal, you can try to spend more time each day doing physical activity, maintain a healthy lifestyle"/>
+                                android:text="Increasing your water intake can improve your health and mental state, as well as your long-term health management. Come on, you can reach your water goals!"/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -244,7 +244,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
                                 android:textAlignment="center"
-                                android:text="Didn’t meet the goal, you can try to spend more time each day doing physical activity, maintain a healthy lifestyle"/>
+                                android:text="Consistent exercise can improve physical health and mental well-being, as well as contribute to long-term health management."/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -296,7 +296,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
                                 android:textAlignment="center"
-                                android:text="Didn’t meet the goal, you can try to spend more time each day doing physical activity, maintain a healthy lifestyle"/>
+                                android:text="Adequate sleep helps us to regain strength, strengthen our immune system, improve productivity and, more importantly, keep our bodies healthy and mentally fit."/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
