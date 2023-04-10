@@ -10,6 +10,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivitySignupBinding
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.repository.GoalsRepository
+import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.login.Login
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -34,11 +35,16 @@ class Signup : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.signUpBtn.setOnClickListener (View.OnClickListener { view ->
-            signup(binding.etEmail.text.toString(),
-                binding.etPassword.text.toString(),
-                binding.etPasswordConfirm.text.toString())
-        })
+        binding.signUpBtn.setOnClickListener {
+            if (binding.etEmail.text.toString()!=""&&binding.etPassword.text.toString()!=""&&binding.etPasswordConfirm.text.toString()!=""){
+                signup(binding.etEmail.text.toString(),
+                    binding.etPassword.text.toString(),
+                    binding.etPasswordConfirm.text.toString())
+            }else{
+                Snackbar.make(binding.root, "Please Fill In All The Fields!", Snackbar.LENGTH_LONG).show()
+            }
+
+        }
 
         binding.backBtn.setOnClickListener (View.OnClickListener { view ->
             Login.startFn(this)
@@ -70,7 +76,7 @@ class Signup : AppCompatActivity() {
                     Snackbar.make(binding.root, "Signup Successfully!", Snackbar.LENGTH_LONG).show()
                     finish()
                 }else{
-                    Snackbar.make(binding.root, "Signup Fail!", Snackbar.LENGTH_LONG).show()
+                    SnackbarUtil.buildPassword(binding.root,parsed.status)
                 }
             }
         })
