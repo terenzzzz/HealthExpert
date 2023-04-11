@@ -107,7 +107,7 @@
                                         android:layout_weight="1"
                                         android:textColor="@color/black"
                                         android:text="Humidity"
-                                        android:textSize="20dp"
+                                        android:textSize="18dp"
                                         android:textStyle="bold">
                                     </TextView>
                                 </LinearLayout>
@@ -169,11 +169,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/black"
                                         android:text="Temp"
-                                        android:textSize="20dp"
-                                        android:textStyle="bold">
-                                    </TextView>
+                                        android:textColor="@color/black"
+                                        android:textSize="18dp"
+                                        android:textStyle="bold"></TextView>
 
 
                                 </LinearLayout>
@@ -242,7 +241,7 @@
                                         android:layout_weight="1"
                                         android:textColor="@color/black"
                                         android:text="Pressure"
-                                        android:textSize="20dp"
+                                        android:textSize="18dp"
                                         android:textStyle="bold">
                                     </TextView>
 
@@ -307,7 +306,7 @@
                                         android:layout_weight="1"
                                         android:textColor="@color/black"
                                         android:text="Light"
-                                        android:textSize="20dp"
+                                        android:textSize="18dp"
                                         android:textStyle="bold">
                                     </TextView>
 

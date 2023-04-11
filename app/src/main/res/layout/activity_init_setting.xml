@@ -87,7 +87,7 @@
 
                 <EditText
                     android:id="@+id/et_age"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
@@ -106,7 +106,7 @@
 
                 <EditText
                     android:id="@+id/et_height"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
@@ -125,7 +125,7 @@
 
                 <EditText
                     android:id="@+id/et_weight"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"

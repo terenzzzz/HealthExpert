@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="watersViewmodel"
             type="com.example.healthExpert.viewmodels.WatersViewModel" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -250,14 +250,14 @@
 
                         <EditText
                             android:id="@+id/et_value"
-                            android:inputType="textPersonName"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginTop="5dp"
-                            android:paddingHorizontal="10dp"
                             android:background="@drawable/radius_input"
+                            android:hint="@{String.valueOf(watersViewmodel.watersInfo.get(0).value)}"
+                            android:inputType="number"
                             android:maxLines="1"
-                            android:hint="@{String.valueOf(watersViewmodel.watersInfo.get(0).value)}"/>
+                            android:paddingHorizontal="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
