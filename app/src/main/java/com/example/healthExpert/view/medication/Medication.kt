@@ -85,6 +85,10 @@ class Medication : MedicationsCompatActivity() {
         binding.addBtn.setOnClickListener {
             MedicationAdd.startFn(this)
         }
+
+        binding.settingBtn.setOnClickListener{
+            MedicationSetting.startFn(this)
+        }
     }
 
     override fun onResume() {

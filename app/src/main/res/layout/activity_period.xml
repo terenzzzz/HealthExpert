@@ -65,6 +65,21 @@
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/dateTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="2023-02-21"
+                            android:textSize="12dp"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/yellow"
+                            android:text="Note: This Feature Is Not Fully Developed Yet!"/>
+
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"

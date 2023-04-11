@@ -34,12 +34,15 @@
         tools:remove="android:appComponentFactory"
         tools:targetApi="31">
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.help.Help"
             android:exported="false"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.goals.GoalsSetting"
             android:exported="false"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.onBoarding.OnBoarding"
             android:exported="true"
             android:theme="@style/Theme.onBoarding" />
@@ -65,112 +68,140 @@
             android:exported="true" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.water.WaterEdit"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.training.TrainShow"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.news.NewActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.period.Period"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.medication.MedicationSetting"
             android:exported="false" />
         <activity
             android:name=".view.medication.MedicationEdit"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.medication.MedicationAdd"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.medication.Medication"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.training.TrainSetting"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.training.TrainRecord"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.training.TrainAdd"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.training.Train"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.heart.Heart"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.heart.HeartRecord"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.sleep.Sleep"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.sleep.SleepRecord"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.water.WaterAdd"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.water.WaterSetting"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.water.Water"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.walk.WalkSetting"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.walk.Walk"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.calories.CaloriesSetting"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.calories.CaloriesEdit"
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.calories.CaloriesAdd"
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.calories.Calories"
             android:exported="true"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.setting.Setting"
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.setting.InitSetting"
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.sidebar.Sidebar"
             android:exported="false"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.home.Home"
             android:exported="true"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.resetPwd.ResetPwd"
             android:exported="true"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.signup.Signup"
             android:exported="true"
             android:theme="@style/Theme.Main" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".view.login.Login"
             android:exported="true"
             android:theme="@style/AppTheme.Splash">

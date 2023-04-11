@@ -71,6 +71,13 @@
                             android:textSize="12dp"
                             android:textColor="@color/gray"
                             android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/yellow"
+                            android:text="Note: This Feature Is Not Fully Developed Yet!"/>
+
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
@@ -161,67 +168,6 @@
                             android:layout_marginVertical="10dp"
                             android:background="@color/light_gray"/>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

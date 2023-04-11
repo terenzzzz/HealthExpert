@@ -8,11 +8,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthExpert.R
 import com.example.healthExpert.databinding.ActivityPeriodBinding
+import com.example.healthExpert.utils.DateTimeConvert
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 
 class Period : AppCompatActivity() {
     private lateinit var binding: ActivityPeriodBinding
+    private var todayDate = DateTimeConvert.toDate(Date())
 
 
     companion object {
@@ -32,7 +35,7 @@ class Period : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPeriodBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.dateTime.text = todayDate
 
         binding.updateBtn.setOnClickListener(View.OnClickListener { view ->
             val snackbar = Snackbar

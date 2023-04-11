@@ -44,7 +44,7 @@ class NewActivity : AppCompatActivity() {
             title = bundle.getString("title").toString()
             content = bundle.getString("content").toString()
             val format = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)
-            date = android.icu.text.SimpleDateFormat("YYYY-mm-dd").format(format.parse(bundle.getString("date")))
+            date = android.icu.text.SimpleDateFormat("YYYY-MM-dd").format(format.parse(bundle.getString("date")))
             author = bundle.getString("author").toString()
             image = bundle.getString("image").toString()
         }
