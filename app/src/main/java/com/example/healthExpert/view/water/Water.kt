@@ -50,6 +50,7 @@ class Water : WatersCompatActivity() {
         binding.lifecycleOwner = this
         binding.waterViewmodel = watersViewModel
         setContentView(binding.root)
+        binding.dateTime.text = todayDate
         sharedPreferences= this.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
 
 
@@ -83,6 +84,7 @@ class Water : WatersCompatActivity() {
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
+            binding.dateTime.text = todayDate
             mode = "view"
             binding.addBtn.visibility = View.GONE
             binding.shortCut.visibility = View.GONE
