@@ -16,6 +16,7 @@ import com.example.healthExpert.R
 import com.example.healthExpert.repository.WalkRepository
 import com.example.healthExpert.view.home.Home
 import com.example.healthExpert.view.medication.Medication
+import com.example.healthExpert.view.water.Water
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.Executors
@@ -208,7 +209,7 @@ class StepService: LifecycleService() {
             //添加Channel到manager
             manager!!.createNotificationChannel(notificationChannel)
         }
-        val intent = Intent(this, Medication::class.java)
+        val intent = Intent(this, Water::class.java)
 
         //生成intent，让通知可以点击回到主页面
         val pendingIntent = PendingIntent.getActivity(this, 223, intent,
