@@ -80,7 +80,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="5dp"
                                 android:textSize="15dp"
-                                android:text="0 kcal / 2400 kcal"
+                                android:text="0 kcal / 1800 kcal"
                                 android:textColor="@color/black"
                                 android:textAlignment="center" />
 
@@ -184,7 +184,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginVertical="5dp"
                                 android:textSize="15dp"
-                                android:text="0 ml / 8000 ml"
+                                android:text="0 ml / 2000 ml"
                                 android:textColor="@color/black"
                                 android:textAlignment="center" />
 

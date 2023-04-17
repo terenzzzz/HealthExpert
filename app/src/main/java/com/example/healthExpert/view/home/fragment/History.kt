@@ -49,7 +49,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",1800)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
@@ -58,7 +58,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                     binding.caloriesRing.setValueText("${rate.roundToInt()}%")
                     binding.caloriesRing.setSweepValue(rate.toFloat())
                 }
-                binding.caloriesValue.text = "${total.toString()} kcal / ${sharedPreferences.getInt("caloriesGoal",2400)} kcal"
+                binding.caloriesValue.text = "${total.toString()} kcal / ${sharedPreferences.getInt("caloriesGoal",1800)} kcal"
             }
         })
 
@@ -78,12 +78,12 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                val waterGoal = sharedPreferences.getInt("waterGoal",2000)
                 val rate = item.Total.toFloat()/waterGoal.toFloat()*100f
                 binding.drinkingRing.setSweepValue(rate)
                 binding.drinkingRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
-                binding.drinkingValue.text = "${ item.Total} ml / ${sharedPreferences.getInt("waterGoal",8000)} ml"
+                binding.drinkingValue.text = "${ item.Total} ml / ${sharedPreferences.getInt("waterGoal",2000)} ml"
             }
         })
 

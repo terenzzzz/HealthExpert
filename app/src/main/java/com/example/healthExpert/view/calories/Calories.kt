@@ -75,7 +75,7 @@ class Calories : CaloriesCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update Ring the UI
-                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",1800)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }

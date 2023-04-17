@@ -133,7 +133,7 @@ class TrainRecord : TrainingsCompatActivity(), OnMapReadyCallback {
 
                     val distance = SphericalUtil.computeDistanceBetween(
                         LatLng(lastLocation!!.latitude, lastLocation!!.longitude),
-                        LatLng(location!!.latitude, location!!.longitude)
+                        LatLng(location.latitude, location.longitude)
                     ).toFloat()
                     trainingsViewModel.updateDistance(distance)
                     trainingsViewModel.updateSpeed(distance,lastTimer!!,time)

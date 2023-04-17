@@ -65,7 +65,7 @@ class Water : WatersCompatActivity() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                val waterGoal = sharedPreferences.getInt("waterGoal",2000)
                 binding.rate.text = String.format("%.0f", item.Total.div(waterGoal.toFloat()).times(100f))+ " %"
                 binding.fromGoal.text = "${(waterGoal.toFloat()-item.Total.toFloat()).div(1000f)}"
             }

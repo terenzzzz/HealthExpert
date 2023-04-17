@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.healthExpert.R
 import com.example.healthExpert.repository.WalkRepository
 import com.example.healthExpert.view.home.Home
+import com.example.healthExpert.view.medication.Medication
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.Executors
@@ -54,6 +55,15 @@ class StepService: LifecycleService() {
 
         startStepDetector()
 
+        // Drinking Notification push
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                // 在这里执行定时器任务
+                drinkingNotification()
+            }
+        }, 2*60*60*1000, 2*60*60*1000)
+
         // 定时更新
         val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         val runnable = Runnable {
@@ -83,14 +93,11 @@ class StepService: LifecycleService() {
         // Medication Notification
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val notificationIntent = Intent(this, NotificationReceiver::class.java)
-
-        // Receive Location value from Service and update UI
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 // Get time from service
                 val time = intent.getStringExtra("time")!!
                 timeList.add(time)
-                Log.d("通知服务", "timeList: $timeList")
 
                 val timeObj = time.split(":")
                 val pendingIntent = PendingIntent.getBroadcast(context, timeList.size, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
@@ -188,6 +195,39 @@ class StepService: LifecycleService() {
             val mChannel = NotificationChannel(CHANNEL_ID, "Steps and Notification", NotificationManager.IMPORTANCE_DEFAULT)
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
+        }
+    }
+
+    fun drinkingNotification(){
+        var manager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        //检查版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //生成Channel
+            val notificationChannel =
+                NotificationChannel("drinkChannel", "Water Drinking Notification", NotificationManager.IMPORTANCE_HIGH)
+            //添加Channel到manager
+            manager!!.createNotificationChannel(notificationChannel)
+        }
+        val intent = Intent(this, Medication::class.java)
+
+        //生成intent，让通知可以点击回到主页面
+        val pendingIntent = PendingIntent.getActivity(this, 223, intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        //检查版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //生成notication模板
+            val notification = Notification.Builder(this, "drinkChannel")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle("Water Drinking Reminder")
+                .setContentText("It's time to get some water!")
+                .setPriority(Notification.PRIORITY_HIGH)
+                .build()
+            //添加notication模板到manager
+            manager!!.notify(12, notification)
         }
     }
 }

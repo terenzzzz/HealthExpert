@@ -66,7 +66,7 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",2400)
+                val caloriesGoal = sharedPreferences.getInt("caloriesGoal",1800)
                 var intake = item.Intake
                 var burn = item.Burn
                 var total = burn?.let { intake?.minus(it) }
@@ -94,7 +94,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.watersAll.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null){
-                val waterGoal = sharedPreferences.getInt("waterGoal",8000)
+                val waterGoal = sharedPreferences.getInt("waterGoal",2000)
                 val rate = item.Total.toDouble()/waterGoal.toDouble()*100
                 binding.waterRing.setSweepValue(rate.toFloat())
                 binding.waterRing.setValueText(String.format("%.0f", rate)+" %")
