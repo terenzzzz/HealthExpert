@@ -55,6 +55,7 @@
     - [x] Can edit Drinking record
     - [x] Can delete Drinking record
     - [x] Can set goal
+    - [x] Can push notification
 
   - [x] Calories Records
     - [x] Can get today's Calories Records
@@ -65,12 +66,12 @@
     - [x] Can delete calories record
     - [x] Can set goal
 
-  - [ ] Medication Reminder
+  - [x] Medication Reminder
     - [x] Can get today's medication reminder
     - [x] Can get pending medication reminder
     - [x] Can add medication reminder to the database
-    - [ ] Can change the status of reminder to done
-    - [ ] Can push notification
+    - [x] Can change the status of reminder to done
+    - [x] Can push notification
     - [x] Can delete reminder
     - [x] Can edit pending reminder
     
@@ -83,7 +84,7 @@
     - [x] Can add sleep to database
     - [x] Can view the explaination of each matric
     
-  - [ ] Heart Rate Record
+  - [] Heart Rate Record
     - [x] Can use camera
     - [x] Can get preview of the camera
     - [x] Can get grey scal of the image
