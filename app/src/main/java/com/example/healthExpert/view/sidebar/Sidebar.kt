@@ -99,6 +99,7 @@ class Sidebar : UserCompatActivity() {
             }
             stopService()
             Login.startFn(this)
+            finishAffinity();
         })
     }
 

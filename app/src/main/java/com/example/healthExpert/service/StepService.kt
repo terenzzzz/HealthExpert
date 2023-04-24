@@ -34,6 +34,7 @@ class StepService: LifecycleService() {
     private var walkRepository = WalkRepository()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token:String
+    private lateinit var id:String
     private var height:Float = 0f
     private var weight:Float = 0f
 
@@ -47,10 +48,10 @@ class StepService: LifecycleService() {
         Log.d("StepService", "onCreate: ")
         sharedPreferences = applicationContext.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
         token = sharedPreferences.getString("token","").toString()
+        id = sharedPreferences.getString("idUser","").toString()
         height = sharedPreferences.getFloat("height",0f)
         weight = sharedPreferences.getFloat("weight",0f)
 
-        Log.d("StepService", "onCreate()")
         createChannel()
         startForeground(2, createNotification(createPendingIntent()))
 
@@ -74,7 +75,7 @@ class StepService: LifecycleService() {
                     if (resStatus == 200) {
                         // 处理请求成功的情况
                         walkRepository.updateWalksOverall(token,weight,height)
-                        Log.d("StepService", "更新步数：$stepCount")
+                        Log.d("StepService", "$id 更新步数：$stepCount")
                         startingSteps = 0
                         stepCount = 0
                     }
@@ -120,6 +121,7 @@ class StepService: LifecycleService() {
         Log.d("StepService", "onDestroy: ")
         super.onDestroy()
         unregisterReceiver(receiver)
+        token = ""
         stopSelf()
     }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 import com.example.healthExpert.databinding.ActivitySettingBinding
+import com.example.healthExpert.service.StepService
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.goals.GoalsSetting
 import com.example.healthExpert.view.help.Help
@@ -125,7 +126,9 @@ class Setting : UserCompatActivity() {
                     .clear()
                     .commit()
             }
+            stopService()
             Login.startFn(this)
+            finishAffinity();
         }
 
     }
@@ -158,5 +161,11 @@ class Setting : UserCompatActivity() {
 
         val defaultValuePosition = adapter.getPosition(gender)
         binding.etGender.setSelection(defaultValuePosition)
+    }
+
+    private fun stopService(){
+        Intent(this, StepService::class.java).apply {
+            stopService(this)
+        }
     }
 }
