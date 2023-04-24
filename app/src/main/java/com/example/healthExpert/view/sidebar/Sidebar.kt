@@ -12,6 +12,8 @@ import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.UserCompatActivity
 
 import com.example.healthExpert.databinding.ActivitySidebarBinding
+import com.example.healthExpert.service.LocationService
+import com.example.healthExpert.service.StepService
 import com.example.healthExpert.view.help.Help
 import com.example.healthExpert.view.login.Login
 import com.example.healthExpert.view.setting.Setting
@@ -95,6 +97,7 @@ class Sidebar : UserCompatActivity() {
                     .clear()
                     .commit()
             }
+            stopService()
             Login.startFn(this)
         })
     }
@@ -115,4 +118,9 @@ class Sidebar : UserCompatActivity() {
         })
     }
 
+    private fun stopService(){
+        Intent(this, StepService::class.java).apply {
+            stopService(this)
+        }
+    }
 }

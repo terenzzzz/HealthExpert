@@ -70,7 +70,6 @@ class StepService: LifecycleService() {
         val runnable = Runnable {
             if(stepCount!=0){
 
-
                 walkRepository.addWalkSteps(token, stepCount.toString()) { resStatus ->
                     if (resStatus == 200) {
                         // 处理请求成功的情况
@@ -78,11 +77,6 @@ class StepService: LifecycleService() {
                         Log.d("StepService", "更新步数：$stepCount")
                         startingSteps = 0
                         stepCount = 0
-                    } else {
-                        // 处理请求失败的情况
-                        Log.d("StepService", "startingSteps：$startingSteps")
-                        Log.d("StepService", "stepCount：$stepCount")
-
                     }
                 }
             }
@@ -125,6 +119,7 @@ class StepService: LifecycleService() {
     override fun onDestroy() {
         Log.d("StepService", "onDestroy: ")
         super.onDestroy()
+        unregisterReceiver(receiver)
         stopSelf()
     }
 
