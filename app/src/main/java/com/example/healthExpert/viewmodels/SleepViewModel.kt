@@ -54,15 +54,17 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
                     requestStatus.postValue(sleepsParse.status)
                 }
                 var durations = mutableListOf<String>()
-                for (sleep in sleepsParse.data!!){
-                    val startStr = DateTimeConvert.toDateTime(sleep.StartTime)
-                    val endStr = DateTimeConvert.toDateTime(sleep.EndTime)
-                    val duration = DateTimeConvert.subTimes(startStr,endStr)
-                    durations.add(duration)
+                if (sleepsParse.data != null){
+                    for (sleep in sleepsParse.data!!){
+                        val startStr = DateTimeConvert.toDateTime(sleep.StartTime)
+                        val endStr = DateTimeConvert.toDateTime(sleep.EndTime)
+                        val duration = DateTimeConvert.subTimes(startStr,endStr)
+                        durations.add(duration)
+                    }
+                    val avg = DateTimeConvert.calculateAverageDuration(durations)
+                    Log.d("测试", "avg: $avg")
+                    avgSleep.postValue(avg)
                 }
-                val avg = DateTimeConvert.calculateAverageDuration(durations)
-                Log.d("测试", "avg: $avg")
-                avgSleep.postValue(avg)
             }
         }
     }
