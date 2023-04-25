@@ -35,265 +35,150 @@
                 android:src="@drawable/avatar" />
         </RelativeLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/radius_bg"
                 android:orientation="vertical">
-                <androidx.cardview.widget.CardView
+
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="30dp"
-                    app:cardElevation="0dp"
-                    app:contentPadding="30dp"
-                    app:contentPaddingTop="0dp">
-                    <LinearLayout
+                    android:layout_height="match_parent">
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Heart Rate"
-                            android:textColor="@color/yellow"
-                            android:textStyle="bold"
-                            android:textSize="20dp"/>
-
-                        <TextView
-                            android:id="@+id/dateTime"
+                        android:layout_marginTop="30dp"
+                        app:cardElevation="0dp"
+                        app:contentPadding="30dp"
+                        app:contentPaddingTop="0dp">
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="2023-02-21"
-                            android:textSize="12dp"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Heart Rate"
+                                android:textColor="@color/yellow"
+                                android:textStyle="bold"
+                                android:textSize="20dp"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/yellow"
-                            android:text="Note: This Feature Is Not Fully Developed Yet!"/>
-
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/light_gray"/>
-
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/heartChart"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp">
-                        </com.github.mikephil.charting.charts.LineChart>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="15dp"
-                            app:contentPadding="10dp">
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/dateTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="horizontal">
+                                android:text="2023-02-21"
+                                android:textSize="12dp"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold"/>
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/yellow" />
+
+                            <View
+                                android:layout_width="fill_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/light_gray"/>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/heartChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp">
+                            </com.github.mikephil.charting.charts.LineChart>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginHorizontal="1dp"
+                                android:layout_marginVertical="15dp"
+                                app:contentPadding="10dp">
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:text="Average: "
-                                            android:textColor="@color/black"
-                                            android:textSize="12dp"/>
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:text="67 BPM"
-                                            android:textColor="@color/hone_light_red"
-                                            android:textSize="12dp"/>
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:text="Max: "
-                                            android:textColor="@color/black"
-                                            android:textSize="12dp"/>
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="end"
-                                            android:text="94 BPM"
-                                            android:textColor="@color/hone_light_red"
-                                            android:textSize="12dp"/>
-                                    </LinearLayout>
-                                </LinearLayout>
-
-
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="fill_parent"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:background="@color/gray"/>
-
-                                <TextView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Not bad! Keeping your heart healthy is something you can work on every day."
-                                    android:textColor="@color/black"
-                                    android:textSize="10dp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="10dp"
-                            android:background="@color/light_gray"/>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:text="Average: "
+                                                android:textColor="@color/black"
+                                                android:textSize="12dp"/>
+                                            <TextView
+                                                android:id="@+id/avg_bpm"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:text="0 BPM"
+                                                android:textColor="@color/hone_light_red"
+                                                android:textSize="12dp"/>
+                                        </LinearLayout>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:text="Maximum: "
+                                                android:textColor="@color/black"
+                                                android:textSize="12dp"/>
+                                            <TextView
+                                                android:id="@+id/max_bpm"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="end"
+                                                android:text=" 0BPM"
+                                                android:textColor="@color/hone_light_red"
+                                                android:textSize="12dp"/>
+                                        </LinearLayout>
+                                    </LinearLayout>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:layout_marginHorizontal="20dp"
+                                        android:background="@color/gray"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Not bad! Keeping your heart healthy is something you can work on every day."
+                                        android:textColor="@color/black"
+                                        android:textSize="10dp"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <View
+                                android:layout_width="fill_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="@color/light_gray"/>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="1dp"
-                            android:layout_marginVertical="5dp"
-                            app:contentPadding="20dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/heartattack"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="30dp"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/black"
-                                    android:text="78 BPM"/>
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:textSize="15dp"
-                                    android:textColor="@color/gray"
-                                    android:text="08 : 00"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                                android:layout_height="match_parent"/>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </ScrollView>
             </LinearLayout>
-        </ScrollView>
-
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

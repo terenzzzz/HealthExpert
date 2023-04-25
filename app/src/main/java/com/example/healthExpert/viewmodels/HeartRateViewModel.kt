@@ -10,21 +10,57 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.Goal
+import com.example.healthExpert.model.HeartRate
 import com.example.healthExpert.model.News
+import com.example.healthExpert.parse.HeartRateParse
+import com.example.healthExpert.repository.CaloriesRepository
+import com.example.healthExpert.repository.HeartRateRepository
 import com.example.healthExpert.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HeartRateViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     var requestStatus = MutableLiveData<Int>()
+    private val repository = HeartRateRepository()
+
+    private val sharedPreferences: SharedPreferences =
+        activity.getSharedPreferences("healthy_expert", AppCompatActivity.MODE_PRIVATE)
+    private val token = sharedPreferences.getString("token","")
 
     var bpm = MutableLiveData<String>()
+    var heartRates = MutableLiveData<MutableList<HeartRate>?>()
 
     fun setBpm(bpm:String){
         this.bpm.postValue(bpm)
     }
 
+    fun getHeartRates(date:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null){
+                // 获取卡路里汇总数据
+                val heartRateParse = repository.getHeartRates(token,date)
+                if (heartRateParse.status!=200){
+                    requestStatus.postValue(heartRateParse.status)
+                }else{
+                    heartRates.postValue(heartRateParse.data as MutableList<HeartRate>?)
+                }
+            }
+        }
+    }
 
+    fun addHeartRate(heartRate:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            if (token != null){
+                // 获取卡路里汇总数据
+                val reqStatus = repository.addHeartRate(token,heartRate)
+                if (reqStatus != 200){
+                    requestStatus.postValue(reqStatus)
+                }
+            }
+        }
+    }
 
 
 

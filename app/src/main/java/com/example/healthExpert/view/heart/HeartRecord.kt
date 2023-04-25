@@ -10,6 +10,7 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -17,6 +18,7 @@ import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
+import android.view.View
 import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.HeartRateCompatActivity
@@ -75,6 +77,22 @@ class HeartRecord : HeartRateCompatActivity() {
 
         getPermissions()
 
+        binding.saveBtn.setOnClickListener {
+            heartRateViewModel.addHeartRate(hrtratebpm.toString())
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+        binding.backBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
 
         textureView = findViewById(R.id.texture_view)
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -126,6 +144,8 @@ class HeartRecord : HeartRateCompatActivity() {
                     if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
                         mTimeArray[mNumBeats] = System.currentTimeMillis()
                         mNumBeats++
+                        val rate = mNumBeats.div(15f).times(100)
+                        heartRateViewModel.setBpm(String.format("%.0f",rate)+" %")
                         if (mNumBeats == 15) {
                             calcBPM()
                             heartRateViewModel.setBpm(hrtratebpm.toString())
@@ -137,11 +157,6 @@ class HeartRecord : HeartRateCompatActivity() {
                 mLastRollingAverage = mCurrentRollingAverage
             }
 
-        }
-
-        binding.backBtn.setOnClickListener {
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
     }
@@ -214,17 +229,9 @@ class HeartRecord : HeartRateCompatActivity() {
         med = timedist[timedist.size / 2].toInt()
         hrtratebpm = 60000 / med
         Log.d("心率", "calcBPM: $hrtratebpm")
+        binding.saveBtn.visibility = View.VISIBLE
+        binding.deleteBtn.visibility = View.VISIBLE
     }
-
-
-
-
-
-
-
-
-
-
 
     private fun processImage(image: Image) {
         val cropSize = 800

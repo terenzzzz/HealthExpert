@@ -4,12 +4,26 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.HeartRateCompatActivity
 import com.example.healthExpert.databinding.ActivityHeartBinding
+import com.example.healthExpert.model.Calories
+import com.example.healthExpert.model.HeartRate
 import com.example.healthExpert.utils.DateTimeConvert
+import com.example.healthExpert.view.calories.CaloriesAdapter
+import com.example.healthExpert.view.calories.CaloriesEdit
+import com.example.healthExpert.widget.Ring
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -17,11 +31,17 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import java.util.*
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.logging.SimpleFormatter
+import kotlin.collections.ArrayList
 
-class Heart : AppCompatActivity() {
+
+class Heart : HeartRateCompatActivity() {
     private lateinit var binding: ActivityHeartBinding
     private var todayDate = DateTimeConvert.toDate(Date())
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
 
     companion object {
         fun startFn(context: Context) {
@@ -39,6 +59,23 @@ class Heart : AppCompatActivity() {
         binding.dateTime.text = todayDate
 
         heartSetUp(binding.heartChart)
+        recyclerView = findViewById (R.id.recycler_view)
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
+
+
+        heartRateViewModel.heartRates.observe(this, Observer { heartRates ->
+            // Update the UI based on the value of MutableLiveData
+            if (heartRates != null &&  heartRates.isNotEmpty()) {
+                Log.d("测试", "item: ${heartRates[0].HeartRate}")
+                recyclerView.adapter = HeartRateAdapter(heartRateViewModel.heartRates,this)
+
+                binding.avgBpm.text = String.format("%.0f", heartRates.map { it.HeartRate.toInt() }.average()) + " BPM"
+                binding.maxBpm.text = "${heartRates.maxBy { it.HeartRate }.HeartRate} BPM"
+            }
+        })
 
         binding.addBtn.setOnClickListener (View.OnClickListener { view ->
             HeartRecord.startFn(this)
@@ -50,6 +87,11 @@ class Heart : AppCompatActivity() {
         })
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        heartRateViewModel.getHeartRates(todayDate)
     }
 
     private fun heartSetUp(view: View){
@@ -93,4 +135,30 @@ class Heart : AppCompatActivity() {
         lineChart.animateXY(1000, 1000);
         lineChart.invalidate() // 刷新
     }
+}
+
+// RecycleView Adapter
+class HeartRateAdapter(private val heartRateSet: MutableLiveData<MutableList<HeartRate>?>,
+                      private val activity:Context) : RecyclerView.Adapter<HeartRateAdapter.ViewHolder>(){
+
+    class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var icon: ImageView = itemView.findViewById(R.id.icon)
+        var bpm: TextView = itemView.findViewById(R.id.bpm)
+        var time: TextView = itemView.findViewById(R.id.time)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v: View = LayoutInflater.from(parent.context).inflate(
+            R.layout.single_heartrate_record,
+            parent,false
+        )
+        return ViewHolder(v)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bpm.text = "${heartRateSet.value!![position].HeartRate} BPM"
+        holder.time.text = DateTimeConvert.toHHmm(heartRateSet.value!![position].Date)
+    }
+
+    override fun getItemCount()= heartRateSet.value?.size ?:0
 }
