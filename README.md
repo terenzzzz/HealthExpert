@@ -84,14 +84,14 @@
     - [x] Can add sleep to database
     - [x] Can view the explaination of each matric
     
-  - [] Heart Rate Record
+  - [x] Heart Rate Record
     - [x] Can use camera
     - [x] Can get preview of the camera
     - [x] Can get grey scal of the image
-    - [ ] Can calculate the color different
-    - [ ] Can work out Heart rate
-    - [ ] Can record heart rate
-    - [ ] Can show heart rate record
+    - [x] Can calculate the color different
+    - [x] Can work out Heart rate
+    - [x] Can record heart rate
+    - [x] Can show heart rate record
     
   - [ ] Menstrual period
    
