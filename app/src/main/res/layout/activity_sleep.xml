@@ -373,6 +373,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="1dp"
+                        android:layout_marginVertical="5dp"
+                        app:contentPadding="10dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Average length in the last five sleep:"
+                                android:textColor="@color/black"
+                                android:textSize="12dp"/>
+
+                            <TextView
+                                android:id="@+id/avgSleep"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="7 Hours 30 Minute"
+                                android:textColor="@color/yellow"
+                                android:textSize="20dp"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="1dp"
                         android:layout_marginVertical="15dp"
                         app:contentPadding="10dp">
                         <LinearLayout

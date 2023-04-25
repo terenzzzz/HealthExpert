@@ -3,6 +3,7 @@ package com.example.healthExpert.repository
 import android.util.Log
 import com.example.healthExpert.parse.BaseParse
 import com.example.healthExpert.parse.SleepParse
+import com.example.healthExpert.parse.SleepsParse
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -23,6 +24,24 @@ class SleepRepository {
             client.newCall(request).execute().use { response ->
                 val gson = Gson()
                 parsed = gson.fromJson(response.body!!.string(), SleepParse::class.java)
+                response.close()
+            }
+        }catch (e:IOException){}
+        return parsed
+    }
+
+    // 同步请求
+    fun getLastFiveSleep(token: String): SleepsParse {
+        var parsed = SleepsParse()
+        val request = Request.Builder()
+            .url("$url/lastFiveSleep")
+            .addHeader("Authorization",token)
+            .get()
+            .build()
+        try {
+            client.newCall(request).execute().use { response ->
+                val gson = Gson()
+                parsed = gson.fromJson(response.body!!.string(), SleepsParse::class.java)
                 response.close()
             }
         }catch (e:IOException){}

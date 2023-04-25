@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.Sleep
 import com.example.healthExpert.repository.SleepRepository
+import com.example.healthExpert.utils.DateTimeConvert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,7 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
     private val token = sharedPreferences.getString("token","")
     var timer = MutableLiveData<String>()
     var sleep = MutableLiveData<Sleep?>()
+    var avgSleep = MutableLiveData<String>()
 
     fun updateTimer(time:String){
         this.timer.value = time
@@ -38,6 +40,29 @@ class SleepViewModel(private val activity: AppCompatActivity) : ViewModel()  {
                     requestStatus.postValue(sleepParse.status)
                 }
                 sleep.postValue(sleepParse.data)
+            }
+        }
+    }
+
+    fun getLastFive(){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val sleepsParse = token?.let { repository.getLastFiveSleep(it) }
+            // Refresh UI Update data
+            if (sleepsParse != null) {
+                if (sleepsParse.status != 200){
+                    requestStatus.postValue(sleepsParse.status)
+                }
+                var durations = mutableListOf<String>()
+                for (sleep in sleepsParse.data!!){
+                    val startStr = DateTimeConvert.toDateTime(sleep.StartTime)
+                    val endStr = DateTimeConvert.toDateTime(sleep.EndTime)
+                    val duration = DateTimeConvert.subTimes(startStr,endStr)
+                    durations.add(duration)
+                }
+                val avg = DateTimeConvert.calculateAverageDuration(durations)
+                Log.d("测试", "avg: $avg")
+                avgSleep.postValue(avg)
             }
         }
     }

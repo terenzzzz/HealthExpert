@@ -67,9 +67,18 @@ class DateTimeConvert {
         }
 
         fun HHmmsstoSeconds(time: String): Int {
-            // "00:24:22" -> 0.41
+            // "00:24:22" -> 1462
             val timeParts = time.split(":").map { it.toInt() }
             return timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2]
+        }
+
+        fun calculateAverageDuration(durations: List<String>): String {
+            val totalSeconds = durations.map { HHmmsstoSeconds(it) }.sum()
+            val averageSeconds = totalSeconds / durations.size
+            val hours = averageSeconds / 3600
+            val minutes = (averageSeconds % 3600) / 60
+            val seconds = averageSeconds % 60
+            return String.format("%02d Hours %02d Minutes", hours, minutes)
         }
     }
 }

@@ -46,6 +46,13 @@ class Sleep : SleepCompatActivity() {
             }
         })
 
+        sleepViewModel.avgSleep.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null){
+                binding.avgSleep.text = item
+            }
+        })
+
         val bundle = intent.extras
         if (bundle != null && bundle.getString("selectedDate") != "") {
             todayDate = bundle.getString("selectedDate").toString()
@@ -121,5 +128,6 @@ class Sleep : SleepCompatActivity() {
     override fun onResume() {
         super.onResume()
         sleepViewModel.getSleep(todayDate)
+        sleepViewModel.getLastFive()
     }
 }
