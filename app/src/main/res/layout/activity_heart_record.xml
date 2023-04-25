@@ -43,6 +43,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
             android:background="@drawable/radius_bg"
+            android:gravity="center"
             android:orientation="vertical">
 
             <android.view.TextureView
@@ -50,10 +51,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
 
-            <ImageView
-                android:id="@+id/image"
+<!--            <ImageView-->
+
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:src="@drawable/heartattack"/>-->
+
+            <TextView
+                android:id="@+id/bpm"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:gravity="center"
+                android:textSize="25dp"
+                android:textColor="@color/red"/>
+
+<!--            <ImageView-->
+<!--                android:id="@+id/image"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="300dp" />-->
 
         </LinearLayout>
     </LinearLayout>

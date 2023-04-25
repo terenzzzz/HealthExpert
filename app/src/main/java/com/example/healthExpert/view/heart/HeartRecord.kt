@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.ImageFormat
+import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
@@ -15,12 +17,14 @@ import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.healthExpert.R
+import com.example.healthExpert.compatActivity.HeartRateCompatActivity
 import com.example.healthExpert.databinding.ActivityHeartRecordBinding
+import java.util.*
+import kotlin.math.roundToInt
 
-class HeartRecord : AppCompatActivity() {
+class HeartRecord : HeartRateCompatActivity() {
     private lateinit var binding: ActivityHeartRecordBinding
 
     lateinit var captureRequest: CaptureRequest.Builder
@@ -32,6 +36,17 @@ class HeartRecord : AppCompatActivity() {
     lateinit var cameraDevice: CameraDevice
 
     private lateinit var imageReader: ImageReader
+
+    private val listFrame = mutableListOf<IntArray>()
+    private var previousPixels: IntArray? = null
+    private var numCaptures = 0
+    private var mNumBeats = 0
+    var hrtratebpm = 0
+    private var mCurrentRollingAverage = 0
+    private var mLastRollingAverage = 0
+    private var mLastLastRollingAverage = 0
+    private val mTimeArray = LongArray(99999)
+
 
     private var surfaceTextureAvailable = false
 
@@ -48,6 +63,15 @@ class HeartRecord : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHeartRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        heartRateViewModel.bpm.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null) {
+                binding.bpm.text = item
+            }
+        })
+
 
         getPermissions()
 
@@ -72,6 +96,45 @@ class HeartRecord : AppCompatActivity() {
             }
 
             override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
+                val bmp = textureView.bitmap
+                val width = bmp!!.width
+                val height = bmp.height
+                val pixels = IntArray(height * width)
+
+                // 计算当前帧数的红色通道总和
+                bmp.getPixels(pixels, 0, width, width / 2, height / 2, width / 20, height / 20)
+                var sum = 0
+                for (i in 0 until height * width) {
+                    val red = pixels[i] shr 16 and 0xFF
+                    sum = sum + red
+                }
+                // 这段代码表示当采集的帧数（numCaptures）等于20时，将当前帧的红色通道值之和（sum）赋值给 mCurrentRollingAverage，
+                // 这里的 mCurrentRollingAverage 是指滚动平均值（Rolling Average）。这
+                // 样做的目的是为了在程序运行的初期建立一个基准值，用于后续的计算。
+                // 在这之后，每次加入一个新的帧时，都会根据其红色通道值来更新 mCurrentRollingAverage。
+                if (numCaptures == 20) {
+                    mCurrentRollingAverage = sum // sum/1 第一帧
+                } else if (numCaptures > 20 && numCaptures < 49) {
+                    mCurrentRollingAverage =
+                        (mCurrentRollingAverage * (numCaptures - 20) + sum) / (numCaptures - 19)
+                } else if (numCaptures >= 49) {
+                    mCurrentRollingAverage = (mCurrentRollingAverage * 29 + sum) / 30
+                    // 这个条件是用来判断心跳的过程中的“谷底”的。如果当前的红色通道平均值比前一个和前两个的平均值都小，
+                    // 并且之前检测到的心跳数量小于15，则可以认为当前是一个心跳的谷底。
+                    // 因为心跳的过程中会有一个波峰和一个波谷，而波峰所对应的红色通道值最高，
+                    // 波谷所对应的红色通道值最低。所以检测到谷底可以认为是检测到了一个心跳。
+                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
+                        mTimeArray[mNumBeats] = System.currentTimeMillis()
+                        mNumBeats++
+                        if (mNumBeats == 15) {
+                            calcBPM()
+                            heartRateViewModel.setBpm(hrtratebpm.toString())
+                        }
+                    }
+                }
+                numCaptures++
+                mLastLastRollingAverage = mLastRollingAverage
+                mLastRollingAverage = mCurrentRollingAverage
             }
 
         }
@@ -99,9 +162,9 @@ class HeartRecord : AppCompatActivity() {
                 val characteristics = cameraManager.getCameraCharacteristics(cameraDevice.id)
                 val streamConfigurationMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                 val previewSizes = streamConfigurationMap?.getOutputSizes(SurfaceTexture::class.java)
-                val previewSize = previewSizes?.firstOrNull() ?: Size(640, 480) // Default size if none available
+                val previewSize = previewSizes?.firstOrNull() ?: Size(800, 800) // Default size if none available
 
-                imageReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.YUV_420_888, 1)
+                imageReader = ImageReader.newInstance(previewSize.height, previewSize.height, ImageFormat.YUV_420_888, 1)
 
                 // Configure the output surface to receive the preview frames
                 captureRequest = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
@@ -128,56 +191,58 @@ class HeartRecord : AppCompatActivity() {
                 imageReader.setOnImageAvailableListener({
                     val image = it.acquireLatestImage()
                     if (image != null) {
-
-
-//                        val bitmap = imageToBitmap(image)
-//
-//                        runOnUiThread {
-//                            binding.image.setImageBitmap(bitmap)
-//                        }
-                        processImage(image)
-
-
-//                        showBitmapOnTextureView(bitmap)
-                        Log.d("帧", "bitmap: ")
-
-
+//                        processImage(image)
                     }
                     image.close()
                 }, null)
             }
-
             override fun onDisconnected(p0: CameraDevice) {
-
             }
-
             override fun onError(p0: CameraDevice, p1: Int) {
-
             }
 
         },handler)
     }
 
+    private fun calcBPM() {
+        val med: Int
+        val timedist = LongArray(14)
+        for (i in 0..13) {
+            timedist[i] = mTimeArray[i + 1] - mTimeArray[i]
+        }
+        Arrays.sort(timedist)
+        med = timedist[timedist.size / 2].toInt()
+        hrtratebpm = 60000 / med
+        Log.d("心率", "calcBPM: $hrtratebpm")
+    }
+
+
+
+
+
+
+
+
 
 
 
     private fun processImage(image: Image) {
-        val cropSize = 1000
-
-        val width = image.width
-        val height = image.height
+        val cropSize = 800
 
         // 计算需要截取的区域左上角坐标
-        val x = (width - cropSize) / 2
-        val y = (height - cropSize) / 2
+        val x = (image.width - cropSize) / 2
+        val y = (image.height - cropSize) / 2
 
-        // 获取 Y数据
+        Log.d("测试", "width: ${image.width}")
+        Log.d("测试", "height: ${image.height}")
+
+        // 获取 Y 数据
         val yBuffer = image.planes[0].buffer
 
-        // 创建 byte 数组保存 Y数据
+        // 创建 byte 数组保存 Y 数据
         val yBytes = ByteArray(yBuffer.remaining())
 
-        // 将 Y数据存储到 byte 数组中
+        // 将 Y 数据存储到 byte 数组中
         yBuffer.get(yBytes)
 
         // 将 Y 数据存储到一维的 byte 数组中
@@ -185,93 +250,103 @@ class HeartRecord : AppCompatActivity() {
         val yuvPixels = ByteArray(ySize)
         System.arraycopy(yBytes, 0, yuvPixels, 0, ySize)
 
-        // 截取 Y 数据中心100x100像素
+        // 截取 Y 数据中心800x800像素
         val croppedYuvPixels = ByteArray(cropSize * cropSize)
         for (i in 0 until cropSize) {
-            System.arraycopy(yuvPixels, (y + i) * width + x, croppedYuvPixels, i * cropSize, cropSize)
+            System.arraycopy(yuvPixels, (y + i) * image.width + x, croppedYuvPixels, i * cropSize, cropSize)
         }
 
         // 将 Y 数据转换为灰度图像的像素数据
         val grayPixels = IntArray(cropSize * cropSize)
-        for (i in 0 until cropSize * cropSize) {
+        for (i in 0 until croppedYuvPixels.size) {
             val gray = croppedYuvPixels[i].toInt() and 0xff
             grayPixels[i] = Color.rgb(gray, gray, gray)
         }
 
-        // 将灰度图像的像素数据转换为 Bitmap 对象
-        val bmp = Bitmap.createBitmap(grayPixels, cropSize, cropSize, Bitmap.Config.ARGB_8888)
 
-        // 计算灰度图像的平均值和标准差
-        val pixels = IntArray(cropSize * cropSize)
-        bmp.getPixels(pixels, 0, cropSize, 0, 0, cropSize, cropSize)
+        val currentFrame = grayPixels
 
-        var sum = 0.0
-        for (i in 0 until cropSize * cropSize) {
-            val gray = Color.red(pixels[i])
-            sum += gray
+        if (listFrame.isNotEmpty()){
+            val previousFrame = listFrame.last()
+
+            var diff = calculateFrameDifferences(currentFrame,previousFrame)
+
+            listFrame.removeLast()
+
+            val peak = findPeaks(diff)
+//            Log.d("测试", "peak: $peak")
+
+            val avgDistance = calculateAveragePeriod(peak)
+
+            val heartRate = calculateHeartRate(avgDistance)
+            heartRateViewModel.setBpm(heartRate.toString())
+
         }
-        val mean = sum / (cropSize * cropSize)
+        listFrame.add(currentFrame)
+    }
 
-        var variance = 0.0
-        for (i in 0 until cropSize * cropSize) {
-            val gray = Color.red(pixels[i])
-            variance += (gray - mean) * (gray - mean)
+    fun calculateFrameDifferences(currentFrame: IntArray, previousFrame: IntArray): IntArray {
+        val differences = IntArray(currentFrame.size)
+
+        for (i in currentFrame.indices) {
+            val diff = Math.abs(currentFrame[i] - previousFrame[i])
+            differences[i] = diff
         }
-        variance /= (cropSize * cropSize)
-        val stdDev = Math.sqrt(variance)
+        return differences
+    }
 
-        Log.d("平均值", "mean: $mean ")
-        Log.d("标准差", "stdDev: $stdDev ")
-
-// 显示灰度图像
-        runOnUiThread {
-            binding.image.setImageBitmap(bmp)
+    fun findPeaks(signal: IntArray): List<Int> {
+        val mean = signal.average()
+        val std = signal.standardDeviation()
+        val threshold = mean + std
+        val peaks = mutableListOf<Int>()
+        var i = 1
+        while (i < signal.size - 1) {
+            if (signal[i] > threshold && signal[i] > signal[i - 1] && signal[i] > signal[i + 1]) {
+                peaks.add(i)
+                i += 10 // 可以根据需要调整步长
+            } else {
+                i++
+            }
         }
+        return peaks
+    }
 
-//        // 计算灰度值的平均值
-//        val grayMean = yBytes.average()
-//
-//        // 计算灰度值的标准差
-//        val grayStd = Math.sqrt(yBytes.map { (it - grayMean).toDouble().pow(2.0) }.average())
-//
-//
-//        Log.d("平均值", "grayMean: $grayMean ")
-//        Log.d("标准差", "grayStd: $grayStd ")
+    fun IntArray.average(): Double {
+        return if (this.isEmpty()) {
+            0.0
+        } else {
+            this.sum().toDouble() / this.size
+        }
+    }
 
+    fun IntArray.standardDeviation(): Double {
+        val mean = this.average()
+        return Math.sqrt(this.map { Math.pow(it.toDouble() - mean, 2.0) }.sum() / this.size)
+    }
 
-//        // 将 Y 数据存储到一维的 byte 数组中
-//        val ySize = image.width * image.height
-//        val yuvPixels = ByteArray(ySize)
-//        System.arraycopy(yBytes, 0, yuvPixels, 0, ySize)
-//
-//        // 将 Y 数据转换为灰度图像的像素数据
-//        val grayPixels = IntArray(ySize)
-//        for (i in 0 until ySize) {
-//            val gray = yuvPixels[i].toInt() and 0xff
-//            grayPixels[i] = Color.rgb(gray, gray, gray)
-//        }
-//
-//        // 将灰度图像的像素数据转换为 Bitmap 对象
-//        val bmp = Bitmap.createBitmap(grayPixels, image.width, image.height, Bitmap.Config.ARGB_8888)
-//
-//        // 显示灰度图像
-//        runOnUiThread {
-//            binding.image.setImageBitmap(bmp)
-//        }
+    fun calculateAveragePeriod(peaks: List<Int>): Double {
+        val distances = mutableListOf<Int>()
+        for (i in 1 until peaks.size) {
+            distances.add(peaks[i] - peaks[i-1])
+        }
+        return distances.average()
+    }
 
+    fun calculateHeartRate(averagePeriod: Double): Int {
+        // 计算每秒钟心跳数（BPM）
+        val bpm = 60 / averagePeriod
+
+        // 将心跳数四舍五入为整数
+        return if (!bpm.isNaN()) {
+            val heartRate = bpm.roundToInt()
+            heartRate
+        }else{
+            0
+        }
     }
 
 
-
-
-    private fun detectHeartRate(red: Int, green: Int, blue: Int) {
-        // Implement heart rate detection algorithm here
-        // You can use signal processing techniques such as FFT and bandpass filtering
-        // to extract the heart rate signal from the color data
-        // There are also many open source heart rate detection algorithms available online
-        // that you can use or modify for your specific use case
-        Log.d("照片", "red: $red,green: $green,blue: $blue,")
-    }
 
 
     private fun getPermissions(){
@@ -306,129 +381,29 @@ class HeartRecord : AppCompatActivity() {
 
 }
 
-
-//fun calculateGrayChannelAverage(bitmap: Bitmap): Double {
-//    // Initialize OpenCV
-//    if (!OpenCVLoader.initDebug()) {
-//        // Handle initialization error
-//    }
+//        // 计算灰度图像的平均值和标准差
+//        val pixels = IntArray(cropSize * cropSize)
+//        bmp.getPixels(pixels, 0, cropSize, 0, 0, cropSize, cropSize)
 //
-//    var sum = 0.0
-//    val mat = Mat()
-//    Utils.bitmapToMat(bitmap, mat)
-//
-//    // Convert the image to grayscale
-//    Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
-//
-//    // Loop through each pixel in the image and add its value to the sum
-//    for (i in 0 until mat.rows()) {
-//        for (j in 0 until mat.cols()) {
-//            val pixelValue = mat.get(i, j)[0] // Get the gray channel value
-//            sum += pixelValue
+//        var sum = 0.0
+//        for (i in 0 until cropSize * cropSize) {
+//            val gray = Color.red(pixels[i])
+//            sum += gray
 //        }
-//    }
+//        val mean = sum / (cropSize * cropSize)
 //
-//    // Calculate the average value
-//    val totalPixels = mat.rows() * mat.cols()
-//    val average = sum / totalPixels
-//
-//    return average
-//}
-//
-//
-//fun toGrayScale(bitmap: Bitmap): Bitmap {
-//    // Initialize OpenCV
-//    if (!OpenCVLoader.initDebug()) {
-//        // Handle initialization error
-//    }
-//
-//    // Convert the bitmap to a Mat object
-//    val mat = Mat(bitmap!!.height, bitmap.width, CvType.CV_8UC4)
-//    Utils.bitmapToMat(bitmap, mat)
-//
-//    // Convert the image to grayscale
-//    Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
-//
-//    // Convert the Mat object back to a bitmap
-//    val grayBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
-//    Utils.matToBitmap(mat, grayBitmap)
-//    return grayBitmap
-//}
-//
-//
-//
-//
-//fun imageToBitmap(image: Image): Bitmap {
-//    val width = image.width
-//    val height = image.height
-//
-//    val yBuffer = image.planes[0].buffer
-//    val uBuffer = image.planes[1].buffer
-//    val vBuffer = image.planes[2].buffer
-//
-//    val ySize = yBuffer.remaining()
-//    val uSize = uBuffer.remaining()
-//    val vSize = vBuffer.remaining()
-//
-//    val nv21 = ByteArray(ySize + uSize + vSize)
-//
-//    // Copy the Y-plane buffer data to the nv21 array
-//    yBuffer.get(nv21, 0, ySize)
-//
-//    // Copy the U and V plane buffer data to the nv21 array
-//    vBuffer.get(nv21, ySize, vSize)
-//    uBuffer.get(nv21, ySize + vSize, uSize)
-//
-//    // Create a YuvImage object from the nv21 array
-//    val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
-//
-//    // Convert the YuvImage object to a Bitmap object
-//    val out = ByteArrayOutputStream()
-//    yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
-//    val jpegArray = out.toByteArray()
-//    return BitmapFactory.decodeByteArray(jpegArray, 0, jpegArray.size)
-//}
-//
-//
-//
-//private fun showBitmapOnTextureView(bitmap: Bitmap) {
-//    textureView.surfaceTexture?.let { surfaceTexture ->
-//        val surface = Surface(surfaceTexture)
-//        if (surfaceTextureAvailable){
-//            val canvas = surface.lockCanvas(null)
-//            canvas.drawBitmap(bitmap, 0f, 0f, null)
-//            surface.unlockCanvasAndPost(canvas)
+//        var variance = 0.0
+//        for (i in 0 until cropSize * cropSize) {
+//            val gray = Color.red(pixels[i])
+//            variance += (gray - mean) * (gray - mean)
 //        }
+//        variance /= (cropSize * cropSize)
+//        val stdDev = Math.sqrt(variance)
 //
-//    }
-//}
+//        Log.d("平均值", "mean: $mean ")
+//        Log.d("标准差", "stdDev: $stdDev ")
 
-
-// 计算当前帧率
-//val FRAME_COUNT_INTERVAL = 60
-//    val NANO_IN_ONE_SECOND = 1000000000L
-//    var frameCount = 0
-//    var lastTimestamp: Long = 0
-//
-//
-//    val captureCallback = object : CameraCaptureSession.CaptureCallback() {
-//        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-//            val timestamp = System.nanoTime()
-//
-//            if (lastTimestamp == 0L) {
-//                lastTimestamp = timestamp
-//            }
-//
-//            frameCount++
-//
-//            if (frameCount == FRAME_COUNT_INTERVAL) {
-//                val elapsedTime = timestamp - lastTimestamp
-//                val fps = FRAME_COUNT_INTERVAL.toDouble() * NANO_IN_ONE_SECOND / elapsedTime
-//
-//                Log.d("帧率", "FPS: $fps")
-//
-//                lastTimestamp = timestamp
-//                frameCount = 0
-//            }
+// 显示灰度图像
+//        runOnUiThread {
+//            binding.image.setImageBitmap(bmp)
 //        }
-//    }
