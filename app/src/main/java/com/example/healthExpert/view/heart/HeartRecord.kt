@@ -120,35 +120,28 @@ class HeartRecord : HeartRateCompatActivity() {
                 val pixels = IntArray(height * width)
 
                 // 计算当前帧数的红色通道总和
-                bmp.getPixels(pixels, 0, width, width / 2, height / 2, width / 20, height / 20)
+                bmp.getPixels(pixels, 0, width, width / 2, height / 2, width / 15, height / 15)
                 var sum = 0
                 for (i in 0 until height * width) {
                     val red = pixels[i] shr 16 and 0xFF
                     sum = sum + red
                 }
-                // 这段代码表示当采集的帧数（numCaptures）等于20时，将当前帧的红色通道值之和（sum）赋值给 mCurrentRollingAverage，
-                // 这里的 mCurrentRollingAverage 是指滚动平均值（Rolling Average）。这
-                // 样做的目的是为了在程序运行的初期建立一个基准值，用于后续的计算。
-                // 在这之后，每次加入一个新的帧时，都会根据其红色通道值来更新 mCurrentRollingAverage。
-                if (numCaptures == 20) {
+                // 计算红色通道平均值
+                if (numCaptures == 30) {
                     mCurrentRollingAverage = sum // sum/1 第一帧
-                } else if (numCaptures > 20 && numCaptures < 49) {
+                } else if (numCaptures > 30 && numCaptures < 99) {
                     mCurrentRollingAverage =
-                        (mCurrentRollingAverage * (numCaptures - 20) + sum) / (numCaptures - 19)
-                } else if (numCaptures >= 49) {
-                    mCurrentRollingAverage = (mCurrentRollingAverage * 29 + sum) / 30
-                    // 这个条件是用来判断心跳的过程中的“谷底”的。如果当前的红色通道平均值比前一个和前两个的平均值都小，
-                    // 并且之前检测到的心跳数量小于15，则可以认为当前是一个心跳的谷底。
-                    // 因为心跳的过程中会有一个波峰和一个波谷，而波峰所对应的红色通道值最高，
-                    // 波谷所对应的红色通道值最低。所以检测到谷底可以认为是检测到了一个心跳。
-                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
+                        (mCurrentRollingAverage * (numCaptures - 30) + sum) / (numCaptures - 29)
+                } else if (numCaptures >= 99) {
+                    mCurrentRollingAverage = (mCurrentRollingAverage * 39 + sum) / 40
+                    // 判断是否有一次心跳
+                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 20) {
                         mTimeArray[mNumBeats] = System.currentTimeMillis()
                         mNumBeats++
-                        val rate = mNumBeats.div(15f).times(100)
+                        val rate = mNumBeats.div(20f).times(100)
                         heartRateViewModel.setBpm(String.format("%.0f",rate)+" %")
-                        if (mNumBeats == 15) {
+                        if (mNumBeats == 20) {
                             calcBPM()
-                            heartRateViewModel.setBpm(hrtratebpm.toString())
                         }
                     }
                 }
@@ -195,42 +188,37 @@ class HeartRecord : HeartRateCompatActivity() {
                         cameraCaptureSession = p0
                         cameraCaptureSession.setRepeatingRequest(captureRequest.build(),null,null)
                     }
-
-                    override fun onConfigureFailed(p0: CameraCaptureSession) {
-
-                    }
-
+                    override fun onConfigureFailed(p0: CameraCaptureSession) {}
                 },handler)
-
 
                 imageReader.setOnImageAvailableListener({
                     val image = it.acquireLatestImage()
-                    if (image != null) {
-//                        processImage(image)
-                    }
                     image.close()
                 }, null)
             }
-            override fun onDisconnected(p0: CameraDevice) {
-            }
-            override fun onError(p0: CameraDevice, p1: Int) {
-            }
-
+            override fun onDisconnected(p0: CameraDevice) {}
+            override fun onError(p0: CameraDevice, p1: Int) {}
         },handler)
     }
 
     private fun calcBPM() {
         val med: Int
-        val timedist = LongArray(14)
-        for (i in 0..13) {
+        val timedist = LongArray(19)
+        for (i in 0..18) {
             timedist[i] = mTimeArray[i + 1] - mTimeArray[i]
         }
         Arrays.sort(timedist)
         med = timedist[timedist.size / 2].toInt()
         hrtratebpm = 60000 / med
-        Log.d("心率", "calcBPM: $hrtratebpm")
-        binding.saveBtn.visibility = View.VISIBLE
-        binding.deleteBtn.visibility = View.VISIBLE
+        if(hrtratebpm>200){
+            heartRateViewModel.setBpm("Detection failed, please try again")
+            binding.saveBtn.visibility = View.GONE
+            binding.deleteBtn.visibility = View.VISIBLE
+        }else{
+            heartRateViewModel.setBpm("$hrtratebpm BPM")
+            binding.saveBtn.visibility = View.VISIBLE
+            binding.deleteBtn.visibility = View.VISIBLE
+        }
     }
 
     private fun processImage(image: Image) {
