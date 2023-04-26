@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso
 class Sources : SourcesCompatFragment() {
     private lateinit var binding: FragmentSourcesBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +40,10 @@ class Sources : SourcesCompatFragment() {
         binding.sourcesViewmodel = sourcesViewModel
 
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        layoutManager = LinearLayoutManager(this.context)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
 
         sourcesViewModel.getNews()
 
