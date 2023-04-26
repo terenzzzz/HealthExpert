@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,26 +17,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.HeartRateCompatActivity
 import com.example.healthExpert.databinding.ActivityHeartBinding
-import com.example.healthExpert.model.Calories
 import com.example.healthExpert.model.HeartRate
 import com.example.healthExpert.utils.DateTimeConvert
-import com.example.healthExpert.view.calories.CaloriesAdapter
-import com.example.healthExpert.view.calories.CaloriesEdit
-import com.example.healthExpert.widget.Ring
-import com.github.mikephil.charting.charts.BarChart
+import com.example.healthExpert.utils.SnackbarUtil
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.logging.SimpleFormatter
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class Heart : HeartRateCompatActivity() {
@@ -70,13 +61,20 @@ class Heart : HeartRateCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
 
+        heartRateViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code != null){
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
         heartRateViewModel.heartRates.observe(this, Observer { heartRates ->
             // Update the UI based on the value of MutableLiveData
             if (heartRates != null &&  heartRates.isNotEmpty()) {
                 recyclerView.adapter = HeartRateAdapter(heartRateViewModel.heartRates,this)
 
                 binding.avgBpm.text = String.format("%.0f", heartRates.map { it.HeartRate.toInt() }.average()) + " BPM"
-                binding.maxBpm.text = "${heartRates.maxBy { it.HeartRate }.HeartRate} BPM"
+                binding.maxBpm.text = "${heartRates.maxBy { it.HeartRate.toInt() }.HeartRate} BPM"
 
                 // Chart
                 val list: MutableList<Entry> = ArrayList()
@@ -122,7 +120,6 @@ class Heart : HeartRateCompatActivity() {
     override fun onResume() {
         super.onResume()
         heartRateViewModel.getHeartRates(todayDate)
-
     }
 
     private fun heartSetUp(view: View): LineChart {

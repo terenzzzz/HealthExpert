@@ -53,10 +53,8 @@ class HeartRateViewModel(private val activity: AppCompatActivity) : ViewModel() 
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
             if (token != null){
-                // 获取卡路里汇总数据
-                val reqStatus = repository.addHeartRate(token,heartRate)
-                if (reqStatus != 200){
-                    requestStatus.postValue(reqStatus)
+                repository.addHeartRate(token, heartRate) { resStatus ->
+                    requestStatus.postValue(resStatus)
                 }
             }
         }

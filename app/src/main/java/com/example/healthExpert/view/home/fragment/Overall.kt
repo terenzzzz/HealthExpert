@@ -151,6 +151,13 @@ class Overall : OverallCompatFragment() {
             }
         })
 
+        overallViewModel.heartRate.observe(this, Observer { item ->
+            // Update the UI based on the value of MutableLiveData
+            if (item != null ) {
+                binding.heartRate.text = item.HeartRate
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -167,6 +174,7 @@ class Overall : OverallCompatFragment() {
         overallViewModel.getTrainingOverall(todayDate)
         overallViewModel.medications(todayDate)
         overallViewModel.getSleep(todayDate)
+        overallViewModel.getHeartRate(todayDate)
     }
 
     override fun onCreateView(

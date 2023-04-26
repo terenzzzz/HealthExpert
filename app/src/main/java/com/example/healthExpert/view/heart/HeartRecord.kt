@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import com.example.healthExpert.R
 import com.example.healthExpert.compatActivity.HeartRateCompatActivity
 import com.example.healthExpert.databinding.ActivityHeartRecordBinding
+import com.example.healthExpert.utils.SnackbarUtil
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -67,6 +68,17 @@ class HeartRecord : HeartRateCompatActivity() {
         setContentView(binding.root)
 
 
+        heartRateViewModel.requestStatus.observe(this, Observer { code ->
+            // Update the UI based on the value of MutableLiveData
+            if (code == 200){
+                finish()
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }else{
+                SnackbarUtil.buildTesting(binding.root,code)
+            }
+        })
+
+
         heartRateViewModel.bpm.observe(this, Observer { item ->
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
@@ -79,8 +91,6 @@ class HeartRecord : HeartRateCompatActivity() {
 
         binding.saveBtn.setOnClickListener {
             heartRateViewModel.addHeartRate(hrtratebpm.toString())
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         binding.deleteBtn.setOnClickListener {

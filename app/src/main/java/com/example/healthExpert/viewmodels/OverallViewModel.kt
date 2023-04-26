@@ -1,7 +1,6 @@
 package com.example.healthExpert.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -9,11 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.healthExpert.model.*
-import com.example.healthExpert.parse.TrainingOverallParse
-import com.example.healthExpert.parse.UserInfoParse
 import com.example.healthExpert.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     var requestStatus = MutableLiveData<Int>()
@@ -30,6 +28,7 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
     private val trainingsRepository = TrainingsRepository()
     private val medicationRepository = MedicationRepository()
     private val sleepRepository = SleepRepository()
+    private val heartRateRepository = HeartRateRepository()
 
     var goals = MutableLiveData<Goal>()
     fun getGoals(){
@@ -164,6 +163,22 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
                     requestStatus.postValue(sleepParse.status)
                 }
                 sleep.postValue(sleepParse.data)
+            }
+        }
+    }
+
+    var heartRate = MutableLiveData<HeartRate?>()
+    fun getHeartRate(date: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val heartRates = token?.let { heartRateRepository.getHeartRates(it,date) }
+            if (heartRates != null) {
+                if (heartRates.status != 200){
+                    requestStatus.postValue(heartRates.status)
+                }
+                if (heartRates.data?.isNotEmpty() == true){
+                    heartRate.postValue(heartRates.data?.last())
+                }
             }
         }
     }

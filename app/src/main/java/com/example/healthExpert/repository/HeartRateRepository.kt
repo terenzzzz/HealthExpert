@@ -34,9 +34,7 @@ class HeartRateRepository {
         return parsed
     }
 
-    // 异步请求
-    fun addHeartRate(token: String,heartRate:String):Int{
-        var resStatus=-1
+    fun addHeartRate(token: String,heartRate:String,callback: (Int) -> Unit) {
         val body = FormBody.Builder()
             .add("heartRate", heartRate)
             .build()
@@ -50,18 +48,18 @@ class HeartRateRepository {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                callback(-1)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     val gson = Gson()
                     val parsed: BaseParse = gson.fromJson(response.body!!.string(), BaseParse::class.java)
-                    resStatus = parsed.status?:-1
+                    callback(parsed.status)
                     response.close()
                 }
             }
         })
-        return resStatus
     }
 
 }
