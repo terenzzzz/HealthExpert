@@ -143,14 +143,14 @@ class HeartRecord : HeartRateCompatActivity() {
                     mCurrentRollingAverage =
                         (mCurrentRollingAverage * (numCaptures - 30) + sum) / (numCaptures - 29)
                 } else if (numCaptures >= 99) {
-                    mCurrentRollingAverage = (mCurrentRollingAverage * 39 + sum) / 40
+                    mCurrentRollingAverage = (mCurrentRollingAverage * 69 + sum) / 70
                     // 判断是否有一次心跳
-                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 20) {
+                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
                         mTimeArray[mNumBeats] = System.currentTimeMillis()
                         mNumBeats++
-                        val rate = mNumBeats.div(20f).times(100)
+                        val rate = mNumBeats.div(15f).times(100)
                         heartRateViewModel.setBpm(String.format("%.0f",rate)+" %")
-                        if (mNumBeats == 20) {
+                        if (mNumBeats == 15) {
                             calcBPM()
                         }
                     }
@@ -213,8 +213,8 @@ class HeartRecord : HeartRateCompatActivity() {
 
     private fun calcBPM() {
         val med: Int
-        val timedist = LongArray(19)
-        for (i in 0..18) {
+        val timedist = LongArray(15)
+        for (i in 0..14) {
             timedist[i] = mTimeArray[i + 1] - mTimeArray[i]
         }
         Arrays.sort(timedist)
