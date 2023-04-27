@@ -17,9 +17,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.example.healthExpert.compatActivity.HistoryCompatFragment
 import com.example.healthExpert.databinding.FragmentHistoryBinding
+import com.example.healthExpert.model.HeartRate
 import com.example.healthExpert.utils.DateTimeConvert
 import com.example.healthExpert.utils.SnackbarUtil
 import com.example.healthExpert.view.calories.Calories
+import com.example.healthExpert.view.heart.Heart
 import com.example.healthExpert.view.sleep.Sleep
 import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
@@ -117,6 +119,16 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             }
         })
 
+        historyViewModel.heartRate.observe(this, Observer { heartRates ->
+            // Update the UI based on the value of MutableLiveData
+            if (heartRates != null) {
+                val avg = "Avg: ${String.format("%.0f", heartRates.map { it.HeartRate.toInt() }.average())} BPM"
+                val max = "Max: ${heartRates.maxBy { it.HeartRate.toInt() }.HeartRate} BPM"
+
+                binding.bpmValue.text = "$avg / $max"
+            }
+        })
+
     }
 
 
@@ -131,6 +143,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         historyViewModel.getWatersOverall(selectedDate)
         historyViewModel.getTrainingOverall(selectedDate)
         historyViewModel.getSleep(selectedDate)
+        historyViewModel.getHeartRate(selectedDate)
     }
 
     override fun onCreateView(
@@ -167,6 +180,10 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             activity?.let { it1 -> goToActivity(it1,Sleep::class.java) }
         }
 
+        binding.hrCard.setOnClickListener {
+            activity?.let { it1 -> goToActivity(it1,Heart::class.java) }
+        }
+
 
         return binding.root
     }
@@ -199,6 +216,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
         historyViewModel.getWatersOverall(selectedDate)
         historyViewModel.getTrainingOverall(selectedDate)
         historyViewModel.getSleep(selectedDate)
+        historyViewModel.getHeartRate(selectedDate)
     }
 
     private fun goToActivity(activity: FragmentActivity, targetActivity: Class<out Activity>) {

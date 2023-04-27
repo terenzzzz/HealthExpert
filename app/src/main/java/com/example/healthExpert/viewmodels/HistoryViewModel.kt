@@ -25,6 +25,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     private val watersRepository = WatersRepository()
     private val trainingsRepository = TrainingsRepository()
     private val sleepRepository = SleepRepository()
+    private val heartRateRepository = HeartRateRepository()
 
     var caloriesAll = MutableLiveData<CaloriesOverall?>()
     fun getCaloriesOverall(date:String){
@@ -126,6 +127,22 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
                     sleepParse.data = Sleep()
                 }
                 sleep.postValue(sleepParse.data)
+            }
+        }
+    }
+
+    var heartRate = MutableLiveData<MutableList<HeartRate>>()
+    fun getHeartRate(date: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            // retrieve updated data from the repository
+            val heartRates = token?.let { heartRateRepository.getHeartRates(it,date) }
+            if (heartRates != null) {
+                if (heartRates.status != 200){
+                    requestStatus.postValue(heartRates.status)
+                }
+                if (heartRates.data?.isNotEmpty() == true){
+                    heartRate.postValue(heartRates.data as MutableList<HeartRate>?)
+                }
             }
         }
     }

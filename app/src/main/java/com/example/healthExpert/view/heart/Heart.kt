@@ -60,6 +60,13 @@ class Heart : HeartRateCompatActivity() {
         layoutManager.stackFromEnd = true
         recyclerView.layoutManager = layoutManager
 
+        val bundle = intent.extras
+        if (bundle != null && bundle.getString("selectedDate") != "") {
+            todayDate = bundle.getString("selectedDate").toString()
+            binding.dateTime.text = todayDate
+            binding.addBtn.visibility = View.GONE
+        }
+
 
         heartRateViewModel.requestStatus.observe(this, Observer { code ->
             // Update the UI based on the value of MutableLiveData
