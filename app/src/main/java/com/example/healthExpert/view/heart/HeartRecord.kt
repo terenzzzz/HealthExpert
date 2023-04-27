@@ -41,14 +41,13 @@ class HeartRecord : HeartRateCompatActivity() {
     private lateinit var imageReader: ImageReader
 
     private val listFrame = mutableListOf<IntArray>()
-    private var previousPixels: IntArray? = null
     private var numCaptures = 0
-    private var mNumBeats = 0
+    private var numBeats = 0
     var hrtratebpm = 0
-    private var mCurrentRollingAverage = 0
-    private var mLastRollingAverage = 0
-    private var mLastLastRollingAverage = 0
-    private val mTimeArray = LongArray(99999)
+    private var currentAvg = 0
+    private var lastAvg = 0
+    private var lastLastAvg = 0
+    private val timeArray = LongArray(99999)
 
 
     private var surfaceTextureAvailable = false
@@ -138,26 +137,26 @@ class HeartRecord : HeartRateCompatActivity() {
                 }
                 // 计算红色通道平均值
                 if (numCaptures == 30) {
-                    mCurrentRollingAverage = sum // sum/1 第一帧
+                    currentAvg = sum // sum/1 第一帧
                 } else if (numCaptures > 30 && numCaptures < 99) {
-                    mCurrentRollingAverage =
-                        (mCurrentRollingAverage * (numCaptures - 30) + sum) / (numCaptures - 29)
+                    currentAvg =
+                        (currentAvg * (numCaptures - 30) + sum) / (numCaptures - 29)
                 } else if (numCaptures >= 99) {
-                    mCurrentRollingAverage = (mCurrentRollingAverage * 69 + sum) / 70
+                    currentAvg = (currentAvg * 69 + sum) / 70
                     // 判断是否有一次心跳
-                    if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
-                        mTimeArray[mNumBeats] = System.currentTimeMillis()
-                        mNumBeats++
-                        val rate = mNumBeats.div(15f).times(100)
+                    if (lastAvg > currentAvg && lastAvg > lastLastAvg && numBeats < 15) {
+                        timeArray[numBeats] = System.currentTimeMillis()
+                        numBeats++
+                        val rate = numBeats.div(15f).times(100)
                         heartRateViewModel.setBpm(String.format("%.0f",rate)+" %")
-                        if (mNumBeats == 15) {
+                        if (numBeats == 15) {
                             calcBPM()
                         }
                     }
                 }
                 numCaptures++
-                mLastLastRollingAverage = mLastRollingAverage
-                mLastRollingAverage = mCurrentRollingAverage
+                lastLastAvg = lastAvg
+                lastAvg = currentAvg
             }
 
         }
@@ -215,7 +214,7 @@ class HeartRecord : HeartRateCompatActivity() {
         val med: Int
         val timedist = LongArray(15)
         for (i in 0..14) {
-            timedist[i] = mTimeArray[i + 1] - mTimeArray[i]
+            timedist[i] = timeArray[i + 1] - timeArray[i]
         }
         Arrays.sort(timedist)
         med = timedist[timedist.size / 2].toInt()
