@@ -178,6 +178,8 @@ class OverallViewModel(private val fragment: Fragment) : ViewModel()  {
                 }
                 if (heartRates.data?.isNotEmpty() == true){
                     heartRate.postValue(heartRates.data?.last())
+                }else{
+                    heartRate.postValue(null)
                 }
             }
         }

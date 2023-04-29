@@ -155,6 +155,8 @@ class Overall : OverallCompatFragment() {
             // Update the UI based on the value of MutableLiveData
             if (item != null ) {
                 binding.heartRate.text = item.HeartRate
+            }else{
+                binding.heartRate.text = "0"
             }
         })
 
