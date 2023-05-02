@@ -135,7 +135,7 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             }else{
                 binding.sleepRing.setValueText("0%")
                 binding.sleepRing.setSweepValue(0f)
-                binding.trainingValue.text = "0.00 Hours / ${sharedPreferences.getInt("sleepGoal",8)} Hours"
+                binding.sleepValue.text = "0.00 Hours / ${sharedPreferences.getInt("sleepGoal",8)} Hours"
             }
         })
 
