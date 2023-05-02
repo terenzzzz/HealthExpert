@@ -27,6 +27,7 @@ import com.example.healthExpert.view.training.Train
 import com.example.healthExpert.view.walk.Walk
 import com.example.healthExpert.view.water.Water
 import java.util.*
+import kotlin.math.log
 import kotlin.math.roundToInt
 
 
@@ -61,6 +62,10 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                     binding.caloriesRing.setSweepValue(rate.toFloat())
                 }
                 binding.caloriesValue.text = "${total.toString()} kcal / ${sharedPreferences.getInt("caloriesGoal",1800)} kcal"
+            }else{
+                binding.caloriesRing.setValueText("0%")
+                binding.caloriesRing.setSweepValue(0f)
+                binding.caloriesValue.text = "0 kcl / ${sharedPreferences.getInt("caloriesGoal",1800)} kcal"
             }
         })
 
@@ -73,6 +78,10 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.stepsRing.setSweepValue(rate)
                 binding.stepsRing.setBgColor(Color.rgb(177, 169, 160))
                 binding.stepsValue.text = "${ item.TotalSteps} Steps / ${sharedPreferences.getInt("stepsGoal",10000)} Steps"
+            }else{
+                binding.stepsRing.setValueText("0%")
+                binding.stepsRing.setSweepValue(0f)
+                binding.stepsValue.text = "0 Steps / ${sharedPreferences.getInt("stepsGoal",10000)} Steps"
             }
         })
 
@@ -86,6 +95,10 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.drinkingRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.drinkingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.drinkingValue.text = "${ item.Total} ml / ${sharedPreferences.getInt("waterGoal",2000)} ml"
+            } else{
+                binding.drinkingRing.setValueText("0%")
+                binding.drinkingRing.setSweepValue(0f)
+                binding.drinkingValue.text = "0 ml / ${sharedPreferences.getInt("waterGoal",2000)} ml"
             }
         })
 
@@ -99,6 +112,10 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.trainingRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.trainingRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.trainingValue.text = "${ item.Duration } minutes / ${sharedPreferences.getInt("trainingGoal",60)} minutes"
+            }else{
+                binding.trainingRing.setValueText("0%")
+                binding.trainingRing.setSweepValue(0f)
+                binding.trainingValue.text = "0 minutes / ${sharedPreferences.getInt("trainingGoal",60)} minutes"
             }
         })
 
@@ -106,7 +123,6 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
             // Update the UI based on the value of MutableLiveData
             if (item != null) {
                 // Update the UI
-                Log.d("测试", "getSleep: ${item.id}")
                 val sleepGoal = sharedPreferences.getInt("sleepGoal",8)
                 val startTime = DateTimeConvert.toDateTime(item.StartTime)
                 val endTime = DateTimeConvert.toDateTime(item.EndTime)
@@ -116,16 +132,22 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
                 binding.sleepRing.setValueText(String.format("%.0f", rate)+" %")
                 binding.sleepRing.setBgColor(Color.rgb(217, 217, 217))
                 binding.sleepValue.text = "$duration Hours / ${sharedPreferences.getInt("sleepGoal",8)} Hours"
+            }else{
+                binding.sleepRing.setValueText("0%")
+                binding.sleepRing.setSweepValue(0f)
+                binding.trainingValue.text = "0.00 Hours / ${sharedPreferences.getInt("sleepGoal",8)} Hours"
             }
         })
 
         historyViewModel.heartRate.observe(this, Observer { heartRates ->
             // Update the UI based on the value of MutableLiveData
-            if (heartRates != null) {
+            Log.d("测试", "heartRates: $heartRates")
+            if (heartRates != null && heartRates.isNotEmpty()) {
                 val avg = "Avg: ${String.format("%.0f", heartRates.map { it.HeartRate.toInt() }.average())} BPM"
                 val max = "Max: ${heartRates.maxBy { it.HeartRate.toInt() }.HeartRate} BPM"
-
                 binding.bpmValue.text = "$avg / $max"
+            }else{
+                binding.bpmValue.text = "Avg: 0 BPM / Max: 0 BPM"
             }
         })
 
@@ -201,13 +223,18 @@ class History : HistoryCompatFragment(), DatePickerDialog.OnDateSetListener{
 
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        Log.d("Debug,,,,,,,,,,,,,,,,,", "onCreateView: ")
+
+        var newDay = day
         var newMonth = month + 1
         var newMonthStr = newMonth.toString()
+        var newDayStr = newDay.toString()
         if(newMonth<10){
             newMonthStr = "0$newMonth"
         }
-        selectedDate = "$year-$newMonthStr-$day"
+        if(newDay<10){
+            newDayStr = "0$newDay"
+        }
+        selectedDate = "$year-$newMonthStr-$newDayStr"
         binding.etDate.text = selectedDate
 
 

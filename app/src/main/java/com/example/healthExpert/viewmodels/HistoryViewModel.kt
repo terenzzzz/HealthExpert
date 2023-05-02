@@ -27,7 +27,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
     private val sleepRepository = SleepRepository()
     private val heartRateRepository = HeartRateRepository()
 
-    var caloriesAll = MutableLiveData<CaloriesOverall?>()
+    var caloriesAll = MutableLiveData<CaloriesOverall>()
     fun getCaloriesOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
@@ -51,7 +51,6 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
                         }
                     }
                     caloriesOverallParse.data?.Burn = caloriesOverallParse.data!!.Burn + walksOverallParse.data!!.Calories + updateTrainingCalories
-
                     // Refresh UI Update data
                     caloriesAll.postValue(caloriesOverallParse.data)
                 }
@@ -66,7 +65,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
         }
     }
 
-    var walkAll = MutableLiveData<WalksOverall?>()
+    var walkAll = MutableLiveData<WalksOverall>()
     fun getWalksOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
@@ -81,7 +80,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
         }
     }
 
-    var watersAll = MutableLiveData<WaterOverall?>()
+    var watersAll = MutableLiveData<WaterOverall>()
     fun getWatersOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
@@ -96,7 +95,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
         }
     }
 
-    var trainingAll = MutableLiveData<TrainingOverall?>()
+    var trainingAll = MutableLiveData<TrainingOverall>()
     fun getTrainingOverall(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
@@ -112,7 +111,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
         }
     }
 
-    var sleep = MutableLiveData<Sleep?>()
+    var sleep = MutableLiveData<Sleep>()
     fun getSleep(date:String){
         viewModelScope.launch(Dispatchers.IO) {
             // retrieve updated data from the repository
@@ -122,9 +121,6 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
             if (sleepParse != null) {
                 if (sleepParse.status != 200){
                     requestStatus.postValue(sleepParse.status)
-                }
-                if (sleepParse.data==null){
-                    sleepParse.data = Sleep()
                 }
                 sleep.postValue(sleepParse.data)
             }
@@ -140,9 +136,7 @@ class HistoryViewModel(private val fragment: Fragment) : ViewModel()  {
                 if (heartRates.status != 200){
                     requestStatus.postValue(heartRates.status)
                 }
-                if (heartRates.data?.isNotEmpty() == true){
-                    heartRate.postValue(heartRates.data as MutableList<HeartRate>?)
-                }
+                heartRate.postValue(heartRates.data as MutableList<HeartRate>)
             }
         }
     }
