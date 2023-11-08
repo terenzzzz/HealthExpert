@@ -12,7 +12,7 @@ import java.io.IOException
 
 class NewsRepository {
     private val client = OkHttpClient()
-    private val url = "http://terenzzzz.com:88/api"
+    private val url = "http://terenzzzz.cn:88/api"
 
     // 同步请求
     fun getNews(): NewsParse {

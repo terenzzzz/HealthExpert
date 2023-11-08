@@ -11,7 +11,7 @@ import java.io.IOException
 
 class GoalsRepository {
     private val client = OkHttpClient()
-    private val url = "http://terenzzzz.com:88/my"
+    private val url = "http://terenzzzz.cn:88/my"
 
 
     // 同步请求

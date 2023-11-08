@@ -102,7 +102,7 @@ class                                                                           
             .build()
 //
         val request: Request = Request.Builder()
-            .url("http://terenzzzz.com:88/api/login")
+            .url("http://terenzzzz.cn:88/api/login")
             .post(body)
             .build()
 

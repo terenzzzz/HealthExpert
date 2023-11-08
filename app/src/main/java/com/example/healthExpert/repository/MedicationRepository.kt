@@ -12,7 +12,7 @@ import java.util.Date
 
 class MedicationRepository {
     private val client = OkHttpClient()
-    private val url = "http://terenzzzz.com:88/my"
+    private val url = "http://terenzzzz.cn:88/my"
 
     // 同步请求
     fun medications(token:String, date:String): MedicationsParse {

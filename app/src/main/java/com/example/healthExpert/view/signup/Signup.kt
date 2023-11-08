@@ -60,7 +60,7 @@ class Signup : AppCompatActivity() {
             .build()
 //
         val request: Request = Request.Builder()
-            .url("http://terenzzzz.com:88/api/register")
+            .url("http://terenzzzz.cn:88/api/register")
             .post(body)
             .build()
 
